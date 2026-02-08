@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, feature/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-aws-lambda:
+    name: Test AWS Lambda MVE
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install Test Dependencies
+        run: uv sync
+
+      - name: Run MVE Tests
+        run: uv run pytest -v -s tests/aws-lambda/test_main.py
+        env:
+          PYTHONPATH: .

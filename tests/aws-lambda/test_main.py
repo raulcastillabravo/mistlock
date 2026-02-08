@@ -26,7 +26,7 @@ def infrastructure():
 
 def run_in_dev_container(command):
     """Helper to run a command inside the 'dev' container."""
-    base_cmd = ["docker", "compose", "exec", "-t", "dev", "/workspaces/aws-lambda/.venv/bin/python"]
+    base_cmd = ["docker", "compose", "exec", "-T", "dev", "/workspaces/aws-lambda/.venv/bin/python"]
     full_cmd = base_cmd + [command]
     return subprocess.run(full_cmd, cwd=MVE_DIR, capture_output=True, text=True)
 
@@ -37,7 +37,7 @@ def test_full_workflow():
     # 0. Sync dependencies (ensures container is up to date with host pyproject.toml)
     print("\n[Test] Syncing dependencies (uv sync)...")
     subprocess.run(
-        ["docker", "compose", "exec", "-t", "dev", "uv", "sync"], 
+        ["docker", "compose", "exec", "-T", "dev", "uv", "sync"], 
         cwd=MVE_DIR, check=True
     )
 
