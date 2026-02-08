@@ -12,7 +12,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   dev:
-    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    build:
+      context: .
+      dockerfile: docker/dev.Dockerfile
     volumes:
       - .:/workspaces/aws-lambda:cached
     network_mode: host

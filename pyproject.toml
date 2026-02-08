@@ -1,0 +1,9 @@
+[project]
+name = "mve-collection-tests"
+version = "0.1.0"
+description = "Test suite for MVE collection"
+requires-python = ">=3.9"
+dependencies = [
+    "pytest",
+    "python-dotenv",
+]
