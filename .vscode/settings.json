@@ -1,5 +1,12 @@
 {
-  "editor.rulers": [120],
+  "editor.rulers": [
+    120
+  ],
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
+  "python.testing.pytestArgs": [
+    "."
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
 }

@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm
 RUN pip3 install --upgrade pip && pip3 install uv
 
 # Set working directory
-WORKDIR /workspaces/aws-lambda
+WORKDIR /app
 
 # Copy dependency files
 COPY pyproject.toml ./

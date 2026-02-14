@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: docker/dev.Dockerfile
     volumes:
-      - .:/workspaces/aws-lambda:cached
+      - .:/app:cached
     network_mode: host
     command: sleep infinity
 
