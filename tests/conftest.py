@@ -21,7 +21,7 @@ def src_dir(request):
 
 @pytest.fixture(scope="module", autouse=True)
 def infrastructure(src_dir):
-    subprocess.run(["docker", "compose", "up", "-d"], cwd=src_dir, check=True)
+    subprocess.run(["devcontainer", "up", "--workspace-folder", src_dir], check=True)
     
     yield src_dir
     
@@ -36,7 +36,7 @@ def dev_container(src_dir):
     
     def _run(command, ttl=0):
         base_cmd = [
-            "docker", "compose", "exec", "-T", "dev", 
+            "docker", "compose", "exec", "--user", "vscode", "-T", "dev",
             f"/app/.venv/bin/python"
         ]
         full_cmd = base_cmd + [command]

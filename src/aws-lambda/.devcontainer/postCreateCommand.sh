@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-# Ensure dependencies are up to date
+# Install uv and dependencies
+pip install --upgrade pip
+pip3 install uv
 uv sync
 
 # Configure LocalStack profile for AWS CLI

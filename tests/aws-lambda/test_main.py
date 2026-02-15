@@ -1,4 +1,4 @@
-def test_full_workflow(dev_container):
+def test_main(dev_container):
     # 1. Package the Lambda
     pkg_result = dev_container("deploy/utils/package_lambda.py")
     assert pkg_result.returncode == 0
