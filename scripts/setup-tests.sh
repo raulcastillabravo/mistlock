@@ -3,20 +3,20 @@
 # It MUST be executed before running tests for the first time.
 set -e
 
-# Install uv
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.local/bin/env
+# 1. Install uv if not present
+command -v uv >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Install Python
+# 2. Setup Python environment
 uv python install 3.12
 uv python pin 3.12
-
-# Create .venv
 uv sync
 
-# Install Dev Containers CLI an add a link for pytest to use it
-curl -fsSL https://raw.githubusercontent.com/devcontainers/cli/main/scripts/install.sh | sh
-ln -sf "$HOME/.devcontainers/bin/devcontainer" "./.venv/bin/devcontainer"
+# 3. Install Dev Containers CLI if not present
+command -v devcontainer >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/devcontainers/cli/main/scripts/install.sh | sh
+
+# 4. Link CLI for pytest
+DEVCONTAINER_BIN=$(command -v devcontainer || echo "$HOME/.devcontainers/bin/devcontainer")
+ln -sf "$DEVCONTAINER_BIN" "./.venv/bin/devcontainer"
 
 echo -e "\nSetup completed successfully!"
 

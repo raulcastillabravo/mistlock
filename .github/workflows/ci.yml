@@ -19,13 +19,12 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
+          python-version: "3.12"
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version-file: "pyproject.toml"
+      - name: Install Project Dependencies
+        run: uv sync
 
-      - name: Setup Test Environment
+      - name: Install Dev Containers CLI
         run: |
           chmod +x ./scripts/setup-tests.sh
           ./scripts/setup-tests.sh
