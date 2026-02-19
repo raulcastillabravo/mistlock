@@ -4,6 +4,7 @@
   ],
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
+  "python.defaultInterpreterPath": ".venv/bin/python",
   "python.testing.pytestArgs": [
     "."
   ],

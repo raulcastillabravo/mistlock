@@ -30,6 +30,6 @@ jobs:
           ./scripts/setup-tests.sh
 
       - name: Run MVE Tests
-        run: uv run pytest -v -s tests/aws-lambda/test_main.py
+        run: uv run pytest -v -s tests/
         env:
           PYTHONPATH: .
