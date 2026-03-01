@@ -192,9 +192,20 @@ Elige tu forma preferida de verificar los resultados:
 
 Para eliminar los recursos creados por un método de despliegue específico, puedes usar los scripts de destrucción correspondientes:
 
-- **Terraform**: `scripts/terraform/destroy.sh`
-- **CloudFormation**: `scripts/cloudformation/destroy.sh`
-- **Boto3**: `scripts/boto3/destroy.sh`
+**Terraform**:
+```bash
+scripts/terraform/destroy.sh
+```
+
+**CloudFormation**:
+```bash
+scripts/cloudformation/destroy.sh
+```
+
+**Boto3**:
+```bash
+scripts/boto3/destroy.sh
+```
 
 Para eliminar completamente la infraestructura local (contenedores y volúmenes):
 

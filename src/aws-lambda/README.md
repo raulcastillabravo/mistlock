@@ -192,9 +192,20 @@ Choose your preferred way to verify the results:
 
 To remove the resources created by a specific deployment method, you can use the corresponding destroy scripts:
 
-- **Terraform**: `scripts/terraform/destroy.sh`
-- **CloudFormation**: `scripts/cloudformation/destroy.sh`
-- **Boto3**: `scripts/boto3/destroy.sh`
+**Terraform**:
+```bash
+scripts/terraform/destroy.sh
+```
+
+**CloudFormation**:
+```bash
+scripts/cloudformation/destroy.sh
+```
+
+**Boto3**:
+```bash
+scripts/boto3/destroy.sh
+```
 
 To completely remove the local infrastructure (containers and volumes):
 
