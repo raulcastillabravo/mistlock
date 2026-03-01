@@ -109,24 +109,24 @@ Elige tu opción de despliegue preferida usando nuestros scripts estandarizados:
 
 💡 **Nota:** Si cambias entre diferentes métodos de despliegue (**Terraform**, **CloudFormation** o **Boto3**), asegúrate de realizar una **Limpieza** primero para evitar conflictos de nombres de recursos.
 
-* **Opción A**: Terraform ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/terraform/deploy.sh))
+* **Opción A**: Terraform
 
    ```bash
-   bash scripts/terraform/deploy.sh
+   scripts/terraform/deploy.sh
    ```
 
-* **Opción B**: CloudFormation ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/cloudformation/deploy.sh))
+* **Opción B**: CloudFormation
 
    ```bash
-   bash scripts/cloudformation/deploy.sh
+   scripts/cloudformation/deploy.sh
    ```
 
    > 🎨 **Consejo:** Puedes visualizar esta plantilla usando **AWS Infrastructure Composer** desde **AWS Toolkit** abriendo `deploy/cloudformation/template.yaml` y haciendo clic en el botón "Infrastructure composer" en la esquina superior derecha del editor.
 
-* **Opción C**: Boto3 (Python) ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/boto3/deploy.sh))
+* **Opción C**: Boto3 (Python)
 
    ```bash
-   bash scripts/boto3/deploy.sh
+   scripts/boto3/deploy.sh
    ```
 
 * <details><summary><b>Opción D</b>: AWS CLI (Manual) - Haz clic para expandir</summary>
@@ -192,9 +192,9 @@ Elige tu forma preferida de verificar los resultados:
 
 Para eliminar los recursos creados por un método de despliegue específico, puedes usar los scripts de destrucción correspondientes:
 
-- **Terraform**: `bash scripts/terraform/destroy.sh`
-- **CloudFormation**: `bash scripts/cloudformation/destroy.sh`
-- **Boto3**: `bash scripts/boto3/destroy.sh`
+- **Terraform**: `scripts/terraform/destroy.sh`
+- **CloudFormation**: `scripts/cloudformation/destroy.sh`
+- **Boto3**: `scripts/boto3/destroy.sh`
 
 Para eliminar completamente la infraestructura local (contenedores y volúmenes):
 

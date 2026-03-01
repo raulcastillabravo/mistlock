@@ -109,24 +109,24 @@ Choose your preferred deployment option using our standardized scripts:
 
 💡 **Note:** If you switch between different deployment methods (**Terraform**, **CloudFormation**, or **Boto3**), ensure you perform a **Clean Up** first to avoid resource name conflicts.
 
-* **Option A**: Terraform ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/terraform/deploy.sh))
+* **Option A**: Terraform
 
    ```bash
-   bash scripts/terraform/deploy.sh
+   scripts/terraform/deploy.sh
    ```
 
-* **Option B**: CloudFormation ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/cloudformation/deploy.sh))
+* **Option B**: CloudFormation
 
    ```bash
-   bash scripts/cloudformation/deploy.sh
+   scripts/cloudformation/deploy.sh
    ```
 
    > 🎨 **Tip:** You can visualize this template using the **AWS Infrastructure Composer** from **AWS Toolkit** by opening `deploy/cloudformation/template.yaml` and clicking the "Infrastructure composer" button in the top-right corner of the editor.
 
-* **Option C**: Boto3 (Python) ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/boto3/deploy.sh))
+* **Option C**: Boto3 (Python)
 
    ```bash
-   bash scripts/boto3/deploy.sh
+   scripts/boto3/deploy.sh
    ```
 
 * <details><summary><b>Option D</b>: AWS CLI (Manual) - Click to expand</summary>
@@ -192,9 +192,9 @@ Choose your preferred way to verify the results:
 
 To remove the resources created by a specific deployment method, you can use the corresponding destroy scripts:
 
-- **Terraform**: `bash scripts/terraform/destroy.sh`
-- **CloudFormation**: `bash scripts/cloudformation/destroy.sh`
-- **Boto3**: `bash scripts/boto3/destroy.sh`
+- **Terraform**: `scripts/terraform/destroy.sh`
+- **CloudFormation**: `scripts/cloudformation/destroy.sh`
+- **Boto3**: `scripts/boto3/destroy.sh`
 
 To completely remove the local infrastructure (containers and volumes):
 
