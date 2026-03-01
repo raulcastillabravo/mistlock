@@ -1,6 +1,27 @@
 import pytest
 import time
 
+def test_terraform_workflow(terraform_deploy, validate_main):
+    pass
+
+def test_cloudformation_workflow(cloudformation_deploy, validate_main):
+    pass
+
+def test_boto3_workflow(boto3_deploy, validate_main):
+    pass
+
+@pytest.fixture
+def validate_main(dev_python):
+    """
+    Executes and validates the main.py script.
+    As it's a fixture used in the tests, it runs after the deployment fixtures.
+    """
+    main_result = dev_python("main.py", ttl=10)
+    
+    assert main_result.returncode == 0
+    assert "✓ Lambda response" in main_result.stdout
+    assert "✓ Content: Hello from Lambda!" in main_result.stdout
+
 @pytest.fixture(scope="module", autouse=True)
 def package_lambda(dev_python):
     """Package the Lambda function once for all tests in the module."""
@@ -28,11 +49,8 @@ def cloudformation_deploy(dev_container):
     deploy_bucket = "lambda-deploy-bucket"
     
     print("\n[Setup] Deploying with CloudFormation...")
-    # 1. Create temporary bucket
     dev_container(["aws", "s3", "mb", f"s3://{deploy_bucket}", "--profile", "localstack"])
-    # 2. Upload zip
     dev_container(["aws", "s3", "cp", "deploy/dist/function.zip", f"s3://{deploy_bucket}/lambda.zip", "--profile", "localstack"])
-    # 3. Deploy stack
     result = dev_container([
         "aws", "cloudformation", "deploy",
         "--profile", "localstack",
@@ -61,25 +79,3 @@ def boto3_deploy(dev_python, dev_container):
     dev_container(["aws", "lambda", "delete-function", "--function-name", "upload-to-s3", "--profile", "localstack"])
     dev_container(["aws", "iam", "delete-role", "--role-name", "lambda-s3-role", "--profile", "localstack"])
     dev_container(["aws", "s3", "rb", "s3://test-bucket", "--force", "--profile", "localstack"])
-
-
-def test_terraform_workflow(dev_python, terraform_deploy):
-    """Validates the full workflow using Terraform deployment."""
-    main_result = dev_python("main.py", ttl=10)
-    assert main_result.returncode == 0
-    assert "✓ Lambda response" in main_result.stdout
-    assert "✓ Content: Hello from Lambda!" in main_result.stdout
-
-def test_cloudformation_workflow(dev_python, cloudformation_deploy):
-    """Validates the full workflow using CloudFormation deployment."""
-    main_result = dev_python("main.py", ttl=10)
-    assert main_result.returncode == 0
-    assert "✓ Lambda response" in main_result.stdout
-    assert "✓ Content: Hello from Lambda!" in main_result.stdout
-
-def test_boto3_workflow(dev_python, boto3_deploy):
-    """Validates the full workflow using Boto3 deployment."""
-    main_result = dev_python("main.py", ttl=10)
-    assert main_result.returncode == 0
-    assert "✓ Lambda response" in main_result.stdout
-    assert "✓ Content: Hello from Lambda!" in main_result.stdout
