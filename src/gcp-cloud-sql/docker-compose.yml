@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: gcp_postgres_local
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mve_db
+    volumes:
+      - gcp_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  gcp_postgres_data:

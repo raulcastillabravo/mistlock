@@ -1,0 +1,21 @@
+{
+  "name": "GCP Cloud SQL Dev",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "googlecloudtools.cloudcode"
+      ]
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+  "runArgs": [
+    "--network=host"
+  ]
+}
