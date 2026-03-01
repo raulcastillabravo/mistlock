@@ -105,56 +105,42 @@ uv sync
 
 ### 5. Desplegar recursos
 
-Antes de desplegar, debes empaquetar la función Lambda:
-
-```bash
-python deploy/utils/package_lambda.py
-```
-
-Elige tu opción de despliegue preferida:
+Elige tu opción de despliegue preferida usando nuestros scripts estandarizados:
 
 💡 **Nota:** Si cambias entre diferentes métodos de despliegue (**Terraform**, **CloudFormation** o **Boto3**), asegúrate de realizar una **Limpieza** primero para evitar conflictos de nombres de recursos.
 
-* **Opción A**: Terraform
+* **Opción A**: Terraform ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/terraform/deploy.sh))
 
    ```bash
-   terraform -chdir=deploy/terraform init
-   terraform -chdir=deploy/terraform apply -auto-approve
+   bash scripts/terraform/deploy.sh
    ```
 
-* **Opción B**: CloudFormation
+* **Opción B**: CloudFormation ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/cloudformation/deploy.sh))
 
    ```bash
-   # 1. Crear un bucket temporal para el despliegue
-   aws s3 mb s3://lambda-deploy-bucket --profile localstack
-
-   # 2. Subir el paquete de la Lambda
-   aws s3 cp deploy/dist/function.zip s3://lambda-deploy-bucket/lambda.zip --profile localstack
-
-   # 3. Desplegar el stack
-   aws cloudformation deploy --profile localstack \
-     --stack-name aws-lambda-stack \
-     --template-file deploy/cloudformation/template.yaml \
-     --capabilities CAPABILITY_NAMED_IAM
+   bash scripts/cloudformation/deploy.sh
    ```
 
    > 🎨 **Consejo:** Puedes visualizar esta plantilla usando **AWS Infrastructure Composer** desde **AWS Toolkit** abriendo `deploy/cloudformation/template.yaml` y haciendo clic en el botón "Infrastructure composer" en la esquina superior derecha del editor.
 
-* **Opción C**: Boto3 (Python)
+* **Opción C**: Boto3 (Python) ([deploy.sh](https://github.com/raulcastillabravo/mve-collection/blob/main/src/aws-lambda/scripts/boto3/deploy.sh))
 
    ```bash
-   python deploy/boto3/deploy.py
+   bash scripts/boto3/deploy.sh
    ```
 
 * <details><summary><b>Opción D</b>: AWS CLI (Manual) - Haz clic para expandir</summary>
 
    ```bash
-   # 1. Crear Rol de IAM
+   # 1. Empaquetar Lambda
+   python deploy/utils/package_lambda.py
+
+   # 2. Crear Rol de IAM
    aws iam create-role --profile localstack \
      --role-name lambda-s3-role \
      --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"lambda.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
 
-   # 2. Crear Función Lambda
+   # 3. Crear Función Lambda
    aws lambda create-function --profile localstack \
      --function-name upload-to-s3 \
      --runtime python3.12 \
@@ -163,7 +149,7 @@ Elige tu opción de despliegue preferida:
      --zip-file fileb://deploy/dist/function.zip \
      --environment Variables={ENDPOINT_URL=http://localhost:4566}
 
-   # 3. Crear Bucket de S3
+   # 4. Crear Bucket de S3
    aws s3 mb s3://test-bucket --profile localstack
    ```
 </details>
@@ -204,7 +190,13 @@ Elige tu forma preferida de verificar los resultados:
 
 ### 8. Limpieza
 
-Para eliminar completamente la infraestructura local:
+Para eliminar los recursos creados por un método de despliegue específico, puedes usar los scripts de destrucción correspondientes:
+
+- **Terraform**: `bash scripts/terraform/destroy.sh`
+- **CloudFormation**: `bash scripts/cloudformation/destroy.sh`
+- **Boto3**: `bash scripts/boto3/destroy.sh`
+
+Para eliminar completamente la infraestructura local (contenedores y volúmenes):
 
 ```bash
 docker compose down -v
