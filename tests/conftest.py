@@ -1,6 +1,7 @@
 import os
 import subprocess
 import time
+import shlex
 import pytest
 
 @pytest.fixture(scope="module")
@@ -35,10 +36,9 @@ def dev_container(src_dir):
     """
     
     def _run(command, ttl=0):
-        # command should be a list of strings
         full_cmd = [
             "docker", "compose", "exec", "--user", "vscode", "-T", "dev"
-        ] + command
+        ] + shlex.split(command)
         
         start_time = time.time()
         while True:
@@ -55,7 +55,7 @@ def dev_python(dev_container):
     Runs a Python script inside the 'dev' service using the project's venv.
     """
     def _run(script_path, ttl=0):
-        return dev_container(["/app/.venv/bin/python", script_path], ttl=ttl)
+        return dev_container(f"/app/.venv/bin/python {script_path}", ttl=ttl)
             
     return _run
 
@@ -70,10 +70,10 @@ def deploy(request, dev_container):
     destroy_script = f"scripts/{method}/destroy.sh"
     
     print(f"\n[Setup] Running {deploy_script}...")
-    result = dev_container(["bash", deploy_script])
+    result = dev_container(f"bash {deploy_script}")
     assert result.returncode == 0
     
     yield
     
     print(f"\n[Teardown] Running {destroy_script}...")
-    dev_container(["bash", destroy_script])
+    dev_container(f"bash {destroy_script}")
