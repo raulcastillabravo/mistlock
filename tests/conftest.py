@@ -30,16 +30,15 @@ def infrastructure(src_dir):
 @pytest.fixture(scope="module")
 def dev_container(src_dir):
     """
-    Shared fixture to run commands inside the 'dev' service.
+    Runs any command inside the 'dev' service.
     Supports 'ttl' (timeout in seconds) for automatic retries.
     """
     
     def _run(command, ttl=0):
-        base_cmd = [
-            "docker", "compose", "exec", "--user", "vscode", "-T", "dev",
-            f"/app/.venv/bin/python"
-        ]
-        full_cmd = base_cmd + [command]
+        # command should be a list of strings
+        full_cmd = [
+            "docker", "compose", "exec", "--user", "vscode", "-T", "dev"
+        ] + command
         
         start_time = time.time()
         while True:
@@ -47,5 +46,15 @@ def dev_container(src_dir):
             
             if result.returncode == 0 or ttl == 0 or (time.time() - start_time) >= ttl:
                 return result
+            
+    return _run
+
+@pytest.fixture(scope="module")
+def dev_python(dev_container):
+    """
+    Runs a Python script inside the 'dev' service using the project's venv.
+    """
+    def _run(script_path, ttl=0):
+        return dev_container(["/app/.venv/bin/python", script_path], ttl=ttl)
             
     return _run
