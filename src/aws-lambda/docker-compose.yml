@@ -17,6 +17,8 @@ services:
       - .:/app:cached
     working_dir: /app
     network_mode: host
+    environment:
+      - AWS_PROFILE=localstack
     command: sleep infinity
 
 volumes:

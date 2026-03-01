@@ -21,8 +21,5 @@
       ]
     }
   },
-  "containerEnv": {
-    "AWS_PROFILE": "localstack"
-  },
   "postCreateCommand": "bash .devcontainer/postCreateCommand.sh"
 }
