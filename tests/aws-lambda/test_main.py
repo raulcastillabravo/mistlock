@@ -11,7 +11,7 @@ def test_boto3_workflow(boto3_deploy, validate_main):
     pass
 
 @pytest.fixture
-def validate_main(dev_python):
+def validate_main(dev_python, dev_container):
     """
     Executes and validates the main.py script.
     As it's a fixture used in the tests, it runs after the deployment fixtures.
@@ -21,6 +21,10 @@ def validate_main(dev_python):
     assert main_result.returncode == 0
     assert "✓ Lambda response" in main_result.stdout
     assert "✓ Content: Hello from Lambda!" in main_result.stdout
+
+    s3_result = dev_container(["aws", "s3", "ls", "s3://test-bucket/", "--profile", "localstack"])
+    assert s3_result.returncode == 0
+    assert "hello.txt" in s3_result.stdout
 
 @pytest.fixture(scope="module", autouse=True)
 def package_lambda(dev_python):
