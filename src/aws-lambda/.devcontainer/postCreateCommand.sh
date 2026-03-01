@@ -18,5 +18,5 @@ aws configure set cli_pager "" --profile localstack
 python deploy/utils/package_lambda.py
 
 # Deploy Infrastructure
-terraform -chdir=deploy init
-terraform -chdir=deploy apply -auto-approve
+terraform -chdir=deploy/terraform init
+terraform -chdir=deploy/terraform apply -auto-approve

@@ -118,8 +118,8 @@ Choose your preferred deployment option:
 * **Option A**: Terraform
 
    ```bash
-   terraform -chdir=deploy init
-   terraform -chdir=deploy apply -auto-approve
+   terraform -chdir=deploy/terraform init
+   terraform -chdir=deploy/terraform apply -auto-approve
    ```
 
 * **Option B**: CloudFormation
@@ -134,16 +134,16 @@ Choose your preferred deployment option:
    # 3. Deploy the stack
    aws cloudformation deploy --profile localstack \
      --stack-name aws-lambda-stack \
-     --template-file deploy/cloud_formation_deploy.yaml \
+     --template-file deploy/cloudformation/template.yaml \
      --capabilities CAPABILITY_NAMED_IAM
    ```
 
-   > 🎨 **Tip:** You can visualize this template using the **AWS Infrastructure Composer** from **AWS Toolkit** by opening `deploy/cloud_formation_deploy.yaml` and clicking the "Infrastructure composer" button in the top-right corner of the editor.
+   > 🎨 **Tip:** You can visualize this template using the **AWS Infrastructure Composer** from **AWS Toolkit** by opening `deploy/cloudformation/template.yaml` and clicking the "Infrastructure composer" button in the top-right corner of the editor.
 
 * **Option C**: Boto3 (Python)
 
    ```bash
-   python deploy/boto3_deploy.py
+   python deploy/boto3/deploy.py
    ```
 
 * <details><summary><b>Option D</b>: AWS CLI (Manual) - Click to expand</summary>
