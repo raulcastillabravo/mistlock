@@ -1,0 +1,4 @@
+[tools]
+aws-cli = "latest"
+python = "3.12"
+terraform = "latest"
