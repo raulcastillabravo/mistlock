@@ -2,3 +2,24 @@
 aws-cli = "latest"
 python = "3.12"
 terraform = "latest"
+uv = "latest"
+
+[env]
+AWS_ACCESS_KEY_ID = "test"
+AWS_SECRET_ACCESS_KEY = "test"
+AWS_DEFAULT_REGION = "us-east-1"
+AWS_ENDPOINT_URL = "http://localhost:4566"
+AWS_PAGER = ""
+AWS_DEFAULT_OUTPUT = "json"
+
+[tasks.setup]
+description = "Sync python dependencies and configure AWS profile"
+run = """
+uv sync
+aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile localstack
+aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile localstack
+aws configure set region $AWS_DEFAULT_REGION --profile localstack
+aws configure set output $AWS_DEFAULT_OUTPUT --profile localstack
+aws configure set endpoint_url $AWS_ENDPOINT_URL --profile localstack
+aws configure set cli_pager "$AWS_PAGER" --profile localstack
+"""
