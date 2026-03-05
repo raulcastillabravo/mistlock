@@ -21,13 +21,12 @@ architecture-beta
 - [Inicio Rápido (Dev Container)](#inicio-rápido-dev-container)
 - [Paso a Paso (sin Dev Container)](#paso-a-paso-sin-dev-container)
     - [1. Iniciar infraestructura](#1-iniciar-infraestructura)
-    - [2. Configurar AWS CLI](#2-configurar-aws-cli)
+    - [2. Configurar el entorno](#2-configurar-el-entorno)
     - [3. Instalar AWS Toolkit](#3-instalar-aws-toolkit)
-    - [4. Instalar Python](#4-instalar-python)
-    - [5. Desplegar recursos](#5-desplegar-recursos)
-    - [6. Ejecutar el ejemplo](#6-ejecutar-el-ejemplo)
-    - [7. Validación](#7-validación)
-    - [8. Limpieza](#8-limpieza)
+    - [4. Desplegar recursos](#4-desplegar-recursos)
+    - [5. Ejecutar el ejemplo](#6-ejecutar-el-ejemplo)
+    - [6. Validación](#7-validación)
+    - [7. Limpieza](#8-limpieza)
 - [Solución de problemas](#solución-de-problemas)
 - [Licencia](#licencia)
 
@@ -67,17 +66,16 @@ Para iniciar solo el servicio de **LocalStack** (evitando el contenedor de desar
 docker compose up -d localstack
 ```
 
-### 2. Configurar AWS CLI
+### 2. Configurar el entorno
 
-Instala el [AWS CLI](https://docs.aws.amazon.com/es_es/cli/latest/userguide/getting-started-install.html) y configura un perfil dedicado para apuntar a tu instancia de LocalStack:
+En lugar de configurarlo manualmente, utiliza nuestro script de configuración estandarizado. Este script automáticamente:
+1. Instala **mise** y **uv** (gestores de herramientas).
+2. Instala las versiones requeridas de **Python**, **AWS CLI** y **Terraform**.
+3. Configura el perfil de AWS `localstack`.
+4. Sincroniza las dependencias de Python usando **uv**.
 
 ```bash
-aws configure set aws_access_key_id test --profile localstack
-aws configure set aws_secret_access_key test --profile localstack
-aws configure set region us-east-1 --profile localstack
-aws configure set output json --profile localstack
-aws configure set endpoint_url http://localhost:4566 --profile localstack
-aws configure set cli_pager "" --profile localstack
+scripts/setup-mve.sh
 ```
 
 ### 3. Instalar AWS Toolkit
@@ -88,22 +86,7 @@ Instala la extensión [AWS Toolkit](vscode:extension/amazonwebservices.aws-toolk
 2. Haz clic en la configuración de **Profiles** o **Connections**.
 3. Selecciona el perfil `localstack` configurado en el paso 2.
 
-### 4. Instalar Python
-
-Instala [Python](https://www.python.org/downloads/) y verifica la instalación:
-
-```bash
-python --version
-```
-
-Luego, instala [uv](https://github.com/astral-sh/uv) y sincroniza las dependencias para crear el entorno virtual:
-
-```bash
-pip install uv
-uv sync
-```
-
-### 5. Desplegar recursos
+### 4. Desplegar recursos
 
 Elige tu opción de despliegue preferida usando nuestros scripts estandarizados:
 
@@ -154,7 +137,7 @@ Elige tu opción de despliegue preferida usando nuestros scripts estandarizados:
    ```
 </details>
 
-### 6. Ejecutar el ejemplo
+### 5. Ejecutar el ejemplo
 
 * **Opción A**: Script de Python. Ejecuta el script de demostración para invocar la Lambda y verificar la subida:
 

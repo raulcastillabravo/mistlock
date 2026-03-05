@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  test-aws-lambda:
-    name: Test AWS Lambda MVE
+  run-tests:
+    name: Run tests
     runs-on: ubuntu-latest
 
     steps:

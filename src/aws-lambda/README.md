@@ -21,13 +21,12 @@ architecture-beta
 - [Quickstart (Dev Container)](#quickstart-dev-container)
 - [Step by Step (without Dev Container)](#step-by-step-without-dev-container)
     - [1. Start infrastructure](#1-start-infrastructure)
-    - [2. Configure AWS CLI](#2-configure-aws-cli)
+    - [2. Setup environment](#2-setup-environment)
     - [3. Install AWS Toolkit](#3-install-aws-toolkit)
-    - [4. Install Python](#4-install-python)
-    - [5. Deploy resources](#5-deploy-resources)
-    - [6. Run the example](#6-run-the-example)
-    - [7. Validation](#7-validation)
-    - [8. Clean up](#8-clean-up)
+    - [4. Deploy resources](#4-deploy-resources)
+    - [5. Run the example](#6-run-the-example)
+    - [6. Validation](#7-validation)
+    - [7. Clean up](#8-clean-up)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -67,17 +66,16 @@ To start only the **LocalStack** service (avoiding the development container), r
 docker compose up -d localstack
 ```
 
-### 2. Configure AWS CLI
+### 2. Setup environment
 
-Install the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and configure a dedicated profile to point to your LocalStack instance:
+Instead of manual configuration, use our standardized setup script. This script automatically:
+1. Installs **mise** and **uv** (tool managers).
+2. Installs the required versions of **Python**, **AWS CLI**, and **Terraform**.
+3. Configures the `localstack` AWS profile.
+4. Syncs Python dependencies using **uv**.
 
 ```bash
-aws configure set aws_access_key_id test --profile localstack
-aws configure set aws_secret_access_key test --profile localstack
-aws configure set region us-east-1 --profile localstack
-aws configure set output json --profile localstack
-aws configure set endpoint_url http://localhost:4566 --profile localstack
-aws configure set cli_pager "" --profile localstack
+scripts/setup-mve.sh
 ```
 
 ### 3. Install AWS Toolkit
@@ -88,22 +86,7 @@ Install the [AWS Toolkit](vscode:extension/amazonwebservices.aws-toolkit-vscode)
 2. Click on the **Profiles** or **Connections** settings.
 3. Select the `localstack` profile configured in step 2.
 
-### 4. Install Python
-
-Install [Python](https://www.python.org/downloads/) and verify the installation:
-
-```bash
-python --version
-```
-
-Then, install [uv](https://github.com/astral-sh/uv) and sync dependencies to create the virtual environment:
-
-```bash
-pip install uv
-uv sync
-```
-
-### 5. Deploy resources
+### 4. Deploy resources
 
 Choose your preferred deployment option using our standardized scripts:
 
@@ -154,7 +137,7 @@ Choose your preferred deployment option using our standardized scripts:
    ```
 </details>
 
-### 6. Run the example
+### 5. Run the example
 
 * **Option A**: Python Script. Run the demonstration script to invoke the Lambda and verify the upload:
 
