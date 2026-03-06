@@ -1,7 +1,8 @@
 import os, io, csv
-from firebase_admin import initialize_app, storage
+from firebase_admin import initialize_app
+from google.cloud import storage
 from firebase_functions import storage_fn
-from sqlalchemy import create_all, Column, Integer, String, create_engine
+from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, Session
 
 initialize_app()
@@ -14,9 +15,10 @@ class User(Base):
     name = Column(String)
     email = Column(String)
 
-@storage_fn.on_object_finalized()
+@storage_fn.on_object_finalized(bucket="demo-mve-gcp-cloud-sql.appspot.com")
 def process_csv(event: storage_fn.CloudEvent):
-    bucket = storage.bucket(event.data.bucket)
+    client = storage.Client()
+    bucket = client.bucket(event.data.bucket)
     blob = bucket.blob(event.data.name)
     data = blob.download_as_text()
     

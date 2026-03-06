@@ -1,14 +1,19 @@
 {
   "name": "GCP Cloud SQL Dev",
-  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/app",
   "features": {
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "18"
-    },
-    "ghcr.io/devcontainers/features/java:1": {
-      "version": "17"
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
     }
+  },
+  "containerEnv": {
+    // /home/vscode/.local/share/mise/shims: Enables mise managed tools (aws, terraform, etc.)
+    // /usr/local/...: Standard paths. To update this list 'docker run --rm [image] env | grep PATH'
+    "PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   },
   "customizations": {
     "vscode": {
@@ -20,8 +25,5 @@
       ]
     }
   },
-  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
-  "runArgs": [
-    "--network=host"
-  ]
+  "postCreateCommand": "scripts/setup-mve.sh"
 }

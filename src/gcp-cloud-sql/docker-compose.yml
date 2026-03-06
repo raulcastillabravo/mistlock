@@ -11,5 +11,13 @@ services:
     volumes:
       - gcp_postgres_data:/var/lib/postgresql/data
 
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    network_mode: host
+    command: sleep infinity
+
 volumes:
   gcp_postgres_data:

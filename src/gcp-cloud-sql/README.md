@@ -7,16 +7,18 @@ Minimal viable example to work with **Google Cloud SQL (PostgreSQL)** emulated l
 ```
 gcp-cloud-sql/
 ├── .devcontainer/
-│   ├── devcontainer.json
-│   └── postCreateCommand.sh
+│   └── devcontainer.json
 ├── .vscode/
 │   └── settings.json
 ├── functions/
 │   ├── main.py              # Cloud Function (V2) logic
 │   └── requirements.txt     # Function dependencies
+├── scripts/
+│   └── setup-mve.sh         # Standardized setup script
 ├── docker-compose.yml       # PostgreSQL container
 ├── .env                     # Local connection strings
 ├── firebase.json            # Emulator config
+├── mise.toml                # Tool configuration
 ├── main.py                  # Main demo script
 ├── pyproject.toml           # Project dependencies
 └── README.md
@@ -26,8 +28,6 @@ gcp-cloud-sql/
 
 - Docker and Docker Compose installed
 - VS Code with Dev Containers extension (optional)
-- Python 3.12 (if local setup)
-- Node.js (for Firebase Tools)
 
 ## Option 1: Using Dev Container (Recommended)
 
@@ -36,7 +36,7 @@ gcp-cloud-sql/
 1. Open VS Code in the project folder
 2. Press `F1` or `Ctrl+Shift+P`
 3. Type and select: **Dev Containers: Reopen in Container**
-4. Wait for the environment to build. It will install `firebase-tools`, `uv`, and all Python dependencies automatically.
+4. Wait for the environment to build. It will install all required tools (**Node.js**, **Java**, **Firebase Tools**, **mise**, **uv**) and Python dependencies automatically.
 
 ### Step 2: Start Services
 
@@ -68,6 +68,34 @@ You should see output like:
  - User (user@example.com)
 ```
 
+## Option 2: Local Setup (Without Dev Container)
+
+### Step 1: Start Infrastructure
+
+```bash
+docker compose up -d
+```
+
+### Step 2: Setup Environment
+
+Instead of manual configuration, use our standardized setup script. This script automatically installs **mise** and **uv**, installs required tool versions (**Python**, **Node.js**, **Java**), installs **firebase-tools**, and syncs all dependencies.
+
+```bash
+scripts/setup-mve.sh
+```
+
+### Step 3: Start Emulators
+
+```bash
+firebase emulators:start
+```
+
+### Step 4: Run the Example
+
+```bash
+python main.py
+```
+
 ## Project Components
 
 ### Cloud Function (`functions/main.py`)
@@ -94,12 +122,17 @@ GCP_PROJECT=mve-gcp-cloud-sql
 
 ## Clean Up
 
+To completely remove the local infrastructure (containers and volumes):
+
 ```bash
-# Stop emulators (Ctrl+C in emulator terminal)
-# Stop postgres container
 docker compose down -v
 ```
 
+## Next Steps
+
+- Integrate more GCP services.
+- Add unit tests for the Cloud Function.
+
 ## License
 
-This is a minimal example for educational purposes.
+This is a minimal example for educational purposes. Feel free to use and modify as needed.

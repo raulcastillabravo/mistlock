@@ -1,0 +1,21 @@
+[tools]
+python = "3.12"
+uv = "latest"
+node = "22"
+java = "openjdk-21"
+
+[tasks.setup]
+description = "Install dependencies and setup environment"
+run = """
+# Root dependencies
+uv sync
+
+# Firebase Tools
+npm install -g firebase-tools
+
+# Cloud Functions dependencies
+cd functions
+rm -rf venv
+uv venv venv --python 3.12
+uv pip install -r requirements.txt --python venv
+"""

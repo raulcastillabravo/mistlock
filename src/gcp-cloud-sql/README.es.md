@@ -7,16 +7,18 @@ Ejemplo mínimo viable (MVE) para trabajar con **Google Cloud SQL (PostgreSQL)**
 ```
 gcp-cloud-sql/
 ├── .devcontainer/
-│   ├── devcontainer.json
-│   └── postCreateCommand.sh
+│   └── devcontainer.json
 ├── .vscode/
 │   └── settings.json
 ├── functions/
 │   ├── main.py              # Lógica de la función nubosa (V2)
 │   └── requirements.txt     # Dependencias de la función
+├── scripts/
+│   └── setup-mve.sh         # Script de configuración estandarizado
 ├── docker-compose.yml       # Contenedor PostgreSQL
 ├── .env                     # Cadenas de conexión locales
 ├── firebase.json            # Configuración del emulador
+├── mise.toml                # Configuración de herramientas
 ├── main.py                  # Script principal de demostración
 ├── pyproject.toml           # Dependencias del proyecto
 └── README.md
@@ -26,8 +28,6 @@ gcp-cloud-sql/
 
 - Docker y Docker Compose instalados
 - VS Code con la extensión Dev Containers (opcional)
-- Python 3.12 (si se instala localmente)
-- Node.js (para las herramientas de Firebase)
 
 ## Opción 1: Uso del contenedor de desarrollo (Recomendado)
 
@@ -36,7 +36,7 @@ gcp-cloud-sql/
 1. Abre VS Code en la carpeta del proyecto.
 2. Pulsa `F1` o `Ctrl+Shift+P`.
 3. Escribe y selecciona: **Dev Containers: Reopen in Container**
-4. Espera a que el entorno se cree. Se instalarán automáticamente `firebase-tools`, `uv` y todas las dependencias de Python.
+4. Espera a que el entorno se cree. Se instalarán automáticamente todas las herramientas necesarias (**Node.js**, **Java**, **Firebase Tools**, **mise**, **uv**) y todas las dependencias de Python.
 
 ### Paso 2: Iniciar servicios
 
@@ -68,6 +68,34 @@ Deberías ver una salida como esta:
  - Usuario (user@example.com)
 ```
 
+## Opción 2: Configuración local (sin contenedor de desarrollo)
+
+### Paso 1: Iniciar infraestructura
+
+```bash
+docker compose up -d
+```
+
+### Paso 2: Configurar el entorno
+
+En lugar de una configuración manual, utiliza nuestro script de configuración estandarizado. Este script instala automáticamente **mise** y **uv**, las versiones de herramientas necesarias (**Python**, **Node.js**, **Java**), instala **firebase-tools** y sincroniza todas las dependencias.
+
+```bash
+scripts/setup-mve.sh
+```
+
+### Paso 3: Iniciar emuladores
+
+```bash
+firebase emulators:start
+```
+
+### Paso 4: Ejecutar el ejemplo
+
+```bash
+python main.py
+```
+
 ## Componentes del proyecto
 
 ### Función nubosa (`functions/main.py`)
@@ -94,12 +122,17 @@ GCP_PROJECT=mve-gcp-cloud-sql
 
 ## Limpieza
 
+Para eliminar completamente la infraestructura local (contenedores y volúmenes):
+
 ```bash
-# Detener los emuladores (Ctrl+C en el terminal del emulador)
-# Detener el contenedor de Postgres
 docker compose down -v
 ```
 
+## Próximos Pasos
+
+- Integrar más servicios de GCP.
+- Añadir pruebas unitarias para la Cloud Function.
+
 ## Licencia
 
-Este es un ejemplo mínimo con fines educativos.
+Este es un ejemplo mínimo con fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

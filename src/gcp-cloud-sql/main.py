@@ -9,7 +9,7 @@ os.environ["STORAGE_EMULATOR_HOST"] = os.getenv("FIREBASE_STORAGE_EMULATOR_HOST"
 def main():
     print("🚀 Starting demo...")
     client = storage.Client(project=os.getenv("GCP_PROJECT"))
-    bucket = client.create_bucket(os.getenv("STORAGE_BUCKET"))
+    bucket = client.bucket(os.getenv("STORAGE_BUCKET"))
     
     csv_data = "name,email\nAntigravity,anti@gravity.ai\nUser,user@example.com"
     blob = bucket.blob("users.csv")
