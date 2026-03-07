@@ -31,9 +31,12 @@ def main():
                     print(f"📊 Found {len(result)} records in Postgres:")
                     for row in result: print(f" - {row.name} ({row.email})")
                     return
-        except Exception: pass
+        except Exception:
+            pass
         print("⏳ Waiting for Cloud Function... (1s)")
         time.sleep(1)
+
+
 
 if __name__ == "__main__":
     main()

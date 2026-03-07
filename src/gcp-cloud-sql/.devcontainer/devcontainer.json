@@ -10,6 +10,29 @@
       "moby": false
     }
   },
+  "forwardPorts": [
+    4000, // Emulator UI
+    4400, // Hub
+    4500, // Logging (Opcional)
+    5001, // Cloud Functions
+    8080, // Cloud Firestore
+    8085, // Pub/Sub
+    9000, // Realtime Database
+    9099, // Auth
+    9199, // Cloud Storage
+    9299  // Eventarc
+  ],
+  "portsAttributes": {
+    "4000": { "label": "Firebase UI", "onAutoForward": "notify" },
+    "4400": { "label": "Firebase Hub", "onAutoForward": "ignore" },
+    "5001": { "label": "Functions Emulator" },
+    "8080": { "label": "Firestore Emulator" },
+    "8085": { "label": "Pub/Sub Emulator" },
+    "9000": { "label": "Database Emulator" },
+    "9099": { "label": "Auth Emulator" },
+    "9199": { "label": "Storage Emulator" },
+    "9299": { "label": "Eventarc Emulator" }
+  },
   "containerEnv": {
     // /home/vscode/.local/share/mise/shims: Enables mise managed tools (aws, terraform, etc.)
     // /usr/local/...: Standard paths. To update this list 'docker run --rm [image] env | grep PATH'
@@ -21,7 +44,8 @@
         "ms-python.python",
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg",
-        "googlecloudtools.cloudcode"
+        "googlecloudtools.cloudcode",
+        "ms-toolsai.jupyter"
       ]
     }
   },
