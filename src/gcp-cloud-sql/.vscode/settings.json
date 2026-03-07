@@ -9,7 +9,8 @@
       "driver": "PostgreSQL",
       "name": "Postgres",
       "database": "mve_db",
-      "username": "postgres"
+      "username": "postgres",
+      "password": "postgres"
     }
   ]
 }
