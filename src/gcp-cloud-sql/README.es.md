@@ -1,124 +1,138 @@
-# GCP Cloud SQL (PostgreSQL) + Local Emulator Firebase
+# GCP Cloud SQL (PostgreSQL)
 
-Ejemplo mínimo viable (MVE) para trabajar con **Google Cloud SQL (PostgreSQL)** emulado localmente mediante **Docker Compose**, y **Funciones de nube Firebase** activadas por **Cloud Storage**. Este ejemplo demuestra un flujo completo de datos: Carga de CSV -> Activador de almacenamiento -> Procesamiento de función -> Inserción en Postgres.
+Ejemplo mínimo viable para trabajar con **GCP Cloud SQL (PostgreSQL)** emulado localmente usando **Docker Compose**, y **Firebase Cloud Functions** disparadas por **Cloud Storage**.
 
-## Estructura del proyecto
-
+```mermaid
+graph LR
+    A[Carga de CSV] --> B[Trigger de Storage]
+    B --> C[Procesamiento de Function]
+    C --> D[Inserción en Postgres]
 ```
-gcp-cloud-sql/
-├── .devcontainer/
-│   └── devcontainer.json
-├── .vscode/
-│   └── settings.json
-├── functions/
-│   ├── main.py              # Lógica de la función nubosa (V2)
-│   └── requirements.txt     # Dependencias de la función
-├── scripts/
-│   └── setup-mve.sh         # Script de configuración estandarizado
-├── docker-compose.yml       # Contenedor PostgreSQL
-├── .env                     # Cadenas de conexión locales
-├── firebase.json            # Configuración del emulador
-├── mise.toml                # Configuración de herramientas
-├── main.py                  # Script principal de demostración
-├── pyproject.toml           # Dependencias del proyecto
-└── README.md
+[![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
+
+## Arquitectura
+
+```mermaid
+architecture-beta
+    group firebase(cloud)[Firebase Emulator]
+
+    service storage(disk)[Cloud Storage] in firebase
+    service functions(server)[Cloud Function] in firebase
+    service db(database)[Cloud SQL Postgres]
+
+    storage:R -- L:functions
+    functions:R -- L:db
 ```
 
-## Requisitos previos
+[![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
-- Docker y Docker Compose instalados
-- VS Code con la extensión Dev Containers (opcional)
+## Índice
 
-## Opción 1: Uso del contenedor de desarrollo (Recomendado)
+- [Quickstart (Dev Container)](#quickstart-dev-container)
+- [Paso a Paso (sin Dev Container)](#paso-a-paso-sin-dev-container)
+    - [1. Iniciar Infraestructura](#1-iniciar-infraestructura)
+    - [2. Configurar Entorno](#2-configurar-entorno)
+    - [3. Iniciar Emuladores](#3-iniciar-emuladores)
+    - [4. Ejecutar el Ejemplo](#4-ejecutar-el-ejemplo)
+    - [5. Validación](#5-validación)
+- [Limpieza](#limpieza)
+- [Solución de Problemas](#solución-de-problemas)
+- [Licencia](#licencia)
 
-### Paso 1: Abrir el proyecto en el contenedor de desarrollo
+---
 
-1. Abre VS Code en la carpeta del proyecto.
-2. Pulsa `F1` o `Ctrl+Shift+P`.
-3. Escribe y selecciona: **Dev Containers: Reopen in Container**
-4. Espera a que el entorno se cree. Se instalarán automáticamente todas las herramientas necesarias (**Node.js**, **Java**, **Firebase Tools**, **mise**, **uv**) y todas las dependencias de Python.
+## Quickstart (Dev Container)
 
-### Paso 2: Iniciar servicios
+El Dev Container instala automáticamente todas las herramientas necesarias (**Node.js**, **Java**, **Firebase Tools**, **mise**, **uv**) y sincroniza las dependencias para su uso inmediato.
 
-Abre un terminal dentro del contenedor de desarrollo y ejecuta:
+1. **Requisitos Previos:**
+    - [Docker](https://www.docker.com/get-started) instalado y funcionando.
+    - [Extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers) instalada.
+
+2. **Abrir Proyecto:** Abre la **Paleta de Comandos** (`F1` o `Ctrl/Cmd+Shift+P`) y selecciona **Dev Containers: Reopen in Container**.
+
+3. **Iniciar Emuladores:** 
+   ```bash
+   # Terminal 1: Iniciar Emuladores de Firebase
+   firebase emulators:start
+   ```
+
+4. **Ejecutar MVE:** 
+   ```bash
+   # Terminal 2: Ejecutar el demo
+   python main.py
+   ```
+
+5. **Validar Resultados:**
+   - **Interfaz UI**: Abre [http://localhost:4000/storage](http://localhost:4000/storage) para ver el archivo y [http://localhost:4000/functions](http://localhost:4000/functions) para los logs.
+   - **SQLTools (VS Code)**: Usa la conexión preconfigurada **Postgres** en el explorador de **SQLTools** para consultar la tabla `users`:
+     ```sql
+     SELECT * FROM users;
+     ```
+
+6. **Limpieza:**
+   ```bash
+   docker compose down -v
+   ```
+
+## Paso a Paso (sin Dev Container)
+
+Esta sección detalla el proceso de configuración manual si no utilizas Dev Containers.
+
+### 1. Iniciar Infraestructura
+
+Inicia el contenedor de **PostgreSQL**:
 
 ```bash
-# Iniciar PostgreSQL
-docker compose up -d
-
-# Iniciar los emuladores de Firebase
-firebase emulators:start
+docker compose up -d postgres
 ```
 
-### Paso 3: Ejecutar el ejemplo
+### 2. Configurar Entorno
 
-Abre un segundo terminal y ejecuta:
-
-```bash
-python main.py
-```
-
-Deberías ver una salida como esta:
-```
-🚀 Iniciando demostración...
-✅ CSV cargado en el emulador de almacenamiento.
-⏳ Esperando a la función nubosa... (1s)
-📊 Se han encontrado 2 registros en Postgres:
- - Antigravity (anti@gravity.ai)
- - Usuario (user@example.com)
-```
-
-## Opción 2: Configuración local (sin contenedor de desarrollo)
-
-### Paso 1: Iniciar infraestructura
-
-```bash
-docker compose up -d
-```
-
-### Paso 2: Configurar el entorno
-
-En lugar de una configuración manual, utiliza nuestro script de configuración estandarizado. Este script instala automáticamente **mise** y **uv**, las versiones de herramientas necesarias (**Python**, **Node.js**, **Java**), instala **firebase-tools** y sincroniza todas las dependencias.
+Usa nuestro script de configuración estandarizado para instalar **mise**, **uv**, **Python**, **Node.js**, **Java**, y sincronizar todas las dependencias:
 
 ```bash
 scripts/setup-mve.sh
 ```
 
-### Paso 3: Iniciar emuladores
+### 3. Iniciar Emuladores
+
+Inicia la suite de emuladores de Firebase (Storage y Functions):
 
 ```bash
 firebase emulators:start
 ```
 
-### Paso 4: Ejecutar el ejemplo
+### 4. Ejecutar el Ejemplo
+
+Ejecuta el script principal para cargar un CSV y verificar el procesamiento:
 
 ```bash
 python main.py
 ```
 
-## Componentes del proyecto
+### 5. Validación
 
-### Función nubosa (`functions/main.py`)
+Elige tu forma preferida de verificar los resultados:
 
-Una función activada por almacenamiento que:
-- Activador: `on_object_finalized` (carga de archivos).
-- Mecanismo: Descarga el CSV, lo analiza y utiliza **SQLAlchemy ORM** para guardarlo en PostgreSQL.
+* **Opción A**: Script Python. Revisa la salida de `main.py`:
+    - El script consulta la base de datos hasta que los registros son detectados.
 
-### Script principal (`main.py`)
+* **Opción B**: Interfaz UI del Emulador. Verifica los recursos directamente en el navegador:
+    - **Cloud Storage**: Abre [http://localhost:4000/storage](http://localhost:4000/storage) para ver el `users.csv`.
+    - **Logs de Funciones**: Abre [http://localhost:4000/functions](http://localhost:4000/functions) para ver la salida de ejecución.
 
-- Carga un `users.csv` de ejemplo en el emulador de almacenamiento.
-- Consulta la base de datos PostgreSQL mediante **SQLAlchemy** hasta que se detectan los nuevos registros.
+* **Opción C**: Cliente de Base de Datos. Conecta usando **SQLTools** (preconfigurado en Dev Container) o [DBeaver](https://dbeaver.io/download/):
+    - **Host**: `localhost`
+    - **Puerto**: `5432`
+    - **Base de Datos**: `mve_db`
+    - **Credenciales**: `postgres` / `postgres`
 
-## Variables de entorno
+    and run:
 
-El archivo `.env` contiene:
-
-```
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/mve_db
-STORAGE_BUCKET=mve-gcp-cloud-sql.appspot.com
-FIREBASE_STORAGE_EMULATOR_HOST="localhost:9199"
-GCP_PROJECT=mve-gcp-cloud-sql
-```
+    ```sql
+    SELECT * FROM users;
+    ```
 
 ## Limpieza
 
@@ -128,11 +142,14 @@ Para eliminar completamente la infraestructura local (contenedores y volúmenes)
 docker compose down -v
 ```
 
-## Próximos Pasos
+## Solución de Problemas
 
-- Integrar más servicios de GCP.
-- Añadir pruebas unitarias para la Cloud Function.
+| Problema | Solución |
+| :--- | :--- |
+| **Puerto 5432 en uso** | Asegúrate de que no haya otro Postgres funcionando o cambia el puerto en `docker-compose.yml`. |
+| **Java no encontrado** | Asegúrate de tener Java 11+ instalado (requerido por los emuladores de Firebase). |
+| **Functions no disparan** | Revisa `firebase-debug.log`. Los nombres de los buckets deben coincidir con el prefijo `demo-`. |
 
 ## Licencia
 
-Este es un ejemplo mínimo con fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.
+Este es un ejemplo mínimo con fines educativos. Siéntete libre de usarlo y modificarlo según tus necesidades.

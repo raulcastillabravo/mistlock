@@ -45,7 +45,8 @@
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg",
         "googlecloudtools.cloudcode",
-        "ms-toolsai.jupyter"
+        "ms-toolsai.jupyter",
+        "mermaidchart.vscode-mermaid-chart"
       ]
     }
   },

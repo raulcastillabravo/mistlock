@@ -1,3 +1,15 @@
 {
-  "python.defaultInterpreterPath": ".venv/bin/python"
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Postgres",
+      "database": "mve_db",
+      "username": "postgres"
+    }
+  ]
 }

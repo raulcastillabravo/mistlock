@@ -1,124 +1,138 @@
-# GCP Cloud SQL (PostgreSQL) + Firebase Local Emulator
+# GCP Cloud SQL (PostgreSQL)
 
-Minimal viable example to work with **Google Cloud SQL (PostgreSQL)** emulated locally using **Docker Compose**, and **Firebase Cloud Functions** triggered by **Cloud Storage**. This example demonstrates a full data pipeline: CSV Upload -> Storage Trigger -> Function Processing -> Postgres Insertion.
+Minimal viable example for **GCP Cloud SQL (PostgreSQL)** emulated locally using **Docker Compose**, and **Firebase Cloud Functions** triggered by **Cloud Storage**.
 
-## Project Structure
-
+```mermaid
+graph LR
+    A[CSV Upload] --> B[Storage Trigger]
+    B --> C[Function Processing]
+    C --> D[Postgres Insertion]
 ```
-gcp-cloud-sql/
-├── .devcontainer/
-│   └── devcontainer.json
-├── .vscode/
-│   └── settings.json
-├── functions/
-│   ├── main.py              # Cloud Function (V2) logic
-│   └── requirements.txt     # Function dependencies
-├── scripts/
-│   └── setup-mve.sh         # Standardized setup script
-├── docker-compose.yml       # PostgreSQL container
-├── .env                     # Local connection strings
-├── firebase.json            # Emulator config
-├── mise.toml                # Tool configuration
-├── main.py                  # Main demo script
-├── pyproject.toml           # Project dependencies
-└── README.md
+[![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
+
+## Architecture
+
+```mermaid
+architecture-beta
+    group firebase(cloud)[Firebase Emulator]
+
+    service storage(disk)[Cloud Storage] in firebase
+    service functions(server)[Cloud Function] in firebase
+    service db(database)[Cloud SQL Postgres]
+
+    storage:R -- L:functions
+    functions:R -- L:db
 ```
 
-## Prerequisites
+[![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
-- Docker and Docker Compose installed
-- VS Code with Dev Containers extension (optional)
+## Index
 
-## Option 1: Using Dev Container (Recommended)
+- [Quickstart (Dev Container)](#quickstart-dev-container)
+- [Step by Step (without Dev Container)](#step-by-step-without-dev-container)
+    - [1. Start Infrastructure](#1-start-infrastructure)
+    - [2. Setup Environment](#2-setup-environment)
+    - [3. Start Emulators](#3-start-emulators)
+    - [4. Run the Example](#4-run-the-example)
+    - [5. Validation](#5-validation)
+- [Clean Up](#clean-up)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
 
-### Step 1: Open Project in Dev Container
+---
 
-1. Open VS Code in the project folder
-2. Press `F1` or `Ctrl+Shift+P`
-3. Type and select: **Dev Containers: Reopen in Container**
-4. Wait for the environment to build. It will install all required tools (**Node.js**, **Java**, **Firebase Tools**, **mise**, **uv**) and Python dependencies automatically.
+## Quickstart (Dev Container)
 
-### Step 2: Start Services
+The Dev Container automatically installs all required tools (**Node.js**, **Java**, **Firebase Tools**, **mise**, **uv**) and synchronizes dependencies for immediate use.
 
-Open a terminal inside the Dev Container and run:
+1. **Prerequisites:**
+    - [Docker](https://www.docker.com/get-started) installed and running.
+    - [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed.
+
+2. **Open Project:** Open the **Command Palette** (`F1` or `Ctrl/Cmd+Shift+P`) and select **Dev Containers: Reopen in Container**.
+
+3. **Start Emulators:** 
+   ```bash
+   # Terminal 1: Start Firebase Emulators
+   firebase emulators:start
+   ```
+
+4. **Run MVE:** 
+   ```bash
+   # Terminal 2: Run the demo
+   python main.py
+   ```
+
+5. **Verify Results:**
+   - **Firebase UI**: Open [http://localhost:4000/storage](http://localhost:4000/storage) to see the file and [http://localhost:4000/functions](http://localhost:4000/functions) for logs.
+   - **SQLTools (VS Code)**: Use the preconfigured **Postgres** connection in the **SQLTools** explorer to query the `users` table:
+     ```sql
+     SELECT * FROM users;
+     ```
+
+6. **Clean Up:**
+   ```bash
+   docker compose down -v
+   ```
+
+## Step by Step (without Dev Container)
+
+This section details the manual setup process for those not using Dev Containers.
+
+### 1. Start Infrastructure
+
+Start the **PostgreSQL** container:
 
 ```bash
-# Start PostgreSQL
-docker compose up -d
-
-# Start Firebase Emulators
-firebase emulators:start
+docker compose up -d postgres
 ```
 
-### Step 3: Run the Example
+### 2. Setup Environment
 
-Open a second terminal and execute:
-
-```bash
-python main.py
-```
-
-You should see output like:
-```
-🚀 Starting demo...
-✅ CSV uploaded to storage emulator.
-⏳ Waiting for Cloud Function... (1s)
-📊 Found 2 records in Postgres:
- - Antigravity (anti@gravity.ai)
- - User (user@example.com)
-```
-
-## Option 2: Local Setup (Without Dev Container)
-
-### Step 1: Start Infrastructure
-
-```bash
-docker compose up -d
-```
-
-### Step 2: Setup Environment
-
-Instead of manual configuration, use our standardized setup script. This script automatically installs **mise** and **uv**, installs required tool versions (**Python**, **Node.js**, **Java**), installs **firebase-tools**, and syncs all dependencies.
+Use our standardized setup script to install **mise**, **uv**, **Python**, **Node.js**, **Java**, and sync all dependencies:
 
 ```bash
 scripts/setup-mve.sh
 ```
 
-### Step 3: Start Emulators
+### 3. Start Emulators
+
+Start the Firebase Emulator Suite (Storage and Functions):
 
 ```bash
 firebase emulators:start
 ```
 
-### Step 4: Run the Example
+### 4. Run the Example
+
+Execute the main script to upload a CSV and verify processing:
 
 ```bash
 python main.py
 ```
 
-## Project Components
+### 5. Validation
 
-### Cloud Function (`functions/main.py`)
+Choose your preferred way to verify the results:
 
-A Storage-triggered function that:
-- Trigger: `on_object_finalized` (file upload).
-- Mechanism: Downloads CSV, parses it, and uses **SQLAlchemy ORM** to save to PostgreSQL.
+* **Option A**: Python Script. Review the output in `main.py`:
+    - It polls the database until the records are detected.
 
-### Main Script (`main.py`)
+* **Option B**: Emulator UI. Verify resources directly in the browser:
+    - **Cloud Storage**: Open [http://localhost:4000/storage](http://localhost:4000/storage) to see the `users.csv`.
+    - **Function Logs**: Open [http://localhost:4000/functions](http://localhost:4000/functions) to see execution output.
 
-- Uploads a sample `users.csv` to the Storage emulator.
-- Polls the PostgreSQL database using **SQLAlchemy** until the new records are detected.
+* **Option C**: Database Client. Connect using **SQLTools** (preconfigured in Dev Container) or [DBeaver](https://dbeaver.io/download/):
+    - **Host**: `localhost`
+    - **Port**: `5432`
+    - **Database**: `mve_db`
+    - **Credentials**: `postgres` / `postgres`
 
-## Environment Variables
+    and run:
 
-The `.env` file contains:
-
-```
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/mve_db
-STORAGE_BUCKET=mve-gcp-cloud-sql.appspot.com
-FIREBASE_STORAGE_EMULATOR_HOST="localhost:9199"
-GCP_PROJECT=mve-gcp-cloud-sql
-```
+    ```sql
+    SELECT * FROM users;
+    ```
 
 ## Clean Up
 
@@ -128,10 +142,13 @@ To completely remove the local infrastructure (containers and volumes):
 docker compose down -v
 ```
 
-## Next Steps
+## Troubleshooting
 
-- Integrate more GCP services.
-- Add unit tests for the Cloud Function.
+| Issue | Solution |
+| :--- | :--- |
+| **Port 5432 in use** | Ensure no local PostgreSQL is running or change the port in `docker-compose.yml`. |
+| **Java not found** | Ensure Java 11+ is installed (required by Firebase Emulators). |
+| **Functions not triggered** | Check `firebase-debug.log` for bucket name mismatches (must match `demo-` prefix). |
 
 ## License
 
