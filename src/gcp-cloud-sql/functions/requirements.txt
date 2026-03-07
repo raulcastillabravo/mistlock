@@ -1,5 +1,4 @@
 firebase-functions
-firebase-admin
 sqlalchemy
 psycopg2-binary
 python-dotenv

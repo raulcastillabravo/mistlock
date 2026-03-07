@@ -1,6 +1,7 @@
 import os, time
 from google.cloud import storage
 from sqlalchemy import create_engine, text
+from sqlalchemy.exc import ProgrammingError, OperationalError
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,7 +11,7 @@ STORAGE_BUCKET = os.getenv("STORAGE_BUCKET")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 CSV_DATA = """name,email
-Antigravity,anti@gravity.ai
+Firebase,fire@base.com
 User,user@example.com"""
 
 def main():
@@ -23,18 +24,23 @@ def main():
     print("✅ CSV uploaded to storage emulator.")
 
     engine = create_engine(DATABASE_URL)
-    for _ in range(10):
+    for i in range(10):
         try:
             with engine.connect() as conn:
                 result = conn.execute(text("SELECT * FROM users")).fetchall()
                 if result:
-                    print(f"📊 Found {len(result)} records in Postgres:")
-                    for row in result: print(f" - {row.name} ({row.email})")
+                    print(f"✓ Found {len(result)} records in PostgreSQL:")
+                    for row in result: print(f"  - {row.name} ({row.email})")
                     return
-        except Exception:
+        except (ProgrammingError, OperationalError):
+            # Table might not exist yet (ProgrammingError) 
+            # or DB might not be ready (OperationalError)
             pass
-        print("⏳ Waiting for Cloud Function... (1s)")
+        
+        print(f"⏳ Waiting for Cloud Function... ({i+1}/10)")
         time.sleep(1)
+    
+    print("! Timeout: No data found in PostgreSQL.")
 
 
 
