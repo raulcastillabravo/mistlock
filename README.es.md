@@ -61,9 +61,12 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 | Servicio | MVE | Descripción |
 | :--- | :--- | :--- |
 | **Cloud Storage** | [gcp-functions](./src/gcp-functions/) | Implementa una Google Cloud Function disparada por HTTP que sube archivos a Cloud Storage usando Firebase Emulator Suite para desarrollo local. |
+| **Cloud Storage** | [gcp-cloud-sql](./src/gcp-cloud-sql/) | Procesa archivos CSV subidos a Cloud Storage usando una Cloud Function disparada que inserta los datos en una base de datos PostgreSQL local. |
 | **Firestore** | [gcp-cloud-run](./src/gcp-cloud-run/) | Despliega un servicio de Google Cloud Run contenedorizado que registra datos de pacientes en Firestore usando Firebase Emulator Suite y Python. |
 | **Cloud Functions** | [gcp-functions](./src/gcp-functions/) | Implementa una Google Cloud Function disparada por HTTP que sube archivos a Cloud Storage usando Firebase Emulator Suite para desarrollo local. |
+| **Cloud Functions** | [gcp-cloud-sql](./src/gcp-cloud-sql/) | Procesa archivos CSV subidos a Cloud Storage usando una Cloud Function disparada que inserta los datos en una base de datos PostgreSQL local. |
 | **Cloud Run** | [gcp-cloud-run](./src/gcp-cloud-run/) | Despliega un servicio de Google Cloud Run contenedorizado que registra datos de pacientes en Firestore usando Firebase Emulator Suite y Python. |
+| **Cloud SQL (Postgres)** | [gcp-cloud-sql](./src/gcp-cloud-sql/) | Procesa archivos CSV subidos a Cloud Storage usando una Cloud Function disparada que inserta los datos en una base de datos PostgreSQL local. |
 
 ### 🟢 Nube Híbrida y Otros
 

@@ -61,9 +61,12 @@ Some examples appear multiple times because they integrate several cloud service
 | Service | MVE | Description |
 | :--- | :--- | :--- |
 | **Cloud Storage** | [gcp-functions](./src/gcp-functions/) | Implements an HTTP-triggered Google Cloud Function that uploads files to Cloud Storage using the Firebase Emulator Suite for local development. |
+| **Cloud Storage** | [gcp-cloud-sql](./src/gcp-cloud-sql/) | Processes CSV files uploaded to Cloud Storage using a triggered Cloud Function that inserts the data into a local PostgreSQL database. |
 | **Firestore** | [gcp-cloud-run](./src/gcp-cloud-run/) | Deploys a containerized Google Cloud Run service that registers patient data in Firestore using the Firebase Emulator Suite and Python. |
 | **Cloud Functions** | [gcp-functions](./src/gcp-functions/) | Implements an HTTP-triggered Google Cloud Function that uploads files to Cloud Storage using the Firebase Emulator Suite for local development. |
+| **Cloud Functions** | [gcp-cloud-sql](./src/gcp-cloud-sql/) | Processes CSV files uploaded to Cloud Storage using a triggered Cloud Function that inserts the data into a local PostgreSQL database. |
 | **Cloud Run** | [gcp-cloud-run](./src/gcp-cloud-run/) | Deploys a containerized Google Cloud Run service that registers patient data in Firestore using the Firebase Emulator Suite and Python. |
+| **Cloud SQL (Postgres)** | [gcp-cloud-sql](./src/gcp-cloud-sql/) | Processes CSV files uploaded to Cloud Storage using a triggered Cloud Function that inserts the data into a local PostgreSQL database. |
 
 ### 🟢 Hybrid & Others
 
