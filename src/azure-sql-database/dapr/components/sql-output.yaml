@@ -1,0 +1,11 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: sql-output
+# Dapr interacts with SQL Edge
+spec:
+  type: bindings.sql
+  version: v1
+  metadata:
+  - name: connectionString
+    value: "Server=azure-sql-edge,1433;Database=master;User Id=sa;Password=Password123!;Encrypt=False;TrustServerCertificate=True;"

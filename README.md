@@ -53,6 +53,7 @@ Some examples appear multiple times because they integrate several cloud service
 | **Blob Storage** | [azurite-docker](./src/azurite-docker/) | Implements local Azure Blob Storage operations like creating containers and uploading/downloading blobs using Azurite and Python. |
 | **Blob Storage** | [azure-functions](./src/azure-functions/) | Creates an HTTP-triggered Azure Function that uploads files to local blob storage emulated by Azurite, using Python and Docker Compose. |
 | **Cosmos DB** | [azure-cosmos-db](./src/azure-cosmos-db/) | Integrates a Python application with the Azure Cosmos DB Emulator running in Docker to perform basic database operations locally. |
+| **Azure SQL** | [azure-sql-database](./src/azure-sql-database/) | Processes CSV files uploaded to Azurite (Blob Storage) using a Dapr-driven FastAPI application that inserts data into Azure SQL Edge. |
 | **Azure Functions** | [azure-functions](./src/azure-functions/) | Creates an HTTP-triggered Azure Function that uploads files to local blob storage emulated by Azurite, using Python and Docker Compose. |
 | **Databricks** | [databricks-docker](./src/databricks-docker/) | Simulates a high-fidelity Databricks environment (Runtime 15.4 LTS) using Docker, MinIO for S3 storage, and PostgreSQL for the Hive Metastore to test Spark and Delta Lake ETLs. |
 

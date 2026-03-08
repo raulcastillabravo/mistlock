@@ -1,0 +1,22 @@
+{
+  "name": "Azure SQL Dev",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-python.python"
+      ]
+    }
+  },
+  "containerEnv": {
+    "PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  },
+  "postCreateCommand": "scripts/setup-mve.sh",
+  "runArgs": [
+    "--network=host"
+  ]
+}

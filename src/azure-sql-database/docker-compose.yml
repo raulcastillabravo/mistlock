@@ -1,0 +1,55 @@
+services:
+  # Python App
+  app:
+    build: .
+    container_name: azure-sql-app
+    ports:
+      - "8000:8000"
+    environment:
+      - DAPR_HTTP_PORT=3500
+    depends_on:
+      - dapr
+
+  # Dapr Sidecar
+  dapr:
+    image: "daprio/daprd:latest"
+    container_name: azure-sql-dapr
+    command: [
+      "./daprd",
+      "-app-id", "azure-sql-app",
+      "-app-port", "8000",
+      "-app-protocol", "http",
+      "-components-path", "/dapr/components",
+      "-dapr-http-port", "3500",
+      "-log-level", "debug"
+    ]
+    volumes:
+      - ./dapr/components:/dapr/components
+    depends_on:
+      - azurite
+      - azure-sql-edge
+
+  # Azurite (Emulator for Azure Blob Storage)
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    container_name: azurite_local
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    command: "azurite-blob --blobHost 0.0.0.0"
+
+  # Azure SQL Edge (Lighter SQL Server)
+  azure-sql-edge:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: sql_local
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password123!
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
