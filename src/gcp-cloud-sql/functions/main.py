@@ -17,9 +17,6 @@ class User(Base):
     name = Column(String)
     email = Column(String)
 
-# Initialize database schema
-Base.metadata.create_all(engine)
-
 @storage_fn.on_object_finalized(bucket=STORAGE_BUCKET)
 def process_csv(event: storage_fn.CloudEvent):
     bucket = storage_client.bucket(event.data.bucket)

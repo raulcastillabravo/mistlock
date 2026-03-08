@@ -10,6 +10,7 @@ services:
       - POSTGRES_DB=mve_db
     volumes:
       - gcp_postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
 
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm

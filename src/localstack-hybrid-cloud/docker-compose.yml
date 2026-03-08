@@ -1,6 +1,6 @@
 services:
   localstack:
-    image: localstack/localstack:latest
+    image: localstack/localstack:4.14
     container_name: localstack_hybrid
     ports:
       - "4566:4566"

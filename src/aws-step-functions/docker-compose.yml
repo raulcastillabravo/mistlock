@@ -1,6 +1,6 @@
 services:
   localstack:
-    image: localstack/localstack
+    image: localstack/localstack:4.14
     container_name: localstack_aws_step_functions
     ports:
       - "4566:4566"
