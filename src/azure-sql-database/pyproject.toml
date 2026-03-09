@@ -1,12 +1,14 @@
 [project]
 name = "azure-sql-database"
 version = "0.1.0"
-description = "Azure SQL MVE with Dapr, Azurite and SQL Edge"
+description = "Azure SQL MVE with Azure Functions and SQLAlchemy"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "fastapi",
-    "uvicorn",
-    "dapr",
+    "requests",
     "python-dotenv",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

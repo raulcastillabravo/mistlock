@@ -1,119 +1,142 @@
-# Azure SQL Database con Dapr
+# Azure SQL Database + Azure Functions
 
-Ejemplo mínimo viable (MVE) que demuestra un flujo orientado a eventos: procesamiento de un archivo CSV subido a Azurite (Azure Blob Storage) e inserción de los registros en Azure SQL Edge mediante dapr bindings.
+Ejemplo mínimo viable para trabajar con **Azure SQL Edge** usando **Azure Functions** y **SQLAlchemy**. Este ejemplo demuestra cómo procesar peticiones HTTP POST y persistir datos en una base de datos SQL.
 
-## Arquitectura
+## Estructura del Proyecto
 
-```mermaid
-architecture-beta
-    service blob_sender(internet)[Subida CSV]
-    group azurite_group(cloud)[Emulación Local]
-        service azurite(disk)[Azurite Blob]
-        service sql_edge(database)[Azure SQL Edge]
-    group dapr_group(server)[Flujo de Eventos]
-        service dapr(server)[Dapr Sidecar]
-        service app(server)[FastAPI App]
-
-    blob_sender:R -- L:azurite
-    azurite:R -- L:daprd
-    daprd:R -- L:app
-    app:L -- R:daprd
-    daprd:L -- R:sql_edge
 ```
-[![Ver Diagrama](https://img.shields.io/badge/Ver_Diagrama-Instalar-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
-
-## Índice
-- [Inicio Rápido (Dev Container)](#inicio-rápido-dev-container)
-- [Paso a Paso (Setup Local)](#paso-a-paso-setup-local)
-- [Componentes del Proyecto](#componentes-del-proyecto)
-- [Validación](#validación)
-- [Limpieza](#limpieza)
-
----
-
-## Inicio Rápido (Dev Container)
-
-**Requisitos**: [Docker](https://www.docker.com/get-started) y [Extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers).
-
-1. Pulsa `F1` y selecciona: **Dev Containers: Reopen in Container**.
-2. Ejecuta `docker compose up -d`.
-3. Espera a la inicialización de SQL: `scripts/init-sql.sh`.
-4. Sube un CSV a Azurite y comprueba la tabla de SQL.
-5. Limpiar: `docker compose down -v`.
-
----
-
-## Paso a Paso (Setup Local)
-
-### 1. Iniciar Infraestructura
-Arranca todos los servicios incluyendo Dapr y SQL:
-```bash
-docker compose up -d
+azure-sql-database/
+├── .devcontainer/
+│   └── devcontainer.json
+├── sql/
+│   └── init.sql            # Script de inicialización de DB
+├── scripts/
+│   ├── setup-mve.sh        # Configuración del entorno
+│   └── init-sql.sh         # Inicialización de tablas SQL
+├── src/function/
+│   ├── function_app.py     # Lógica de la Azure Function
+│   ├── database.py         # Modelos SQLAlchemy
+│   └── host.json
+├── docker-compose.yml      # Infraestructura de SQL Edge
+├── main.py                 # Script de prueba (envío de POST)
+├── pyproject.toml
+└── README.md
 ```
 
-### 2. Configurar Entorno
-Instala dependencias y herramientas con el script de configuración estandarizado:
-```bash
-scripts/setup-mve.sh
-```
+## Prerrequisitos
 
-### 3. Inicializar Tablas SQL
-La tabla SQL debe crearse una vez que SQL Edge esté en funcionamiento:
+- Docker y Docker Compose instalados
+- VS Code con la extensión Dev Containers (Recomendado)
+- Azure Functions Core Tools (Se instalan automáticamente en el Dev Container)
+
+## Opción 1: Usando Dev Container (Recomendado)
+
+### Paso 1: Abrir el Proyecto en el Dev Container
+
+1. Abre VS Code en la carpeta del proyecto
+2. Presiona `F1` o `Ctrl+Shift+P` y selecciona: **Dev Containers: Reopen in Container**
+3. Espera a que el contenedor se construya y las dependencias se instalen
+
+### Paso 2: Inicializar la Base de Datos
+
+Ejecuta el script de inicialización para crear la base de datos y las tablas:
+
 ```bash
 scripts/init-sql.sh
 ```
 
-### 4. Ejecutar el Ejemplo
-La aplicación ya se está ejecutando dentro del contenedor `app` vía Docker Compose. Puedes monitorear los logs para verificar la conectividad:
+### Paso 3: Ejecutar la Azure Function
+
+Inicia el runtime local de Azure Functions:
+
 ```bash
-docker compose logs -f app
+cd src/function
+func start
 ```
 
-### 5. Validación
-Sube un CSV de ejemplo llamado `sample.csv`.
+### Paso 4: Ejecutar el Ejemplo
 
-**Contenido de Ejemplo (`sample.csv`):**
-```csv
-name,email
-Alice,alice@example.com
-Bob,bob@example.com
-```
+En una nueva terminal, ejecuta el script de prueba:
 
-**Subida a Azurite:**
-Puedes usar cualquier explorador de almacenamiento o un comando curl estándar si el contenedor existe:
 ```bash
-# Subir datos de ejemplo al contenedor 'inbound'
-curl -X PUT -H "x-ms-blob-type: BlockBlob" \
-     --data-binary @sample.csv \
-     "http://localhost:10000/devstoreaccount1/inbound/sample.csv"
+python main.py
 ```
 
-**Consultar SQL Edge:**
-Verifica que los datos se insertaron:
+## Opción 2: Configuración Local (Sin Dev Container)
+
+### Paso 1: Levantar Infraestructura
+
+Inicia el contenedor de SQL Edge:
+
 ```bash
-docker exec -it sql_local /opt/mssql-tools/bin/sqlcmd \
-  -S localhost -U sa -P Password123! \
-  -Q "SELECT * FROM users"
+docker compose up -d
 ```
 
----
+### Paso 2: Configurar Entorno
+
+Ejecuta el script de configuración estandarizado:
+
+```bash
+scripts/setup-mve.sh
+```
+
+### Paso 3: Inicializar SQL
+
+```bash
+scripts/init-sql.sh
+```
+
+### Paso 4: Ejecutar la Función y Probar
+
+```bash
+cd src/function
+func start
+# En otra terminal
+python main.py
+```
+
+## Validación
+
+### Opción A: Extensión SQL Server para VS Code
+
+1. Instala la extensión **SQL Server (mssql)**.
+2. Haz clic en el **icono de SQL Server** en la barra de actividad.
+3. Haz clic en **Add Connection (+)**.
+4. Usa los siguientes detalles:
+   - **Server name**: `localhost`
+   - **Authentication Type**: `SQL Login`
+   - **User name**: `sa`
+   - **Password**: `Password123!`
+   - **Database**: `UserDB` (Créala con `init-sql.sh` primero)
+
+### Opción B: Terminal (CURL)
+
+Puedes verificar la función directamente usando `curl`:
+
+```bash
+curl -X POST http://localhost:7071/api/users \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Jane Smith", "email": "jane@example.com"}'
+```
 
 ## Componentes del Proyecto
 
-### Aplicación FastAPI (`main.py`)
-- **`process_blob`**: Disparado por Dapr cuando llega un nuevo blob. Parsea las filas del CSV y usa el cliente de Dapr para llamar al SQL Binding.
+### Azure Function (`src/function/function_app.py`)
 
-### Componentes Dapr (`dapr/components/`)
-- **`blob-input.yaml`**: Monitoriza el contenedor `inbound` en Azurite.
-- **`sql-output.yaml`**: Se conecta a Azure SQL Edge para ejecutar sentencias `INSERT`.
+- **`register_user`**: Trigger HTTP que recibe un payload JSON y utiliza `database.py` para persistirlo.
 
----
+### Capa de Base de Datos (`src/function/database.py`)
+
+- **SQLAlchemy**: Utilizado para gestionar la conexión y los modelos ORM para `UserDB`.
 
 ## Limpieza
-Elimina todos los servicios y volúmenes:
+
+Para eliminar contenedores y volúmenes:
+
 ```bash
 docker compose down -v
 ```
 
 ## Licencia
-Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según necesites.
+
+Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

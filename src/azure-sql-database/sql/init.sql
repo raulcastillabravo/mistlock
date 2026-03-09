@@ -1,10 +1,19 @@
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='users' AND xtype='U')
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'UserDB')
 BEGIN
-    CREATE TABLE users (
-        id INT IDENTITY(1,1) PRIMARY KEY,
-        name NVARCHAR(100),
-        email NVARCHAR(100),
-        created_at DATETIME DEFAULT GETDATE()
+    CREATE DATABASE UserDB;
+END
+GO
+
+USE UserDB;
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Users')
+BEGIN
+    CREATE TABLE Users (
+        Id INT PRIMARY KEY IDENTITY(1,1),
+        Name NVARCHAR(100) NOT NULL,
+        Email NVARCHAR(100) NOT NULL UNIQUE,
+        CreatedAt DATETIME DEFAULT GETDATE()
     );
 END
 GO

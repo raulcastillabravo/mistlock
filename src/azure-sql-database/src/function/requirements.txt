@@ -1,0 +1,4 @@
+azure-functions
+sqlalchemy
+pyodbc
+python-dotenv

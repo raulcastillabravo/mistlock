@@ -8,7 +8,9 @@ export PATH="$HOME/.local/bin:$PATH"
 # Run mise tasks
 mise install -y
 uv sync
-uv lock
 
-echo "✓ Azure SQL MVE Environment ready!"
-echo "Next: docker compose up -d"
+# Install Azure Functions Core Tools if not present
+if ! command -v func &> /dev/null; then
+    echo "Installing Azure Functions Core Tools..."
+    npm install -g azure-functions-core-tools@4 --unsafe-perm true
+fi
