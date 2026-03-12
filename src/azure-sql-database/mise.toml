@@ -1,0 +1,17 @@
+[tools]
+python = "3.12"
+uv = "latest"
+azure-functions-core-tools = "latest"
+
+[env]
+DAPR_HTTP_PORT = "3500"
+AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;"
+SQL_CONNECTION_STRING = "Server=localhost,1433;Database=master;User Id=sa;Password=Password123!;Encrypt=False;TrustServerCertificate=True;"
+
+[tasks.setup]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.init-sql]
+description = "Initialize SQL tables"
+run = "docker exec -i azure_sql_edge /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -d master < sql/init.sql"
