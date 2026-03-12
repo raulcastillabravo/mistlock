@@ -13,7 +13,7 @@ def get_engine():
     db = os.getenv('POSTGRES_DB')
 
     connection_string = f"postgresql://{user}:{password}@{host}:{port}/{db}"
-    return create_engine(connection_string, echo=True)
+    return create_engine(connection_string)
 
 
 def get_session():

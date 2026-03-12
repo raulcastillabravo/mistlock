@@ -40,7 +40,12 @@ This is the recommended way to run the example.
     ```bash
     python main.py
     ```
-3.  **Clean Up**:
+3.  **Verify Results**:
+    - **SQLTools (VS Code)**: Use the preconfigured connection in the **SQLTools** explorer to query the `users` table:
+      ```sql
+      SELECT * FROM users;
+      ```
+4.  **Clean Up**:
     ```bash
     docker compose down -v
     ```
@@ -92,6 +97,21 @@ You can connect directly to the database to verify the data:
 
 ```bash
 docker exec -it postgres_local psql -U admin -d testdb -c "SELECT * FROM users;"
+```
+
+### Option C: Database Client
+
+Connect using **SQLTools** (preconfigured in Dev Container) or [DBeaver](https://dbeaver.io/download/):
+
+- **Host**: `localhost`
+- **Port**: `5432`
+- **Database**: `testdb`
+- **Credentials**: `admin` / `admin123`
+
+And run:
+
+```sql
+SELECT * FROM users;
 ```
 
 ## Clean Up

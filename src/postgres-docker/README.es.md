@@ -6,11 +6,11 @@ Ejemplo mínimo viable para trabajar con PostgreSQL utilizando Docker Compose, S
 
 ```mermaid
 architecture-beta
-    group docker(cloud:[Docker Compose])
-        service app(server:[Python App]) in docker
-        service db(database:[PostgreSQL]) in docker
+    group docker(cloud)[Docker Compose]
+        service app(server)[Python App] in docker
+        service db(database)[PostgreSQL] in docker
 
-    app:L -- R:db
+    app:R -- L:db
 ```
 
 [![Ver Diagrama](https://img.shields.io/badge/Ver_Diagrama-Instalar-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
@@ -40,7 +40,12 @@ Esta es la forma recomendada de ejecutar el ejemplo.
     ```bash
     python main.py
     ```
-3.  **Limpieza**:
+3.  **Verificar Resultados**:
+    - **SQLTools (VS Code)**: Utiliza la conexión preconfigurada en el explorador de **SQLTools** para consultar la tabla `users`:
+      ```sql
+      SELECT * FROM users;
+      ```
+4.  **Limpieza**:
     ```bash
     docker compose down -v
     ```
@@ -92,6 +97,21 @@ Puedes conectarte directamente a la base de datos para verificar los datos:
 
 ```bash
 docker exec -it postgres_local psql -U admin -d testdb -c "SELECT * FROM users;"
+```
+
+### Opción C: Cliente de Base de Datos
+
+Conéctate usando **SQLTools** (preconfigurado en Dev Container) o [DBeaver](https://dbeaver.io/download/):
+
+- **Host**: `localhost`
+- **Port**: `5432`
+- **Base de datos**: `testdb`
+- **Credenciales**: `admin` / `admin123`
+
+Y ejecuta:
+
+```sql
+SELECT * FROM users;
 ```
 
 ## Limpieza
