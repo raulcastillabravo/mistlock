@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:15-alpine
+    image: postgres:latest
     container_name: postgres_local
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -10,6 +10,15 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    network_mode: host
+    command: sleep infinity
 
 volumes:
   postgres_data:

@@ -1,15 +1,8 @@
-from models import Base, User, get_engine, get_session
-
-
-def create_tables():
-    """Create all tables in the database"""
-    engine = get_engine()
-    Base.metadata.create_all(engine)
-    print("✓ Tables created successfully")
+from src.models.user import User
+from src.models.utils import get_session
 
 
 def insert_sample_data():
-    """Insert sample users into the database"""
     session = get_session()
 
     try:
@@ -37,9 +30,6 @@ def insert_sample_data():
 
 
 if __name__ == "__main__":
-    print("Creating tables...")
-    create_tables()
-
     print("\nInserting sample data...")
     insert_sample_data()
 

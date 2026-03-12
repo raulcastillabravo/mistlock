@@ -1,0 +1,16 @@
+{
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Postgres",
+      "database": "testdb",
+      "username": "admin",
+      "password": "admin123"
+    }
+  ]
+}

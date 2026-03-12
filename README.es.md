@@ -75,7 +75,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 | **MinIO** | [minio-docker-boto3](./src/minio-docker-boto3/) | Demuestra operaciones de almacenamiento de objetos compatibles con S3 usando MinIO, el SDK Boto3 y pandas para gestionar archivos CSV localmente. |
 | **MinIO** | [minio-docker-delta](./src/minio-docker-delta/) | Implementa transacciones ACID y capacidades de "time travel" en MinIO usando Delta Lake (delta-rs) y Python para un almacenamiento de datos local fiable. |
 | **Mongo** | [mongo-docker-mongoengine](./src/mongo-docker-mongoengine/) | Integra Python con MongoDB usando el ODM MongoEngine y Docker Compose para el desarrollo local de bases de datos NoSQL. |
-| **Postgres** | [postgres-docker-sqlalchemy](./src/postgres-docker-sqlalchemy/) | Configura una base de datos PostgreSQL con el ORM SQLAlchemy y Docker Compose para el desarrollo y prueba de bases de datos relacionales estándar. |
+| **Postgres** | [postgres-docker](./src/postgres-docker/) | Configura una base de datos PostgreSQL con el ORM SQLAlchemy y Docker Compose para el desarrollo y prueba de bases de datos relacionales estándar. |
 | **Postgres** | [localstack-hybrid-cloud](./src/localstack-hybrid-cloud/) | Demuestra la interacción con una base de datos PostgreSQL externa desde un entorno AWS simulado en LocalStack. |
 | **Redis** | [redis-docker](./src/redis-docker/) | Implementa operaciones básicas de Redis usando el cliente de Python redis y Docker para caché local y almacenamiento de estructuras de datos. |
 | **Redis** | [redis-docker-mutex](./src/redis-docker-mutex/) | Implementa un mutex (bloqueo) distribuido usando Redis para coordinar el acceso a recursos compartidos entre múltiples procesos o hilos. |

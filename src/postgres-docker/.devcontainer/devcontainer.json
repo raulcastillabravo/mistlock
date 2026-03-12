@@ -1,0 +1,23 @@
+{
+	"name": "Postgres Docker Dev",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "dev",
+	"workspaceFolder": "/app",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"mtxr.sqltools",
+				"mtxr.sqltools-driver-pg",
+				"mermaidchart.vscode-mermaid-chart"
+			]
+		}
+	},
+	"containerEnv": {
+		"PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+	},
+	"postCreateCommand": "scripts/setup-mve.sh"
+}
