@@ -8,15 +8,19 @@ Ejemplo mínimo viable para trabajar con **Azure SQL Edge** usando **Azure Funct
 azure-sql-database/
 ├── .devcontainer/
 │   └── devcontainer.json
+├── functions/
+│   └── register_user.py    # Lógica de la función (Blueprint)
+├── shared/
+│   └── database.py         # Modelos SQLAlchemy
 ├── sql/
 │   └── init.sql            # Script de inicialización de DB
 ├── scripts/
 │   ├── setup-mve.sh        # Configuración del entorno
 │   └── init-sql.sh         # Inicialización de tablas SQL
-├── src/function/
-│   ├── function_app.py     # Lógica de la Azure Function
-│   ├── database.py         # Modelos SQLAlchemy
-│   └── host.json
+├── .funcignore
+├── function_app.py         # Punto de entrada de la Azure Function
+├── host.json
+├── local.settings.json
 ├── docker-compose.yml      # Infraestructura de SQL Edge
 ├── main.py                 # Script de prueba (envío de POST)
 ├── pyproject.toml
@@ -37,24 +41,15 @@ azure-sql-database/
 2. Presiona `F1` o `Ctrl+Shift+P` y selecciona: **Dev Containers: Reopen in Container**
 3. Espera a que el contenedor se construya y las dependencias se instalen
 
-### Paso 2: Inicializar la Base de Datos
-
-Ejecuta el script de inicialización para crear la base de datos y las tablas:
-
-```bash
-scripts/init-sql.sh
-```
-
-### Paso 3: Ejecutar la Azure Function
+### Paso 2: Ejecutar la Azure Function
 
 Inicia el runtime local de Azure Functions:
 
 ```bash
-cd src/function
 func start
 ```
 
-### Paso 4: Ejecutar el Ejemplo
+### Paso 3: Ejecutar el Ejemplo
 
 En una nueva terminal, ejecuta el script de prueba:
 
@@ -80,16 +75,9 @@ Ejecuta el script de configuración estandarizado:
 scripts/setup-mve.sh
 ```
 
-### Paso 3: Inicializar SQL
+### Paso 3: Ejecutar la Función y Probar
 
 ```bash
-scripts/init-sql.sh
-```
-
-### Paso 4: Ejecutar la Función y Probar
-
-```bash
-cd src/function
 func start
 # En otra terminal
 python main.py
@@ -103,11 +91,12 @@ python main.py
 2. Haz clic en el **icono de SQL Server** en la barra de actividad.
 3. Haz clic en **Add Connection (+)**.
 4. Usa los siguientes detalles:
-   - **Server name**: `localhost`
+   - **Server name**: `azure-sql-edge`
    - **Authentication Type**: `SQL Login`
    - **User name**: `sa`
    - **Password**: `Password123!`
-   - **Database**: `UserDB` (Créala con `init-sql.sh` primero)
+   - **Trust Server Certificate**: `True` (Esencial para conexión local)
+   - **Database**: `UserDB` (Creada automáticamente durante el setup)
 
 ### Opción B: Terminal (CURL)
 
@@ -121,13 +110,17 @@ curl -X POST http://localhost:7071/api/users \
 
 ## Componentes del Proyecto
 
-### Azure Function (`src/function/function_app.py`)
+### Azure Function App (`function_app.py`)
 
-- **`register_user`**: Trigger HTTP que recibe un payload JSON y utiliza `database.py` para persistirlo.
+- **Root Entrypoint**: Configura la FunctionApp y registra los blueprints del directorio `functions/`.
 
-### Capa de Base de Datos (`src/function/database.py`)
+### Lógica de la Función (`functions/register_user.py`)
 
-- **SQLAlchemy**: Utilizado para gestionar la conexión y los modelos ORM para `UserDB`.
+- **`register_user`**: Trigger HTTP (vía Blueprint) que recibe un payload JSON y utiliza la capa de base de datos compartida para persistirlo.
+
+### Capa de Base de Datos (`shared/database.py`)
+
+- **SQLAlchemy**: Módulo centralizado para modelos de base de datos y lógica de conexión usando SQLAlchemy ORM.
 
 ## Limpieza
 

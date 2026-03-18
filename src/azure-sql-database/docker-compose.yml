@@ -6,11 +6,21 @@ services:
       - "1433:1433"
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Password123!
+      - MSSQL_SA_PASSWORD=${SQL_PASSWORD}
     networks:
       - azure-net
     volumes:
       - sql_data:/var/opt/mssql
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: azurite
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    networks:
+      - azure-net
 
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm

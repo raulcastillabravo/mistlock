@@ -1,0 +1,18 @@
+{
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "mssql.connections": [
+    {
+      "server": "azure-sql-edge",
+      "database": "UserDB",
+      "authenticationType": "SqlLogin",
+      "user": "sa",
+      "password": "",
+      "profileName": "Azure SQL Edge (Local)",
+      "trustServerCertificate": true,
+      "groupId": "ROOT",
+      "id": "4BE136B5-A2E9-476F-9E9C-B002E30000D5",
+      "profileSource": 0,
+      "containerName": "azure_sql_edge"
+    }
+  ]
+}

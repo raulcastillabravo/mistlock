@@ -1,0 +1,5 @@
+.venv/
+tests/
+local.settings.json
+.vscode/
+.devcontainer/

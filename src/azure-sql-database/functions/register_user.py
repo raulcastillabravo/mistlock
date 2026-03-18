@@ -1,11 +1,10 @@
 import azure.functions as func
 import logging
-import json
-from database import save_user
+from shared.database import save_user
 
-app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+bp = func.Blueprint()
 
-@app.route(route="users", methods=["POST"])
+@bp.route(route="users", methods=["POST"])
 def register_user(req: func.HttpRequest) -> func.HttpResponse:
     """HTTP Trigger that receives user data and saves it to SQL.
     
@@ -32,7 +31,7 @@ def register_user(req: func.HttpRequest) -> func.HttpResponse:
             status_code=201
         )
     except Exception as e:
-        logging.error(f"Error saving user: {str(e)}")
+        logging.info(f"Error saving user: {str(e)}")
         return func.HttpResponse(
             f"An error occurred: {str(e)}",
             status_code=500

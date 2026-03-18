@@ -1,9 +1,0 @@
-{
-  "IsEncrypted": false,
-  "Values": {
-    "AzureWebJobsStorage": "",
-    "FUNCTIONS_WORKER_RUNTIME": "python",
-    "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
-    "SQL_CONNECTION_STRING": "Driver={ODBC Driver 18 for SQL Server};Server=localhost,1433;Database=UserDB;UID=sa;PWD=Password123!;Encrypt=no;TrustServerCertificate=yes;"
-  }
-}

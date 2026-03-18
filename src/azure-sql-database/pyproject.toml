@@ -5,10 +5,10 @@ description = "Azure SQL MVE with Azure Functions and SQLAlchemy"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "requests",
+    "azure-functions",
+    "sqlalchemy",
+    "pyodbc",
     "python-dotenv",
+    "requests",
 ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
