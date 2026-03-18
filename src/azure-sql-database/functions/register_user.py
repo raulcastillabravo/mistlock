@@ -1,5 +1,6 @@
 import azure.functions as func
-from shared.database import save_user
+from shared.db_utils import get_session
+from shared.user import User
 
 bp = func.Blueprint()
 
@@ -13,11 +14,13 @@ def register_user(req: func.HttpRequest) -> func.HttpResponse:
     req_body = req.get_json()
     name = req_body['name']
     email = req_body['email']
+    new_user = User(Name=name, Email=email)
 
-    save_user(name, email)
+    with get_session() as session:
+        session.add(new_user)
+        session.commit()
 
     return func.HttpResponse(
         f"User {name} successfully registered!",
         status_code=201
     )
-

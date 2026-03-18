@@ -2,133 +2,114 @@
 
 Ejemplo mínimo viable para trabajar con **Azure SQL Edge** usando **Azure Functions** y **SQLAlchemy**. Este ejemplo demuestra cómo procesar peticiones HTTP POST y persistir datos en una base de datos SQL.
 
-## Estructura del Proyecto
+## Arquitectura
 
-```
-azure-sql-database/
-├── .devcontainer/
-│   └── devcontainer.json
-├── functions/
-│   └── register_user.py    # Lógica de la función (Blueprint)
-├── shared/
-│   └── database.py         # Modelos SQLAlchemy
-├── sql/
-│   └── init.sql            # Script de inicialización de DB
-├── scripts/
-│   ├── setup-mve.sh        # Configuración del entorno
-│   └── init-sql.sh         # Inicialización de tablas SQL
-├── .funcignore
-├── function_app.py         # Punto de entrada de la Azure Function
-├── host.json
-├── local.settings.json
-├── docker-compose.yml      # Infraestructura de SQL Edge
-├── main.py                 # Script de prueba (envío de POST)
-├── pyproject.toml
-└── README.md
+```mermaid
+architecture-beta
+    group api(cloud)[Azure]
+    
+    service function(server)[Azure Function] in api
+    service sql(database)[Azure SQL Database] in api
+    
+   sql:L -- R:function
 ```
 
-## Prerrequisitos
+[![Ver Diagrama](https://img.shields.io/badge/Ver_Diagrama-Instalar-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
-- Docker y Docker Compose instalados
-- VS Code con la extensión Dev Containers (Recomendado)
-- Azure Functions Core Tools (Se instalan automáticamente en el Dev Container)
+## Índice
 
-## Opción 1: Usando Dev Container (Recomendado)
+- [Quickstart (Dev Container)](#quickstart-dev-container)
+- [Paso a Paso (sin Dev Container)](#paso-a-paso-sin-dev-container)
+- [Validación](#validación)
+- [Limpieza](#limpieza)
+- [Solución de Problemas](#solución-de-problemas)
+- [Licencia](#licencia)
 
-### Paso 1: Abrir el Proyecto en el Dev Container
+## Quickstart (Dev Container)
 
-1. Abre VS Code en la carpeta del proyecto
-2. Presiona `F1` o `Ctrl+Shift+P` y selecciona: **Dev Containers: Reopen in Container**
-3. Espera a que el contenedor se construya y las dependencias se instalen
+### Prerrequisitos
 
-### Paso 2: Ejecutar la Azure Function
+- [Docker](https://www.docker.com/get-started) instalado.
+- [Extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers) de VS Code instalada.
 
-Inicia el runtime local de Azure Functions:
+### Pasos
 
-```bash
-func start
-```
+1. **Abrir en Contenedor**: Abre VS Code en la carpeta del proyecto y selecciona **Dev Containers: Reopen in Container** desde la Paleta de Comandos (`F1`).
+2. **Iniciar Azurite**: Desde la Paleta de Comandos (`F1`), selecciona **Azurite: Start Blob Service**. Esto inicia el emulador de almacenamiento de blobs local necesario para el runtime de Azure Functions.
+3. **Ejecutar la Función**:
+   ```bash
+   func start
+   ```
+4. **Ejecutar el Ejemplo**:
+   ```bash
+   python main.py
+   ```
 
-### Paso 3: Ejecutar el Ejemplo
+💡 **Próximos Pasos**: Consulta las secciones de [Validación](#validación) y [Limpieza](#limpieza) a continuación.
 
-En una nueva terminal, ejecuta el script de prueba:
+## Paso a Paso (sin Dev Container)
 
-```bash
-python main.py
-```
-
-## Opción 2: Configuración Local (Sin Dev Container)
-
-### Paso 1: Levantar Infraestructura
-
-Inicia el contenedor de SQL Edge:
-
+### 1. Iniciar Infraestructura
+Levanta los contenedores de SQL Edge y Azurite:
 ```bash
 docker compose up -d
 ```
 
-### Paso 2: Configurar Entorno
-
-Ejecuta el script de configuración estandarizado:
-
+### 2. Configurar Entorno
+Instala dependencias y herramientas del sistema usando mise:
 ```bash
 scripts/setup-mve.sh
 ```
 
-### Paso 3: Ejecutar la Función y Probar
+### 3. Iniciar Azurite
+Desde la Paleta de Comandos (`F1`), selecciona **Azurite: Start Blob Service**. Esto inicia el emulador de almacenamiento de blobs local necesario para el runtime de Azure Functions.
 
+### 4. Ejecutar la Función
+Inicia el runtime local de Azure Functions:
 ```bash
 func start
-# En otra terminal
+```
+
+### 5. Ejecutar el Cliente
+En una nueva terminal, ejecuta el script de prueba:
+```bash
 python main.py
 ```
 
 ## Validación
 
-### Opción A: Extensión SQL Server para VS Code
+Este MVE incluye un perfil de conexión pre-configurado para la extensión **SQL Server (mssql)** en `.vscode/settings.json`.
 
-1. Instala la extensión **SQL Server (mssql)**.
-2. Haz clic en el **icono de SQL Server** en la barra de actividad.
-3. Haz clic en **Add Connection (+)**.
-4. Usa los siguientes detalles:
-   - **Server name**: `azure-sql-edge`
-   - **Authentication Type**: `SQL Login`
-   - **User name**: `sa`
-   - **Password**: `Password123!`
-   - **Trust Server Certificate**: `True` (Esencial para conexión local)
-   - **Database**: `UserDB` (Creada automáticamente durante el setup)
+1. Abre la extensión **SQL Server** en VS Code.
+2. Selecciona el perfil de conexión `Azure SQL Edge (Local)`.
+3. Ejecuta el siguiente comando SQL para verificar los datos:
+   ```sql
+   SELECT * FROM Users;
+   ```
 
-### Opción B: Terminal (CURL)
-
-Puedes verificar la función directamente usando `curl`:
-
-```bash
-curl -X POST http://localhost:7071/api/users \
-     -H "Content-Type: application/json" \
-     -d '{"name": "Jane Smith", "email": "jane@example.com"}'
-```
-
-## Componentes del Proyecto
-
-### Azure Function App (`function_app.py`)
-
-- **Root Entrypoint**: Configura la FunctionApp y registra los blueprints del directorio `functions/`.
-
-### Lógica de la Función (`functions/register_user.py`)
-
-- **`register_user`**: Trigger HTTP (vía Blueprint) que recibe un payload JSON y utiliza la capa de base de datos compartida para persistirlo.
-
-### Capa de Base de Datos (`shared/database.py`)
-
-- **SQLAlchemy**: Módulo centralizado para modelos de base de datos y lógica de conexión usando SQLAlchemy ORM.
+### Datos de Conexión Manual
+Si prefieres conectarte manualmente (ej. usando DBeaver):
+- **Server**: `azure-sql-edge` (usa `localhost` si te conectas desde fuera del contenedor)
+- **Port**: `1433`
+- **Database**: `UserDB`
+- **Username**: `sa`
+- **Password**: `Password123!`
+- **Encryption**: `False`
+- **Trust Server Certificate**: `True`
 
 ## Limpieza
 
-Para eliminar contenedores y volúmenes:
-
+Para detener los servicios y eliminar el estado:
 ```bash
 docker compose down -v
 ```
+
+## Solución de Problemas
+
+| Problema | Solución |
+|----------|----------|
+| `ImportError: libodbc.so.2` | Ejecuta `scripts/setup-mve.sh` para instalar las dependencias ODBC del sistema. |
+| Error `AzureWebJobsStorage` | Asegúrate de iniciar el servicio de blobs de Azurite en VS Code (**Azurite: Start Blob Service**) y de que el puerto 10000 esté libre. |
 
 ## Licencia
 

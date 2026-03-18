@@ -6,6 +6,10 @@ azure-functions-core-tools = "latest"
 [settings]
 env_file = ".env"
 
+[tasks.odbc-install]
+description = "Install Microsoft ODBC driver for SQL Server"
+run = "scripts/install-odbc.sh"
+
 [tasks.setup]
 description = "Sync python dependencies"
 run = "uv sync"

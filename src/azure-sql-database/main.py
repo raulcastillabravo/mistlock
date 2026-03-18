@@ -1,7 +1,12 @@
+import os
 import requests
 import json
+from dotenv import load_dotenv
 
-FUNCTION_URL = "http://localhost:7071/api/users"
+load_dotenv()
+
+# Azure Function endpoint
+FUNCTION_URL = os.getenv("FUNCTION_URL")
 
 def register_test_user(name, email):
     payload = {
