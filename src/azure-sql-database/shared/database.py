@@ -8,8 +8,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Get connection string from environment variables
-# Format: Driver={ODBC Driver 18 for SQL Server};Server=localhost,1433;Database=UserDB;UID=sa;PWD=Password123!;Encrypt=no;TrustServerCertificate=yes;
 connection_string = os.getenv("SQL_CONNECTION_STRING")
 
 # SQLAlchemy requires a specific prefix

@@ -16,7 +16,9 @@
         "ms-python.python",
         "ms-azuretools.vscode-docker",
         "ms-azuretools.vscode-azurefunctions",
-        "ms-mssql.mssql"
+        "ms-mssql.mssql",
+        "azurite.azurite",
+        "ms-azuretools.vscode-azurestorage"
       ]
     }
   },
