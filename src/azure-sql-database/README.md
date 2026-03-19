@@ -61,6 +61,9 @@ Install dependencies and system tools using mise:
 scripts/setup-mve.sh
 ```
 
+ℹ️ **Note**: The ODBC driver installation script is configured for Debian-based systems. For other operating systems, please refer to the [official Microsoft documentation](https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver17&tabs=alpine18-install%2Calpine17-install%2Cdebian8-install%2Credhat7-13-install%2Crhel7-offline).
+
+
 ### 3. Start Azurite
 From the Command Palette (`F1`), select **Azurite: Start Blob Service**. This starts the local blob storage emulator required by the Azure Functions runtime.
 
