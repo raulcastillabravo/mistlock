@@ -5,6 +5,6 @@ set -e
 export PATH="$HOME/.local/bin:$PATH"
 
 mise install -y
-mise run odbc-install
+mise run install-obdc
 mise run setup
 mise run init-sql

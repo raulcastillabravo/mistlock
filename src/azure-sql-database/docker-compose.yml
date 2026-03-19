@@ -7,8 +7,6 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${SQL_PASSWORD}
-    networks:
-      - azure-net
     volumes:
       - sql_data:/var/opt/mssql
 
@@ -18,13 +16,7 @@ services:
     volumes:
       - .:/app:cached
     working_dir: /app
-    networks:
-      - azure-net
     command: sleep infinity
-
-networks:
-  azure-net:
-    name: azure-net
 
 volumes:
   sql_data:

@@ -6,7 +6,7 @@ azure-functions-core-tools = "latest"
 [settings]
 env_file = ".env"
 
-[tasks.odbc-install]
+[tasks.install-obdc]
 description = "Install Microsoft ODBC driver for SQL Server"
 run = "scripts/install-odbc.sh"
 

@@ -55,6 +55,7 @@ Some examples appear multiple times because they integrate several cloud service
 | **Cosmos DB** | [azure-cosmos-db](./src/azure-cosmos-db/) | Integrates a Python application with the Azure Cosmos DB Emulator running in Docker to perform basic database operations locally. |
 | **Azure SQL** | [azure-sql-database](./src/azure-sql-database/) | Inserts user data into Azure SQL Edge via a Python HTTP-triggered Azure Function using SQLAlchemy. |
 | **Azure Functions** | [azure-functions](./src/azure-functions/) | Creates an HTTP-triggered Azure Function that uploads files to local blob storage emulated by Azurite, using Python and Docker Compose. |
+| **Azure Functions** | [azure-sql-database](./src/azure-sql-database/) | Inserts user data into Azure SQL Edge via a Python HTTP-triggered Azure Function using SQLAlchemy. |
 | **Databricks** | [databricks-docker](./src/databricks-docker/) | Simulates a high-fidelity Databricks environment (Runtime 15.4 LTS) using Docker, MinIO for S3 storage, and PostgreSQL for the Hive Metastore to test Spark and Delta Lake ETLs. |
 
 ### 🔴 GCP (Google Cloud Platform)
