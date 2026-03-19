@@ -1,0 +1,22 @@
+services:
+  azure-sql-edge:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: azure_sql_edge
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${SQL_PASSWORD}
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    container_name: dev
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    command: sleep infinity
+
+volumes:
+  sql_data:

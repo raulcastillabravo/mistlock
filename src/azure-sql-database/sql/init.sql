@@ -1,0 +1,19 @@
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'UserDB')
+BEGIN
+    CREATE DATABASE UserDB;
+END
+GO
+
+USE UserDB;
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Users')
+BEGIN
+    CREATE TABLE Users (
+        Id INT PRIMARY KEY IDENTITY(1,1),
+        Name NVARCHAR(100) NOT NULL,
+        Email NVARCHAR(100) NOT NULL UNIQUE,
+        CreatedAt DATETIME DEFAULT GETDATE()
+    );
+END
+GO

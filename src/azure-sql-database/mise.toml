@@ -1,0 +1,19 @@
+[tools]
+python = "3.12"
+uv = "latest"
+azure-functions-core-tools = "latest"
+
+[settings]
+env_file = ".env"
+
+[tasks.install-obdc]
+description = "Install Microsoft ODBC driver for SQL Server"
+run = "scripts/install-odbc.sh"
+
+[tasks.setup]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.init-sql]
+description = "Initialize SQL tables"
+run = "docker exec -i azure_sql_edge /opt/mssql-tools/bin/sqlcmd -S localhost -U {{env.SQL_USER}} -P {{env.SQL_PASSWORD}} -d master < sql/init.sql"
