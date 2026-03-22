@@ -1,4 +1,4 @@
-# Azure SQL Database + Azure Functions
+# Azure SQL Database
 
 Ejemplo mínimo viable para trabajar con **Azure SQL Edge** usando **Azure Functions** y **SQLAlchemy**. Este ejemplo demuestra cómo procesar peticiones HTTP POST y persistir datos en una base de datos SQL.
 

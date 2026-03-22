@@ -1,0 +1,28 @@
+services:
+  garage:
+    image: dxflrs/garage:v2.2.0
+    container_name: garage
+    ports:
+      - "3900:3900" # S3 API
+      - "3903:3903" # Admin API
+    volumes:
+      - ./garage.toml:/etc/garage.toml
+      - garage_meta:/var/lib/garage/meta
+      - garage_data:/var/lib/garage/data
+    restart: always
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    container_name: dev
+    depends_on:
+      - garage
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    command: sleep infinity
+
+volumes:
+  garage_meta:
+  garage_data:
+
+

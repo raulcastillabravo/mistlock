@@ -1,0 +1,36 @@
+[tools]
+python = "3.12"
+uv = "latest"
+awscli = "latest"
+jq = "latest"
+
+[settings]
+env_file = ".env"
+
+[tasks.setup]
+description = "Full environment setup"
+depends = ["install-garage", "sync", "garage-init", "aws-config"]
+
+[tasks.install-garage]
+description = "Copy garage binary from container"
+run = "sudo docker cp garage:/garage /usr/local/bin/garage"
+
+[tasks.sync]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.garage-init]
+description = "Initialize Garage buckets and keys"
+run = "scripts/setup-garage.sh"
+
+[tasks.aws-config]
+description = "Configure AWS CLI profile for Garage"
+run = """
+source .env.garage
+aws configure set aws_access_key_id $S3_ACCESS_KEY --profile garage
+aws configure set aws_secret_access_key $S3_SECRET_KEY --profile garage
+aws configure set region garage --profile garage
+aws configure set endpoint_url http://localhost:3900 --profile garage
+"""
+
+
