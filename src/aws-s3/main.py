@@ -1,91 +1,61 @@
 import os
+import io
 import pandas as pd
 import pyarrow as pa
-import pyarrow.parquet as pq
-from pyarrow.fs import S3FileSystem
-import boto3
 from dotenv import load_dotenv
-from deltalake import write_deltalake, DeltaTable
 
-# Load environment variables
+from src.components.s3_boto import S3Boto
+from src.components.s3_file_system import S3FileSystemComponent
+from src.components.s3_delta import S3Delta
+
 load_dotenv()
-load_dotenv(".env.garage")
-
-# Configuration
-ENDPOINT_URL = os.environ["S3_ENDPOINT"]
-ACCESS_KEY = os.environ["S3_ACCESS_KEY"]
-SECRET_KEY = os.environ["S3_SECRET_KEY"]
-REGION_NAME = os.environ["AWS_DEFAULT_REGION"]
-
-BRONZE_BUCKET = os.environ["S3_BUCKET_BRONZE"]
-SILVER_BUCKET = os.environ["S3_BUCKET_SILVER"]
-
-STORAGE_OPTIONS = {
-    "AWS_ACCESS_KEY_ID": ACCESS_KEY,
-    "AWS_SECRET_ACCESS_KEY": SECRET_KEY,
-    "AWS_ENDPOINT_URL": ENDPOINT_URL,
-    "AWS_REGION": REGION_NAME,
-    "AWS_ALLOW_HTTP": "true",
-    "AWS_S3_ALLOW_UNSAFE_RENAME": "true",
-}
 
 def main():
-    s3_client = boto3.client(
-        "s3",
-        endpoint_url=ENDPOINT_URL,
-        aws_access_key_id=ACCESS_KEY,
-        aws_secret_access_key=SECRET_KEY,
-        region_name=REGION_NAME,
-    )
+    # Configuration
+    BRONZE_BUCKET = os.environ["S3_BUCKET_BRONZE"]
+    SILVER_BUCKET = os.environ["S3_BUCKET_SILVER"]
 
-    s3_filesystem = S3FileSystem(
-        endpoint_override=ENDPOINT_URL,
-        access_key=ACCESS_KEY,
-        secret_key=SECRET_KEY,
-        region=REGION_NAME,
-        scheme='http',
-    )
+    # Component instantiation
+    s3_boto = S3Boto()
+    s3_fs = S3FileSystemComponent()
+    s3_delta = S3Delta()
 
-    # 1. Upload Parquet to Bronze
-    print(f"--- 1. Uploading Parquet to {BRONZE_BUCKET} ---")
+    # 1. Sample data
     data = {
         "product_id": [1, 2, 3],
         "name": ["Laptop", "Mouse", "Keyboard"],
         "price": [1200.0, 25.5, 75.0]
     }
     df = pd.DataFrame(data)
+
+    # 2. S3Boto CSV flow
+    print(f"--- 1. S3Boto: CSV in {BRONZE_BUCKET}/csv/ ---")
+    csv_path = f"{BRONZE_BUCKET}/csv/products.csv"
+    s3_boto.put_object(csv_path, df.to_csv(index=False).encode())
     
-    # Create PyArrow table and write to S3
+    csv_bytes = s3_boto.get_object(csv_path)
+    csv_df = pd.read_csv(io.BytesIO(csv_bytes))
+    print("✓ CSV read with S3Boto:")
+    print(csv_df)
+
+    # 3. S3FileSystem Parquet flow
+    print(f"--- 2. S3FileSystem: Parquet in {BRONZE_BUCKET}/parquet/ ---")
+    pq_path = f"{BRONZE_BUCKET}/parquet/products.parquet"
     table = pa.Table.from_pandas(df)
-    parquet_path = f"{BRONZE_BUCKET}/products.parquet"
+    s3_fs.write_table(pq_path, table)
     
-    pq.write_table(table, parquet_path, filesystem=s3_filesystem)
-    print("✓ Parquet uploaded.")
+    pq_table = s3_fs.read_table(pq_path)
+    print("✓ Parquet read with S3FileSystem:")
+    print(pq_table.to_pandas())
 
-    # 2. Read Parquet from Bronze using S3FileSystem
-    print(f"--- 2. Reading Parquet from {BRONZE_BUCKET} ---")
-    table = pq.read_table(parquet_path, filesystem=s3_filesystem)
-    print("✓ Data read from S3:")
-    print(table.to_pandas())
-
-    # 3. Write to Silver as Delta Lake
-    print(f"--- 3. Writing to {SILVER_BUCKET} as Delta Lake ---")
-    silver_path = f"s3://{SILVER_BUCKET}/products_delta"
+    # 4. S3Delta flow
+    print(f"--- 3. S3Delta: Delta Table in {SILVER_BUCKET}/delta/ ---")
+    delta_path = f"s3://{SILVER_BUCKET}/delta/products"
+    s3_delta.write_table(delta_path, table)
     
-    write_deltalake(
-        silver_path,
-        table,
-        mode="overwrite",
-        storage_options=STORAGE_OPTIONS
-    )
-    print("✓ Delta table written.")
-
-    # 4. Read from Silver and display
-    print(f"--- 4. Reading from {SILVER_BUCKET} ---")
-    dt = DeltaTable(silver_path, storage_options=STORAGE_OPTIONS)
-    result_df = dt.to_pandas()
-    print("✓ Final data:")
-    print(result_df)
+    delta_table = s3_delta.read_table(delta_path)
+    print("✓ Delta Table read with S3Delta:")
+    print(delta_table.to_pandas())
 
 if __name__ == "__main__":
     main()

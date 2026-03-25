@@ -19,11 +19,21 @@ SECRET_KEY=$(echo "$KEY_INFO" | jq -r .secretAccessKey)
 # Grant bucket creation permission to the key
 $GARAGE_CMD key allow dev-key --create-bucket
 
-# Save to .env.garage
-echo "Saving credentials to .env.garage..."
-cat <<EOF > .env.garage
-S3_ACCESS_KEY=$ACCESS_KEY
-S3_SECRET_KEY=$SECRET_KEY
-EOF
+# Update .env
+ENV_FILE=".env"
+echo "Updating $ENV_FILE with credentials..."
+
+upsert_env_var() {
+    local key=$1
+    local value=$2
+    if grep -q "^${key}=" "$ENV_FILE"; then
+        sed -i "s|^${key}=.*|${key}=${value}|" "$ENV_FILE"
+    else
+        echo "${key}=${value}" >> "$ENV_FILE"
+    fi
+}
+
+upsert_env_var "S3_ACCESS_KEY" "$ACCESS_KEY"
+upsert_env_var "S3_SECRET_KEY" "$SECRET_KEY"
 
 echo "Garage key setup completed."
