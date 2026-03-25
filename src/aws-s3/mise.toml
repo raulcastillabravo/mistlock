@@ -7,30 +7,41 @@ jq = "latest"
 [settings]
 env_file = ".env"
 
-[tasks.setup]
-description = "Full environment setup"
-depends = ["install-garage", "sync", "garage-init", "aws-config"]
-
-[tasks.install-garage]
-description = "Copy garage binary from container"
-run = "sudo docker cp garage:/garage /usr/local/bin/garage"
-
 [tasks.sync]
 description = "Sync python dependencies"
 run = "uv sync"
 
-[tasks.garage-init]
-description = "Initialize Garage buckets and keys"
-run = "scripts/setup-garage.sh"
+[tasks.setup-garage-layout]
+description = "Assign roles and apply Garage layout"
+run = "scripts/setup-garage-layout.sh"
+
+[tasks.create-garage-key]
+description = "Create Garage API key"
+run = "scripts/create-garage-key.sh"
 
 [tasks.aws-config]
 description = "Configure AWS CLI profile for Garage"
 run = """
-source .env.garage
+. ./.env.garage
 aws configure set aws_access_key_id $S3_ACCESS_KEY --profile garage
 aws configure set aws_secret_access_key $S3_SECRET_KEY --profile garage
 aws configure set region garage --profile garage
 aws configure set endpoint_url http://localhost:3900 --profile garage
 """
 
+[tasks.create-buckets]
+description = "Create bronze and silver buckets using AWS CLI"
+run = """
+aws s3 mb s3://$S3_BUCKET_BRONZE --profile garage --endpoint-url $S3_ENDPOINT
+aws s3 mb s3://$S3_BUCKET_SILVER --profile garage --endpoint-url $S3_ENDPOINT
+"""
 
+[tasks.setup]
+description = "Full environment setup"
+run = [
+  { task = "sync" },
+  { task = "setup-garage-layout" },
+  { task = "create-garage-key" },
+  { task = "aws-config" },
+  { task = "create-buckets" }
+]

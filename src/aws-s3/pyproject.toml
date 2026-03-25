@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
     "python-dotenv",
+    "pandas",
     "pyarrow",
     "deltalake",
     "boto3",

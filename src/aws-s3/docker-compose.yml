@@ -14,6 +14,7 @@ services:
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
     container_name: dev
+    network_mode: host
     depends_on:
       - garage
     volumes:

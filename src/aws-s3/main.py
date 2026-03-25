@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import pyarrow as pa
+import pyarrow.parquet as pq
+from pyarrow.fs import S3FileSystem
 import boto3
 from dotenv import load_dotenv
 from deltalake import write_deltalake, DeltaTable
@@ -36,27 +38,33 @@ def main():
         region_name=REGION_NAME,
     )
 
-    # 1. Upload CSV to Bronze
-    print(f"--- 1. Uploading CSV to {BRONZE_BUCKET} ---")
+    s3_filesystem = S3FileSystem(
+        endpoint_override=ENDPOINT_URL,
+        access_key=ACCESS_KEY,
+        secret_key=SECRET_KEY,
+        region=REGION_NAME,
+        scheme='http',
+    )
+
+    # 1. Upload Parquet to Bronze
+    print(f"--- 1. Uploading Parquet to {BRONZE_BUCKET} ---")
     data = {
         "product_id": [1, 2, 3],
         "name": ["Laptop", "Mouse", "Keyboard"],
         "price": [1200.0, 25.5, 75.0]
     }
     df = pd.DataFrame(data)
-    csv_content = df.to_csv(index=False)
     
-    s3_client.put_object(
-        Bucket=BRONZE_BUCKET,
-        Key="products.csv",
-        Body=csv_content
-    )
-    print("✓ CSV uploaded.")
+    # Create PyArrow table and write to S3
+    table = pa.Table.from_pandas(df)
+    parquet_path = f"{BRONZE_BUCKET}/products.parquet"
+    
+    pq.write_table(table, parquet_path, filesystem=s3_filesystem)
+    print("✓ Parquet uploaded.")
 
-    # 2. Read CSV from Bronze using pyarrow
-    print(f"--- 2. Reading CSV from {BRONZE_BUCKET} ---")
-    obj = s3_client.get_object(Bucket=BRONZE_BUCKET, Key="products.csv")
-    table = pa.csv.read_csv(obj["Body"])
+    # 2. Read Parquet from Bronze using S3FileSystem
+    print(f"--- 2. Reading Parquet from {BRONZE_BUCKET} ---")
+    table = pq.read_table(parquet_path, filesystem=s3_filesystem)
     print("✓ Data read from S3:")
     print(table.to_pandas())
 
