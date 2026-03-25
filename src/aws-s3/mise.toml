@@ -32,8 +32,8 @@ aws configure set endpoint_url http://localhost:3900 --profile garage
 [tasks.create-buckets]
 description = "Create bronze and silver buckets using AWS CLI"
 run = """
-aws s3 mb s3://$S3_BUCKET_BRONZE --profile garage --endpoint-url $S3_ENDPOINT
-aws s3 mb s3://$S3_BUCKET_SILVER --profile garage --endpoint-url $S3_ENDPOINT
+aws s3 mb s3://$S3_BUCKET_BRONZE
+aws s3 mb s3://$S3_BUCKET_SILVER
 """
 
 [tasks.setup]

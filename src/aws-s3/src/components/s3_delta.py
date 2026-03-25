@@ -4,8 +4,10 @@ from deltalake import write_deltalake, DeltaTable
 
 
 class S3Delta:
+    _storage_options: dict[str, str] = None
+
     def __init__(self):
-        self.storage_options: dict[str, str] = {
+        self._storage_options = {
             "AWS_ACCESS_KEY_ID": os.environ["S3_ACCESS_KEY"],
             "AWS_SECRET_ACCESS_KEY": os.environ["S3_SECRET_KEY"],
             "AWS_ENDPOINT_URL": os.environ["S3_ENDPOINT"],
@@ -16,7 +18,7 @@ class S3Delta:
 
     def read_table(self, path: str) -> pa.Table:
         return DeltaTable(
-            path, storage_options=self.storage_options
+            path, storage_options=self._storage_options
         ).to_pyarrow_table()
 
     def write_table(self, path: str, table: pa.Table):
@@ -24,5 +26,5 @@ class S3Delta:
             path,
             table,
             mode="overwrite",
-            storage_options=self.storage_options,
+            storage_options=self._storage_options,
         )
