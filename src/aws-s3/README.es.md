@@ -6,12 +6,12 @@ Ejemplo mínimo viable para trabajar con **AWS S3** usando **Garage** como emula
 
 ```mermaid
 architecture-beta
-    group local[Entorno Local]
+    group local(cloud)[AWS]
     
-    service garage(server)[Garage S3] in local
-    service app(server)[App Python] in local
+    service garage(disk)[Garage S3] in local
+    service app(server)[Python App] in local
     
-    app:L -- R:garage
+    garage:L -- R:app
 ```
 
 [![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
@@ -56,13 +56,7 @@ Instala las dependencias y herramientas del sistema usando mise:
 scripts/setup.sh
 ```
 
-### 3. Inicializar Garage
-El script de configuración ya maneja esto, pero puedes ejecutar las tareas individualmente si es necesario:
-```bash
-mise run setup
-```
-
-### 4. Ejecutar el Ejemplo
+### 3. Ejecutar el Ejemplo
 Ejecuta el script de demostración:
 ```bash
 python main.py
@@ -72,20 +66,20 @@ python main.py
 
 Explica cómo verificar que el ejemplo funciona correctamente.
 
-1. **Verificar Buckets**: Comprueba que los buckets `bronze` y `silver` fueron creados.
+1. **Comprobar Buckets**: Verifica que se hayan creado los buckets `bronze` y `silver`.
    ```bash
-   aws s3 ls --profile garage --endpoint-url http://localhost:3900
+   aws s3 ls --profile garage
    ```
-2. **Verificar Tabla Delta**: Comprueba los archivos en el bucket silver.
+2. **Comprobar Contenido**: Verifica que se hayan subido los archivos.
    ```bash
-   aws s3 ls s3://silver/products_delta/ --recursive --profile garage --endpoint-url http://localhost:3900
+   aws s3 ls s3://silver --recursive --profile garage
    ```
-
-### Detalles de Conexión
-- **Endpoint**: `http://localhost:3900`
-- **Región**: `garage`
-- **Perfil**: `garage`
-- **Buckets**: `bronze`, `silver`
+3. **Explorar con Rclone (GUI)**:
+   Levanta la interfaz gráfica de Rclone para explorar los archivos visualmente:
+   ```bash
+   scripts/rclone-gui.sh
+   ```
+   Navega a `http://127.0.0.1:5572` en tu navegador.
 
 ## Limpieza
 

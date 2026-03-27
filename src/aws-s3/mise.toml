@@ -36,6 +36,10 @@ aws s3 mb s3://$S3_BUCKET_BRONZE
 aws s3 mb s3://$S3_BUCKET_SILVER
 """
 
+[tasks.install-rclone]
+description = "Install rclone"
+run = "curl https://rclone.org/install.sh | sudo bash"
+
 [tasks.setup]
 description = "Full environment setup"
 run = [
@@ -43,5 +47,6 @@ run = [
   { task = "setup-garage-layout" },
   { task = "create-garage-key" },
   { task = "aws-config" },
-  { task = "create-buckets" }
+  { task = "create-buckets" },
+  { task = "install-rclone" },
 ]

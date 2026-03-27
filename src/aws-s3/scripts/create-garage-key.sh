@@ -38,7 +38,7 @@ upsert_env_var "S3_ACCESS_KEY" "$ACCESS_KEY"
 upsert_env_var "S3_SECRET_KEY" "$SECRET_KEY"
 
 # Update rclone.conf if it exists
-RCLONE_CONF="rclone.conf"
+RCLONE_CONF="config/rclone.conf"
 if [[ -f "$RCLONE_CONF" ]]; then
     echo "Updating $RCLONE_CONF with credentials..."
     sed -i "s|^access_key_id =.*|access_key_id = $ACCESS_KEY|" "$RCLONE_CONF"

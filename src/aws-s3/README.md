@@ -6,12 +6,12 @@ Minimal viable example to work with **AWS S3** using **Garage** as a local emula
 
 ```mermaid
 architecture-beta
-    group local[Local Environment]
+    group local(cloud)[AWS]
     
-    service garage(server)[Garage S3] in local
+    service garage(disk)[Garage S3] in local
     service app(server)[Python App] in local
     
-    app:L -- R:garage
+    garage:L -- R:app
 ```
 
 [![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
@@ -56,13 +56,7 @@ Install dependencies and system tools using mise:
 scripts/setup.sh
 ```
 
-### 3. Initialize Garage
-The setup script already handles this, but you can run the tasks individually if needed:
-```bash
-mise run setup
-```
-
-### 4. Run Example
+### 3. Run Example
 Execute the demonstration script:
 ```bash
 python main.py
@@ -74,18 +68,18 @@ Explain how to verify the example is working correctly.
 
 1. **Check Buckets**: Verify that `bronze` and `silver` buckets were created.
    ```bash
-   aws s3 ls --profile garage --endpoint-url http://localhost:3900
+   aws s3 ls --profile garage
    ```
-2. **Check Delta Table**: Verify the files in the silver bucket.
+2. **Check Content**: Verify the files in the silver bucket.
    ```bash
-   aws s3 ls s3://silver/products_delta/ --recursive --profile garage --endpoint-url http://localhost:3900
+   aws s3 ls s3://silver --recursive --profile garage
    ```
-
-### Connection Details
-- **Endpoint**: `http://localhost:3900`
-- **Region**: `garage`
-- **Profile**: `garage`
-- **Buckets**: `bronze`, `silver`
+3. **Explore with Rclone (GUI)**:
+   Launch the Rclone graphical interface to explore the files visually:
+   ```bash
+   scripts/rclone-gui.sh
+   ```
+   Navigate to `http://127.0.0.1:5572` in your browser.
 
 ## Clean Up
 
