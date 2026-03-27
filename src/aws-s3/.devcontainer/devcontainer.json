@@ -15,7 +15,8 @@
       "extensions": [
         "ms-python.python",
         "mermaidchart.vscode-mermaid-chart",
-        "amazonwebservices.aws-toolkit-vscode"
+        "amazonwebservices.aws-toolkit-vscode",
+        "tamasfe.even-better-toml"
       ]
     }
   },

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Ref: https://git.deuxfleurs.fr/Deuxfleurs/garage/src/branch/main-v2/script/dev-bucket.sh
 
 set -e
 
@@ -35,5 +36,13 @@ upsert_env_var() {
 
 upsert_env_var "S3_ACCESS_KEY" "$ACCESS_KEY"
 upsert_env_var "S3_SECRET_KEY" "$SECRET_KEY"
+
+# Update rclone.conf if it exists
+RCLONE_CONF="rclone.conf"
+if [[ -f "$RCLONE_CONF" ]]; then
+    echo "Updating $RCLONE_CONF with credentials..."
+    sed -i "s|^access_key_id =.*|access_key_id = $ACCESS_KEY|" "$RCLONE_CONF"
+    sed -i "s|^secret_access_key =.*|secret_access_key = $SECRET_KEY|" "$RCLONE_CONF"
+fi
 
 echo "Garage key setup completed."

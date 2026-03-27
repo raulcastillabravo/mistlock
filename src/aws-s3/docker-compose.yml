@@ -11,6 +11,15 @@ services:
       - garage_data:/var/lib/garage/data
     restart: always
 
+  rclone-ui:
+    image: rclone/rclone
+    container_name: rclone-ui
+    ports:
+      - "5572:5572"
+    volumes:
+      - ./rclone.conf:/config/rclone/rclone.conf
+    command: rcd --rc-web-gui --rc-no-auth --rc-web-gui-no-open-browser --rc-addr :5572
+
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
     container_name: dev

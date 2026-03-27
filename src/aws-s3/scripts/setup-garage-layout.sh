@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Ref: https://git.deuxfleurs.fr/Deuxfleurs/garage/src/branch/main-v2/script/dev-configure.sh
 
 set -e
 
