@@ -3,6 +3,7 @@ python = "3.12"
 uv = "latest"
 awscli = "latest"
 jq = "latest"
+rclone = "latest"
 
 [settings]
 env_file = ".env"
@@ -36,10 +37,6 @@ aws s3 mb s3://$S3_BUCKET_BRONZE
 aws s3 mb s3://$S3_BUCKET_SILVER
 """
 
-[tasks.install-rclone]
-description = "Install rclone"
-run = "curl https://rclone.org/install.sh | sudo bash"
-
 [tasks.setup]
 description = "Full environment setup"
 run = [
@@ -48,5 +45,4 @@ run = [
   { task = "create-garage-key" },
   { task = "aws-config" },
   { task = "create-buckets" },
-  { task = "install-rclone" },
 ]
