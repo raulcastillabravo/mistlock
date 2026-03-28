@@ -1,0 +1,28 @@
+{
+  "name": "AWS S3",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/app",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "mermaidchart.vscode-mermaid-chart",
+        "amazonwebservices.aws-toolkit-vscode",
+        "tamasfe.even-better-toml"
+      ]
+    }
+  },
+  "containerEnv": {
+    "AWS_PROFILE": "garage",
+    "PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  },
+  "postCreateCommand": "scripts/setup.sh"
+}

@@ -37,6 +37,7 @@ Some examples appear multiple times because they integrate several cloud service
 | Service | MVE | Description |
 | :--- | :--- | :--- |
 | **S3** | [aws-lambda](./src/aws-lambda/) | Deploys a Lambda function that uploads objects to S3, emulated with LocalStack, Terraform, CloudFormation, and Boto3. |
+| **S3** | [aws-s3](./src/aws-s3/) | Emulates S3 locally using Garage to implement a data pipeline with Boto3, PyArrow, and Delta Lake. |
 | **S3** | [aws-dynamo-db](./src/aws-dynamo-db/) | Demonstrates a file processing pipeline where S3 uploads trigger a Lambda to log metadata into a DynamoDB table, all emulated with LocalStack, Terraform, and CloudFormation. |
 | **Dynamo DB** | [aws-dynamo-db](./src/aws-dynamo-db/) | Demonstrates a file processing pipeline where S3 uploads trigger a Lambda to log metadata into a DynamoDB table, all emulated with LocalStack, Terraform, and CloudFormation. |
 | **Dynamo DB** | [aws-step-functions](./src/aws-step-functions/) | Orchestrates a user onboarding workflow with AWS Step Functions that executes parallel Lambdas and logs results to DynamoDB, using LocalStack and the AWS Toolkit. |
