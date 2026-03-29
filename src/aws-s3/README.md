@@ -35,6 +35,9 @@ architecture-beta
 ### Steps
 
 1. **Open in Container**: Open VS Code in the project folder and select **Dev Containers: Reopen in Container** from the Command Palette (`F1`).
+
+   ℹ️ **Note**: Garage S3 connection keys are automatically refreshed when starting or restarting the development environment. Use the ones generated in your `.env`, not the ones from the repository.
+
 2. **Run the Example**:
    ```bash
    python main.py
@@ -55,6 +58,8 @@ Install dependencies and system tools using mise:
 ```bash
 scripts/setup.sh
 ```
+
+ℹ️ **Note**: Garage S3 connection keys are automatically refreshed when starting or restarting the development environment. Use the ones generated in your `.env`, not the ones from the repository.
 
 ### 3. Run Example
 Execute the demonstration script:
