@@ -35,6 +35,9 @@ architecture-beta
 ### Pasos
 
 1. **Abrir en Contenedor**: Abre VS Code en la carpeta del proyecto y selecciona **Dev Containers: Reopen in Container** desde la Paleta de Comandos (`F1`).
+
+   ℹ️ **Nota**: Las claves de conexión al S3 de Garage se refrescan automáticamente al iniciar o reiniciar el entorno de desarrollo. Usa las generadas en tu `.env`, no las del repositorio.
+
 2. **Ejecutar el Ejemplo**:
    ```bash
    python main.py
@@ -55,6 +58,8 @@ Instala las dependencias y herramientas del sistema usando mise:
 ```bash
 scripts/setup.sh
 ```
+
+ℹ️ **Nota**: Las claves de conexión al S3 de Garage se refrescan automáticamente al iniciar o reiniciar el entorno de desarrollo. Usa las generadas en tu `.env`, no las del repositorio.
 
 ### 3. Ejecutar el Ejemplo
 Ejecuta el script de demostración:
