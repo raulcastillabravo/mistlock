@@ -5,11 +5,10 @@ set -e
 
 GARAGE_CMD="docker exec garage /garage"
 
-# Clean up existing keys with the same name to avoid duplicates
-$GARAGE_CMD key list | (grep 'dev-key' || true) | awk '{print $1}' | while read -r id; do
-    echo "Deleting existing key $id..."
-    $GARAGE_CMD key delete "$id" --yes || true
-done
+if $GARAGE_CMD key list | grep -q 'dev-key'; then
+    echo "Key 'dev-key' already exists in Garage. Skipping creation."
+    exit 0
+fi
 
 # Create API Key using docker exec
 echo "Creating API Key in Garage container..."
