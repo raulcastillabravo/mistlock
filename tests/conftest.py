@@ -7,16 +7,14 @@ import pytest
 @pytest.fixture(scope="module")
 def src_dir(request):
     """
-    It detects the path to the MVE source directory.
+    It detects the path to the MVE source directory by mirroring 
+    the tests/ directory structure in src/.
     """
-    # request.path is the Path to the current test file
-    mve_name = request.path.parent.name
-    
-    # rootdir is the location of the project root
-    path = os.path.abspath(os.path.join(request.config.rootdir, "src", mve_name))
+    rel_path = os.path.relpath(request.path.parent, os.path.join(request.config.rootdir, "tests"))
+    path = os.path.abspath(os.path.join(request.config.rootdir, "src", rel_path))
     
     if not os.path.exists(path):
-        raise NotImplementedError(f"Source directory not found for MVE: {mve_name}")
+        raise NotImplementedError(f"Source directory not found for MVE: {path}")
 
     return path
 
