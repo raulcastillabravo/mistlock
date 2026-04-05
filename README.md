@@ -95,8 +95,40 @@ There are two types of examples:
 | **Metabase** | • [metabase](./src/hybrid/mves/metabase/) | • *(coming soon)* |
 | **Dev Containers** | • [devcontainers](./src/hybrid/mves/devcontainers/) | • *(coming soon)* |
 
+## 🚀 Roadmap
+- <details>
+  <summary>[ ] Add one MVE for each service in the table above.</summary>
 
-_More examples coming soon..._
+  - 2026-04-20
+    - MVE Google Functions.
+    - MVE Azure Functions.
+    - MVE AWS Lambda using SAM Framework.
+  - Next batch:
+    - MVE Google Dataflow.
+    - MVE Azure Cosmos DB.
+    - MVE AWS Glue.
+  - Backlog:
+    - MVE AWS Lambda con MiniStack.
+    - MVE AWS ECS / EKS.
+    - MVE AWS S3 con RustFS.
+    - MVE AWS DynamoDB Official Image.
+    - MVE AWS Step Functions Official Image.
+    - MVE AWS SQS / SNS.
+    - MVE AWS Eventbridge.
+    - MVE AWS CloudFormation.
+    - Merge MinIO MVEs in one.
+    - MVE Azure Container Apps (ACA).
+    - MVE Azure SQL Edge.
+    - MVE Azure Service Bus.
+    - MVE Azure Event Grid.
+    - MVE Google Cloud Run.
+    - MVE Google Firebase Storage.
+    - MVE Google Firebase Firestore.
+    - MVE Google Firebase Pub/Sub.
+  </details>
+- [ ] Add tests and unify the structure of all MVEs and projects to follow the same pattern.
+- [ ] Create a GitHub Pages with repository documentation.
+- [ ] Record videos with explanations and demos for each MVE.
 
 ## 📝 License
 
