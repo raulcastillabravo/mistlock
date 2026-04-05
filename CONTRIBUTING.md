@@ -13,7 +13,11 @@ Therefore, there are three key points you should know if you want to collaborate
 * **MVE (Minimal Viable Examples)**: Examples should be as simple as possible. We don't intend to teach how to develop in the Cloud; we only want to show how to emulate it locally.
 * **One-click execution**: Examples must be executable with as few steps as possible, which is why we use **Dev Containers** to automate the entire environment.
 
-The examples in the repository will be used in the future to create **YouTube videos, talks, workshops, and courses**, and all contributors who have participated in the code development will be mentioned.
+## Note on Contributions 📝
+
+This repository serves as the foundation for my educational content. By submitting a Pull Request, you acknowledge and agree that your code may be featured in my **YouTube videos, talks, workshops, courses, software products, etc.** (both free and paid).
+
+In return, I will always maintain credit for your authorship in the project's history and mention you as a contributor. Thank you for helping this project grow!
 
 ## How to contribute 🛠️
 
@@ -84,7 +88,7 @@ Documentation must be bilingual (English and Spanish) and follow this section st
 * **Simplicity**: Direct, minimalist code without unnecessary abstractions.
 * **Dependencies**: Always managed with `pyproject.toml` and `uv`.
 
-## Happy coding!
+## Happy coding! 🥳
 
 That being said, I hope you enjoy this repository as much as I do and that it is of great help in your projects. Don't hesitate to open an issue, propose improvements, or open a PR to add changes, I'll be happy to read from you.
 

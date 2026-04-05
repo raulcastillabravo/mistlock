@@ -135,6 +135,10 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 - [ ] Crear una GitHub Pages con documentación del repositorio.
 - [ ] Grabar vídeos con explicaciones y demostraciones para cada MVE.
 
-## 📝 Licencia
+## 📝 Nota del autor
 
-Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.
+Este proyecto es la base del **contenido educativo** que genero en redes sociales (y mi mayor proyecto Open Source hasta la fecha 😄). 
+
+Es completamente gratuito y abierto para la comunidad, úsalo para **aprender y practicar con total libertad**. 
+
+Solo espero que te sea de gran utilidad y que lo apoyes para que otros desarrolladores también lo conozcan. Es el motor que me permite seguir creando **contenido y formación para la comunidad**.

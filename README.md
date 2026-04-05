@@ -132,6 +132,11 @@ There are two types of examples:
 - [ ] Create a GitHub Pages with repository documentation.
 - [ ] Record videos with explanations and demos for each MVE.
 
-## 📝 License
+## 📝 Author's Note
 
-This is a minimal example for educational purposes. Feel free to use and modify as needed.
+This project is the foundation of the **educational content** that I generate on social media (and my largest Open Source project to date 😄).
+
+It is completely free and open to the community; use it to **learn and practice with total freedom**.
+
+I only hope that it is of great use to you and that you support it so that other developers also know about it. It is the engine that allows me to continue creating **content and training for the community**.
+
