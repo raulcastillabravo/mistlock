@@ -27,7 +27,6 @@ architecture-beta
     - [7. Validación](#7-validación)
     - [8. Limpieza](#8-limpieza)
 - [Solución de problemas](#solución-de-problemas)
-- [Licencia](#licencia)
 
 ## Inicio Rápido (Dev Container)
 
@@ -254,6 +253,3 @@ docker compose down -v
 | **Conexión rechazada** | Asegúrate de que LocalStack esté ejecutándose y espera al mensaje `Ready.` en los logs. |
 | **Lambda no se dispara** | Verifica los logs: `aws logs tail /aws/lambda/s3-file-processor --profile localstack` |
 
-## Licencia
-
-Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

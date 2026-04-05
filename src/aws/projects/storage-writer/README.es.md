@@ -28,7 +28,6 @@ architecture-beta
     - [6. Validación](#7-validación)
     - [7. Limpieza](#8-limpieza)
 - [Solución de problemas](#solución-de-problemas)
-- [Licencia](#licencia)
 
 ---
 
@@ -203,6 +202,3 @@ docker compose down -v
 | **Timeout de Lambda** | Asegúrate de que LocalStack tenga suficientes recursos de memoria/CPU. |
 | **Conexión rechazada** | Asegúrate de que LocalStack esté ejecutándose y espera al mensaje `Ready.` en los logs. |
 
-## Licencia
-
-Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

@@ -228,6 +228,3 @@ docker rmi mongo:7-jammy
 - Implement aggregation pipelines
 - Add text search capabilities
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

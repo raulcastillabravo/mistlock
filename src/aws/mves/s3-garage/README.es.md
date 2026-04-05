@@ -23,7 +23,6 @@ architecture-beta
 - [Validación](#validación)
 - [Limpieza](#limpieza)
 - [Solución de Problemas](#solución-de-problemas)
-- [Licencia](#licencia)
 
 ## Quickstart (Dev Container)
 
@@ -100,6 +99,3 @@ docker compose down -v
 | API de Garage no lista | Asegúrate de que el contenedor `garage` esté funcionando y espera unos segundos a que la API se inicialice. Revisa los logs con `docker logs garage`. |
 | Puerto 3900 en uso | Detén cualquier otro servicio que use el puerto 3900 o cambia el mapeo en `docker-compose.yml`. |
 
-## Licencia
-
-Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

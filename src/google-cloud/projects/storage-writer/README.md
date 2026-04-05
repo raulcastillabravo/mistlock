@@ -379,6 +379,3 @@ rm -rf .firebase
 - Deploy to Google Cloud Functions
 - Integrate with other Firebase services (Firestore, Auth)
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

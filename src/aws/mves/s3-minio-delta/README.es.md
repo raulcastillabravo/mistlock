@@ -329,6 +329,3 @@ docker rmi minio/minio
 - Experimentar con particionado multinivel (ej. por año y mes)
 - Añadir selección de columnas para leer solo campos específicos
 
-## Licencia
-
-Este es un ejemplo mínimo con fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

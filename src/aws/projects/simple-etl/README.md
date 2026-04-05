@@ -27,7 +27,6 @@ architecture-beta
     - [7. Validation](#7-validation)
     - [8. Clean up](#8-clean-up)
 - [Troubleshooting](#troubleshooting)
-- [License](#license)
 
 ## Quickstart (Dev Container)
 
@@ -253,6 +252,3 @@ docker compose down -v
 | **Connection Refused** | Ensure LocalStack is running and wait for the `Ready.` message in logs. |
 | **Lambda Not Triggering** | Verify logs: `aws logs tail /aws/lambda/s3-file-processor --profile localstack` |
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

@@ -228,6 +228,3 @@ docker rmi mcr.microsoft.com/azure-storage/azurite
 - Implement Azure Functions with Azurite
 - Add unit tests for storage operations
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

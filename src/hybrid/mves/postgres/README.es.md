@@ -22,7 +22,6 @@ architecture-beta
 - [Validación](#validación)
 - [Limpieza](#limpieza)
 - [Solución de Problemas](#solución-de-problemas)
-- [Licencia](#licencia)
 
 ## Quickstart (Dev Container)
 
@@ -129,6 +128,3 @@ docker compose down -v
 | Puerto 5432 ya en uso | Cambia `POSTGRES_PORT` en `.env` y reinicia. |
 | Conexión rechazada | Asegúrate de que el contenedor postgres esté corriendo con `docker ps`. |
 
-## Licencia
-
-Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

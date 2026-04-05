@@ -335,6 +335,3 @@ docker rmi mcr.microsoft.com/azure-storage/azurite
 - Desplegar a Azure Functions en la nube
 - Añadir autenticación y autorización
 
-## Licencia
-
-Este es un ejemplo mínimo con fines educativos. Siéntete libre de usar y modificar según sea necesario.

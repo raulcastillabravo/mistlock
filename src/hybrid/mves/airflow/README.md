@@ -370,6 +370,3 @@ rm -rf logs/*
 - Create data lineage tracking
 - Implement data archiving strategies
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

@@ -23,7 +23,6 @@ architecture-beta
 - [Validación](#validación)
 - [Limpieza](#limpieza)
 - [Solución de Problemas](#solución-de-problemas)
-- [Licencia](#licencia)
 
 ## Quickstart (Dev Container)
 
@@ -113,6 +112,3 @@ docker compose down -v
 | `ImportError: libodbc.so.2` | Ejecuta `scripts/setup-mve.sh` para instalar las dependencias ODBC del sistema. |
 | Error `AzureWebJobsStorage` | Asegúrate de iniciar el servicio de blobs de Azurite en VS Code (**Azurite: Start Blob Service**) y de que el puerto 10000 esté libre. |
 
-## Licencia
-
-Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

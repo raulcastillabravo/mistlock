@@ -277,6 +277,3 @@ docker rmi redis:7-alpine
 - Implement distributed locking
 - Add Redis transactions
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

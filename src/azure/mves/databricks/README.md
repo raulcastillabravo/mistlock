@@ -156,6 +156,3 @@ docker compose down -v
 - Add more `dbutils.fs` mock methods.
 - Integrate with local BI tools connecting to the Hive Metastore.
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

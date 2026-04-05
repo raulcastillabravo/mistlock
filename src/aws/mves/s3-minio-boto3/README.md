@@ -274,6 +274,3 @@ docker rmi minio/minio
 - Implement file streaming for large files
 - Add unit tests for MinIO client operations
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

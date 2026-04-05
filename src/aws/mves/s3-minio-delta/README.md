@@ -321,6 +321,3 @@ docker rmi minio/minio
 - Experiment with multi-level partitioning (e.g., by year and month)
 - Add column selection to read only specific fields
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

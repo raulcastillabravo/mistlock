@@ -311,6 +311,3 @@ sudo rm /usr/local/bin/minikube
 - Implement Authentication using Firebase Auth Emulator
 - Add unit tests for the Flask application
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

@@ -227,6 +227,3 @@ docker compose down -v
 - Implementar un estado `Choice` para ramificar la lógica según la validación del email.
 - Añadir pruebas unitarias para las funciones Lambda.
 
-## Licencia
-
-Este es un ejemplo mínimo para fines educativos. Siéntete libre de usarlo y modificarlo según necesites.

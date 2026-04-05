@@ -484,6 +484,3 @@ For complex setups with multiple services:
 - **DevContainer Features**: [https://containers.dev/features](https://containers.dev/features)
 - **DevContainer Images**: [https://github.com/devcontainers/images](https://github.com/devcontainers/images)
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

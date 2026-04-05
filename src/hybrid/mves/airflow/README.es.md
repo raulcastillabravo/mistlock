@@ -368,6 +368,3 @@ rm -rf logs/*
 - Crear seguimiento de linaje de datos
 - Implementar estrategias de archivo de datos
 
-## Licencia
-
-Este es un ejemplo mínimo con fines educativos. Siéntete libre de usar y modificar según sea necesario.

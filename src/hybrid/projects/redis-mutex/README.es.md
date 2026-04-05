@@ -450,6 +450,3 @@ rm shared_file.txt
 - Añadir métricas y monitoreo para contención de bloqueos
 - Implementar pool de conexiones compartido para escenarios de alto rendimiento
 
-## Licencia
-
-Este es un ejemplo mínimo con fines educativos. Siéntete libre de usar y modificar según sea necesario.

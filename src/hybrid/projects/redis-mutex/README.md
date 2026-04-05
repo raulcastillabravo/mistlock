@@ -450,6 +450,3 @@ rm shared_file.txt
 - Add metrics and monitoring for lock contention
 - Implement shared connection pool for high-performance scenarios
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

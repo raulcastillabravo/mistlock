@@ -178,6 +178,3 @@ Para eliminar todo completamente:
 docker compose down -v
 ```
 
-## Licencia
-
-Este es un ejemplo mínimo con fines educativos. Siéntete libre de usarlo y modificarlo según sea necesario.

@@ -23,7 +23,6 @@ architecture-beta
 - [Validation](#validation)
 - [Clean Up](#clean-up)
 - [Troubleshooting](#troubleshooting)
-- [License](#license)
 
 ## Quickstart (Dev Container)
 
@@ -100,6 +99,3 @@ docker compose down -v
 | Garage API not ready | Ensure the `garage` container is running and wait a few seconds for the API to initialize. Check logs with `docker logs garage`. |
 | Port 3900 in use | Stop any other service using port 3900 or change the mapping in `docker-compose.yml`. |
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

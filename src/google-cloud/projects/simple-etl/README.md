@@ -37,7 +37,6 @@ architecture-beta
     - [5. Validation](#5-validation)
 - [Clean Up](#clean-up)
 - [Troubleshooting](#troubleshooting)
-- [License](#license)
 
 ---
 
@@ -150,6 +149,3 @@ docker compose down -v
 | **Java not found** | Ensure Java 11+ is installed (required by Firebase Emulators). |
 | **Functions not triggered** | Check `firebase-debug.log` for bucket name mismatches (must match `demo-` prefix). |
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

@@ -299,6 +299,3 @@ docker rmi metabase/metabase:latest postgres:15-alpine
 - Configure user permissions and sharing in Metabase
 - Add more tables to create a complete e-commerce database
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

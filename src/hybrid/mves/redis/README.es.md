@@ -277,6 +277,3 @@ docker rmi redis:7-alpine
 - Implementar bloqueo distribuido
 - Añadir transacciones de Redis
 
-## Licencia
-
-Este es un ejemplo mínimo con fines educativos. Siéntete libre de usar y modificar según sea necesario.

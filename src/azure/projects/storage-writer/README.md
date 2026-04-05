@@ -333,6 +333,3 @@ docker rmi mcr.microsoft.com/azure-storage/azurite
 - Deploy to Azure Functions in the cloud
 - Add authentication and authorization
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

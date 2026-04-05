@@ -281,6 +281,3 @@ docker rmi rabbitmq:3-management-alpine
 - Explore RabbitMQ clustering for high availability
 - Implement RPC (Remote Procedure Call) patterns
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.

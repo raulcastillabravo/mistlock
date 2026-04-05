@@ -227,6 +227,3 @@ docker compose down -v
 - Implement a `Choice` state to branch logic based on email validation.
 - Add unit tests for Lambda functions.
 
-## License
-
-This is a minimal example for educational purposes. Feel free to use and modify as needed.
