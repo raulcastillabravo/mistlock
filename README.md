@@ -1,7 +1,6 @@
 # Minimal Viable Examples (MVE)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/raulcastillabravo/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/raulcastillabravo/mve-collection/blob/main/LICENSE)
 
 This repository teaches how to develop for the Cloud for free, without an account and without a credit card, emulating AWS, Azure, and Google Cloud locally:
 
