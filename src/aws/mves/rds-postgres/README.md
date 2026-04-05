@@ -4,4 +4,4 @@
 
 To emulate this service locally, we use the official PostgreSQL Docker container. Please refer to the **PostgreSQL MVE** for configuration and usage instructions:
 
-👉 [**PostgreSQL MVE**](../../hybrid/mves/postgres/)
+👉 [**PostgreSQL MVE**](../../../hybrid/mves/postgres/)

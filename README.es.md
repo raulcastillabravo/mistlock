@@ -42,15 +42,15 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 | Servicio | MVE | Projects |
 | :--- | :--- | :--- |
 | **Lambda** | • *(próximamente)* | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
-| **ECS / EKS** | • *(próximamente)* | • *(próximamente)* |
-| **Glue** | • *(próximamente)* | • *(próximamente)* |
+| **ECS / EKS** | • *(próximamente)* | |
+| **Glue** | • *(próximamente)* | |
 | **S3** | • [s3-garage](./src/aws/mves/s3-garage/)<br>• [s3-minio-boto3](./src/aws/mves/s3-minio-boto3/)<br>• [s3-minio-delta](./src/aws/mves/s3-minio-delta/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
 | **RDS (Postgres)** | • [rds-postgres (Postgres)](./src/hybrid/mves/postgres/) | • [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
 | **Dynamo DB** | • *(próximamente)* | • [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
-| **ElastiCache (Redis)** | • [elasti-cache (Redis)](./src/hybrid/mves/redis/) | • *(próximamente)* |
-| **Step Functions** | • [step-functions-localstack](./src/aws/mves/step-functions-localstack/) | • *(próximamente)* |
-| **SQS / SNS** | • *(próximamente)* | • *(próximamente)* |
-| **EventBridge** | • *(próximamente)* | • *(próximamente)* |
+| **ElastiCache (Redis)** | • [elasti-cache (Redis)](./src/hybrid/mves/redis/) | |
+| **Step Functions** | • [step-functions-localstack](./src/aws/mves/step-functions-localstack/) | |
+| **SQS / SNS** | • *(próximamente)* | |
+| **EventBridge** | • *(próximamente)* | |
 | **CloudFormation** | • *(próximamente)* | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
 
 
@@ -59,14 +59,14 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 | Servicio | MVE | Projects |
 | :--- | :--- | :--- |
 | **Azure Functions** | • *(próximamente)* | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage)<br>• [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
-| **Container Apps** | • *(próximamente)* | • *(próximamente)* |
-| **Databricks** | • [databricks](./src/azure/mves/databricks/) | • *(próximamente)* |
+| **Container Apps** | • *(próximamente)* | |
+| **Databricks** | • [databricks](./src/azure/mves/databricks/) | |
 | **Blob Storage** | • [blob-storage](./src/azure/mves/blob-storage/) | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage) |
 | **Azure SQL** | • *(próximamente)* | • [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
 | **Cosmos DB** | • *(próximamente)* | • [no-sql-writer](./src/azure/projects/no-sql-writer/) (Python → Cosmos DB) |
-| **Cache for Redis** | • [cache-for-redis (Redis)](./src/hybrid/mves/redis/) | • *(próximamente)* |
-| **Service Bus** | • *(próximamente)* | • *(próximamente)* |
-| **Event Grid** | • *(próximamente)* | • *(próximamente)* |
+| **Cache for Redis** | • [cache-for-redis (Redis)](./src/hybrid/mves/redis/) | |
+| **Service Bus** | • *(próximamente)* | |
+| **Event Grid** | • *(próximamente)* | |
 
 
 ### 🔴 GCP (Google Cloud Platform)
@@ -75,59 +75,61 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 | :--- | :--- | :--- |
 | **Cloud Functions** | • *(próximamente)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
 | **Cloud Run** | • *(próximamente)* | • [no-sql-writer](./src/google-cloud/projects/no-sql-writer/) (Cloud Run → Firestore) |
-| **Dataflow** | • *(próximamente)* | • *(próximamente)* |
+| **Dataflow** | • *(próximamente)* | |
 | **Cloud Storage** | • *(próximamente)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
 | **Cloud SQL** | • [cloud-sql (Postgres)](./src/hybrid/mves/postgres/) | • [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
 | **Firestore** | • *(próximamente)* | • [no-sql-writer](./src/google-cloud/projects/no-sql-writer/) (Cloud Run → Firestore) |
-| **Memorystore** | • [memorystore (Redis)](./src/hybrid/mves/redis/) | • *(próximamente)* |
-| **Pub/Sub** | • *(próximamente)* | • *(próximamente)* |
+| **Memorystore** | • [memorystore (Redis)](./src/hybrid/mves/redis/) | |
+| **Pub/Sub** | • *(próximamente)* | |
 
 
 ### 🟢 Nube Híbrida y Otros
 
 | Servicio | MVE | Projects |
 | :--- | :--- | :--- |
-| **MinIO** | • [s3-minio-boto3](./src/aws/mves/s3-minio-boto3/)<br>• [s3-minio-delta](./src/aws/mves/s3-minio-delta/) | • *(próximamente)* |
-| **Postgres** | • [postgres](./src/hybrid/mves/postgres/) | • *(próximamente)* |
-| **MongoDB** | • [mongo](./src/hybrid/mves/mongo/) | • *(próximamente)* |
+| **MinIO** | • [s3-minio-boto3](./src/aws/mves/s3-minio-boto3/)<br>• [s3-minio-delta](./src/aws/mves/s3-minio-delta/) | |
+| **Postgres** | • [postgres](./src/hybrid/mves/postgres/) | |
+| **MongoDB** | • [mongo](./src/hybrid/mves/mongo/) | |
 | **Redis** | • [redis](./src/hybrid/mves/redis/) | • [redis-mutex](./src/hybrid/projects/redis-mutex/) (Python → Redis) |
-| **Airflow** | • [airflow](./src/hybrid/mves/airflow/) | • *(próximamente)* |
-| **RabbitMQ** | • [rabbitmq](./src/hybrid/mves/rabbitmq/) | • *(próximamente)* |
+| **Airflow** | • [airflow](./src/hybrid/mves/airflow/) | |
+| **RabbitMQ** | • [rabbitmq](./src/hybrid/mves/rabbitmq/) | |
 | **Terraform** | • *(próximamente)* | • [storage-writer (AWS)](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl (AWS)](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer (AWS)](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
-| **Metabase** | • [metabase](./src/hybrid/mves/metabase/) | • *(próximamente)* |
-| **Dev Containers** | • [devcontainers](./src/hybrid/mves/devcontainers/) | • *(próximamente)* |
+| **Metabase** | • [metabase](./src/hybrid/mves/metabase/) | |
+| **Dev Containers** | • [devcontainers](./src/hybrid/mves/devcontainers/) | |
 
 
 ## 🚀 Roadmap
-- <details>
-  <summary>[ ] Añadir un MVE por cada servicio en la tabla superior.</summary>
+- [ ] Añadir un MVE por cada servicio en la tabla superior.
+  <details>
+  <summary>Ver siguientes pasos</summary>
 
   - 2026-04-20
-    - MVE Google Functions.
-    - MVE Azure Functions.
-    - MVE AWS Lambda con SAM Framework.
+    - [ ] MVE Google Functions.
+    - [ ] MVE Azure Functions.
+    - [ ] MVE AWS Lambda con SAM Framework.
   - Próximo lote:
-    - MVE Google Dataflow.
-    - MVE Azure Cosmos DB.
-    - MVE AWS Glue.
+    - [ ] MVE Google Dataflow.
+    - [ ] MVE Azure Cosmos DB.
+    - [ ] MVE AWS Glue.
   - Backlog:
-    - MVE AWS Lambda con MiniStack.
-    - MVE AWS ECS / EKS.
-    - MVE AWS S3 con RustFS.
-    - MVE AWS DynamoDB Official Image.
-    - MVE AWS Step Functions Official Image.
-    - MVE AWS SQS / SNS.
-    - MVE AWS Eventbridge.
-    - MVE AWS CloudFormation.
-    - Unificar los MVEs de MinIO en uno solo.
-    - MVE Azure Container Apps (ACA).
-    - MVE Azure SQL Edge.
-    - MVE Azure Service Bus.
-    - MVE Azure Event Grid.
-    - MVE Google Cloud Run.
-    - MVE Google Firebase Storage.
-    - MVE Google Firebase Firestore.
-    - MVE Google Firebase Pub/Sub.
+    - [ ] MVE AWS Lambda con MiniStack.
+    - [ ] MVE AWS ECS / EKS.
+    - [ ] MVE AWS S3 con RustFS.
+    - [ ] MVE AWS DynamoDB Official Image.
+    - [ ] MVE AWS Step Functions Official Image.
+    - [ ] MVE AWS SQS / SNS.
+    - [ ] MVE AWS Eventbridge.
+    - [ ] MVE AWS CloudFormation.
+    - [ ] Unificar los MVEs de MinIO en uno solo.
+    - [ ] MVE Azure Container Apps (ACA).
+    - [ ] MVE Azure SQL Edge.
+    - [ ] MVE Azure Service Bus.
+    - [ ] MVE Azure Event Grid.
+    - [ ] MVE Google Cloud Run.
+    - [ ] MVE Google Firebase Storage.
+    - [ ] MVE Google Firebase Firestore.
+    - [ ] MVE Google Firebase Pub/Sub.
+    - [ ] MVE Terraform.
   </details>
 - [ ] Añadir tests y unificar la estructura de todos los MVEs y proyectos para seguir el mismo patrón.
 - [ ] Crear una GitHub Pages con documentación del repositorio.
