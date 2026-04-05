@@ -32,56 +32,68 @@ This repository teaches how to develop for the Cloud for free, without an accoun
 
 There are two types of examples:
 
-*   **MVE (Minimal Viable Example)**: Defines everything needed to emulate a specific Cloud service and the tools required to develop with it locally.
-*   **Project**: Shows how to combine different Cloud services (MVEs) to develop a specific use case. You can see the services used in each project between parentheses in the table below.
+*   **MVE (Minimal Viable Example)**: Focus on one specific Cloud service, how to emulate it and which tools are required to develop with it locally. There can be more than one MVE per service if there are several tools to emulate it.
+*   **Project**: Combine different Cloud services in the same local development environment. You can see the services used in each project between parentheses in the table below.
 
 ### 🟠 AWS (Amazon Web Services)
 
 | Service | MVE | Projects |
 | :--- | :--- | :--- |
-| **S3** | • [s3-garage](./src/aws/mves/s3-garage/)<br>• [s3-minio-boto3](./src/aws/mves/s3-minio-boto3/)<br>• [s3-minio-delta](./src/aws/mves/s3-minio-delta/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
-| **Dynamo DB** | • *(coming soon)* | • [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
 | **Lambda** | • *(coming soon)* | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
-| **Step Functions** | • [step-functions-localstack](./src/aws/mves/step-functions-localstack/) | • *(coming soon)* |
+| **ECS / EKS** | • *(coming soon)* | • *(coming soon)* |
+| **Glue** | • *(coming soon)* | • *(coming soon)* |
+| **S3** | • [s3-garage](./src/aws/mves/s3-garage/)<br>• [s3-minio-boto3](./src/aws/mves/s3-minio-boto3/)<br>• [s3-minio-delta](./src/aws/mves/s3-minio-delta/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
 | **RDS (Postgres)** | • [rds-postgres (Postgres)](./src/hybrid/mves/postgres/) | • [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
+| **Dynamo DB** | • *(coming soon)* | • [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
 | **ElastiCache (Redis)** | • [elasti-cache (Redis)](./src/hybrid/mves/redis/) | • *(coming soon)* |
+| **Step Functions** | • [step-functions-localstack](./src/aws/mves/step-functions-localstack/) | • *(coming soon)* |
+| **SQS / SNS** | • *(coming soon)* | • *(coming soon)* |
+| **EventBridge** | • *(coming soon)* | • *(coming soon)* |
+| **CloudFormation** | • *(coming soon)* | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
 
 
 ### 🔵 Microsoft Azure
 
 | Service | MVE | Projects |
 | :--- | :--- | :--- |
-| **Blob Storage** | • [blob-storage](./src/azure/mves/blob-storage/) | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage) |
-| **Cosmos DB** | • *(coming soon)* | • [no-sql-writer](./src/azure/projects/no-sql-writer/) (Python → Cosmos DB) |
-| **Azure SQL** | • *(coming soon)* | • [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
 | **Azure Functions** | • *(coming soon)* | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage)<br>• [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
+| **Container Apps** | • *(coming soon)* | • *(coming soon)* |
 | **Databricks** | • [databricks](./src/azure/mves/databricks/) | • *(coming soon)* |
+| **Blob Storage** | • [blob-storage](./src/azure/mves/blob-storage/) | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage) |
+| **Azure SQL** | • *(coming soon)* | • [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
+| **Cosmos DB** | • *(coming soon)* | • [no-sql-writer](./src/azure/projects/no-sql-writer/) (Python → Cosmos DB) |
 | **Cache for Redis** | • [cache-for-redis (Redis)](./src/hybrid/mves/redis/) | • *(coming soon)* |
+| **Service Bus** | • *(coming soon)* | • *(coming soon)* |
+| **Event Grid** | • *(coming soon)* | • *(coming soon)* |
 
 
 ### 🔴 GCP (Google Cloud Platform)
 
 | Service | MVE | Projects |
 | :--- | :--- | :--- |
-| **Cloud Storage** | • *(coming soon)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
-| **Firestore** | • *(coming soon)* | • [no-sql-writer](./src/google-cloud/projects/no-sql-writer/) (Cloud Run → Firestore) |
 | **Cloud Functions** | • *(coming soon)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
 | **Cloud Run** | • *(coming soon)* | • [no-sql-writer](./src/google-cloud/projects/no-sql-writer/) (Cloud Run → Firestore) |
+| **Dataflow** | • *(coming soon)* | • *(coming soon)* |
+| **Cloud Storage** | • *(coming soon)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
 | **Cloud SQL** | • [cloud-sql (Postgres)](./src/hybrid/mves/postgres/) | • [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
-| **Memorystore (Redis)** | • [memorystore (Redis)](./src/hybrid/mves/redis/) | • *(coming soon)* |
+| **Firestore** | • *(coming soon)* | • [no-sql-writer](./src/google-cloud/projects/no-sql-writer/) (Cloud Run → Firestore) |
+| **Memorystore** | • [memorystore (Redis)](./src/hybrid/mves/redis/) | • *(coming soon)* |
+| **Pub/Sub** | • *(coming soon)* | • *(coming soon)* |
 
 
 ### 🟢 Hybrid & Others
 
 | Service | MVE | Projects |
 | :--- | :--- | :--- |
-| **Airflow** | • [airflow](./src/hybrid/mves/airflow/) | • *(coming soon)* |
-| **Dev Containers** | • [devcontainers](./src/hybrid/mves/devcontainers/) | • *(coming soon)* |
-| **Metabase** | • [metabase](./src/hybrid/mves/metabase/) | • *(coming soon)* |
-| **Mongo** | • [mongo](./src/hybrid/mves/mongo/) | • *(coming soon)* |
+| **MinIO** | • [s3-minio-boto3](./src/aws/mves/s3-minio-boto3/)<br>• [s3-minio-delta](./src/aws/mves/s3-minio-delta/) | • *(coming soon)* |
 | **Postgres** | • [postgres](./src/hybrid/mves/postgres/) | • *(coming soon)* |
-| **RabbitMQ** | • [rabbitmq](./src/hybrid/mves/rabbitmq/) | • *(coming soon)* |
+| **MongoDB** | • [mongo](./src/hybrid/mves/mongo/) | • *(coming soon)* |
 | **Redis** | • [redis](./src/hybrid/mves/redis/) | • [redis-mutex](./src/hybrid/projects/redis-mutex/) (Python → Redis) |
+| **Airflow** | • [airflow](./src/hybrid/mves/airflow/) | • *(coming soon)* |
+| **RabbitMQ** | • [rabbitmq](./src/hybrid/mves/rabbitmq/) | • *(coming soon)* |
+| **Terraform** | • *(coming soon)* | • [storage-writer (AWS)](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl (AWS)](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer (AWS)](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
+| **Metabase** | • [metabase](./src/hybrid/mves/metabase/) | • *(coming soon)* |
+| **Dev Containers** | • [devcontainers](./src/hybrid/mves/devcontainers/) | • *(coming soon)* |
 
 
 _More examples coming soon..._
