@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Client (Admin)",
+      "type": "python",
+      "request": "launch",
+      "program": "main.py",
+      "console": "integratedTerminal",
+      "env": {
+        "ADMIN_USER": "admin"
+      }
+    },
+    {
+      "name": "Python: Client (Non-Admin)",
+      "type": "python",
+      "request": "launch",
+      "program": "main.py",
+      "console": "integratedTerminal",
+      "env": {
+        "ADMIN_USER": "other"
+      }
+    }
+  ]
+}
