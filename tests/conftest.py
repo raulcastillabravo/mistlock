@@ -75,3 +75,21 @@ def deploy(request, dev_container):
     
     print(f"\n[Teardown] Running {destroy_script}...")
     dev_container(f"bash {destroy_script}")
+
+@pytest.fixture(scope="module")
+def run_tests(dev_container):
+    """
+    Runs the example tests using ./scripts/run_tests.sh.
+    """
+    result = dev_container("bash ./scripts/run_tests.sh")
+    assert result.returncode == 0
+    return result
+
+@pytest.fixture(scope="module")
+def run_main(dev_container):
+    """
+    Runs the example main script using ./scripts/run_main.sh.
+    """
+    result = dev_container("bash ./scripts/run_main.sh")
+    assert result.returncode == 0
+    return result
