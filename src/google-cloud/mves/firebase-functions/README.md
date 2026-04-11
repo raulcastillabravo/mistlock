@@ -87,6 +87,17 @@ Run the tests using the provided script:
 firebase emulators:exec "./scripts/run_tests.sh"
 ```
 
+### Option E: Curl
+Send a request using curl from your terminal:
+```bash
+curl "http://localhost:5001/demo-mve-firebase-functions/us-central1/get_secret?username=admin"
+```
+
+For debug mode:
+```bash
+curl "http://localhost:8080/?username=admin"
+```
+
 ## Clean Up
 
 Stop the emulators by pressing `Ctrl+C` in the terminal where they are running.
