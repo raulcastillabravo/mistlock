@@ -99,7 +99,7 @@ There are two types of examples:
   <details>
   <summary>See next steps</summary>
 
-  - 2026-04-20
+  - 2026-04-27
     - [x] MVE Google Functions (Firebase).
     - [ ] MVE Azure Functions.
     - [ ] MVE AWS Lambda using SAM Framework.
