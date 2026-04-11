@@ -8,4 +8,5 @@ dependencies = [
     "requests",
     "python-dotenv",
     "pytest",
+    "firebase-functions",
 ]

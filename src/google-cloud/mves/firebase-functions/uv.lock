@@ -172,6 +172,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "firebase-functions" },
     { name = "pytest" },
     { name = "python-dotenv" },
     { name = "requests" },

@@ -11,7 +11,8 @@ def test_get_secret_admin_success() -> None:
     response = requests.get(BASE_URL, params=params)
     
     assert response.status_code == 200
-    assert "Secret: super-secret-value-from-emulator" in response.text
+    data = response.json()
+    assert data["secret"] == "super-secret-value-from-emulator"
 
 def test_get_secret_denied_user() -> None:
     """
@@ -21,4 +22,5 @@ def test_get_secret_denied_user() -> None:
     response = requests.get(BASE_URL, params=params)
     
     assert response.status_code == 403
-    assert "Access Denied" in response.text
+    data = response.json()
+    assert data["error"] == "Access Denied"

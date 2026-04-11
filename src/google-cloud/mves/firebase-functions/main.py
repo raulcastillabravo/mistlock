@@ -26,7 +26,11 @@ def main() -> None:
     try:
         response = requests.get(url, params=params)
         print(f"Status Code: {response.status_code}")
-        print(f"Response Body: {response.text}")
+        if response.status_code == 200:
+            data = response.json()
+            print(f"Secret: {data.get('secret')}")
+        else:
+            print(f"Response Body: {response.text}")
     except requests.exceptions.ConnectionError:
         print("Error: Could not connect to the Firebase Emulator. Is it running?")
         return

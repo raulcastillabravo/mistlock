@@ -1,7 +1,7 @@
 {
   "python.defaultInterpreterPath": ".venv/bin/python",
   "rest-client.environmentVariables": {
-    "local": {
+    "$shared": {
       "baseUrl": "http://localhost:5001/demo-mve-firebase-functions/us-central1"
     }
   }
