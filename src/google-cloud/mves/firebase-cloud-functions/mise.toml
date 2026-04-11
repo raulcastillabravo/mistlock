@@ -1,0 +1,28 @@
+[tools]
+python = "3.12"
+uv = "latest"
+node = "22"
+firebase = "latest"
+
+[settings]
+env_file = ".env"
+
+[tasks.sync]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.functions-sync]
+description = "Sync Cloud functions dependencies"
+run = """
+cd functions
+rm -rf venv
+uv venv venv --python 3.12
+uv pip install -r requirements.txt --python venv
+"""
+
+[tasks.setup]
+description = "Full environment setup"
+run = [
+  { task = "sync" },
+  { task = "functions-sync"}
+]

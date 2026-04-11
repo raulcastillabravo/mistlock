@@ -1,0 +1,50 @@
+{
+  "name": "Firebase Functions",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/app",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  },
+  "forwardPorts": [
+    4000, // Emulator UI
+    4400, // Hub
+    4500, // Logging (Opcional)
+    5001, // Cloud Functions
+    8080, // Cloud Firestore
+    8085, // Pub/Sub
+    9000, // Realtime Database
+    9099, // Auth
+    9199, // Cloud Storage
+    9299  // Eventarc
+  ],
+  "portsAttributes": {
+    "4000": { "label": "Firebase UI", "onAutoForward": "notify" },
+    "4400": { "label": "Firebase Hub", "onAutoForward": "ignore" },
+    "5001": { "label": "Functions Emulator" },
+    "8080": { "label": "Firestore Emulator" },
+    "8085": { "label": "Pub/Sub Emulator" },
+    "9000": { "label": "Database Emulator" },
+    "9099": { "label": "Auth Emulator" },
+    "9199": { "label": "Storage Emulator" },
+    "9299": { "label": "Eventarc Emulator" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "mermaidchart.vscode-mermaid-chart",
+        "tamasfe.even-better-toml",
+        "humao.rest-client"
+      ]
+    }
+  },
+  "containerEnv": {
+    "PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  },
+  "postCreateCommand": "scripts/setup.sh"
+}

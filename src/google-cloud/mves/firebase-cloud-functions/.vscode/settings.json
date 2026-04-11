@@ -1,0 +1,14 @@
+{
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "baseUrl": "http://localhost:5001/demo-mve-firebase-functions/us-central1",
+      "debugBaseUrl": "http://localhost:8080"
+    }
+  },
+  "python.testing.pytestArgs": [
+    "tests/"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

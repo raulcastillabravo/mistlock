@@ -70,7 +70,7 @@ There are two types of examples:
 
 | Service | MVE | Projects |
 | :--- | :--- | :--- |
-| **Cloud Functions** | • *(coming soon)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
+| **Cloud Functions** | • [firebase-cloud-functions](./src/google-cloud/mves/firebase-cloud-functions/) | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
 | **Cloud Run** | • *(coming soon)* | • [no-sql-writer](./src/google-cloud/projects/no-sql-writer/) (Cloud Run → Firestore) |
 | **Dataflow** | • *(coming soon)* | |
 | **Cloud Storage** | • *(coming soon)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
@@ -99,8 +99,8 @@ There are two types of examples:
   <details>
   <summary>See next steps</summary>
 
-  - 2026-04-20
-    - [ ] MVE Google Functions.
+  - 2026-04-27
+    - [x] MVE Google Functions (Firebase).
     - [ ] MVE Azure Functions.
     - [ ] MVE AWS Lambda using SAM Framework.
   - Next batch:

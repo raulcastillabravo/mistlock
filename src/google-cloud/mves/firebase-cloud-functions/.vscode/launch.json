@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Cloud Function (Local)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "functions_framework",
+      "args": [
+        "--target=get_secret",
+        "--source=functions/main.py",
+        "--port=8080",
+        "--debug"
+      ],
+      "env": {
+        "MY_SECRET": "debug_secret",
+        "MIN_INSTANCES": "1",
+        "ADMIN_USER": "admin"
+      }
+    }
+  ]
+}

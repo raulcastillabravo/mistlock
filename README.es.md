@@ -72,7 +72,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 
 | Servicio | MVE | Projects |
 | :--- | :--- | :--- |
-| **Cloud Functions** | • *(próximamente)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
+| **Cloud Functions** | • [firebase-cloud-functions](./src/google-cloud/mves/firebase-cloud-functions/) | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
 | **Cloud Run** | • *(próximamente)* | • [no-sql-writer](./src/google-cloud/projects/no-sql-writer/) (Cloud Run → Firestore) |
 | **Dataflow** | • *(próximamente)* | |
 | **Cloud Storage** | • *(próximamente)* | • [storage-writer](./src/google-cloud/projects/storage-writer/) (Cloud Function → Cloud Storage)<br>• [simple-etl](./src/google-cloud/projects/simple-etl/) (Storage → Cloud Function → Postgres) |
@@ -103,7 +103,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
   <summary>Ver siguientes pasos</summary>
 
   - 2026-04-20
-    - [ ] MVE Google Functions.
+    - [x] MVE Google Functions (Firebase).
     - [ ] MVE Azure Functions.
     - [ ] MVE AWS Lambda con SAM Framework.
   - Próximo lote:

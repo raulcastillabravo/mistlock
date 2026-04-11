@@ -1,0 +1,13 @@
+[project]
+name = "firebase-cloud-functions"
+version = "0.1.0"
+description = "Minimal Viable Example for Firebase Cloud Functions"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests",
+    "python-dotenv",
+    "pytest",
+    "functions-framework",
+    "firebase-functions",
+]
