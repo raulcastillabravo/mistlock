@@ -3,10 +3,11 @@ name: CI
 on:
   push:
     branches: [ main, feature/** ]
-  pull_request:
-    branches: [ main ]
   schedule:
     - cron: '0 0 * * *'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   run-tests:

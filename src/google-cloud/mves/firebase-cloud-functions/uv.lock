@@ -319,7 +319,7 @@ requires-dist = [
 
 [[package]]
 name = "firebase-functions"
-version = "0.1.0"
+version = "0.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cloudevents" },
@@ -333,9 +333,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ee/5b/3253ae8c5a6d1f213dbb5135e75abdc2972cdecc2118e6688bc4be219ec1/firebase_functions-0.1.0.tar.gz", hash = "sha256:c0957aa60d507ee11409e10d20fbbf9abcdc924b2b40f4598f8e8c51069c27dc", size = 60749, upload-time = "2023-05-09T22:17:55.595Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/56/f4/687b40801615b3c4836f0f737cc6a926d1435d4e7bb16fbf9d57c62a61ea/firebase_functions-0.5.0.tar.gz", hash = "sha256:8df82a15b91c2ba3dd1160d4cc6ce5adce24f3d62fba5fb931a7a3a0f56bb41e", size = 74675, upload-time = "2025-11-04T19:08:02.958Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ec/93/2e9112467f257b4d97359e51178b6f3e77ee61a8082d909fbd4ff55909b6/firebase_functions-0.1.0-py3-none-any.whl", hash = "sha256:eb7346273ede70488d812e807e8e6a9f5d90c2d406d83aa4a2fb9b53862388d3", size = 75860, upload-time = "2023-05-09T22:17:53.364Z" },
+    { url = "https://files.pythonhosted.org/packages/c3/45/9818f321e9c7354aba8532e8938b3c399d9e375ea8fc8b551915d2ce63a8/firebase_functions-0.5.0-py3-none-any.whl", hash = "sha256:56124960d76209f95b071198fd4ec37f2d4c40950009e8af5138a0bd3bde1a3d", size = 86094, upload-time = "2025-11-04T19:08:01.519Z" },
 ]
 
 [[package]]
@@ -495,15 +495,15 @@ wheels = [
 
 [[package]]
 name = "google-events"
-version = "0.14.0"
+version = "0.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "proto-plus" },
     { name = "protobuf" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/26/e3/1d92e712339cec272ec454bdc525ab65ce3fb6ea1d1c442fa25d412007b4/google_events-0.14.0.tar.gz", hash = "sha256:85ec5d4e190d6eb305a99f8657dd5a665931fa4f12734df810c077af59ef732d", size = 359476, upload-time = "2024-12-05T23:20:11.71Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3e/cd/cdea628192f5960688342386a5fbc2d6053234bd8c3232412c435cbb7101/google-events-0.5.0.tar.gz", hash = "sha256:c86511402ee758685ad6b7f3d93c3febb3f60122da71498d6ed4b44f097af49c", size = 127152, upload-time = "2023-03-24T18:45:58.714Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5f/7b/0abf9dc76bbac80f68a6429e68397e98bf235b99e65e4c1f4b0d8ab59c44/google_events-0.14.0-py3-none-any.whl", hash = "sha256:60fad72e86536471c931f93c57d2ee36e4e0aca6047abf92c51512c68a8cd944", size = 561537, upload-time = "2024-12-05T23:20:09.697Z" },
+    { url = "https://files.pythonhosted.org/packages/a4/0f/c5f48d7864a8126dfc45008a7c3203c5665214a40a958a8678666966f3b7/google_events-0.5.0-py3-none-any.whl", hash = "sha256:cb81884a23dea4cec1716cfe2a1c88251653681436c48b2c9dfcae92dc3e4bc3", size = 246513, upload-time = "2023-03-24T18:45:56.502Z" },
 ]
 
 [[package]]

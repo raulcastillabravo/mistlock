@@ -84,7 +84,7 @@ def run_tests(dev_container):
     print("\nRunning ./scripts/run_tests.sh...")
     result = dev_container("bash ./scripts/run_tests.sh")
     assert result.returncode == 0
-    print("\nTests passed for ./scripts/run_tests.sh")
+    print("Tests passed")
 
 @pytest.fixture(scope="module")
 def run_main(dev_container):
@@ -94,4 +94,4 @@ def run_main(dev_container):
     print("\nRunning ./scripts/run_main.sh...")
     result = dev_container("bash ./scripts/run_main.sh")
     assert result.returncode == 0
-    print("\nMain script passed for ./scripts/run_main.sh")
+    print("Main script passed")
