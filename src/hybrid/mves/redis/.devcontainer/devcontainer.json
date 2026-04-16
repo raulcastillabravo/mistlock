@@ -16,7 +16,7 @@
 				"ms-python.python",
 				"mermaidchart.vscode-mermaid-chart",
 				"tamasfe.even-better-toml",
-				"redis.redis-for-vscode"
+				"cweijan.vscode-database-client2"
 			]
 		}
 	},

@@ -61,7 +61,6 @@ docker compose up -d
 
 ### Usando python
 
-Ejecuta el script de demostración:
 ```bash
 python main.py
 ```
@@ -87,16 +86,24 @@ scripts/run_tests.sh
 
 Verifica que el estado del usuario se guarde correctamente en Redis.
 
-1. **Verificar usando Redis CLI**: Usa el script personalizado que se conecta al contenedor:
-   ```bash
-   scripts/redis_cli.sh GET raulcastillabravo:status
-   ```
-2. **Verificar usando Redis Insight**: Conéctate a la base de datos y navega por las claves para ver `raulcastillabravo:status`.
+1. **Verificar usando Redis CLI**: 
+   - **Entrar al Shell**: Ejecuta el script para entrar al shell interactivo:
+     ```bash
+     scripts/redis_cli.sh
+     ```
+   - **Consultar Datos**: Dentro del shell, ejecuta el comando GET:
+     ```bash
+     GET raulcastillabravo:status
+     ```
 
-### Detalles de Conexión
-- **Servidor**: `localhost`
-- **Puerto**: `6379`
-- **Contraseña**: `redis123`
+2. **Verificar usando [Database Client](vscode:extension/cweijan.vscode-database-client2)**: 
+   - Añade una nueva conexión de Redis con:
+     - **Host**: `localhost`
+     - **Puerto**: `6379`
+     - **Contraseña**: `redis123`
+   - Puedes navegar por los datos y también abrir el **Redis CLI** directamente desde la interfaz de la extensión.
+
+3. **Verificar usando [Redis Insight](https://redis.io/insight/)**: Conéctate a la base de datos y navega por las claves para ver `raulcastillabravo:status`. Usa los mismos detalles de conexión que en el punto anterior.
 
 ## Limpieza
 

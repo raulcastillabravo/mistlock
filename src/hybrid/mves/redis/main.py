@@ -6,7 +6,6 @@ load_dotenv()
 
 
 def main() -> None:
-    """Main entry point to demonstrate Redis user status management."""
     username = "raulcastillabravo"
     user_status = UserStatus(username)
 
