@@ -1,0 +1,16 @@
+[tools]
+python = "3.12"
+uv = "latest"
+
+[settings]
+env_file = ".env"
+
+[tasks.sync]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.setup]
+description = "Full environment setup"
+run = [
+  { task = "sync" },
+]

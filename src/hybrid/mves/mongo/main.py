@@ -1,38 +1,31 @@
-from models import User, get_connection
+from src.models.user import User
+from src.utils.utils import connect_to_mongo
 
-def insert_sample_data():
-    """Insert sample users into MongoDB"""
-    try:
-        # Create sample users
-        users_data = [
-            {"name": "John Doe", "email": "john@example.com"},
-            {"name": "Jane Smith", "email": "jane@example.com"},
-            {"name": "Bob Johnson", "email": "bob@example.com"}
-        ]
-        
-        created_users = []
-        for user_data in users_data:
-            user = User(**user_data)
-            user.save()
-            created_users.append(user)
-        
-        print(f"✓ Inserted {len(created_users)} users successfully")
-        
-        # Query and display inserted data
-        all_users = User.objects.all()
-        print("\nInserted users:")
-        for user in all_users:
-            print(f"  - {user}")
-            
-    except Exception as e:
-        print(f"✗ Error: {e}")
+
+def run_example():
+    """Run MongoDB CRUD example"""
+    # Connect to MongoDB
+    print("Connecting to MongoDB...")
+    connect_to_mongo()
+    print("✓ Connected successfully")
+
+    # Create a user
+    print("\nCreating a user...")
+    user = User(name="John Doe", email="john.doe@example.com")
+    user.save()
+    print(f"✓ User created: {user}")
+
+    # Read the user
+    print("\nReading users from database...")
+    users = User.objects.all()
+    for u in users:
+        print(f"  - {u}")
+
+    print("\n✓ Done! You can now connect with MongoDB Compass to see the data.")
+
 
 if __name__ == "__main__":
-    print("Connecting to MongoDB...")
-    get_connection()
-    print("✓ Connected successfully")
-    
-    print("\nInserting sample data...")
-    insert_sample_data()
-    
-    print("\n✓ Done! You can now connect with MongoDB Compass to see the data.")
+    try:
+        run_example()
+    except Exception as e:
+        print(f"✗ Error: {e}")
