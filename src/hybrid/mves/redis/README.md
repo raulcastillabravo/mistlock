@@ -1,279 +1,119 @@
-# Redis + Python + Docker Example
+# Redis
 
-Minimal viable example to work with Redis using Docker Compose, Python redis client, and Redis Insight.
+Minimal viable example to work with **Redis** using **Python** and **Docker**. This example demonstrates how to manage user status (Enum) using Redis and a custom context manager for connection management.
 
-## Project Structure
+## Architecture
 
+```mermaid
+architecture-beta
+    group api(cloud)[Cloud]
+    
+    service app(server)[Python Script] in api
+    service db(database)[Redis] in api
+    
+    db:L <--> R:app
 ```
-redis-docker-python/
-├── .devcontainer/
-│   └── devcontainer.json
-├── docker-compose.yml
-├── .env
-├── redis_client.py
-├── main.py
-├── pyproject.toml
-├── uv.lock
-├── README.md
-└── README.es.md
-```
+
+[![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
+
+## Index
+
+- [Prerequisites](#prerequisites)
+- [Quickstart](#quickstart)
+- [Setup Environment](#setup-environment)
+- [Start Infrastructure](#start-infrastructure)
+- [How to execute](#how-to-execute)
+- [How to debug](#how-to-debug)
+- [How to test](#how-to-test)
+- [Validate results](#validate-results)
+- [Clean Up](#clean-up)
 
 ## Prerequisites
 
-- Docker and Docker Compose installed
-- VS Code with Dev Containers extension (optional, for dev container setup)
-- Redis Insight or any Redis client
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed.
 
-## Option 1: Using Dev Container (Recommended)
+## Quickstart
 
-### Step 1: Open Project in Dev Container
+1. **Open in Container**: Open VS Code in the project folder and select **Dev Containers: Reopen in Container** from the Command Palette (`F1`).
+2. **Run the Example**:
+   ```bash
+   python main.py
+   ```
 
-1. Open VS Code in the project folder
-2. Press `F1` or `Ctrl+Shift+P` (Windows/Linux) / `Cmd+Shift+P` (Mac)
-3. Type and select: **Dev Containers: Reopen in Container**
-4. Wait for the container to build and dependencies to install
+💡 **Next Steps**: See the [How to debug](#how-to-debug), [How to test](#how-to-test), [Validate results](#validate-results) and [Clean Up](#clean-up) sections below.
 
-### Step 2: Start Redis Container
+## Setup Environment
 
-Inside the dev container terminal:
+If you are not using a Dev Container, you can set up the environment manually:
 
+```bash
+scripts/setup.sh
+```
+
+## Start Infrastructure
+
+Launch the required containers:
 ```bash
 docker compose up -d
 ```
 
-Verify it's running:
+## How to execute
 
-```bash
-docker ps
-```
-
-### Step 3: Run Redis Operations
-
-Execute the Python script:
+### Using python
 
 ```bash
 python main.py
 ```
 
-You should see output like:
+## How to debug
 
-```
+### The main.py client
 
---- Setting user data with HSET ---
+1. Open `main.py`.
+2. Set breakpoints in the code.
+3. Press `F5` to start debugging.
 
---- Retrieving specific fields with HGET ---
+## How to test
 
-User 1001 details:
-  Name: John Doe
-  Email: john@example.com
+### Individually
 
-✓ Done! You can now see the data in Redis Insight.
-```
+You can run tests individually from the VS Code **Testing** tab.
 
-## Option 2: Local Setup (Without Dev Container)
+### All tests
 
-### Step 1: Install Dependencies with uv
-
-```bash
-pip install uv && uv sync
-```
-
-### Step 2: Start Redis Container
+To execution all tests (unit and integration) using the automated script:
 
 ```bash
-docker compose up -d
+scripts/run_tests.sh
 ```
 
-### Step 3: Run Redis Operations
+## Validate results
 
-```bash
-python main.py
-```
+Verify that the user status is correctly stored in Redis.
 
-## Connecting with Redis Insight
+1. **Check using Redis CLI**: 
+   - **Enter Shell**: Run the script to enter the interactive shell:
+     ```bash
+     scripts/redis_cli.sh
+     ```
+   - **Check Data**: Inside the shell, run the GET command:
+     ```bash
+     GET raulcastillabravo:status
+     ```
 
-### Step 1: Install Redis Insight
+2. **Check using [Database Client](vscode:extension/cweijan.vscode-database-client2)**: 
+   - Add a new Redis connection with:
+     - **Host**: `localhost`
+     - **Port**: `6379`
+     - **Password**: `redis123`
+   - You can browse the data and also open the **Redis CLI** directly from the extension UI.
 
-1. Download and install [Redis Insight](https://redis.io/insight/) if you haven't already
-2. Open Redis Insight
-
-### Step 2: Add Database Connection
-
-1. Click on **Add Redis Database**
-2. Select **Add Database Manually**
-3. Configure the connection:
-   - **Host:** `localhost`
-   - **Port:** `6379`
-   - **Database Alias:** `Local Redis` (or any name you prefer)
-   - **Username:** leave empty
-   - **Password:** `redis123`
-4. Click **Add Redis Database**
-
-### Step 3: View Data
-
-1. Click on your database connection
-2. Go to the **Browser** tab
-3. You should see the hash keys: `user:1001`, `user:1002`, `user:1003`
-4. Click on any key to view its fields and values
-
-## Redis Data Structure
-
-This example uses Redis **Hash** data type to store user information:
-
-| Key        | Field | Value              |
-| ---------- | ----- | ------------------ |
-| user:1001  | name  | John Doe           |
-| user:1001  | email | john@example.com   |
-| user:1001  | age   | 30                 |
-
-## Environment Variables
-
-The `.env` file contains:
-
-```
-REDIS_PASSWORD=redis123
-REDIS_PORT=6379
-REDIS_HOST=localhost
-```
-
-You can modify these values as needed. Remember to recreate the containers if you change Redis password.
-
-## Useful Commands
-
-### Docker Commands
-
-```bash
-# Start containers
-docker compose up -d
-
-# Stop containers
-docker compose down
-
-# Stop and remove volumes (delete all data)
-docker compose down -v
-
-# View logs
-docker compose logs -f
-
-# View only Redis logs
-docker compose logs -f redis
-```
-
-### Redis CLI Commands
-
-```bash
-# Connect to Redis CLI from container
-docker exec -it redis_local redis-cli -a redis123
-
-# Get all keys
-KEYS *
-
-# Get all fields from a hash
-HGETALL user:1001
-
-# Get specific field
-HGET user:1001 name
-
-# Delete a key
-DEL user:1001
-
-# Exit Redis CLI
-exit
-```
-
-## Redis Operations Explained
-
-### HSET (Hash Set)
-Sets a field in a hash to a value. If the hash doesn't exist, it's created.
-
-```python
-redis.client.hset("user:1001", "name", "John Doe")
-```
-
-Redis equivalent:
-```
-HSET user:1001 name "John Doe"
-```
-
-### HGET (Hash Get)
-Gets the value of a specific field in a hash.
-
-```python
-name = redis.client.hget("user:1001", "name")
-```
-
-Redis equivalent:
-```
-HGET user:1001 name
-```
-
-### HGETALL (Hash Get All)
-Gets all fields and values in a hash.
-
-```python
-user_data = redis.client.hgetall("user:1001")
-```
-
-Redis equivalent:
-```
-HGETALL user:1001
-```
-
-## Troubleshooting
-
-### Port Already in Use
-
-If port 6379 is already in use, change `REDIS_PORT` in `.env` to another port (e.g., 6380) and restart:
-
-```bash
-docker compose down
-docker compose up -d
-```
-
-### Connection Refused
-
-Make sure the Redis container is running:
-
-```bash
-docker ps
-```
-
-Check the logs for errors:
-
-```bash
-docker compose logs redis
-```
-
-### Module Not Found
-
-If you get import errors, install dependencies:
-
-```bash
-pip3 install uv && uv sync
-```
-
-### Authentication Failed
-
-Ensure you're using the correct password from the `.env` file when connecting.
+3. **Check using [Redis Insight](https://redis.io/insight/)**: Connect to the database and browse keys to see `raulcastillabravo:status`. Use the same connection settings as in the previous step.
 
 ## Clean Up
 
-To completely remove everything:
-
+To stop all services and remove the state:
 ```bash
-# Stop and remove containers and volumes
 docker compose down -v
-
-# Remove the Redis image (optional)
-docker rmi redis:7-alpine
 ```
-
-## Next Steps
-
-- Explore other Redis data types (Lists, Sets, Sorted Sets, Streams)
-- Implement caching patterns
-- Add expiration times with TTL
-- Use Redis pub/sub for messaging
-- Implement distributed locking
-- Add Redis transactions
-

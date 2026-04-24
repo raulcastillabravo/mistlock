@@ -1,279 +1,113 @@
-# Redis + Python + Docker Example
+# Redis
 
-Ejemplo mínimo viable para trabajar con Redis usando Docker Compose, cliente redis de Python y Redis Insight.
+Ejemplo mínimo viable para trabajar con **Redis** usando **Python** y **Docker**. Este ejemplo demuestra cómo gestionar el estado de un usuario (Enum) usando Redis y un gestor de contexto personalizado para la gestión de conexiones.
 
-## Estructura del Proyecto
+## Arquitectura
 
+```mermaid
+architecture-beta
+    group api(cloud)[Cloud]
+    
+    service app(server)[Python Script] in api
+    service db(database)[Redis] in api
+    
+    db:L <--> R:app
 ```
-redis-docker-python/
-├── .devcontainer/
-│   └── devcontainer.json
-├── docker-compose.yml
-├── .env
-├── redis_client.py
-├── main.py
-├── pyproject.toml
-├── uv.lock
-├── README.md
-└── README.es.md
-```
+
+[![Ver Diagrama](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
+
+## Índice
+
+- [Requisitos Previos](#requisitos-previos)
+- [Inicio Rápido](#inicio-rápido)
+- [Configurar Entorno](#configurar-entorno)
+- [Iniciar Infraestructura](#iniciar-infraestructura)
+- [Cómo ejecutar](#cómo-ejecutar)
+- [Cómo depurar](#cómo-depurar)
+- [Cómo probar](#cómo-probar)
+- [Validar resultados](#validar-resultados)
+- [Limpieza](#limpieza)
 
 ## Requisitos Previos
 
-- Docker y Docker Compose instalados
-- VS Code con la extensión Dev Containers (opcional, para usar dev container)
-- Redis Insight o cualquier cliente de Redis
+- [Docker](https://www.docker.com/get-started) instalado y funcionando.
+- [Extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers) instalada.
 
-## Opción 1: Usando Dev Container (Recomendado)
+## Inicio Rápido
 
-### Paso 1: Abrir Proyecto en Dev Container
+1. **Abrir en Contenedor**: Abre VS Code en la carpeta del proyecto y selecciona **Dev Containers: Reopen in Container** desde la Paleta de Comandos (`F1`).
+2. **Ejecutar el Ejemplo**:
+   ```bash
+   python main.py
+   ```
 
-1. Abre VS Code en la carpeta del proyecto
-2. Presiona `F1` o `Ctrl+Shift+P` (Windows/Linux) / `Cmd+Shift+P` (Mac)
-3. Escribe y selecciona: **Dev Containers: Reopen in Container**
-4. Espera a que el contenedor se construya y las dependencias se instalen
+💡 **Siguientes Pasos**: Consulta las secciones [Cómo depurar](#cómo-depurar), [Cómo probar](#cómo-probar), [Validar resultados](#validar-resultados) y [Limpieza](#limpieza) a continuación.
 
-### Paso 2: Iniciar Contenedor de Redis
+## Configurar Entorno
 
-Dentro del terminal del dev container:
+Instala dependencias y herramientas del sistema usando mise:
+```bash
+scripts/setup.sh
+```
 
+## Iniciar Infraestructura
+
+Lanza los contenedores necesarios:
 ```bash
 docker compose up -d
 ```
 
-Verifica que está funcionando:
+## Cómo ejecutar
 
-```bash
-docker ps
-```
-
-### Paso 3: Ejecutar Operaciones de Redis
-
-Ejecuta el script de Python:
+### Usando python
 
 ```bash
 python main.py
 ```
 
-Deberías ver una salida como:
+## Cómo depurar
 
-```
+### El cliente main.py
 
---- Setting user data with HSET ---
+1. Abre `main.py`.
+2. Establece puntos de interrupción en el código.
+3. Presiona `F5` para iniciar la depuración.
 
---- Retrieving specific fields with HGET ---
+## Cómo probar
 
-User 1001 details:
-  Name: John Doe
-  Email: john@example.com
+### Todas las pruebas
 
-✓ Done! You can now see the data in Redis Insight.
-```
-
-## Opción 2: Configuración Local (Sin Dev Container)
-
-### Paso 1: Instalar Dependencias con uv
-
+Ejecuta la suite de pruebas automatizadas:
 ```bash
-pip install uv && uv sync
+scripts/run_tests.sh
 ```
 
-### Paso 2: Iniciar Contenedor de Redis
+## Validar resultados
 
-```bash
-docker compose up -d
-```
+Verifica que el estado del usuario se guarde correctamente en Redis.
 
-### Paso 3: Ejecutar Operaciones de Redis
+1. **Verificar usando Redis CLI**: 
+   - **Entrar al Shell**: Ejecuta el script para entrar al shell interactivo:
+     ```bash
+     scripts/redis_cli.sh
+     ```
+   - **Consultar Datos**: Dentro del shell, ejecuta el comando GET:
+     ```bash
+     GET raulcastillabravo:status
+     ```
 
-```bash
-python main.py
-```
+2. **Verificar usando [Database Client](vscode:extension/cweijan.vscode-database-client2)**: 
+   - Añade una nueva conexión de Redis con:
+     - **Host**: `localhost`
+     - **Puerto**: `6379`
+     - **Contraseña**: `redis123`
+   - Puedes navegar por los datos y también abrir el **Redis CLI** directamente desde la interfaz de la extensión.
 
-## Conectar con Redis Insight
-
-### Paso 1: Instalar Redis Insight
-
-1. Descarga e instala [Redis Insight](https://redis.io/insight/) si aún no lo tienes
-2. Abre Redis Insight
-
-### Paso 2: Añadir Conexión de Base de Datos
-
-1. Haz clic en **Add Redis Database**
-2. Selecciona **Add Database Manually**
-3. Configura la conexión:
-   - **Host:** `localhost`
-   - **Puerto:** `6379`
-   - **Database Alias:** `Local Redis` (o cualquier nombre que prefieras)
-   - **Username:** dejar vacío
-   - **Password:** `redis123`
-4. Haz clic en **Add Redis Database**
-
-### Paso 3: Ver Datos
-
-1. Haz clic en tu conexión de base de datos
-2. Ve a la pestaña **Browser**
-3. Deberías ver las claves hash: `user:1001`, `user:1002`, `user:1003`
-4. Haz clic en cualquier clave para ver sus campos y valores
-
-## Estructura de Datos de Redis
-
-Este ejemplo usa el tipo de datos **Hash** de Redis para almacenar información de usuarios:
-
-| Clave      | Campo | Valor              |
-| ---------- | ----- | ------------------ |
-| user:1001  | name  | John Doe           |
-| user:1001  | email | john@example.com   |
-| user:1001  | age   | 30                 |
-
-## Variables de Entorno
-
-El archivo `.env` contiene:
-
-```
-REDIS_PASSWORD=redis123
-REDIS_PORT=6379
-REDIS_HOST=localhost
-```
-
-Puedes modificar estos valores según tus necesidades. Recuerda recrear los contenedores si cambias la contraseña de Redis.
-
-## Comandos Útiles
-
-### Comandos de Docker
-
-```bash
-# Iniciar contenedores
-docker compose up -d
-
-# Detener contenedores
-docker compose down
-
-# Detener y eliminar volúmenes (borrar todos los datos)
-docker compose down -v
-
-# Ver logs
-docker compose logs -f
-
-# Ver solo logs de Redis
-docker compose logs -f redis
-```
-
-### Comandos de Redis CLI
-
-```bash
-# Conectar a Redis CLI desde el contenedor
-docker exec -it redis_local redis-cli -a redis123
-
-# Obtener todas las claves
-KEYS *
-
-# Obtener todos los campos de un hash
-HGETALL user:1001
-
-# Obtener campo específico
-HGET user:1001 name
-
-# Eliminar una clave
-DEL user:1001
-
-# Salir de Redis CLI
-exit
-```
-
-## Operaciones de Redis Explicadas
-
-### HSET (Hash Set)
-Establece un campo en un hash a un valor. Si el hash no existe, se crea.
-
-```python
-redis.client.hset("user:1001", "name", "John Doe")
-```
-
-Equivalente en Redis:
-```
-HSET user:1001 name "John Doe"
-```
-
-### HGET (Hash Get)
-Obtiene el valor de un campo específico en un hash.
-
-```python
-name = redis.client.hget("user:1001", "name")
-```
-
-Equivalente en Redis:
-```
-HGET user:1001 name
-```
-
-### HGETALL (Hash Get All)
-Obtiene todos los campos y valores en un hash.
-
-```python
-user_data = redis.client.hgetall("user:1001")
-```
-
-Equivalente en Redis:
-```
-HGETALL user:1001
-```
-
-## Solución de Problemas
-
-### Puerto Ya en Uso
-
-Si el puerto 6379 ya está en uso, cambia `REDIS_PORT` en `.env` a otro puerto (ej. 6380) y reinicia:
-
-```bash
-docker compose down
-docker compose up -d
-```
-
-### Conexión Rechazada
-
-Asegúrate de que el contenedor de Redis está funcionando:
-
-```bash
-docker ps
-```
-
-Revisa los logs en busca de errores:
-
-```bash
-docker compose logs redis
-```
-
-### Módulo No Encontrado
-
-Si obtienes errores de importación, instala las dependencias:
-
-```bash
-pip3 install uv && uv sync
-```
-
-### Autenticación Fallida
-
-Asegúrate de usar la contraseña correcta del archivo `.env` al conectar.
+3. **Verificar usando [Redis Insight](https://redis.io/insight/)**: Conéctate a la base de datos y navega por las claves para ver `raulcastillabravo:status`. Usa los mismos detalles de conexión que en el punto anterior.
 
 ## Limpieza
 
-Para eliminar todo completamente:
-
+Para detener todos los servicios y eliminar el estado:
 ```bash
-# Detener y eliminar contenedores y volúmenes
 docker compose down -v
-
-# Eliminar la imagen de Redis (opcional)
-docker rmi redis:7-alpine
 ```
-
-## Próximos Pasos
-
-- Explorar otros tipos de datos de Redis (Listas, Sets, Sorted Sets, Streams)
-- Implementar patrones de caché
-- Añadir tiempos de expiración con TTL
-- Usar pub/sub de Redis para mensajería
-- Implementar bloqueo distribuido
-- Añadir transacciones de Redis
-

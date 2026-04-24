@@ -5,6 +5,11 @@ description = "Minimal viable example for Redis with Docker and Python"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "redis>=5.0.1",
-    "python-dotenv>=1.0.0",
+    "redis",
+    "python-dotenv",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
 ]
