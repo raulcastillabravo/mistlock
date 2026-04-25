@@ -6,12 +6,12 @@ Minimal viable example to work with **Redis** using **Python** and **Docker**. T
 
 ```mermaid
 architecture-beta
-    group api(cloud)[Cloud]
-    
-    service app(server)[Python Script] in api
-    service db(database)[Redis] in api
-    
-    db:L <--> R:app
+    group cloud(cloud)[Cloud]
+
+    service app(server)[Python Script] in cloud
+    service db(database)[Redis] in cloud
+
+    app:R <--> L:db
 ```
 
 [![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
@@ -53,47 +53,52 @@ scripts/setup.sh
 
 ## Start Infrastructure
 
-Launch the required containers:
+If you are not using a Dev Container, launch the required containers:
 ```bash
 docker compose up -d
 ```
 
 ## How to execute
 
-### Using python
+1. **Using python**:
+   ```bash
+   python main.py
+   ```
 
-```bash
-python main.py
-```
+2. **Using Redis CLI**:
+   - **Enter Shell**: Run `scripts/redis_cli.sh`.
+   - **Execute Commands**: Try to set a key manually:
+     ```bash
+     SET raulcastillabravo:status "available"
+     ```
 
 ## How to debug
 
-### The main.py client
+1. **main.py**:
+   - **Open**: Open `main.py`.
+   - **Breakpoints**: Set breakpoints in the code.
+   - **Run**: Press `F5` to start debugging.
 
-1. Open `main.py`.
-2. Set breakpoints in the code.
-3. Press `F5` to start debugging.
+2. **Tests**:
+   - **Open**: Open a test file (e.g., `tests/providers/test_redis_client.py`).
+   - **Breakpoints**: Set breakpoints in the test code.
+   - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test you want to debug.
 
 ## How to test
 
-### Individually
+1. **Individually**: You can run tests individually from the VS Code **Testing** tab.
 
-You can run tests individually from the VS Code **Testing** tab.
-
-### All tests
-
-To execution all tests (unit and integration) using the automated script:
-
-```bash
-scripts/run_tests.sh
-```
+2. **All tests**: To execute all tests (unit and integration) using the automated script:
+   ```bash
+   scripts/run_tests.sh
+   ```
 
 ## Validate results
 
 Verify that the user status is correctly stored in Redis.
 
-1. **Check using Redis CLI**: 
-   - **Enter Shell**: Run the script to enter the interactive shell:
+1. **Check using Redis CLI**:
+   - **Enter Shell**: Run the connection script:
      ```bash
      scripts/redis_cli.sh
      ```
@@ -102,14 +107,13 @@ Verify that the user status is correctly stored in Redis.
      GET raulcastillabravo:status
      ```
 
-2. **Check using [Database Client](vscode:extension/cweijan.vscode-database-client2)**: 
-   - Add a new Redis connection with:
-     - **Host**: `localhost`
-     - **Port**: `6379`
-     - **Password**: `redis123`
-   - You can browse the data and also open the **Redis CLI** directly from the extension UI.
+2. **Check using [Database Client](vscode:extension/cweijan.vscode-database-client2)**:
+   - **Connect**: Connect using the same connection settings defined in your `.env`.
+   - **Interactive**: You can browse the data and also open the **Redis CLI** directly from the extension UI.
 
-3. **Check using [Redis Insight](https://redis.io/insight/)**: Connect to the database and browse keys to see `raulcastillabravo:status`. Use the same connection settings as in the previous step.
+3. **Check using [Redis Insight](https://redis.io/insight/)**:
+   - **Connect**: Connect using the same connection settings defined in your `.env`.
+   - **Verify**: Browse the keys to see `raulcastillabravo:status`.
 
 ## Clean Up
 
