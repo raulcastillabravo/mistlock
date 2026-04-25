@@ -1,31 +1,24 @@
+import os
+from dotenv import load_dotenv
+from mongoengine import connect
 from src.models.user import User
-from src.utils.utils import connect_to_mongo
+
+load_dotenv()
+
+connect(host=os.getenv("MONGO_URI"))
 
 
 def run_example():
-    """Run MongoDB CRUD example"""
-    # Connect to MongoDB
-    print("Connecting to MongoDB...")
-    connect_to_mongo()
-    print("✓ Connected successfully")
+    email = "john.doe@example.com"
+    user = User.objects(email=email).first()
 
-    # Create a user
-    print("\nCreating a user...")
-    user = User(name="John Doe", email="john.doe@example.com")
-    user.save()
-    print(f"✓ User created: {user}")
-
-    # Read the user
-    print("\nReading users from database...")
-    users = User.objects.all()
-    for u in users:
-        print(f"  - {u}")
-
-    print("\n✓ Done! You can now connect with MongoDB Compass to see the data.")
+    if user:
+        print(f"✓ User found: {user.name} ({user.email})")
+    else:
+        user = User(name="John Doe", email=email)
+        user.save()
+        print(f"✓ User created: {user.name} ({user.email})")
 
 
 if __name__ == "__main__":
-    try:
-        run_example()
-    except Exception as e:
-        print(f"✗ Error: {e}")
+    run_example()

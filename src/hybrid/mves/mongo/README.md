@@ -65,6 +65,25 @@ Run the example script:
 bash scripts/run_main.sh
 ```
 
+### Using mongosh
+
+Access the MongoDB shell and copy-paste the content of `playgrounds/users.mongodb.js`:
+
+1. Run `./scripts/mongosh.sh`.
+2. Copy and paste the script from `playgrounds/users.mongodb.js`.
+
+### Using VS Code Playground
+
+1. Open `playgrounds/users.mongodb.js`.
+2. Click the **Play** icon in the top right of the editor.
+
+### Using MongoDB Compass
+
+1. Connect to MongoDB using Compass.
+2. Navigate to `my_db` -> `users`.
+3. Click **Add Data** -> **Insert Document** to create a user manually.
+4. Alternatively, use the **embedded Mongosh** at the bottom to run the playground script.
+
 ## How to debug
 
 ### The main.py client
@@ -93,15 +112,25 @@ bash scripts/run_tests.sh
 1. [Download and install MongoDB Compass](https://www.mongodb.com/try/download/compass).
 2. Create a new connection with this string:
    ```
-   mongodb://admin:admin123@localhost:27017/testdb?authSource=admin
+   mongodb://admin:admin123@localhost:27017/my_db?authSource=admin&uuidRepresentation=standard
    ```
-3. Navigate to `testdb` -> `users` to see the documents.
+3. Navigate to `my_db` -> `users` to see the documents.
+
+### Using mongosh
+
+You can also verify the data directly from the terminal:
+1. Run `./scripts/mongosh.sh`.
+2. Execute the following query:
+   ```javascript
+   db.getSiblingDB('my_db').users.find().pretty()
+   ```
 
 ### Using VS Code Extension
 
 The Dev Container includes the **MongoDB for VS Code** extension.
 1. Open the MongoDB icon in the activity bar.
 2. Add a new connection using the same connection string.
+3. You can use **Playgrounds** to run interactive queries.
 
 ## Clean Up
 
