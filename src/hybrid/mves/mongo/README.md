@@ -1,18 +1,17 @@
 # MongoDB
 
-Minimal Viable Example for MongoDB using Docker Compose, MongoEngine ODM, and MongoDB Compass for validation.
+Minimal Viable Example to work with **MongoDB** using **Python**, **Docker Compose**, and **MongoEngine ODM**. This example demonstrates basic CRUD operations and how to use different tools for execution and validation.
 
 ## Architecture
 
 ```mermaid
 architecture-beta
-    group api(cloud)[API Layer]
-    group db(database)[Database Layer]
+    group cloud(cloud)[Cloud]
 
-    service python(server)[Python App] in api
-    service mongo(database)[MongoDB] in db
+    service app(server)[Python App] in cloud
+    service db(database)[MongoDB] in cloud
 
-    python:R -- L:mongo
+    app:R <--> L:db
 ```
 [![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
@@ -30,112 +29,110 @@ architecture-beta
 
 ## Prerequisites
 
-- [Docker](https://www.docker.com/get-started)
-- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) (Recommended)
-- [MongoDB Compass](https://www.mongodb.com/try/download/compass) (Optional, for validation)
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed.
 
 ## Quickstart
 
-1. Open in Container.
-2. Execute `python main.py`.
+1. **Open in Container**: Open VS Code in the project folder and select **Dev Containers: Reopen in Container** from the Command Palette (`F1`).
+2. **Run the Example**:
+   ```bash
+   python main.py
+   ```
+
+💡 **Next Steps**: See the [How to debug](#how-to-debug), [How to test](#how-to-test), [Validate results](#validate-results) and [Clean Up](#clean-up) sections below.
 
 ## Setup Environment
 
-If not using Dev Containers, run the setup script:
+If you are not using a Dev Container, you can set up the environment manually:
 
 ```bash
-bash scripts/setup.sh
+scripts/setup.sh
 ```
 
 ## Start Infrastructure
 
-Launch the MongoDB service:
-
+If you are not using a Dev Container, launch the required containers:
 ```bash
 docker compose up -d
 ```
 
 ## How to execute
 
-### Using python
+1. **Using python**:
+   ```bash
+   python main.py
+   ```
 
-Run the example script:
+2. **Using mongosh**:
+   - **Enter Shell**:
 
-```bash
-bash scripts/run_main.sh
-```
+      ```bash
+      scripts/mongosh.sh
+      ```
 
-### Using mongosh
+   - **Copy**: Copy and paste the script from `playgrounds/users.mongodb.js` into the shell.
 
-Access the MongoDB shell and copy-paste the content of `playgrounds/users.mongodb.js`:
+3. **Using [MongoDB for VS Code](vscode:extension/mongodb.mongodb-vscode)**:
+   - **Connect**: Connect using the `MONGO_URI` defined in your `.env`.
+   - **Open**: Open `playgrounds/users.mongodb.js`.
+   - **Run**: Click the **Play** icon in the top right of the editor.
 
-1. Run `./scripts/mongosh.sh`.
-2. Copy and paste the script from `playgrounds/users.mongodb.js`.
-
-### Using VS Code Playground
-
-1. Open `playgrounds/users.mongodb.js`.
-2. Click the **Play** icon in the top right of the editor.
-
-### Using MongoDB Compass
-
-1. Connect to MongoDB using Compass.
-2. Navigate to `my_db` -> `users`.
-3. Click **Add Data** -> **Insert Document** to create a user manually.
-4. Alternatively, use the **embedded Mongosh** at the bottom to run the playground script.
+4. **Using [MongoDB Compass](https://www.mongodb.com/try/download/compass)**:
+   - **Connect**: Connect using the `MONGO_URI` defined in your `.env`.
+   - **Navigate**: Navigate to `my_db` -> `users`.
+   - **Insert**: Click **Add Data** -> **Insert Document** to create a user manually.
+   - **Mongosh**: Alternatively, open the **embedded Mongosh** and copy and paste the script from `playgrounds/users.mongodb.js`.
 
 ## How to debug
 
-### The main.py client
+1. **main.py**:
+   - **Open**: Open `main.py`.
+   - **Breakpoints**: Set breakpoints in the code.
+   - **Run**: Press `F5` to start debugging.
 
-1. Open `main.py`.
-2. Press `F5` and select **Python: Main**.
+2. **Tests**:
+   - **Open**: Open a test file (e.g., `tests/test_user.py`).
+   - **Breakpoints**: Set breakpoints in the test code.
+   - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test you want to debug.
 
 ## How to test
 
-### Individually
+1. **Individually**: You can run tests individually from the VS Code **Testing** tab.
 
-Use the VS Code Testing side bar to run tests.
+2. **All tests**: To execute all tests (unit and integration) using the automated script:
 
-### All tests
-
-Run the automated test script:
-
-```bash
-bash scripts/run_tests.sh
-```
+   ```bash
+   scripts/run_tests.sh
+   ```
 
 ## Validate results
 
-### Using MongoDB Compass (Recommended)
+Verify that the user data is correctly stored in MongoDB.
 
-1. [Download and install MongoDB Compass](https://www.mongodb.com/try/download/compass).
-2. Create a new connection with this string:
-   ```
-   mongodb://admin:admin123@localhost:27017/my_db?authSource=admin&uuidRepresentation=standard
-   ```
-3. Navigate to `my_db` -> `users` to see the documents.
+1. **Check using mongosh**:
+   - **Enter Shell**: Run the connection script:
+     ```bash
+     scripts/mongosh.sh
+     ```
+   - **Check Data**: Run the following query to see all users:
+     ```javascript
+     db.getSiblingDB('my_db').users.find().pretty()
+     ```
 
-### Using mongosh
+2. **Check using [MongoDB for VS Code](vscode:extension/mongodb.mongodb-vscode)**:
+   - **Connect**: Connect using the `MONGO_URI` defined in your `.env`.
+   - **Verify**: Navigate to `my_db` -> `users`.
+   - **Interactive**: You can use **Playgrounds** to run interactive queries.
 
-You can also verify the data directly from the terminal:
-1. Run `./scripts/mongosh.sh`.
-2. Execute the following query:
-   ```javascript
-   db.getSiblingDB('my_db').users.find().pretty()
-   ```
-
-### Using VS Code Extension
-
-The Dev Container includes the **MongoDB for VS Code** extension.
-1. Open the MongoDB icon in the activity bar.
-2. Add a new connection using the same connection string.
-3. You can use **Playgrounds** to run interactive queries.
+3. **Check using [MongoDB Compass](https://www.mongodb.com/try/download/compass)**:
+   - **Connect**: Connect using the `MONGO_URI` defined in your `.env`.
+   - **Verify**: Navigate to `my_db` -> `users`.
+   - **Interactive**: You can use **Mongosh** to run interactive queries.
 
 ## Clean Up
 
-Stop services and remove volumes:
-
+To stop all services and remove the state:
 ```bash
 docker compose down -v
 ```

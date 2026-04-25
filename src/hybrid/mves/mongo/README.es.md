@@ -1,20 +1,19 @@
 # MongoDB
 
-MVE (Minimal Viable Example) para MongoDB usando Docker Compose, MongoEngine ODM y MongoDB Compass para validación.
+MVE (Minimal Viable Example) para trabajar con **MongoDB** usando **Python**, **Docker Compose** y **MongoEngine ODM**. Este ejemplo demuestra operaciones CRUD básicas y cómo usar diferentes herramientas para la ejecución y validación.
 
 ## Arquitectura
 
 ```mermaid
 architecture-beta
-    group api(cloud)[API Layer]
-    group db(database)[Database Layer]
+    group cloud(cloud)[Cloud]
 
-    service python(server)[Python App] in api
-    service mongo(database)[MongoDB] in db
+    service app(server)[Python App] in cloud
+    service db(database)[MongoDB] in cloud
 
-    python:R -- L:mongo
+    app:R <--> L:db
 ```
-[![Ver Diagrama](https://img.shields.io/badge/Ver_Diagrama-Instalar-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
+[![Ver Diagrama](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
 ## Índice
 
@@ -24,118 +23,114 @@ architecture-beta
 - [Iniciar Infraestructura](#iniciar-infraestructura)
 - [Cómo ejecutar](#cómo-ejecutar)
 - [Cómo depurar](#cómo-depurar)
-- [Cómo testear](#cómo-testear)
+- [Cómo probar](#cómo-probar)
 - [Validar resultados](#validar-resultados)
 - [Limpieza](#limpieza)
 
 ## Prerrequisitos
 
-- [Docker](https://www.docker.com/get-started)
-- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) (Recomendado)
-- [MongoDB Compass](https://www.mongodb.com/try/download/compass) (Opcional, para validación)
+- [Docker](https://www.docker.com/get-started) instalado y funcionando.
+- [Extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers) instalada.
 
 ## Quickstart
 
-1. Abrir en el Contenedor.
-2. Ejecutar `python main.py`.
+1. **Abrir en Contenedor**: Abre VS Code en la carpeta del proyecto y selecciona **Dev Containers: Reopen in Container** desde la Paleta de Comandos (`F1`).
+2. **Ejecutar el Ejemplo**:
+   ```bash
+   python main.py
+   ```
+
+💡 **Siguientes Pasos**: Consulta las secciones [Cómo depurar](#cómo-depurar), [Cómo probar](#cómo-probar), [Validar resultados](#validar-resultados) y [Limpieza](#limpieza) a continuación.
 
 ## Configurar Entorno
 
-Si no usas Dev Containers, ejecuta el script de configuración:
+Si no estás usando un Dev Container, puedes configurar el entorno manualmente:
 
 ```bash
-bash scripts/setup.sh
+scripts/setup.sh
 ```
 
 ## Iniciar Infraestructura
 
-Lanza el servicio de MongoDB:
-
+Si no estás usando un Dev Container, lanza los contenedores necesarios:
 ```bash
 docker compose up -d
 ```
 
 ## Cómo ejecutar
 
-### Usando python
+1. **Usando python**:
+   ```bash
+   python main.py
+   ```
 
-Ejecuta el script de ejemplo:
+2. **Usando mongosh**:
+   - **Entrar al Shell**: 
+     ```bash
+     scripts/mongosh.sh
+     ```
+   - **Copiar**: Copia y pega el código de `playgrounds/users.mongodb.js` en la shell.
 
-```bash
-bash scripts/run_main.sh
-```
+3. **Usando [MongoDB for VS Code](vscode:extension/mongodb.mongodb-vscode)**:
+   - **Conectar**: Conéctate usando la `MONGO_URI` definida en tu archivo `.env`.
+   - **Abrir**: Abre `playgrounds/users.mongodb.js`.
+   - **Ejecutar**: Haz clic en el icono de **Play** arriba a la derecha del editor.
 
-### Usando mongosh
-
-Accede a la shell de MongoDB y copia/pega el contenido de `playgrounds/users.mongodb.js`:
-
-1. Ejecuta `./scripts/mongosh.sh`.
-2. Copia y pega el código de `playgrounds/users.mongodb.js`.
-
-### Usando VS Code Playground
-
-1. Abre `playgrounds/users.mongodb.js`.
-2. Haz clic en el icono de **Play** arriba a la derecha del editor.
-
-### Usando MongoDB Compass
-
-1. Conéctate a MongoDB usando Compass.
-2. Navega a `my_db` -> `users`.
-3. Haz clic en **Add Data** -> **Insert Document** para crear un usuario manualmente.
-4. Alternativamente, usa la **Mongosh integrada** en la parte inferior para ejecutar el script del playground.
+4. **Usando [MongoDB Compass](https://www.mongodb.com/try/download/compass)**:
+   - **Conectar**: Conéctate usando la `MONGO_URI` definida en tu archivo `.env`.
+   - **Navegar**: Navega a `my_db` -> `users`.
+   - **Insertar**: Haz clic en **Add Data** -> **Insert Document** para crear un usuario manualmente.
+   - **Mongosh**: Alternativamente, abre la **Mongosh integrada** y copia y pega el código de `playgrounds/users.mongodb.js`.
 
 ## Cómo depurar
 
-### El cliente main.py
+1. **main.py**:
+   - **Abrir**: Abre `main.py`.
+   - **Puntos de interrupción**: Establece puntos de interrupción en el código.
+   - **Ejecutar**: Presiona `F5` para iniciar la depuración.
 
-1. Abre `main.py`.
-2. Presiona `F5` y selecciona **Python: Main**.
+2. **Pruebas**:
+   - **Abrir**: Abre un archivo de prueba (ej. `tests/test_user.py`).
+   - **Puntos de interrupción**: Establece puntos de interrupción en el código de prueba.
+   - **Ejecutar**: Usa la pestaña de **Testing** de VS Code y haz clic en el icono de **Debug Test** al lado de la prueba que quieras depurar.
 
-## Cómo testear
+## Cómo probar
 
-### Individualmente
+1. **Individualmente**: Puedes ejecutar pruebas individualmente desde la pestaña **Testing** de VS Code.
 
-Usa la barra lateral de Testing de VS Code para ejecutar tests.
+2. **Todas las pruebas**: Para ejecutar todas las pruebas (unitarias y de integración) usando el script automatizado:
 
-### Todos los tests
-
-Ejecuta el script de tests automatizados:
-
-```bash
-bash scripts/run_tests.sh
-```
+   ```bash
+   scripts/run_tests.sh
+   ```
 
 ## Validar resultados
 
-### Usando MongoDB Compass (Recomendado)
+Verifica que los datos del usuario se guarden correctamente en MongoDB.
 
-1. [Descarga e instala MongoDB Compass](https://www.mongodb.com/try/download/compass).
-2. Crea una nueva conexión con esta cadena:
-   ```
-   mongodb://admin:admin123@localhost:27017/my_db?authSource=admin&uuidRepresentation=standard
-   ```
-3. Navega a `my_db` -> `users` para ver los documentos.
+1. **Verificar usando mongosh**:
+   - **Entrar al Shell**: Ejecuta el script de conexión:
+     ```bash
+     scripts/mongosh.sh
+     ```
+   - **Consultar Datos**: Ejecuta la siguiente consulta para ver todos los usuarios:
+     ```javascript
+     db.getSiblingDB('my_db').users.find().pretty()
+     ```
 
-### Usando mongosh
+2. **Verificar usando [MongoDB for VS Code](vscode:extension/mongodb.mongodb-vscode)**:
+   - **Conectar**: Conéctate usando la `MONGO_URI` definida en tu archivo `.env`.
+   - **Verificar**: Navega a `my_db` -> `users`.
+   - **Interactivo**: Puedes usar los **Playgrounds** para ejecutar consultas interactivas.
 
-También puedes verificar los datos directamente desde la terminal:
-1. Ejecuta `./scripts/mongosh.sh`.
-2. Ejecuta la siguiente consulta:
-   ```javascript
-   db.getSiblingDB('my_db').users.find().pretty()
-   ```
-
-### Usando la extensión de VS Code
-
-El Dev Container incluye la extensión **MongoDB for VS Code**.
-1. Abre el icono de MongoDB en la barra de actividad.
-2. Añade una nueva conexión usando la misma cadena de conexión.
-3. Puedes usar los **Playgrounds** para ejecutar consultas interactivas.
+3. **Verificar usando [MongoDB Compass](https://www.mongodb.com/try/download/compass)**:
+   - **Conectar**: Conéctate usando la `MONGO_URI` definida en tu archivo `.env`.
+   - **Verificar**: Navega a `my_db` -> `users`.
+   - **Interactivo**: Puedes usar la **Mongosh integrada** para ejecutar consultas interactivas.
 
 ## Limpieza
 
-Detén los servicios y elimina los volúmenes:
-
+Para detener todos los servicios y eliminar el estado:
 ```bash
 docker compose down -v
 ```

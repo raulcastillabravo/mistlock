@@ -1,12 +1,13 @@
-// MongoDB Playground
-// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+const dbName = 'my_db';
+const collectionName = 'users';
+const userEmail = 'john.doe.playground@example.com';
 
-// The current database to use.
-use('my_db');
+use(dbName);
 
-// Create a new document in the collection.
-db.getCollection('users').insertOne({
+db.getCollection(collectionName).deleteOne({ email: userEmail });
+
+db.getCollection(collectionName).insertOne({
   name: "John Doe Playground",
-  email: "john.doe.playground@example.com",
+  email: userEmail,
   created_at: new ISODate()
 });

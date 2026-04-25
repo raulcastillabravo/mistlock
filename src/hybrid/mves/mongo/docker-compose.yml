@@ -1,7 +1,7 @@
 services:
-  mongo:
+  mongodb:
     image: mongo:8
-    container_name: mongo
+    container_name: mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
@@ -16,7 +16,7 @@ services:
     container_name: dev
     network_mode: host
     depends_on:
-      - mongo
+      - mongodb
     volumes:
       - .:/app:cached
     working_dir: /app
