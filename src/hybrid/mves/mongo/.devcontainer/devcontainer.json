@@ -1,13 +1,27 @@
 {
-	"name": "Python 3 - MongoDB",
-	"image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+	"name": "Mongo MVE",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+	"service": "dev",
+	"workspaceFolder": "/app",
 	"features": {
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
 			"moby": false
 		}
 	},
-	"postCreateCommand": "pip install uv && uv sync",
-	"runArgs": [
-		"--network=host"
-	]
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"mermaidchart.vscode-mermaid-chart",
+				"tamasfe.even-better-toml",
+				"mongodb.mongodb-vscode"
+			]
+		}
+	},
+	"containerEnv": {
+		"PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+	},
+	"postCreateCommand": "bash scripts/setup.sh"
 }

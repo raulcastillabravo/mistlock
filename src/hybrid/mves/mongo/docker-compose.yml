@@ -1,7 +1,7 @@
 services:
   mongodb:
-    image: mongo:7-jammy
-    container_name: mongodb_local
+    image: mongo:8
+    container_name: mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
@@ -10,6 +10,17 @@ services:
       - "${MONGO_PORT}:27017"
     volumes:
       - mongodb_data:/data/db
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    container_name: dev
+    network_mode: host
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    command: sleep infinity
 
 volumes:
   mongodb_data:

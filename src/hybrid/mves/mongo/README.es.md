@@ -1,230 +1,136 @@
-# MongoDB + MongoEngine + Docker Example
+# MongoDB
 
-Minimal viable example to work with MongoDB using Docker Compose, MongoEngine ODM, and MongoDB Compass.
+MVE (Minimal Viable Example) para trabajar con **MongoDB** usando **Python**, **Docker Compose** y **MongoEngine ODM**. Este ejemplo demuestra operaciones CRUD básicas y cómo usar diferentes herramientas para la ejecución y validación.
 
-## Project Structure
+## Arquitectura
 
+```mermaid
+architecture-beta
+    group cloud(cloud)[Cloud]
+
+    service app(server)[Python App] in cloud
+    service db(database)[MongoDB] in cloud
+
+    app:R <--> L:db
 ```
-mongo-docker-mongoengine/
-├── .devcontainer/
-│   └── devcontainer.json
-├── docker-compose.yml
-├── .env
-├── models.py
-├── main.py
-├── pyproject.toml
-├── uv.lock
-├── README.md
-└── README.es.md
+[![Ver Diagrama](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
+
+## Índice
+
+- [Prerrequisitos](#prerrequisitos)
+- [Quickstart](#quickstart)
+- [Configurar Entorno](#configurar-entorno)
+- [Iniciar Infraestructura](#iniciar-infraestructura)
+- [Cómo ejecutar](#cómo-ejecutar)
+- [Cómo depurar](#cómo-depurar)
+- [Cómo probar](#cómo-probar)
+- [Validar resultados](#validar-resultados)
+- [Limpieza](#limpieza)
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y funcionando.
+- [Extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers) instalada.
+
+## Quickstart
+
+1. **Abrir en Contenedor**: Abre VS Code en la carpeta del proyecto y selecciona **Dev Containers: Reopen in Container** desde la Paleta de Comandos (`F1`).
+2. **Ejecutar el Ejemplo**:
+   ```bash
+   python main.py
+   ```
+
+💡 **Siguientes Pasos**: Consulta las secciones [Cómo depurar](#cómo-depurar), [Cómo probar](#cómo-probar), [Validar resultados](#validar-resultados) y [Limpieza](#limpieza) a continuación.
+
+## Configurar Entorno
+
+Si no estás usando un Dev Container, puedes configurar el entorno manualmente:
+
+```bash
+scripts/setup.sh
 ```
 
-## Prerequisites
+## Iniciar Infraestructura
 
-- Docker and Docker Compose installed
-- VS Code with Dev Containers extension (optional, for dev container setup)
-- MongoDB Compass or any MongoDB client
-
-## Option 1: Using Dev Container (Recommended)
-
-### Step 1: Open Project in Dev Container
-
-1. Open VS Code in the project folder
-2. Press `F1` or `Ctrl+Shift+P` (Windows/Linux) / `Cmd+Shift+P` (Mac)
-3. Type and select: **Dev Containers: Reopen in Container**
-4. Wait for the container to build and dependencies to install
-
-### Step 2: Start MongoDB Container
-
-Inside the dev container terminal:
-
+Si no estás usando un Dev Container, lanza los contenedores necesarios:
 ```bash
 docker compose up -d
 ```
 
-Verify it's running:
+## Cómo ejecutar
 
+1. **Usando python**:
+   ```bash
+   python main.py
+   ```
+
+2. **Usando mongosh**:
+   - **Entrar al Shell**: 
+     ```bash
+     scripts/mongosh.sh
+     ```
+   - **Copiar**: Copia y pega el código de `playgrounds/users.mongodb.js` en la shell.
+
+3. **Usando [MongoDB for VS Code](vscode:extension/mongodb.mongodb-vscode)**:
+   - **Conectar**: Conéctate usando la `MONGO_URI` definida en tu archivo `.env`.
+   - **Abrir**: Abre `playgrounds/users.mongodb.js`.
+   - **Ejecutar**: Haz clic en el icono de **Play** arriba a la derecha del editor.
+
+4. **Usando [MongoDB Compass](https://www.mongodb.com/try/download/compass)**:
+   - **Conectar**: Conéctate usando la `MONGO_URI` definida en tu archivo `.env`.
+   - **Navegar**: Navega a `my_db` -> `users`.
+   - **Insertar**: Haz clic en **Add Data** -> **Insert Document** para crear un usuario manualmente.
+   - **Mongosh**: Alternativamente, abre la **Mongosh integrada** y copia y pega el código de `playgrounds/users.mongodb.js`.
+
+## Cómo depurar
+
+1. **main.py**:
+   - **Abrir**: Abre `main.py`.
+   - **Puntos de interrupción**: Establece puntos de interrupción en el código.
+   - **Ejecutar**: Presiona `F5` para iniciar la depuración.
+
+2. **Pruebas**:
+   - **Abrir**: Abre un archivo de prueba (ej. `tests/test_user.py`).
+   - **Puntos de interrupción**: Establece puntos de interrupción en el código de prueba.
+   - **Ejecutar**: Usa la pestaña de **Testing** de VS Code y haz clic en el icono de **Debug Test** al lado de la prueba que quieras depurar.
+
+## Cómo probar
+
+1. **Individualmente**: Puedes ejecutar pruebas individualmente desde la pestaña **Testing** de VS Code.
+
+2. **Todas las pruebas**: Para ejecutar todas las pruebas (unitarias y de integración) usando el script automatizado:
+
+   ```bash
+   scripts/run_tests.sh
+   ```
+
+## Validar resultados
+
+Verifica que los datos del usuario se guarden correctamente en MongoDB.
+
+1. **Verificar usando mongosh**:
+   - **Entrar al Shell**: Ejecuta el script de conexión:
+     ```bash
+     scripts/mongosh.sh
+     ```
+   - **Consultar Datos**: Ejecuta la siguiente consulta para ver todos los usuarios:
+     ```javascript
+     db.getSiblingDB('my_db').users.find().pretty()
+     ```
+
+2. **Verificar usando [MongoDB for VS Code](vscode:extension/mongodb.mongodb-vscode)**:
+   - **Conectar**: Conéctate usando la `MONGO_URI` definida en tu archivo `.env`.
+   - **Verificar**: Navega a `my_db` -> `users`.
+   - **Interactivo**: Puedes usar los **Playgrounds** para ejecutar consultas interactivas.
+
+3. **Verificar usando [MongoDB Compass](https://www.mongodb.com/try/download/compass)**:
+   - **Conectar**: Conéctate usando la `MONGO_URI` definida en tu archivo `.env`.
+   - **Verificar**: Navega a `my_db` -> `users`.
+   - **Interactivo**: Puedes usar la **Mongosh integrada** para ejecutar consultas interactivas.
+
+## Limpieza
+
+Para detener todos los servicios y eliminar el estado:
 ```bash
-docker ps
-```
-
-### Step 3: Create Documents and Insert Data
-
-Run the Python script:
-
-```bash
-python main.py
-```
-
-You should see output like:
-
-```
-Connecting to MongoDB...
-✓ Connected successfully
-
-Inserting sample data...
-✓ Inserted 3 users successfully
-
-Inserted users:
-  - <User(id=..., name='John Doe', email='john@example.com')>
-  - <User(id=..., name='Jane Smith', email='jane@example.com')>
-  - <User(id=..., name='Bob Johnson', email='bob@example.com')>
-
-✓ Done! You can now connect with MongoDB Compass to see the data.
-```
-
-## Option 2: Local Setup (Without Dev Container)
-
-### Step 1: Install Dependencies with uv
-
-```bash
-pip install uv && uv sync
-```
-
-### Step 2: Start MongoDB Container
-
-```bash
-docker compose up -d
-```
-
-### Step 3: Create Documents and Insert Data
-
-```bash
-python main.py
-```
-
-## Connecting with MongoDB Compass
-
-### Step 1: Open MongoDB Compass
-
-1. Download and install [MongoDB Compass](https://www.mongodb.com/products/compass) if you haven't already
-2. Open MongoDB Compass
-
-### Step 2: Create New Connection
-
-Use the following connection string:
-
-```
-mongodb://admin:admin123@localhost:27017/testdb?authSource=admin
-```
-
-Or configure manually:
-
-- **Host:** `localhost`
-- **Port:** `27017`
-- **Authentication:** Username/Password
-  - **Username:** `admin`
-  - **Password:** `admin123`
-  - **Authentication Database:** `admin`
-- **Database:** `testdb`
-
-### Step 3: Connect and View Data
-
-1. Click **Connect**
-2. Navigate to the `testdb` database
-3. Open the `users` collection
-4. You should see the 3 users inserted by the Python script
-
-## Database Schema
-
-The `users` collection has the following structure:
-
-| Field      | Type     | Description                 |
-| ---------- | -------- | --------------------------- |
-| \_id       | ObjectId | Auto-generated document ID  |
-| name       | String   | User's full name            |
-| email      | String   | User's email (unique)       |
-| created_at | DateTime | Document creation timestamp |
-
-## Environment Variables
-
-The `.env` file contains:
-
-```
-MONGO_USER=admin
-MONGO_PASSWORD=admin123
-MONGO_DB=testdb
-MONGO_PORT=27017
-MONGO_HOST=localhost
-```
-
-You can modify these values as needed. Remember to recreate the containers if you change database credentials.
-
-## Useful Commands
-
-### Docker Commands
-
-```bash
-# Start containers
-docker compose up -d
-
-# Stop containers
-docker compose down
-
-# Stop and remove volumes (delete all data)
 docker compose down -v
-
-# View logs
-docker compose logs -f
-
-# View only MongoDB logs
-docker compose logs -f mongodb
 ```
-
-## Troubleshooting
-
-### Port Already in Use
-
-If port 27017 is already in use, change `MONGO_PORT` in `.env` to another port (e.g., 27018) and restart:
-
-```bash
-docker compose down
-docker compose up -d
-```
-
-### Connection Refused
-
-Make sure the MongoDB container is running:
-
-```bash
-docker ps
-```
-
-Check the logs for errors:
-
-```bash
-docker compose logs mongodb
-```
-
-### Module Not Found
-
-If you get import errors, install dependencies:
-
-```bash
-pip3 install uv && uv sync
-```
-
-### Authentication Failed
-
-Ensure you're using the correct credentials from the `.env` file and including `authSource=admin` in the connection string.
-
-## Clean Up
-
-To completely remove everything:
-
-```bash
-# Stop and remove containers and volumes
-docker compose down -v
-
-# Remove the MongoDB image (optional)
-docker rmi mongo:7-jammy
-```
-
-## Next Steps
-
-- Add more document models to `models.py`
-- Implement embedded documents and references
-- Add data validation with MongoEngine fields
-- Create indexes for better query performance
-- Implement aggregation pipelines
-- Add text search capabilities
-
