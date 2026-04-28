@@ -55,7 +55,7 @@ There are two types of examples:
 
 | Service | MVE | Projects |
 | :--- | :--- | :--- |
-| **Azure Functions** | • *(coming soon)* | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage)<br>• [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
+| **Azure Functions** | • [azure-functions](./src/azure/mves/functions/) | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage)<br>• [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
 | **Container Apps** | • *(coming soon)* | |
 | **Databricks** | • [databricks](./src/azure/mves/databricks/) | |
 | **Blob Storage** | • [blob-storage](./src/azure/mves/blob-storage/) | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage) |
@@ -101,7 +101,7 @@ There are two types of examples:
 
   - 2026-04-27
     - [x] MVE Google Functions (Firebase).
-    - [ ] MVE Azure Functions.
+    - [x] MVE Azure Functions.
     - [ ] MVE AWS Lambda using SAM Framework.
   - Next batch:
     - [ ] MVE Google Dataflow.

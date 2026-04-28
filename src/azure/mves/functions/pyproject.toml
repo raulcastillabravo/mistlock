@@ -1,0 +1,16 @@
+[project]
+name = "functions"
+version = "0.1.0"
+description = "Azure Functions MVE with HTTP trigger"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "azure-functions",
+    "requests",
+    "python-dotenv",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
