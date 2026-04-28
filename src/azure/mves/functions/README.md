@@ -1,6 +1,6 @@
 # Azure Functions
 
-This MVE demonstrates how to develop and test Azure Functions locally using the **Azure Functions Core Tools**.
+Minimal Viable Example to work with **Azure Functions** using **Python** and **Azure Functions Core Tools**. This example demonstrates how to develop, run, debug, test, and validate an HTTP-triggered function locally.
 
 ## Architecture
 
@@ -8,16 +8,12 @@ This MVE demonstrates how to develop and test Azure Functions locally using the 
 architecture-beta
     group cloud(cloud)[Azure]
 
-    service func(server)[Functions Emulator] in cloud
+    service func(server)[Azure Functions] in cloud
     service client(internet)[Python Client]
 
-    client -- "HTTP GET/POST" --> func
+    client:R --> L:func
 ```
-
 [![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
-
-- **Python Client**: A simple script that sends HTTP requests to the function.
-- **Functions Emulator**: Local runtime provided by Azure Functions Core Tools.
 
 ## Index
 
@@ -33,55 +29,115 @@ architecture-beta
 
 ## Prerequisites
 
-- [Docker](https://www.docker.com/get-started)
-- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers)
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed.
 
 ## Quickstart
 
-1. **Open in Container**: Open VS Code in this folder and select **Dev Containers: Reopen in Container**.
-2. **Run the Example**: `python main.py`.
+1. **Open in Container**: Open VS Code in the project folder and select **Dev Containers: Reopen in Container** from the Command Palette (`F1`).
+2. **Start the emulator**:
+   ```bash
+   func start
+   ```
+3. **Run the Example**:
+   ```bash
+   python main.py
+   ```
+
+💡 **Next Steps**: See the [How to debug](#how-to-debug), [How to test](#how-to-test), [Validate results](#validate-results) and [Clean Up](#clean-up) sections below.
 
 ## Setup Environment
 
-If you are not using a Dev Container, you can set up the environment manually: `scripts/setup.sh`
+If you are not using a Dev Container, you can set up the environment manually:
+
+```bash
+scripts/setup.sh
+```
 
 ## Start Infrastructure
 
-If you are not using a Dev Container, launch the required services: `docker compose up -d`
+Start the Azure Functions emulator using any of these options:
+
+1. **Using terminal**:
+   ```bash
+   func start
+   ```
+
+2. **Using Run and Debug**:
+   - **Open**: Open the **Run and Debug** tab in VS Code.
+   - **Run**: Select **Attach to Python Functions** and press `F5`. The emulator starts and the debugger attaches automatically.
+
+3. **Using [Azure Functions extension](vscode:extension/ms-azuretools.vscode-azurefunctions)**:
+   - **Open**: Open the **Azure** sidebar and navigate to **Workspace → Local Project → Functions**.
+   - **Run**: Click the **Start debugging** button to start the function app.
 
 ## How to execute
 
 1. **Using python**:
-    - **Interactive**: `python main.py`
-    - **Script**: `scripts/run_main.sh`
+   ```bash
+   python main.py
+   ```
+
 2. **Using curl**:
-    - **Run**: `curl "http://localhost:7071/api/get_secret?username=admin"`
-3. **Using REST Client**:
-    - **Open**: `app.http` (if created) or use any REST client.
+   - **Admin** (success):
+     ```bash
+     curl "http://localhost:7071/api/get_secret?username=admin"
+     ```
+   - **Other user** (forbidden):
+     ```bash
+     curl "http://localhost:7071/api/get_secret?username=guest"
+     ```
+
+3. **Using [REST Client](vscode:extension/humao.rest-client)**:
+   - **Open**: Open `http/get_secret.http` in VS Code.
+   - **Run**: Click **Send Request** above any request block.
 
 ## How to debug
 
-1. **main.py**:
-    - **Open**: `main.py`
-    - **Breakpoints**: Set a breakpoint in the `main` function.
-    - **Run**: Press `F5` or use the "Run and Debug" tab.
-2. **Functions**:
-    - **Open**: `function_app.py`
-    - **Breakpoints**: Set a breakpoint inside `get_secret`.
-    - **Run**: Use the Azure Functions VS Code extension or attach the debugger to the `func host start` process.
+1. **function_app.py**:
+   - **Open**: Open `function_app.py`.
+   - **Breakpoints**: Set breakpoints inside `get_secret`.
+   - **Run**: From the **Run and Debug** tab, select **Attach to Python Functions** and press `F5`. The emulator will start and the debugger will attach automatically.
+
+2. **main.py**:
+   - **Open**: Open `main.py`.
+   - **Breakpoints**: Set breakpoints in the `main` function.
+   - **Run**: Press `F5` to start debugging.
+
+3. **Tests**:
+   - **Open**: Open a test file (e.g., `tests/test_functions.py`).
+   - **Breakpoints**: Set breakpoints in the test code.
+   - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test you want to debug.
 
 ## How to test
 
-1. **Individually**: Via VS Code Testing tab.
-2. **All tests**: Via automated script (`scripts/run_tests.sh`).
+1. **Individually**: You can run tests individually from the VS Code **Testing** tab.
+
+2. **All tests**: To execute all tests using the automated script:
+
+   ```bash
+   scripts/run_tests.sh
+   ```
 
 ## Validate results
 
-1. **Check using Terminal**:
-    - **Verify**: The output of `main.py` should show the secret for 'admin' and 403 for other users.
-2. **Check using Logs**:
-    - **Inspect**: Review the output of the terminal running `func start` to see the function execution logs.
+Verify that the function returns the expected responses for each user.
+
+1. **Check using the terminal**:
+   - **Run**: Execute the main script and review its output:
+     ```bash
+     python main.py
+     ```
+   - **Verify**: The user defined in `ADMIN_USERNAME` (`.env`) should receive a `200` response with the secret value. Any other user should receive `403`.
+
+2. **Check using logs**:
+   - **Open**: Review the terminal where `func start` is running.
+   - **Verify**: Each request logs a line like `Python HTTP trigger function processed a request.`
+
 
 ## Clean Up
 
-`docker compose down -v`
+To stop all services and remove the state:
+```bash
+docker compose down -v
+```

@@ -1,5 +1,10 @@
 {
   "python.defaultInterpreterPath": ".venv/bin/python",
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "baseUrl": "http://localhost:7071/api"
+    }
+  },
   "python.testing.pytestArgs": [
     "tests"
   ],
