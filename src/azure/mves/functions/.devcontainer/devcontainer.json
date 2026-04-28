@@ -16,6 +16,8 @@
         "ms-python.python",
         "mermaidchart.vscode-mermaid-chart",
         "tamasfe.even-better-toml",
+        "azurite.azurite",
+        "ms-azuretools.vscode-azurestorage",
         "ms-azuretools.vscode-azurefunctions"
       ]
     }
