@@ -57,7 +57,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 
 | Servicio | MVE | Projects |
 | :--- | :--- | :--- |
-| **Azure Functions** | • *(próximamente)* | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage)<br>• [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
+| **Azure Functions** | • [azure-functions](./src/azure/mves/functions/) | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage)<br>• [sql-writer](./src/azure/projects/sql-writer/) (Azure Function → Azure SQL) |
 | **Container Apps** | • *(próximamente)* | |
 | **Databricks** | • [databricks](./src/azure/mves/databricks/) | |
 | **Blob Storage** | • [blob-storage](./src/azure/mves/blob-storage/) | • [storage-writer](./src/azure/projects/storage-writer/) (Azure Function → Blob Storage) |
@@ -102,9 +102,9 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
   <details>
   <summary>Ver siguientes pasos</summary>
 
-  - 2026-04-20
+  - 2026-04-27
     - [x] MVE Google Functions (Firebase).
-    - [ ] MVE Azure Functions.
+    - [x] MVE Azure Functions.
     - [ ] MVE AWS Lambda con SAM Framework.
   - Próximo lote:
     - [ ] MVE Google Dataflow.

@@ -1,0 +1,17 @@
+[tools]
+python = "3.12"
+uv = "latest"
+azure-functions-core-tools = "latest"
+
+[settings]
+env_file = ".env"
+
+[tasks.sync]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.setup]
+description = "Full environment setup"
+run = [
+  { task = "sync" },
+]
