@@ -9,9 +9,11 @@ architecture-beta
     group cloud(cloud)[Azure]
 
     service func(server)[Azure Functions] in cloud
+    service storage(database)[Azurite] in cloud
     service client(internet)[Python Client]
 
     client:R --> L:func
+    func:R -- L:storage
 ```
 [![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
@@ -56,7 +58,13 @@ scripts/setup.sh
 
 ## Start Infrastructure
 
-Start the Azure Functions emulator using any of these options:
+If you are not using a Dev Container, launch the required containers:
+
+```bash
+docker compose up -d
+```
+
+Then, start the Azure Functions host using any of these options:
 
 1. **Using terminal**:
    ```bash

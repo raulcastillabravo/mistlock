@@ -17,8 +17,6 @@
         "mermaidchart.vscode-mermaid-chart",
         "tamasfe.even-better-toml",
         "humao.rest-client",
-        "azurite.azurite",
-        "ms-azuretools.vscode-azurestorage",
         "ms-azuretools.vscode-azurefunctions"
       ]
     }

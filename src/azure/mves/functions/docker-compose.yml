@@ -1,10 +1,27 @@
 services:
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: azurite
+    ports:
+      - "10000:10000" # Blob service
+      - "10001:10001" # Queue service
+      - "10002:10002" # Table service
+    volumes:
+      - azurite_data:/data
+    command: azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --location /data
+
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
     container_name: dev
+    network_mode: host
+    depends_on:
+      - azurite
     volumes:
       - .:/app:cached
     working_dir: /app
     command: sleep infinity
+
+volumes:
+  azurite_data:
 
 
