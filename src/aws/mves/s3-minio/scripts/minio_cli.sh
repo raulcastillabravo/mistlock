@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -it minio mc "$@"
+docker exec -it minio bash

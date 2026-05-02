@@ -6,10 +6,10 @@ MVE emulando S3 con MinIO para pipelines de datos en local. Este ejemplo demuest
 
 ```mermaid
 architecture-beta
-    group cloud(cloud)[Nube]
+    group cloud(cloud)[AWS]
 
-    service s3(aws:s3)[S3 / MinIO] in cloud
-    service app(server:python)[App Python]
+    service s3(disk)[S3] in cloud
+    service app(server)[Python App]
 
     app:R --> L:s3
 ```
