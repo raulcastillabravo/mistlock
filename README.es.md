@@ -43,7 +43,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 | **Lambda** | • *(próximamente)* | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
 | **ECS / EKS** | • *(próximamente)* | |
 | **Glue** | • *(próximamente)* | |
-| **S3** | • [s3-garage](./src/aws/mves/s3-garage/)<br>• [s3-minio-boto3](./src/aws/mves/s3-minio-boto3/)<br>• [s3-minio-delta](./src/aws/mves/s3-minio-delta/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
+| **S3** | • [s3-garage](./src/aws/mves/s3-garage/)<br>• [s3-minio](./src/aws/mves/s3-minio/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
 | **RDS (Postgres)** | • [rds-postgres (Postgres)](./src/hybrid/mves/postgres/) | • [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
 | **Dynamo DB** | • *(próximamente)* | • [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
 | **ElastiCache (Redis)** | • [elasti-cache (Redis)](./src/hybrid/mves/redis/) | |
@@ -86,7 +86,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 
 | Servicio | MVE | Projects |
 | :--- | :--- | :--- |
-| **MinIO** | • [s3-minio-boto3](./src/aws/mves/s3-minio-boto3/)<br>• [s3-minio-delta](./src/aws/mves/s3-minio-delta/) | |
+| **MinIO** | • [s3-minio](./src/aws/mves/s3-minio/) | |
 | **Postgres** | • [postgres](./src/hybrid/mves/postgres/) | |
 | **MongoDB** | • [mongo](./src/hybrid/mves/mongo/) | |
 | **Redis** | • [redis](./src/hybrid/mves/redis/) | • [redis-mutex](./src/hybrid/projects/redis-mutex/) (Python → Redis) |
@@ -119,7 +119,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
     - [ ] MVE AWS SQS / SNS.
     - [ ] MVE AWS Eventbridge.
     - [ ] MVE AWS CloudFormation.
-    - [ ] Unificar los MVEs de MinIO en uno solo.
+    - [x] Unificar los MVEs de MinIO en uno solo.
     - [ ] MVE Azure Container Apps (ACA).
     - [ ] MVE Azure SQL Edge.
     - [ ] MVE Azure Service Bus.
