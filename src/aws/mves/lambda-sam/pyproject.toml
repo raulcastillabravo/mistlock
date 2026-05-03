@@ -1,0 +1,9 @@
+[project]
+name = "example-name"
+version = "0.1.0"
+description = "Short project description"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv",
+]
