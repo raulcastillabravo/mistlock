@@ -1,6 +1,6 @@
-# AWS S3 (MinIO)
+# S3 MinIO
 
-MVE emulando S3 con MinIO para pipelines de datos en local. Este ejemplo demuestra cómo integrar `boto3`, `pyarrow` (S3FileSystem) y `deltalake` con una instancia local de MinIO.
+Ejemplo Mínimo Viable (MVE) para trabajar con **AWS S3** en local usando **MinIO**, **Python** y varias librerías de S3 (**Boto3**, **Pyarrow** y **Deltalake**). Este ejemplo demuestra cómo integrar estas herramientas para pipelines de datos locales y emulación de almacenamiento de objetos.
 
 ## Arquitectura
 
@@ -11,9 +11,9 @@ architecture-beta
     service s3(disk)[S3] in cloud
     service app(server)[Python App]
 
-    app:R --> L:s3
+    app:R <--> L:s3
 ```
-[![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
+[![Ver Diagrama](https://img.shields.io/badge/Ver_Diagrama-Instalar-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
 ## Índice
 
@@ -29,61 +29,102 @@ architecture-beta
 
 ## Requisitos previos
 
-- [Docker](https://www.docker.com/get-started)
-- [Extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers)
+- [Docker](https://www.docker.com/get-started) instalado y ejecutándose.
+- [Extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers) instalada.
 
 ## Inicio rápido
 
-1. **Abrir en Contenedor**: Abre VS Code en la carpeta del proyecto y selecciona **Dev Containers: Reopen in Container**.
-2. **Ejecutar el Ejemplo**: Ejecuta `python main.py`.
+1. **Abrir en Contenedor**: Abre VS Code en la carpeta del proyecto y selecciona **Dev Containers: Reopen in Container** desde la Paleta de Comandos (`F1`).
+2. **Ejecutar el Ejemplo**:
+   ```bash
+   python main.py
+   ```
+
+💡 **Siguientes pasos**: Consulta las secciones [Cómo depurar](#cómo-depurar), [Cómo testear](#cómo-testear), [Validar resultados](#validar-resultados) y [Limpiar](#limpiar) a continuación.
 
 ## Configurar entorno
 
 Si no estás usando un Dev Container, puedes configurar el entorno manualmente:
-`scripts/setup.sh`
+
+```bash
+scripts/setup.sh
+```
 
 ## Iniciar infraestructura
 
 Si no estás usando un Dev Container, lanza los contenedores necesarios:
-`docker compose up -d`
+
+```bash
+docker compose up -d
+```
 
 ## Cómo ejecutar
 
 1. **Usando python**:
-   - **Ejecutar**: `scripts/run_main.sh`
+   ```bash
+   python main.py
+   ```
+
 2. **Usando AWS CLI**:
-   - **Ejecutar**: `aws s3 ls`
-3. **Usando MinIO CLI**:
-   - **Ejecutar**: `scripts/minio_cli.sh ls myminio`
+   - **Subir**: Usa el siguiente comando para subir el archivo README al bucket bronze:
+     ```bash
+     aws s3 cp README.md s3://bronze --profile minio
+     ```
 
 ## Cómo depurar
 
 1. **main.py**:
-   - **Abrir**: `main.py`
-   - **Puntos de interrupción**: Coloca los puntos de interrupción donde sea necesario.
-   - **Ejecutar**: Usa el depurador estándar de Python en VS Code.
+   - **Abrir**: Abre `main.py`.
+   - **Puntos de interrupción**: Establece puntos de interrupción en el código.
+   - **Ejecutar**: Presiona `F5` para iniciar la depuración.
+
 2. **Tests**:
-   - **Abrir**: `tests/`
-   - **Puntos de interrupción**: Coloca los puntos de interrupción donde sea necesario.
-   - **Ejecutar**: Usa la pestaña de Testing de VS Code para depurar tests individuales.
+   - **Abrir**: Abre un archivo de test (ej. `tests/components/test_s3_boto.py`).
+   - **Puntos de interrupción**: Establece puntos de interrupción en el código del test.
+   - **Ejecutar**: Usa la pestaña **Testing** de VS Code y haz clic en el icono **Debug Test** junto al test que quieras depurar.
 
 ## Cómo testear
 
-1. **Individualmente**: A través de la pestaña Testing de VS Code.
-2. **Todos los tests**: A través del script automatizado (`scripts/run_tests.sh`).
+1. **Individualmente**: Puedes ejecutar tests individualmente desde la pestaña **Testing** de VS Code.
+
+2. **Todos los tests**: Para ejecutar todos los tests (incluyendo tests de componentes e integración) usando el script automatizado:
+
+   ```bash
+   scripts/run_tests.sh
+   ```
 
 ## Validar resultados
 
 1. **Comprobar usando MinIO GUI**:
-   - **Abrir**: `http://localhost:9001`
-   - **Credenciales**: Usa `MINIO_ROOT_USER` y `MINIO_ROOT_PASSWORD` definidos en tu `.env`.
-   - **Verificar**: Revisa los buckets `bronze` y `silver`.
-2. **Comprobar usando AWS Toolkit**:
-   - **Abrir**: Extensión AWS Toolkit en VS Code.
-   - **Credenciales**: Usa `S3_ACCESS_KEY` y `S3_SECRET_KEY` definidos en tu `.env`.
-   - **Verificar**: Explora los buckets de S3.
+   - **Abrir**: 
+     ```bash
+     http://localhost:9001
+     ```
+   - **Credenciales**: Usa el `MINIO_ROOT_USER` y `MINIO_ROOT_PASSWORD` definidos en tu `.env`.
+   - **Verificar**: Revisa los buckets `bronze` y `silver` para ver los archivos subidos.
+
+2. **Comprobar usando AWS CLI**:
+   - **Ejecutar**: Lista el contenido del bucket bronze:
+     ```bash
+     aws s3 ls s3://bronze --recursive
+     ```
+
+3. **Comprobar usando MinIO CLI**:
+   - **Entrar a la Shell**: 
+     ```bash
+     scripts/minio_cli.sh
+     ```
+   - **Verificar**: 
+     ```bash
+     mc ls data/bronze/ --recursive
+     ```
+
+
 
 ## Limpiar
 
-Detener los servicios y eliminar los volúmenes:
-`docker compose down -v`
+Para detener todos los servicios y eliminar el estado:
+
+```bash
+docker compose down -v
+```

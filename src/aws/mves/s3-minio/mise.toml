@@ -22,8 +22,8 @@ aws configure set profile.minio.endpoint_url $S3_ENDPOINT
 [tasks.create_buckets]
 description = "Create MinIO buckets"
 run = """
-aws s3 mb s3://$S3_BUCKET_BRONZE --profile minio
-aws s3 mb s3://$S3_BUCKET_SILVER --profile minio
+aws s3 mb s3://$S3_BUCKET_BRONZE --profile minio 2>/dev/null || true
+aws s3 mb s3://$S3_BUCKET_SILVER --profile minio 2>/dev/null || true
 """
 
 [tasks.setup]
