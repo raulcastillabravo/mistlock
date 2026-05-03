@@ -1,7 +1,7 @@
 services:
   minio:
     image: minio/minio
-    container_name: minio_local
+    container_name: minio
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -11,6 +11,17 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    container_name: dev
+    network_mode: host
+    depends_on:
+      - minio
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    command: sleep infinity
 
 volumes:
   minio_data:
