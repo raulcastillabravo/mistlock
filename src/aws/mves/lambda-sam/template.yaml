@@ -10,32 +10,38 @@ Globals:
   Function:
     Timeout: 3
 
+Parameters:
+  AdminUsername:
+    Type: String
+    Description: Admin username for accessing the secret
+    Default: admin
+
 Resources:
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  GetSecretFunction:
+    Type: AWS::Serverless::Function
     Properties:
-      CodeUri: hello_world/
+      CodeUri: src/get_secret/
       Handler: app.lambda_handler
-      Runtime: python3.14
+      Runtime: python3.12
       Architectures:
         - x86_64
+      Environment:
+        Variables:
+          ADMIN_USERNAME: !Ref AdminUsername
       Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        GetSecret:
+          Type: Api
           Properties:
-            Path: /hello
+            Path: /get_secret
             Method: get
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  GetSecretApi:
+    Description: "API Gateway endpoint URL for Prod stage for Get Secret function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/secret/"
+  GetSecretFunction:
+    Description: "Get Secret Lambda Function ARN"
+    Value: !GetAtt GetSecretFunction.Arn
+  GetSecretFunctionIamRole:
+    Description: "Implicit IAM Role created for Get Secret function"
+    Value: !GetAtt GetSecretFunctionRole.Arn

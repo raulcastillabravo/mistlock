@@ -1,104 +1,136 @@
-# [Título del Proyecto]
+# AWS Lambda (SAM)
 
-Ejemplo mínimo viable para trabajar con **[Nombre del Servicio]** usando **[Tecnologías]**. Este ejemplo demuestra [propósito del MVE].
+Ejemplo Mínimo Viable (MVE) para trabajar con **AWS Lambda** utilizando el **Serverless Application Model (SAM)** y **Python**. Este ejemplo demuestra cómo construir y ejecutar un API Gateway local con funciones Lambda.
 
 ## Arquitectura
 
 ```mermaid
 architecture-beta
-    group api(cloud)[Cloud]
-    
-    service app(server)[Aplicación] in api
-    service db(database)[Nombre del Servicio] in api
-    
-    db:L -- R:app
-```
+    group cloud(cloud)[AWS Cloud]
 
-[![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
+    service client(internet)[Client]
+    service api(server)[API Gateway] in cloud
+    service lambda(server)[Lambda Function] in cloud
+
+    client:R --> L:api
+    api:R --> L:lambda
+```
+[![Ver Diagrama](https://img.shields.io/badge/Ver_Diagrama-Instalar-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
 ## Índice
 
-- [Prerrequisitos](#prerrequisitos)
-- [Quickstart](#quickstart)
-- [Configurar el Entorno](#configurar-el-entorno)
-- [Iniciar Infraestructura](#iniciar-infraestructura)
+- [Limitaciones](#limitaciones)
+- [Requisitos previos](#requisitos-previos)
+- [Inicio rápido](#inicio-rápido)
+- [Configurar entorno](#configurar-entorno)
+- [Iniciar infraestructura](#iniciar-infraestructura)
 - [Cómo ejecutar](#cómo-ejecutar)
 - [Cómo depurar](#cómo-depurar)
 - [Cómo probar](#cómo-probar)
 - [Validar resultados](#validar-resultados)
 - [Limpieza](#limpieza)
 
-## Prerrequisitos
+## Limitaciones
+
+⚠️ **Compatibilidad con Dev Containers**: Este MVE **no es compatible con Dev Containers**. Esto se debe a las limitaciones del CLI de SAM al ejecutarse dentro de un contenedor, lo que impide un mapeo de rutas y una red correctos para la ejecución local de Lambda.
+
+## Requisitos previos
 
 - [Docker](https://www.docker.com/get-started) instalado y en ejecución.
-- Extensión [Dev Containers](vscode:extension/ms-vscode-remote.remote-containers) instalada.
 
-## Quickstart
+💡 **Activación de Mise**: Para evitar prefijar los comandos con `mise exec`, se recomienda [activar mise](https://mise.jdx.dev/getting-started.html#activate-mise) en tu terminal.
 
-1. **Abrir en Contenedor**: Abre VS Code en la carpeta del proyecto y selecciona **Dev Containers: Reopen in Container** desde la Paleta de Comandos (`F1`).
-2. **Ejecutar el Ejemplo**:
+## Inicio rápido
+
+1. **Configurar entorno**: Ejecuta el script de configuración para instalar herramientas y dependencias.
+   ```bash
+   scripts/setup.sh
+   ```
+2. **Iniciar la API**: Inicia el API Gateway local de SAM.
+   ```bash
+   mise exec -- sam local start-api
+   ```
+3. **Ejecutar el Ejemplo**: Ejecuta el script de Python para probar la API.
    ```bash
    python main.py
    ```
 
-💡 **Próximos Pasos**: Consulta las secciones de [Cómo depurar](#cómo-depurar), [Cómo probar](#cómo-probar), [Validar resultados](#validar-resultados) y [Limpieza](#limpieza) a continuación.
+## Configurar entorno
 
-## Configurar el Entorno
+Configura el entorno manualmente utilizando el script proporcionado:
 
-Instala las dependencias y herramientas del sistema usando mise:
 ```bash
 scripts/setup.sh
 ```
 
-## Iniciar Infraestructura
+## Iniciar infraestructura
 
-Lanza los contenedores necesarios:
+La infraestructura local es gestionada por el CLI de SAM. Inicia el API Gateway local usando:
+
 ```bash
-docker compose up -d
+mise exec -- sam local start-api
 ```
+
+> [!NOTE]
+> Los contenedores reales de Lambda son levantados dinámicamente por el CLI de SAM usando Docker cuando se reciben peticiones.
 
 ## Cómo ejecutar
 
-### Usando python
+1. **Usando python**:
+   - **Ejecutar**:
+     ```bash
+     python main.py
+     ```
 
-Ejecuta el script de demostración:
-```bash
-python main.py
-```
+2. **Usando SAM CLI (Manual)**:
+   - **Ejecutar**: Si deseas ejecutar el CLI de SAM manualmente sin la tarea de `mise`:
+     ```bash
+     mise exec -- sam local start-api --parameter-overrides AdminUsername=admin
+     ```
+
+3. **Usando [REST Client](vscode:extension/humao.rest-client)**:
+   - **Abrir**: `http/get_secret.http`.
+   - **Ejecutar**: Haz clic en **Send Request** encima de la URL.
+
+4. **Usando cURL**:
+   - **Ejecutar**:
+     ```bash
+     curl "http://127.0.0.1:3000/get_secret?username=admin"
+     ```
 
 ## Cómo depurar
 
-### El cliente main.py
+1. **main.py**:
+   - **Abrir**: `main.py`.
+   - **Breakpoints**: Añade puntos de interrupción en el código.
+   - **Ejecutar**: Pulsa `F5` para iniciar la depuración.
 
-1. Abre `main.py`.
-2. Establece puntos de interrupción en el código.
-3. Presiona `F5` para iniciar la depuración.
+2. **Lambda Function**:
+   - **Abrir**: `src/get_secret/app.py`.
+   - **Breakpoints**: Añade puntos de interrupción en tu controlador Lambda.
+   - **Ejecutar**: Inicia SAM en modo de depuración (ej., `mise exec -- sam local start-api -d 5858`). Utiliza la extensión [AWS Toolkit](vscode:extension/amazonwebservices.aws-toolkit-vscode) para acoplarte a la función Lambda.
 
 ## Cómo probar
 
-### Todas las pruebas
-
-Ejecuta la suite de pruebas automatizadas:
-```bash
-scripts/run_tests.sh
-```
+1. **Todas las pruebas**: Ejecuta todas las pruebas usando el script automatizado:
+   ```bash
+   scripts/run_tests.sh
+   ```
 
 ## Validar resultados
 
-Explica cómo verificar que el ejemplo funciona correctamente.
+Verifica que la función Lambda devuelva los valores de secreto esperados basados en el nombre de usuario.
 
-1. **[Paso de Validación 1]**: Instrucciones.
-2. **[Paso de Validación 2]**: Instrucciones.
+1. **Comprobar usando Python**:
+   - **Ejecutar**: `python main.py`.
+   - **Verificar**: La salida debería mostrar un estado `200` para `admin` y `403` para `guest`.
 
-### Detalles de Conexión
-- **Servidor**: `localhost`
-- **Puerto**: `[puerto]`
-- **Usuario**: `[usuario]`
-- **Contraseña**: `[contraseña]`
+2. **Comprobar usando cURL**:
+   - **Ejecutar**: `curl "http://127.0.0.1:3000/get_secret?username=admin"`.
+   - **Verificar**: Asegúrate de que devuelva `"super-secret-value-from-emulator"`.
 
 ## Limpieza
 
-Para detener todos los servicios y eliminar el estado:
-```bash
-docker compose down -v
-```
+Para detener la API local de SAM:
+
+- **Ejecutar**: Pulsa `Ctrl+C` en la terminal donde se está ejecutando SAM.

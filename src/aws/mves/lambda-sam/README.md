@@ -1,23 +1,26 @@
-# [Project Title]
+# AWS Lambda (SAM)
 
-Minimal viable example to work with **[Service Name]** using **[Technologies]**. This example demonstrates [purpose of the MVE].
+Minimal Viable Example to work with **AWS Lambda** using the **Serverless Application Model (SAM)** and **Python**. This example demonstrates how to build and run a local API Gateway with Lambda functions.
 
 ## Architecture
 
 ```mermaid
 architecture-beta
-    group api(cloud)[Cloud]
-    
-    service app(server)[Application] in api
-    service db(database)[Service Name] in api
-    
-    db:L -- R:app
+    group cloud(cloud)[AWS Cloud]
+
+    service client(internet)[Client]
+    service api(server)[API Gateway] in cloud
+    service lambda(server)[Lambda Function] in cloud
+
+    client:R --> L:api
+    api:R --> L:lambda
 ```
 
 [![View Diagram](https://img.shields.io/badge/View_Diagram-Install-blue?logo=visualstudiocode)](vscode:extension/mermaidchart.vscode-mermaid-chart)
 
 ## Index
 
+- [Limitations](#limitations)
 - [Prerequisites](#prerequisites)
 - [Quickstart](#quickstart)
 - [Setup Environment](#setup-environment)
@@ -28,77 +31,99 @@ architecture-beta
 - [Validate results](#validate-results)
 - [Clean Up](#clean-up)
 
+## Limitations
+
+⚠️ **Dev Container Compatibility**: This MVE is **not compatible with Dev Containers**. This is due to limitations in the SAM CLI when running inside a container.
+
 ## Prerequisites
 
 - [Docker](https://www.docker.com/get-started) installed and running.
-- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed.
+
+💡 **Mise Activation**: To avoid prefixing commands with `mise exec`, it is recommended to [activate mise](https://mise.jdx.dev/getting-started.html#activate-mise) in your shell.
 
 ## Quickstart
 
-1. **Open in Container**: Open VS Code in the project folder and select **Dev Containers: Reopen in Container** from the Command Palette (`F1`).
-2. **Run the Example**:
+1. **Setup Environment**: Run the setup script to install tools and dependencies.
+   ```bash
+   scripts/setup.sh
+   ```
+2. **Start the API**: Boot up the local SAM API Gateway.
+   ```bash
+   mise exec -- sam local start-api
+   ```
+3. **Run the Example**: Execute the Python script to test the API.
    ```bash
    python main.py
    ```
 
-💡 **Next Steps**: See the [How to debug](#how-to-debug), [How to test](#how-to-test), [Validate results](#validate-results) and [Clean Up](#clean-up) sections below.
-
 ## Setup Environment
 
-Install dependencies and system tools using mise:
+Set up the environment manually using the provided script:
+
 ```bash
 scripts/setup.sh
 ```
 
 ## Start Infrastructure
 
-Launch the required containers:
+The local infrastructure is managed by the SAM CLI. Start the local API Gateway using:
+
 ```bash
-docker compose up -d
+mise exec -- sam local start-api
 ```
 
 ## How to execute
 
-### Using python
+1. **Using python**:
+   - **Run**:
+     ```bash
+     python main.py
+     ```
 
-Execute the demonstration script:
-```bash
-python main.py
-```
+2. **Using cURL**:
+   - **Run**:
+     ```bash
+     curl "http://127.0.0.1:3000/get_secret?username=admin"
+     ```
+
+3. **Using [REST Client](vscode:extension/humao.rest-client)**:
+   - **Open**: `http/get_secret.http`.
+   - **Run**: Click on **Send Request** above the URL.
+
 
 ## How to debug
 
-### The main.py client
+1. **main.py**:
+   - **Open**: `main.py`.
+   - **Breakpoints**: Set breakpoints in the code.
+   - **Run**: Press `F5` to start debugging.
 
-1. Open `main.py`.
-2. Set breakpoints in the code.
-3. Press `F5` to start debugging.
+2. **Lambda Function**:
+   - **Open**: `src/get_secret/app.py`.
+   - **Breakpoints**: Set breakpoints in your Lambda handler.
+   - **Run**: Start SAM in debug mode (e.g., `mise exec -- sam local start-api -d 5858`). Use the [AWS Toolkit](vscode:extension/amazonwebservices.aws-toolkit-vscode) extension to attach to the Lambda function.
 
 ## How to test
 
-### All tests
-
-Execute the automated test suite:
-```bash
-scripts/run_tests.sh
-```
+1. **All tests**: Execute all tests using the automated script:
+   ```bash
+   scripts/run_tests.sh
+   ```
 
 ## Validate results
 
-Explain how to verify the example is working correctly.
+Verify that the Lambda function returns the expected secret values based on the username.
 
-1. **[Verification Step 1]**: Instructions.
-2. **[Verification Step 2]**: Instructions.
+1. **Check using Python**:
+   - **Run**: `python main.py`.
+   - **Verify**: The output should show a `200` status for `admin` and `403` for `guest`.
 
-### Connection Details
-- **Server**: `localhost`
-- **Port**: `[port]`
-- **Username**: `[user]`
-- **Password**: `[password]`
+2. **Check using cURL**:
+   - **Run**: `curl "http://127.0.0.1:3000/get_secret?username=admin"`.
+   - **Verify**: Ensure it returns `"super-secret-value-from-emulator"`.
 
 ## Clean Up
 
-To stop all services and remove the state:
-```bash
-docker compose down -v
-```
+To stop the SAM local API:
+
+- **Run**: Press `Ctrl+C` in the terminal where SAM is running.

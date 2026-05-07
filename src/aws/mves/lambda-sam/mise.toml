@@ -2,6 +2,7 @@
 python = "3.12"
 uv = "latest"
 aws-sam = "latest"
+awscli = "latest"
 
 [settings]
 env_file = ".env"
@@ -10,8 +11,13 @@ env_file = ".env"
 description = "Sync python dependencies"
 run = "uv sync"
 
+[tasks.build]
+description = "Build the SAM application"
+run = "sam build"
+
 [tasks.setup]
 description = "Full environment setup"
 run = [
   { task = "sync" },
+  { task = "build" },
 ]
