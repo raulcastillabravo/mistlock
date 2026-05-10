@@ -1,0 +1,10 @@
+[project]
+name = "lambda-sam"
+version = "0.1.0"
+description = "AWS Lambda SAM Minimal Viable Example"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["python-dotenv", "requests", "boto3"]
+
+[dependency-groups]
+dev = ["pytest"]

@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  sam-app
+  Sample SAM Template for sam-app
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Parameters:
+  AdminUsername:
+    Type: String
+    Description: Admin username for accessing the secret
+    Default: admin
+
+Resources:
+  GetSecretFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/functions/get_secret/
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          ADMIN_USERNAME: !Ref AdminUsername
+      Events:
+        GetSecret:
+          Type: Api
+          Properties:
+            Path: /get_secret
+            Method: get
+
+Outputs:
+  GetSecretApi:
+    Description: API Gateway endpoint URL for Prod stage for Get Secret function
+    Value: !Sub https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/secret/
+  GetSecretFunction:
+    Description: Get Secret Lambda Function ARN
+    Value: !GetAtt GetSecretFunction.Arn
+  GetSecretFunctionIamRole:
+    Description: Implicit IAM Role created for Get Secret function
+    Value: !GetAtt GetSecretFunctionRole.Arn

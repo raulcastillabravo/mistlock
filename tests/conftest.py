@@ -48,6 +48,16 @@ def dev_container(src_dir):
     return _run
 
 @pytest.fixture(scope="module")
+def host_command(src_dir):
+    """
+    Runs any command in the host machine within the src_dir.
+    """
+    def _run(command):
+        return subprocess.run(shlex.split(command), cwd=src_dir, capture_output=True, text=True)
+            
+    return _run
+
+@pytest.fixture(scope="module")
 def dev_python(dev_container):
     """
     Runs a Python script inside the 'dev' service using the project's venv.

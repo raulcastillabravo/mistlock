@@ -38,7 +38,7 @@ There are two types of examples:
 
 | Service | MVE | Projects |
 | :--- | :--- | :--- |
-| **Lambda** | • *(coming soon)* | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
+| **Lambda** | • [lambda-sam](./src/aws/mves/lambda-sam/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
 | **ECS / EKS** | • *(coming soon)* | |
 | **Glue** | • *(coming soon)* | |
 | **S3** | • [s3-garage](./src/aws/mves/s3-garage/)<br>• [s3-minio](./src/aws/mves/s3-minio/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
@@ -102,7 +102,7 @@ There are two types of examples:
   - 2026-04-27
     - [x] MVE Google Functions (Firebase).
     - [x] MVE Azure Functions.
-    - [ ] MVE AWS Lambda using SAM Framework.
+    - [x] MVE AWS Lambda using SAM Framework.
   - Next batch:
     - [ ] MVE Google Dataflow.
     - [ ] MVE Azure Cosmos DB.

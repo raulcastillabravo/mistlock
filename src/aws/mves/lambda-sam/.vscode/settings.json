@@ -1,0 +1,13 @@
+{
+  "python.defaultInterpreterPath": ".venv/bin/python",
+    "rest-client.environmentVariables": {
+    "$shared": {
+      "baseUrl": "http://127.0.0.1:3000/"
+    }
+  },
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

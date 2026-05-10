@@ -40,7 +40,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
 
 | Servicio | MVE | Projects |
 | :--- | :--- | :--- |
-| **Lambda** | • *(próximamente)* | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
+| **Lambda** | • [lambda-sam](./src/aws/mves/lambda-sam/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB)<br>• [sql-writer](./src/aws/projects/sql-writer/) (Lambda → Postgres) |
 | **ECS / EKS** | • *(próximamente)* | |
 | **Glue** | • *(próximamente)* | |
 | **S3** | • [s3-garage](./src/aws/mves/s3-garage/)<br>• [s3-minio](./src/aws/mves/s3-minio/) | • [storage-writer](./src/aws/projects/storage-writer/) (Lambda → S3)<br>• [simple-etl](./src/aws/projects/simple-etl/) (S3 → Lambda → DynamoDB) |
@@ -105,7 +105,7 @@ Algunos ejemplos aparecen varias veces porque integran varios servicios cloud.
   - 2026-04-27
     - [x] MVE Google Functions (Firebase).
     - [x] MVE Azure Functions.
-    - [ ] MVE AWS Lambda con SAM Framework.
+    - [x] MVE AWS Lambda con SAM Framework.
   - Próximo lote:
     - [ ] MVE Google Dataflow.
     - [ ] MVE Azure Cosmos DB.
