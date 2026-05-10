@@ -19,7 +19,7 @@ Resources:
   GetSecretFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/get_secret/
+      CodeUri: src/functions/get_secret/
       Handler: app.lambda_handler
       Runtime: python3.12
       Architectures:

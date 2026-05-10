@@ -39,8 +39,6 @@ architecture-beta
 - [Docker](https://www.docker.com/get-started) instalado y en ejecución.
 - [SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) instalado.
 
-💡 **Activación de Mise**: Para evitar prefijar los comandos con `mise exec`, se recomienda [activar mise](https://mise.jdx.dev/getting-started.html#activate-mise) en tu terminal.
-
 ## Inicio rápido
 
 1. **Configurar entorno**: Ejecuta el script de configuración para instalar herramientas y dependencias.
@@ -113,7 +111,7 @@ sam local start-api
    - **Ejecutar**: En la pestaña **Run and Debug** de VS Code, selecciona **Python: Main** y pulsa `F5`.
 
 2. **Lambda Function**:
-   - **Abrir**: `src/get_secret/app.py`.
+   - **Abrir**: `src/functions/get_secret/app.py`.
    - **Breakpoints**: Añade puntos de interrupción en tu controlador Lambda.
    - **Ejecutar**: En la pestaña **Run and Debug** de VS Code, selecciona **SAM: Debug get_secret** y pulsa `F5`.
 
