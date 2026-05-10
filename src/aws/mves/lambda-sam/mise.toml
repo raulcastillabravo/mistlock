@@ -1,7 +1,6 @@
 [tools]
 python = "3.12"
 uv = "latest"
-aws-sam = "latest"
 awscli = "latest"
 
 [settings]
@@ -11,6 +10,17 @@ env_file = ".env"
 description = "Sync python dependencies"
 run = "uv sync"
 
+[tasks.aws-config]
+description = "Configure AWS CLI profile for SAM"
+run = """
+. ./.env
+aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile sam
+aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile sam
+aws configure set region $AWS_DEFAULT_REGION --profile sam
+aws configure set endpoint_url $SAM_LAMBDA_URL --profile sam
+aws configure set cli_binary_format raw-in-base64-out --profile sam
+"""
+
 [tasks.build]
 description = "Build the SAM application"
 run = "sam build"
@@ -18,6 +28,7 @@ run = "sam build"
 [tasks.setup]
 description = "Full environment setup"
 run = [
-  { task = "sync" },
-  { task = "build" },
+  { task = "sync" }, 
+  { task = "build" }, 
+  { task = "aws-config" }
 ]

@@ -37,6 +37,7 @@ architecture-beta
 ## Requisitos previos
 
 - [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) instalado.
 
 💡 **Activación de Mise**: Para evitar prefijar los comandos con `mise exec`, se recomienda [activar mise](https://mise.jdx.dev/getting-started.html#activate-mise) en tu terminal.
 
@@ -48,7 +49,7 @@ architecture-beta
    ```
 2. **Iniciar la API**: Inicia el API Gateway local de SAM.
    ```bash
-   mise exec -- sam local start-api
+   sam local start-api
    ```
 3. **Ejecutar el Ejemplo**: Ejecuta el script de Python para probar la API.
    ```bash
@@ -68,7 +69,7 @@ scripts/setup.sh
 La infraestructura local es gestionada por el CLI de SAM. Inicia el API Gateway local usando:
 
 ```bash
-mise exec -- sam local start-api
+sam local start-api
 ```
 
 > [!NOTE]
@@ -82,20 +83,25 @@ mise exec -- sam local start-api
      python main.py
      ```
 
-2. **Usando SAM CLI (Manual)**:
-   - **Ejecutar**: Si deseas ejecutar el CLI de SAM manualmente sin la tarea de `mise`:
+2. **Usando cURL**:
+   - **Ejecutar**:
      ```bash
-     mise exec -- sam local start-api --parameter-overrides AdminUsername=admin
+     curl "http://127.0.0.1:3000/get_secret?username=admin"
      ```
 
 3. **Usando [REST Client](vscode:extension/humao.rest-client)**:
    - **Abrir**: `http/get_secret.http`.
    - **Ejecutar**: Haz clic en **Send Request** encima de la URL.
 
-4. **Usando cURL**:
-   - **Ejecutar**:
+4. **Usando AWS CLI**:
+   - **Iniciar Lambda**:
+     Usa `start-lambda` en lugar de `start-api` para ejecutar solo la función Lambda, sin API Gateway.
      ```bash
-     curl "http://127.0.0.1:3000/get_secret?username=admin"
+     sam local start-lambda
+     ```
+   - **Invocar**:
+     ```bash
+     aws lambda invoke --function-name GetSecretFunction --profile sam --payload '{"queryStringParameters": {"username": "admin"}}' output.json
      ```
 
 ## Cómo depurar
@@ -103,12 +109,13 @@ mise exec -- sam local start-api
 1. **main.py**:
    - **Abrir**: `main.py`.
    - **Breakpoints**: Añade puntos de interrupción en el código.
-   - **Ejecutar**: Pulsa `F5` para iniciar la depuración.
+   - **Iniciar SAM**: Inicia la API local: `sam local start-api`.
+   - **Ejecutar**: En la pestaña **Run and Debug** de VS Code, selecciona **Python: Main** y pulsa `F5`.
 
 2. **Lambda Function**:
    - **Abrir**: `src/get_secret/app.py`.
    - **Breakpoints**: Añade puntos de interrupción en tu controlador Lambda.
-   - **Ejecutar**: Inicia SAM en modo de depuración (ej., `mise exec -- sam local start-api -d 5858`). Utiliza la extensión [AWS Toolkit](vscode:extension/amazonwebservices.aws-toolkit-vscode) para acoplarte a la función Lambda.
+   - **Ejecutar**: En la pestaña **Run and Debug** de VS Code, selecciona **SAM: Debug get_secret** y pulsa `F5`.
 
 ## Cómo probar
 

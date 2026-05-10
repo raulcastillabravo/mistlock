@@ -2,6 +2,37 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "SAM: Debug get_secret",
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "invokeTarget": {
+        "target": "template",
+        "logicalId": "GetSecretFunction",
+        "templatePath": "./template.yaml"
+      },
+      "lambda": {
+        "runtime": "python3.12",
+        "environmentVariables": {
+          "ADMIN_USERNAME": "admin"
+        },
+        "payload": {
+          "json": {
+            "queryStringParameters": {
+              "username":"admin"
+            }
+          }
+        }
+      },
+      "sam": {
+        "containerBuild": false,
+        "skipNewImageCheck": false
+      },
+      "api": {
+        "httpMethod": "get"
+      },
+      "noDebug": false,
+    },
+    {
       "name": "Python: Main",
       "type": "debugpy",
       "request": "launch",

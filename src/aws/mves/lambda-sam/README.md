@@ -38,6 +38,7 @@ architecture-beta
 ## Prerequisites
 
 - [Docker](https://www.docker.com/get-started) installed and running.
+- [SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) installed.
 
 💡 **Mise Activation**: To avoid prefixing commands with `mise exec`, it is recommended to [activate mise](https://mise.jdx.dev/getting-started.html#activate-mise) in your shell.
 
@@ -49,7 +50,7 @@ architecture-beta
    ```
 2. **Start the API**: Boot up the local SAM API Gateway.
    ```bash
-   mise exec -- sam local start-api
+   sam local start-api
    ```
 3. **Run the Example**: Execute the Python script to test the API.
    ```bash
@@ -69,7 +70,7 @@ scripts/setup.sh
 The local infrastructure is managed by the SAM CLI. Start the local API Gateway using:
 
 ```bash
-mise exec -- sam local start-api
+sam local start-api
 ```
 
 ## How to execute
@@ -90,18 +91,28 @@ mise exec -- sam local start-api
    - **Open**: `http/get_secret.http`.
    - **Run**: Click on **Send Request** above the URL.
 
+4. **Using AWS CLI**:
+   - **Start Lambda**: Use `start-lambda` instead of `start-api` to run only the lambda function, without API Gateway.
+     ```bash
+     sam local start-lambda
+     ```
+   - **Invoke**:
+     ```bash
+     aws lambda invoke --function-name GetSecretFunction --profile sam --payload '{"queryStringParameters": {"username": "admin"}}' output.json
+     ```
 
 ## How to debug
 
 1. **main.py**:
    - **Open**: `main.py`.
    - **Breakpoints**: Set breakpoints in the code.
-   - **Run**: Press `F5` to start debugging.
+   - **Run SAM**: Start the local API: `sam local start-api`.
+   - **Run**: In the VS Code **Run and Debug** tab, select **Python: Main** and press `F5`.
 
 2. **Lambda Function**:
    - **Open**: `src/get_secret/app.py`.
    - **Breakpoints**: Set breakpoints in your Lambda handler.
-   - **Run**: Start SAM in debug mode (e.g., `mise exec -- sam local start-api -d 5858`). Use the [AWS Toolkit](vscode:extension/amazonwebservices.aws-toolkit-vscode) extension to attach to the Lambda function.
+   - **Run**: In the VS Code **Run and Debug** tab, select **SAM: Debug get_secret** and press `F5`.
 
 ## How to test
 

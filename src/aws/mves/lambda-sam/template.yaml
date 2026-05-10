@@ -1,8 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
+Description: |
   sam-app
-
   Sample SAM Template for sam-app
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
@@ -37,11 +36,11 @@ Resources:
 
 Outputs:
   GetSecretApi:
-    Description: "API Gateway endpoint URL for Prod stage for Get Secret function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/secret/"
+    Description: API Gateway endpoint URL for Prod stage for Get Secret function
+    Value: !Sub https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/secret/
   GetSecretFunction:
-    Description: "Get Secret Lambda Function ARN"
+    Description: Get Secret Lambda Function ARN
     Value: !GetAtt GetSecretFunction.Arn
   GetSecretFunctionIamRole:
-    Description: "Implicit IAM Role created for Get Secret function"
+    Description: Implicit IAM Role created for Get Secret function
     Value: !GetAtt GetSecretFunctionRole.Arn
