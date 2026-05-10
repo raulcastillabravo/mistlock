@@ -10,6 +10,13 @@ class SamCli:
     def __init__(self):
         self._api_url = os.getenv("SAM_API_URL")
 
+    def __enter__(self):
+        self.start_api()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.stop_api()
+
     def start_api(self):
         """
         Starts the SAM local API in the background.

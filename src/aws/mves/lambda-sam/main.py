@@ -2,7 +2,6 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from src.components.sam_cli import SamCli
 
 load_dotenv()
 
@@ -20,9 +19,4 @@ def main():
     print(f"Response Body: {response.text}")
 
 if __name__ == "__main__":
-    sam_cli = SamCli()
-    sam_cli.start_api()
-
     main()
-
-    sam_cli.stop_api()
