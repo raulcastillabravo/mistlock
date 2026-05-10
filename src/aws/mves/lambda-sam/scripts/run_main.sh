@@ -4,16 +4,19 @@ set -e
 # Load environment variables
 set -a; . .env; set +a
 
-# Start SAM local API in the background
+# Start services in the background
 sam local start-api > /dev/null 2>&1 &
-SAM_PID=$!
+API_PID=$!
 
-# Ensure the background process is terminated on exit (SIGTERM for orderly shutdown)
-trap 'kill $SAM_PID || true' EXIT
+sam local start-lambda > /dev/null 2>&1 &
+LAMBDA_PID=$!
 
-echo "Waiting for SAM local API to start..."
+# Ensure the background processes are terminated on exit
+trap 'kill $API_PID $LAMBDA_PID || true' EXIT
+
+echo "Waiting for SAM services to start..."
 for i in {1..30}; do
-  curl -s $SAM_API_URL > /dev/null && break
+  curl -s $SAM_API_URL > /dev/null && curl -s $SAM_LAMBDA_URL > /dev/null && break
   sleep 1
 done
 

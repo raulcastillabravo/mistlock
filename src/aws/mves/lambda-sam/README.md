@@ -63,13 +63,17 @@ Set up the environment manually using the provided script:
 scripts/setup.sh
 ```
 
-## Start Infrastructure
+The local infrastructure is managed by the SAM CLI. 
 
-The local infrastructure is managed by the SAM CLI. Start the local API Gateway using:
+1. **API Gateway**: Start the local API Gateway using:
+   ```bash
+   sam local start-api
+   ```
 
-```bash
-sam local start-api
-```
+2. **Lambda SDK**: If you are going to use the AWS SDK (boto3), start the local Lambda service:
+   ```bash
+   sam local start-lambda
+   ```
 
 ## How to execute
 

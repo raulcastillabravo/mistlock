@@ -62,13 +62,17 @@ Configura el entorno manualmente utilizando el script proporcionado:
 scripts/setup.sh
 ```
 
-## Iniciar infraestructura
+La infraestructura local es gestionada por el CLI de SAM. 
 
-La infraestructura local es gestionada por el CLI de SAM. Inicia el API Gateway local usando:
+1. **API Gateway**: Inicia el API Gateway local usando:
+   ```bash
+   sam local start-api
+   ```
 
-```bash
-sam local start-api
-```
+2. **SDK de Lambda**: Si vas a usar el SDK de AWS (boto3), inicia el servicio de Lambda local:
+   ```bash
+   sam local start-lambda
+   ```
 
 > [!NOTE]
 > Los contenedores reales de Lambda son levantados dinámicamente por el CLI de SAM usando Docker cuando se reciben peticiones.

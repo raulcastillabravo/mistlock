@@ -1,5 +1,8 @@
 import pytest
+from dotenv import load_dotenv
 from src.components.sam_cli import SamCli
+
+load_dotenv(".env.test", override=True)
 
 @pytest.fixture(scope="module")
 def sam_api():
