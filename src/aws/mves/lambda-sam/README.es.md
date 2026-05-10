@@ -1,6 +1,6 @@
 # AWS Lambda (SAM)
 
-Ejemplo Mínimo Viable (MVE) para trabajar con **AWS Lambda** utilizando el **Serverless Application Model (SAM)** y **Python**. Este ejemplo demuestra cómo construir y ejecutar un API Gateway local con funciones Lambda.
+Ejemplo Mínimo Viable (MVE) para trabajar con **AWS Lambda** utilizando el **Serverless Application Model (SAM)** y **Python**. Este ejemplo demuestra cómo construir y ejecutar un API Gateway local y el servicio Lambda para invocación directa mediante el SDK.
 
 ## Arquitectura
 
@@ -19,7 +19,6 @@ architecture-beta
 
 ## Índice
 
-- [Limitaciones](#limitaciones)
 - [Requisitos previos](#requisitos-previos)
 - [Inicio rápido](#inicio-rápido)
 - [Configurar entorno](#configurar-entorno)
@@ -30,14 +29,12 @@ architecture-beta
 - [Validar resultados](#validar-resultados)
 - [Limpieza](#limpieza)
 
-## Limitaciones
-
-⚠️ **Compatibilidad con Dev Containers**: Este MVE **no es compatible con Dev Containers**. Esto se debe a las limitaciones del CLI de SAM al ejecutarse dentro de un contenedor, lo que impide un mapeo de rutas y una red correctos para la ejecución local de Lambda.
-
 ## Requisitos previos
 
 - [Docker](https://www.docker.com/get-started) instalado y en ejecución.
 - [SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) instalado.
+
+⚠️ **Limitaciones**: Este MVE **no es compatible con Dev Containers** debido a las limitaciones del CLI de SAM al ejecutarse dentro de un contenedor.
 
 ## Inicio rápido
 
@@ -45,14 +42,19 @@ architecture-beta
    ```bash
    scripts/setup.sh
    ```
-2. **Iniciar la API**: Inicia el API Gateway local de SAM.
+2. **Iniciar infraestructura**: Inicia ambos servicios locales de SAM (API Gateway y Lambda) en terminales separadas.
    ```bash
    sam local start-api
    ```
-3. **Ejecutar el Ejemplo**: Ejecuta el script de Python para probar la API.
+   ```bash
+   sam local start-lambda
+   ```
+3. **Ejecutar el Ejemplo**:
    ```bash
    python main.py
    ```
+
+💡 **Siguientes pasos**: Consulta las secciones de [Cómo depurar](#cómo-depurar), [Cómo probar](#cómo-probar), [Validar resultados](#validar-resultados) y [Limpieza](#limpieza) a continuación.
 
 ## Configurar entorno
 
@@ -62,20 +64,19 @@ Configura el entorno manualmente utilizando el script proporcionado:
 scripts/setup.sh
 ```
 
-La infraestructura local es gestionada por el CLI de SAM. 
+## Iniciar infraestructura
 
-1. **API Gateway**: Inicia el API Gateway local usando:
+La infraestructura local es gestionada por el CLI de SAM. Inicia ambos servicios en terminales separadas:
+
+1. **API Gateway**: Si deseas usar peticiones HTTP o cURL:
    ```bash
    sam local start-api
    ```
 
-2. **SDK de Lambda**: Si vas a usar el SDK de AWS (boto3), inicia el servicio de Lambda local:
+2. **SDK de Lambda**: Si deseas usar el SDK de AWS (boto3) o la AWS CLI:
    ```bash
    sam local start-lambda
    ```
-
-> [!NOTE]
-> Los contenedores reales de Lambda son levantados dinámicamente por el CLI de SAM usando Docker cuando se reciben peticiones.
 
 ## Cómo ejecutar
 
@@ -93,53 +94,53 @@ La infraestructura local es gestionada por el CLI de SAM.
 
 3. **Usando [REST Client](vscode:extension/humao.rest-client)**:
    - **Abrir**: `http/get_secret.http`.
-   - **Ejecutar**: Haz clic en **Send Request** encima de la URL.
+   - **Ejecutar**: Haz clic en **Send Request** sobre la URL.
 
-4. **Usando AWS CLI**:
-   - **Iniciar Lambda**:
-     Usa `start-lambda` en lugar de `start-api` para ejecutar solo la función Lambda, sin API Gateway.
-     ```bash
-     sam local start-lambda
-     ```
-   - **Invocar**:
+4. **Usando [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)**:
+   - **Ejecutar** si tienes AWS CLI instalado globalmente:
      ```bash
      aws lambda invoke --function-name GetSecretFunction --profile sam --payload '{"queryStringParameters": {"username": "admin"}}' output.json
      ```
+   - **Ejecutar** si tienes AWS CLI instalado a través de mise:
+     ```bash
+     mise exec -- aws lambda invoke --function-name GetSecretFunction --profile sam --payload '{"queryStringParameters": {"username": "admin"}}' output.json
+     ```
+   - **Verificar** el archivo de salida `output.json`.
 
 ## Cómo depurar
 
 1. **main.py**:
    - **Abrir**: `main.py`.
-   - **Breakpoints**: Añade puntos de interrupción en el código.
-   - **Iniciar SAM**: Inicia la API local: `sam local start-api`.
+   - **Puntos de interrupción**: Añade puntos de interrupción en el código.
+   - **Iniciar SAM**: Inicia ambos servicios locales: `sam local start-api` y `sam local start-lambda` en terminales separadas.
    - **Ejecutar**: En la pestaña **Run and Debug** de VS Code, selecciona **Python: Main** y pulsa `F5`.
 
-2. **Lambda Function**:
+2. **Función Lambda**:
    - **Abrir**: `src/functions/get_secret/app.py`.
-   - **Breakpoints**: Añade puntos de interrupción en tu controlador Lambda.
+   - **Puntos de interrupción**: Añade puntos de interrupción en tu controlador Lambda.
    - **Ejecutar**: En la pestaña **Run and Debug** de VS Code, selecciona **SAM: Debug get_secret** y pulsa `F5`.
 
 ## Cómo probar
 
-1. **Todas las pruebas**: Ejecuta todas las pruebas usando el script automatizado:
+1. **Individualmente**: Puedes ejecutar las pruebas individualmente desde la pestaña **Testing** de VS Code.
+
+2. **Todas las pruebas**: Para ejecutar todas las pruebas utilizando el script automatizado:
    ```bash
    scripts/run_tests.sh
    ```
 
 ## Validar resultados
 
-Verifica que la función Lambda devuelva los valores de secreto esperados basados en el nombre de usuario.
+1. **Comprobar logs desde la terminal**: Verifica que la función Lambda devuelva los valores de secreto esperados. En todos los casos, puedes consultar los **logs** en la terminal donde se están ejecutando los servicios de SAM.
 
-1. **Comprobar usando Python**:
-   - **Ejecutar**: `python main.py`.
-   - **Verificar**: La salida debería mostrar un estado `200` para `admin` y `403` para `guest`.
-
-2. **Comprobar usando cURL**:
-   - **Ejecutar**: `curl "http://127.0.0.1:3000/get_secret?username=admin"`.
-   - **Verificar**: Asegúrate de que devuelva `"super-secret-value-from-emulator"`.
+2. **Comprobar usando AWS CLI**: Abre el archivo `output.json` generado y asegúrate de que contenga el código de estado y el valor del secreto esperados.
 
 ## Limpieza
 
-Para detener la API local de SAM:
+1. **Detener servicios locales de SAM**: Pulsa `Ctrl+C` en la terminal donde se está ejecutando SAM.
 
-- **Ejecutar**: Pulsa `Ctrl+C` en la terminal donde se está ejecutando SAM.
+2. **Eliminar herramientas y dependencias**: Para eliminar el entorno virtual local y limpiar las herramientas de mise:
+   ```bash
+   rm -rf .venv
+   mise uninstall -a
+   ```
