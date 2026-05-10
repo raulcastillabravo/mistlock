@@ -1,10 +1,18 @@
 import pytest
 from src.components.sam_cli import SamCli
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="module")
 def sam_api():
     """
-    Starts the SAM local API in the background using the SamCli component.
+    Starts the SAM local API in the background.
     """
-    with SamCli() as sam_cli:
-        yield sam_cli
+    with SamCli(command="api") as sam:
+        yield sam
+
+@pytest.fixture(scope="module")
+def sam_lambda():
+    """
+    Starts the SAM local Lambda in the background.
+    """
+    with SamCli(command="lambda") as sam:
+        yield sam
