@@ -10,6 +10,22 @@ export default defineConfig({
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			sidebar: [
 				{
+					label: 'AWS',
+					items: [{ autogenerate: { directory: 'aws' } }]
+				},
+				{
+					label: 'Azure',
+					items: [{ autogenerate: { directory: 'azure' } }]
+				},
+				{
+					label: 'Google Cloud',
+					items: [{ autogenerate: { directory: 'google-cloud' } }]
+				},
+				{
+					label: 'Hybrid',
+					items: [{ autogenerate: { directory: 'hybrid' } }]
+				},
+				{
 					label: 'Guides',
 					items: [
 						// Each item here is one entry in the navigation menu.
