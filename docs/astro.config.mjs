@@ -4,6 +4,8 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://raulcastillabravo.github.io',
+	base: '/mve-collection/',
 	integrations: [
 		starlight({
 			title: 'My Docs',
