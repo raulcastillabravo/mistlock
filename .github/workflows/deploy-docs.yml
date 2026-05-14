@@ -5,6 +5,7 @@ on:
     branches: ["main", "feature/starlight-web"]
     paths:
       - 'docs/**'
+      - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
 
 concurrency:
