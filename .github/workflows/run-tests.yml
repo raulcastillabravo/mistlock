@@ -3,6 +3,8 @@ name: Run Tests
 on:
   push:
     branches: [ main, feature/** ]
+    paths-ignore:
+      - 'docs/**'
   schedule:
     - cron: '0 0 * * *'
 
