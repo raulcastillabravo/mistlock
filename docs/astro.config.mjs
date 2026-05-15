@@ -5,11 +5,14 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://raulcastillabravo.github.io',
-	base: '/mve-collection/',
+	base: '/mve-collection',
 	integrations: [
 		starlight({
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			title: 'Cloud Local Lab',
+			social: [
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/raulcastillabravo/mve-collection' },
+				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/raulcastillabravo/'}
+			],
 			sidebar: [
 				{
 					label: 'AWS',
