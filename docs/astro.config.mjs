@@ -5,14 +5,24 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://raulcastillabravo.github.io',
-	base: '/mve-collection',
+	base: '/mve-collection/',
 	integrations: [
 		starlight({
 			title: 'Cloud Local Lab',
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/raulcastillabravo/mve-collection' },
-				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/raulcastillabravo/'}
+				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/raulcastillabravo/' }
 			],
+			locales: {
+				root: {
+					label: 'English',
+					lang: 'en',
+				},
+				es: {
+					label: 'Español',
+					lang: 'es',
+				},
+			},
 			sidebar: [
 				{
 					label: 'AWS',
@@ -28,17 +38,29 @@ export default defineConfig({
 				},
 				{
 					label: 'Hybrid',
+					translations: {
+						es: 'Híbrido'
+					},
 					items: [{ autogenerate: { directory: 'hybrid' } }]
 				},
 				{
 					label: 'Guides',
+					translations: {
+						es: 'Guías'
+					},
 					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
+						{ 
+							label: 'Example Guide', 
+							translations: { es: 'Guía de ejemplo' },
+							slug: 'guides/example' 
+						},
 					],
 				},
 				{
 					label: 'Reference',
+					translations: {
+						es: 'Referencia'
+					},
 					items: [{ autogenerate: { directory: 'reference' } }],
 				},
 			],
