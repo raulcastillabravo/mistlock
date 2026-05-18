@@ -26,42 +26,98 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'AWS',
-					items: [{ autogenerate: { directory: 'aws' } }]
+					items: [
+						{
+							label: 'Services',
+							translations: {
+								es: 'Servicios'
+							},
+							items: [
+								{ autogenerate: { directory: 'aws/mves' } }
+							]
+						},
+						{
+							label: 'Projects',
+							translations: {
+								es: 'Proyectos'
+							},
+							items: [
+								{ autogenerate: { directory: 'aws/projects' } }
+							]
+						}
+					]
 				},
 				{
 					label: 'Azure',
-					items: [{ autogenerate: { directory: 'azure' } }]
+					items: [
+						{
+							label: 'Services',
+							translations: {
+								es: 'Servicios'
+							},
+							items: [
+								{ autogenerate: { directory: 'azure/mves' } }
+							]
+						},
+						{
+							label: 'Projects',
+							translations: {
+								es: 'Proyectos'
+							},
+							items: [
+								{ autogenerate: { directory: 'azure/projects' } }
+							]
+						}
+					]
 				},
 				{
 					label: 'Google Cloud',
-					items: [{ autogenerate: { directory: 'google-cloud' } }]
+					items: [
+						{
+							label: 'Services',
+							translations: {
+								es: 'Servicios'
+							},
+							items: [
+								{ autogenerate: { directory: 'google-cloud/mves' } }
+							]
+						},
+						{
+							label: 'Projects',
+							translations: {
+								es: 'Proyectos'
+							},
+							items: [
+								{ autogenerate: { directory: 'google-cloud/projects' } }
+							]
+						}
+					]
 				},
 				{
 					label: 'Hybrid',
 					translations: {
 						es: 'Híbrido'
 					},
-					items: [{ autogenerate: { directory: 'hybrid' } }]
-				},
-				{
-					label: 'Guides',
-					translations: {
-						es: 'Guías'
-					},
 					items: [
-						{ 
-							label: 'Example Guide', 
-							translations: { es: 'Guía de ejemplo' },
-							slug: 'guides/example' 
+						{
+							label: 'Services',
+							translations: {
+								es: 'Servicios'
+							},
+							items: [
+								{ autogenerate: { directory: 'hybrid/mves' } }
+							]
 						},
-					],
-				},
-				{
-					label: 'Reference',
-					translations: {
-						es: 'Referencia'
-					},
-					items: [{ autogenerate: { directory: 'reference' } }],
+						{
+							label: 'Projects',
+							translations: {
+								es: 'Proyectos'
+							},
+							items: [
+								{ autogenerate: { directory: 'hybrid/projects' } }
+							]
+						}
+					]
 				},
 			],
 		}),
