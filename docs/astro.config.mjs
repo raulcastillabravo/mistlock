@@ -23,6 +23,10 @@ export default defineConfig({
 					lang: 'es',
 				},
 			},
+			components: {
+				TableOfContents: './src/components/CustomTableOfContents.astro',
+				MobileTableOfContents: './src/components/CustomMobileTableOfContents.astro',
+			},
 			sidebar: [
 				{
 					label: 'AWS',

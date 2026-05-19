@@ -3,9 +3,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "build-zips": "node scripts/zip-examples.js",
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "pnpm build-zips && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -13,5 +14,9 @@
     "@astrojs/starlight": "^0.39.2",
     "astro": "^6.3.1",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/archiver": "^7.0.0",
+    "archiver": "^8.0.0"
   }
 }
