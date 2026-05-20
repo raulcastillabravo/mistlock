@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Redis Mutex
 description: Minimal viable example to implement a distributed mutex (lock) using Redis with Docker Compose and Python. This example demonstrates how to safely coordinate...
 ---

@@ -1,22 +1,20 @@
 ---
 import DefaultTableOfContents from "@astrojs/starlight/components/TableOfContents.astro";
 import { Icon } from "@astrojs/starlight/components";
+import { siteConfig } from "../config";
 
-const { id } = Astro.locals.starlightRoute;
+const { id, entry } = Astro.locals.starlightRoute;
 const isEs = id.startsWith("es/");
 const cleanId = id.replace(/^es\//, "");
 const pathParts = cleanId.split("/");
 
-// We only show actions on pages that correspond to actual examples or projects
-const isExamplePage =
-  (pathParts.includes("mves") || pathParts.includes("projects")) &&
-  pathParts.length >= 3;
+const isExamplePage = !!entry.data.isExample;
 
 let zipUrl = "";
 let githubUrl = "";
 if (isExamplePage) {
-  zipUrl = `/mve-collection/downloads/${pathParts.join("-")}.zip`;
-  githubUrl = `https://github.com/raulcastillabravo/mve-collection/tree/main/src/${cleanId}`;
+  zipUrl = `/${siteConfig.repositoryName}/downloads/${pathParts.join("-")}.zip`;
+  githubUrl = `${siteConfig.githubUrl}/tree/main/src/${cleanId}`;
 }
 
 const btnDownloadText = isEs ? "Descargar código" : "Download code";

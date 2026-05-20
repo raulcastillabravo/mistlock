@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Redis
 description: Minimal viable example to work with Redis using Python and Docker. This example demonstrates how to manage user status (Enum) using Redis and a custom contex...
 ---

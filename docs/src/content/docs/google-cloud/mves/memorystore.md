@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Memorystore
 description: Google Cloud Memorystore for Redis is functionally equivalent to running a standard Redis instance.
 ---

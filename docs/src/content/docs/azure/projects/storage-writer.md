@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Storage Writer
 description: Minimal viable example to work with Azure Functions locally using Azurite, Docker Compose, and Python. This example demonstrates how to create an HTTP-trigge...
 ---

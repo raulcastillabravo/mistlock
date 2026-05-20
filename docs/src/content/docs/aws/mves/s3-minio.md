@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: S3 MinIO
 description: Minimal Viable Example to work with AWS S3 locally using MinIO, Python, and various S3 libraries (Boto3, Pyarrow, and Deltalake). This example demonstrates h...
 ---

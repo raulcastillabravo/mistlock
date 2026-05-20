@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: NoSQL Writer
 description: Minimal viable example to work with Azure Cosmos DB locally using Docker. This example demonstrates how to integrate a Python application with the Azure Cosm...
 ---

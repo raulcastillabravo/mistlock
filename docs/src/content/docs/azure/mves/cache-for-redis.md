@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Cache For Redis
 description: Azure Cache for Redis is functionally equivalent to running a standard Redis instance.
 ---

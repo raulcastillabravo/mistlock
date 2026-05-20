@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: RDS PostgreSQL
 description: AWS RDS for PostgreSQL is functionally equivalent to running a standard PostgreSQL instance.
 ---

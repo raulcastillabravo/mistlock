@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: ElastiCache
 description: AWS ElastiCache for Redis is functionally equivalent to running a standard Redis instance.
 ---

@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Storage Writer
 description: Minimal viable example to work with Google Cloud Functions locally using Firebase Emulator Suite and Python. This example demonstrates how to create an HTTP-...
 ---

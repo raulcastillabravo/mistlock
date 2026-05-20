@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: S3 Garage
 description: Minimal viable example to work with AWS S3 using Garage as a local emulator. This example demonstrates a data pipeline using Boto3, PyArrow, and Delta Lake (...
 ---

@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Databricks
 description: Minimal viable example to simulate a Databricks environment locally using Docker, MinIO as S3 compatible storage, and PostgreSQL as a persistent Hive Metasto...
 ---

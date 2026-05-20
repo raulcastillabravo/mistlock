@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Functions
 description: Minimal Viable Example to work with Azure Functions using Python and Azure Functions Core Tools. This example demonstrates how to develop, run, debug, test, ...
 ---

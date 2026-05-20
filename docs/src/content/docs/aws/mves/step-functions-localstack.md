@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Step Functions Localstack
 description: Minimal viable example to work with AWS Step Functions locally using LocalStack, Python, and VS Code AWS Toolkit. This example demonstrates a user onboarding...
 ---

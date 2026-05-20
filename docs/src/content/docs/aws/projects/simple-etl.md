@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Simple Etl
 description: This project demonstrates a file processing pipeline where S3 uploads trigger a Lambda to log metadata into a DynamoDB table.
 ---

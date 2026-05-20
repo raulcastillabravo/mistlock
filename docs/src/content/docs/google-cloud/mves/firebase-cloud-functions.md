@@ -1,4 +1,5 @@
 ---
+isExample: true
 title: Firebase Cloud Functions
 description: This MVE demonstrates how to develop and test Google Cloud Firebase Functions locally using the Firebase Emulator Suite. It includes a synchronous HTTPS func...
 ---
