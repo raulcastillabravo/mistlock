@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: Cloud SQL
 description: Google Cloud SQL for PostgreSQL is functionally equivalent to running a standard PostgreSQL instance.
 ---

@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: Mongo
 description: Minimal Viable Example to work with MongoDB using Python, Docker Compose, and MongoEngine ODM. This example demonstrates basic CRUD operations and how to use...
 ---

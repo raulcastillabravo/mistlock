@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: Storage Writer
 description: Minimal viable example of an AWS Lambda function that uploads files to S3. Built to run 100% locally using LocalStack.
 ---

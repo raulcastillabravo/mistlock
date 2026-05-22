@@ -2,12 +2,12 @@ This repository aimed at teaching how to emulate the Cloud locally (AWS, Azure, 
 
 ## Main concepts
 
-It is structured into **Minimal Viable Examples (MVE)** and **Projects**:
+It is structured into **Labs**. A Lab is either an **MVE** or a **Project**:
 
 * **MVE (Minimal Viable Example)**: Focus on one specific Cloud service, how to emulate it and which tools are required to develop with it locally. There can be more than one MVE per service if there are several tools to emulate it.
 * **Project**: Combine different Cloud services in the same local development environment.
 
-Each MVE and Project is independent and isolated from the others.
+Each Lab (MVE or Project) is independent and isolated from the others.
 
 ## Main rules
 
@@ -28,7 +28,7 @@ Each MVE and Project is independent and isolated from the others.
   - Azure.
   - Google Cloud (GCP).
   - Hybrid: which is a mixture of different Open Source services such as Postgres, Redis, Mongo...
-- docs/ is an Astro + Starlight site (package manager: `pnpm`). Each MVE/Project has a matching doc page at `docs/src/content/docs/[provider]/[mves|projects]/[name].md` (English) and `docs/src/content/docs/es/[provider]/[mves|projects]/[name].md` (Spanish). Sidebar autogenerates from directory structure. Run with `pnpm dev` from `docs/`.
+- docs/ is an Astro + Starlight site (package manager: `pnpm`). Each Lab (MVE/Project) has a matching doc page at `docs/src/content/docs/[provider]/[mves|projects]/[name].mdx` (English) and `docs/src/content/docs/es/[provider]/[mves|projects]/[name].mdx` (Spanish). Lab pages are identified by `isLab: true` in their frontmatter. Sidebar autogenerates from directory structure. Run with `pnpm dev` from `docs/`.
 - tests/ is the test folder and follows the exact same structure as src/.
 
 ## References

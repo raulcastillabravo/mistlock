@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: Simple Etl
 description: Minimal viable example for GCP Cloud SQL (PostgreSQL) emulated locally using Docker Compose, and Firebase Cloud Functions triggered by Cloud Storage.
 ---

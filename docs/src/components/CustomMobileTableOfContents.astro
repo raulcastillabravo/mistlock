@@ -1,17 +1,17 @@
 ---
 import DefaultMobileTableOfContents from "@astrojs/starlight/components/MobileTableOfContents.astro";
 import { Icon } from "@astrojs/starlight/components";
-import { getExamplePageData } from "../utils/examplePage";
+import { getLabPageData } from "../utils/labPage";
 
 const { id, toc, entry } = Astro.locals.starlightRoute;
-const { isExamplePage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
-  getExamplePageData(id, entry);
+const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
+  getLabPageData(id, entry);
 ---
 
 <DefaultMobileTableOfContents {...Astro.props}><slot /></DefaultMobileTableOfContents>
 
 {
-  toc && isExamplePage && (
+  toc && isLabPage && (
     <div class="mobile-toc-actions">
       <a
         href={zipUrl}

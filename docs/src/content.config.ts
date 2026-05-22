@@ -8,7 +8,7 @@ export const collections = {
 		loader: docsLoader(),
 		schema: docsSchema({
 			extend: z.object({
-				isExample: z.boolean().optional(),
+				isLab: z.boolean().optional(),
 			}),
 		}),
 	}),

@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: NoSQL Writer
 description: Minimal viable example to work with Google Cloud Run locally using Firebase Emulator Suite and Python. This example demonstrates how to create a containerize...
 ---

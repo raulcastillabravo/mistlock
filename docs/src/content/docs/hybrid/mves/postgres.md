@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: PostgreSQL
 description: Minimal viable example to work with PostgreSQL using Docker Compose, SQLAlchemy ORM, and Python. This example demonstrates how to set up a containerized data...
 ---

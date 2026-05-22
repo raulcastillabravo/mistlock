@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: Blob Storage
 description: Minimal viable example to work with Azure Blob Storage locally using Azurite, Docker Compose, and Python. This example demonstrates how to create containers ...
 ---

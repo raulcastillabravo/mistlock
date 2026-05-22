@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: Devcontainers
 description: Minimal viable example to understand how DevContainers work with Docker, Python, and VS Code. This example demonstrates the key concepts and components of De...
 ---

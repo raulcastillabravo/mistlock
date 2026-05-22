@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: RabbitMQ
 description: Minimal viable example to work with RabbitMQ using Docker Compose, Python pika client, and RabbitMQ Management UI.
 ---

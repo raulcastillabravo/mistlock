@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: SQL Writer
 description: Minimal viable example to demonstrate a hybrid cloud scenario using LocalStack and an external PostgreSQL instance. This example shows how an AWS Lambda (sim...
 ---

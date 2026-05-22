@@ -1,17 +1,17 @@
 ---
 import DefaultTableOfContents from "@astrojs/starlight/components/TableOfContents.astro";
 import { Icon } from "@astrojs/starlight/components";
-import { getExamplePageData } from "../utils/examplePage";
+import { getLabPageData } from "../utils/labPage";
 
 const { id, entry } = Astro.locals.starlightRoute;
-const { isExamplePage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
-  getExamplePageData(id, entry);
+const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
+  getLabPageData(id, entry);
 ---
 
 <DefaultTableOfContents {...Astro.props}><slot /></DefaultTableOfContents>
 
 {
-  isExamplePage && (
+  isLabPage && (
     <div class="toc-actions">
       <a
         href={zipUrl}

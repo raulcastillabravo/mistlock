@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: SQL Writer
 description: Minimal viable example to work with Azure SQL Edge using Azure Functions and SQLAlchemy. This example demonstrates how to process HTTP POST requests and pers...
 ---

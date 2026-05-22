@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: Metabase
 description: Minimal viable example to work with Metabase using Docker Compose, PostgreSQL as data source, and SQLAlchemy ORM.
 ---

@@ -214,6 +214,6 @@ dependencies = [
 
 When adding or removing an example, update these files in `docs/`:
 
-- `docs/src/content/docs/[provider]/[mves|projects]/[name].md` — English doc page.
-- `docs/src/content/docs/es/[provider]/[mves|projects]/[name].md` — Spanish doc page.
+- `docs/src/content/docs/[provider]/[mves|projects]/[name].mdx` — English doc page (must include `isLab: true` in frontmatter).
+- `docs/src/content/docs/es/[provider]/[mves|projects]/[name].mdx` — Spanish doc page (must include `isLab: true` in frontmatter).
 - `docs/public/llm.txt` — add/remove the entry under the correct provider and type section. URL format: `https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/`.

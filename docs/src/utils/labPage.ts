@@ -1,17 +1,17 @@
 import { siteConfig } from '../config';
 
-export function getExamplePageData(
+export function getLabPageData(
   id: string,
-  entry: { data: { isExample?: boolean } }
+  entry: { data: { isLab?: boolean } }
 ) {
   const isEs = id.startsWith('es/');
   const cleanId = id.replace(/^es\//, '');
   const pathParts = cleanId.split('/');
-  const isExamplePage = !!entry.data.isExample;
+  const isLabPage = !!entry.data.isLab;
 
   let zipUrl = '';
   let githubUrl = '';
-  if (isExamplePage) {
+  if (isLabPage) {
     zipUrl = `/${siteConfig.repositoryName}/downloads/${pathParts.join('-')}.zip`;
     githubUrl = `${siteConfig.githubUrl}/tree/main/src/${cleanId}`;
   }
@@ -19,5 +19,5 @@ export function getExamplePageData(
   const btnDownloadText = isEs ? 'Descargar código' : 'Download code';
   const btnGithubText = isEs ? 'Ver en GitHub' : 'View on GitHub';
 
-  return { isExamplePage, zipUrl, githubUrl, btnDownloadText, btnGithubText };
+  return { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText };
 }

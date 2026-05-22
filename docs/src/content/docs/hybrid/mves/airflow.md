@@ -1,5 +1,5 @@
 ---
-isExample: true
+isLab: true
 title: Airflow
 description: Minimal viable example for Apache Airflow with Docker, demonstrating a simple ETL (Extract, Transform, Load) pipeline using Python and pandas with file-based...
 ---
