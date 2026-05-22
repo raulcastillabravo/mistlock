@@ -1,12 +1,14 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://raulcastillabravo.github.io',
 	base: '/mve-collection/',
 	integrations: [
+		sitemap(),
 		starlight({
 			title: 'Cloud Local Lab',
 			social: [

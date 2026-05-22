@@ -1,0 +1,69 @@
+# Cloud Local Lab
+
+> A collection of Minimal Viable Examples (MVE) and Projects for emulating Cloud services locally — AWS, Azure, Google Cloud, and Open Source services — without accounts, credit cards, or cloud logins.
+
+## Getting Started
+
+- Getting Started: https://raulcastillabravo.github.io/mve-collection/getting-started/
+
+## AWS
+
+### Services (MVEs)
+
+- ElastiCache: https://raulcastillabravo.github.io/mve-collection/aws/mves/elasti-cache/
+- Lambda (SAM): https://raulcastillabravo.github.io/mve-collection/aws/mves/lambda-sam/
+- RDS Postgres: https://raulcastillabravo.github.io/mve-collection/aws/mves/rds-postgres/
+- S3 (Garage): https://raulcastillabravo.github.io/mve-collection/aws/mves/s3-garage/
+- S3 (MinIO): https://raulcastillabravo.github.io/mve-collection/aws/mves/s3-minio/
+- Step Functions (LocalStack): https://raulcastillabravo.github.io/mve-collection/aws/mves/step-functions-localstack/
+
+### Projects
+
+- Simple ETL: https://raulcastillabravo.github.io/mve-collection/aws/projects/simple-etl/
+- SQL Writer: https://raulcastillabravo.github.io/mve-collection/aws/projects/sql-writer/
+- Storage Writer: https://raulcastillabravo.github.io/mve-collection/aws/projects/storage-writer/
+
+## Azure
+
+### Services (MVEs)
+
+- Blob Storage: https://raulcastillabravo.github.io/mve-collection/azure/mves/blob-storage/
+- Cache for Redis: https://raulcastillabravo.github.io/mve-collection/azure/mves/cache-for-redis/
+- Databricks: https://raulcastillabravo.github.io/mve-collection/azure/mves/databricks/
+- Functions: https://raulcastillabravo.github.io/mve-collection/azure/mves/functions/
+
+### Projects
+
+- No-SQL Writer: https://raulcastillabravo.github.io/mve-collection/azure/projects/no-sql-writer/
+- SQL Writer: https://raulcastillabravo.github.io/mve-collection/azure/projects/sql-writer/
+- Storage Writer: https://raulcastillabravo.github.io/mve-collection/azure/projects/storage-writer/
+
+## Google Cloud
+
+### Services (MVEs)
+
+- Cloud SQL: https://raulcastillabravo.github.io/mve-collection/google-cloud/mves/cloud-sql/
+- Firebase Cloud Functions: https://raulcastillabravo.github.io/mve-collection/google-cloud/mves/firebase-cloud-functions/
+- Memorystore: https://raulcastillabravo.github.io/mve-collection/google-cloud/mves/memorystore/
+
+### Projects
+
+- No-SQL Writer: https://raulcastillabravo.github.io/mve-collection/google-cloud/projects/no-sql-writer/
+- Simple ETL: https://raulcastillabravo.github.io/mve-collection/google-cloud/projects/simple-etl/
+- Storage Writer: https://raulcastillabravo.github.io/mve-collection/google-cloud/projects/storage-writer/
+
+## Hybrid (Open Source)
+
+### Services (MVEs)
+
+- Airflow: https://raulcastillabravo.github.io/mve-collection/hybrid/mves/airflow/
+- Dev Containers: https://raulcastillabravo.github.io/mve-collection/hybrid/mves/devcontainers/
+- Metabase: https://raulcastillabravo.github.io/mve-collection/hybrid/mves/metabase/
+- MongoDB: https://raulcastillabravo.github.io/mve-collection/hybrid/mves/mongo/
+- PostgreSQL: https://raulcastillabravo.github.io/mve-collection/hybrid/mves/postgres/
+- RabbitMQ: https://raulcastillabravo.github.io/mve-collection/hybrid/mves/rabbitmq/
+- Redis: https://raulcastillabravo.github.io/mve-collection/hybrid/mves/redis/
+
+### Projects
+
+- Redis Mutex: https://raulcastillabravo.github.io/mve-collection/hybrid/projects/redis-mutex/

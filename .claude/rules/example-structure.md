@@ -209,3 +209,11 @@ dependencies = [
     "python-dotenv",
 ]
 ```
+
+## Docs site checklist
+
+When adding or removing an example, update these files in `docs/`:
+
+- `docs/src/content/docs/[provider]/[mves|projects]/[name].md` — English doc page.
+- `docs/src/content/docs/es/[provider]/[mves|projects]/[name].md` — Spanish doc page.
+- `docs/public/llm.txt` — add/remove the entry under the correct provider and type section. URL format: `https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/`.
