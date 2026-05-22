@@ -10,8 +10,9 @@ export default defineConfig({
 		starlight({
 			title: 'Cloud Local Lab',
 			social: [
+				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/raulcastillabravo/' },
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/raulcastillabravo/mve-collection' },
-				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/raulcastillabravo/' }
+
 			],
 			locales: {
 				root: {
@@ -26,6 +27,7 @@ export default defineConfig({
 			components: {
 				TableOfContents: './src/components/CustomTableOfContents.astro',
 				MobileTableOfContents: './src/components/CustomMobileTableOfContents.astro',
+				SocialIcons: './src/components/CustomSocialIcons.astro',
 			},
 			sidebar: [
 				{

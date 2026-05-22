@@ -1,24 +1,11 @@
 ---
 import DefaultMobileTableOfContents from "@astrojs/starlight/components/MobileTableOfContents.astro";
 import { Icon } from "@astrojs/starlight/components";
-import { siteConfig } from "../config";
+import { getExamplePageData } from "../utils/examplePage";
 
 const { id, toc, entry } = Astro.locals.starlightRoute;
-const isEs = id.startsWith("es/");
-const cleanId = id.replace(/^es\//, "");
-const pathParts = cleanId.split("/");
-
-const isExamplePage = !!entry.data.isExample;
-
-let zipUrl = "";
-let githubUrl = "";
-if (isExamplePage) {
-  zipUrl = `/${siteConfig.repositoryName}/downloads/${pathParts.join("-")}.zip`;
-  githubUrl = `${siteConfig.githubUrl}/tree/main/src/${cleanId}`;
-}
-
-const btnDownloadText = isEs ? "Descargar código" : "Download code";
-const btnGithubText = isEs ? "Ver en GitHub" : "View on GitHub";
+const { isExamplePage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
+  getExamplePageData(id, entry);
 ---
 
 <DefaultMobileTableOfContents {...Astro.props}><slot /></DefaultMobileTableOfContents>
@@ -122,15 +109,5 @@ const btnGithubText = isEs ? "Ver en GitHub" : "View on GitHub";
     padding-inline-end: 1rem !important;
   }
 
-  /* Light theme styling */
-  :global([data-theme="light"]) .mobile-github-btn {
-    background-color: var(--sl-color-gray-2);
-    color: var(--sl-color-black) !important;
-    border-color: var(--sl-color-gray-3);
-  }
 
-  :global([data-theme="light"]) .mobile-github-btn:hover {
-    background-color: var(--sl-color-gray-1);
-    color: var(--sl-color-black) !important;
-  }
 </style>
