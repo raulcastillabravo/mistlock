@@ -1,0 +1,135 @@
+---
+import { siteConfig } from '../config';
+
+const res = await fetch(siteConfig.githubApiUrl, {
+	headers: { 'User-Agent': 'Astro-Build-Client' },
+});
+
+if (!res.ok) {
+	throw new Error(`GitHub API returned ${res.status} for ${siteConfig.githubApiUrl}`);
+}
+
+const data = await res.json();
+const count: number = data.stargazers_count;
+const stargazersCount = count > 999 ? (count / 1000).toFixed(1) + 'k' : String(count);
+---
+
+<a
+	href={siteConfig.githubUrl}
+	target="_blank"
+	rel="noopener noreferrer"
+	class="github-star-badge"
+	aria-label="Star on GitHub"
+>
+	<div class="star-left">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="star-svg" aria-hidden="true">
+			<path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.858 1.4-8.168L.132 9.21l8.2-1.192z" />
+		</svg>
+		<span class="star-text">Star</span>
+	</div>
+	<div class="star-right">{stargazersCount}</div>
+</a>
+
+<style>
+	.github-star-badge {
+		display: inline-flex;
+		align-items: center;
+		text-decoration: none;
+		font-size: var(--sl-text-xs);
+		font-weight: 500;
+		line-height: 1;
+		height: 28px;
+		background-color: var(--sl-color-gray-6);
+		border: 1px solid var(--sl-color-gray-4);
+		color: var(--sl-color-gray-2) !important;
+		border-radius: 6px;
+		overflow: hidden;
+		transition:
+			background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+			border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+			box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.github-star-badge:hover {
+		background-color: var(--sl-color-gray-5);
+		border-color: var(--sl-color-gray-3);
+		color: var(--sl-color-white) !important;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.star-left {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 0 8px;
+		height: 100%;
+		border-right: 1px solid var(--sl-color-gray-4);
+		transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.github-star-badge:hover .star-left {
+		border-right-color: var(--sl-color-gray-3);
+	}
+
+	.star-svg {
+		width: 14px;
+		height: 14px;
+		color: var(--sl-color-gray-2);
+		transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.github-star-badge:hover .star-svg {
+		color: #e3b341;
+	}
+
+	.star-text {
+		font-weight: 600;
+	}
+
+	.star-right {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 8px;
+		height: 100%;
+		min-width: 24px;
+		font-weight: 600;
+		color: var(--sl-color-gray-1);
+		transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.github-star-badge:hover .star-right {
+		color: var(--sl-color-white);
+	}
+
+	:global([data-theme='light']) .github-star-badge {
+		background-color: transparent;
+		border-color: var(--sl-color-gray-4);
+		color: var(--sl-color-gray-2) !important;
+	}
+
+	:global([data-theme='light']) .github-star-badge:hover {
+		background-color: rgba(0, 0, 0, 0.04) !important;
+		border-color: var(--sl-color-gray-3) !important;
+		color: var(--sl-color-gray-2) !important;
+		box-shadow: none;
+	}
+
+	:global([data-theme='light']) .github-star-badge:hover .star-left {
+		border-right-color: var(--sl-color-gray-3) !important;
+	}
+
+	:global([data-theme='light']) .star-right {
+		color: var(--sl-color-gray-2);
+	}
+
+	:global([data-theme='light']) .github-star-badge:hover .star-right {
+		color: var(--sl-color-gray-2) !important;
+	}
+
+	@media (max-width: 480px) {
+		.star-text {
+			display: none;
+		}
+	}
+</style>
