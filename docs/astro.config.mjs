@@ -30,6 +30,7 @@ export default defineConfig({
 				MobileTableOfContents: './src/components/CustomMobileTableOfContents.astro',
 				ThemeSelect: './src/components/ThemeSelect.astro',
 				Header: './src/components/Header.astro',
+				SocialIcons: './src/components/SocialIcons.astro',
 			},
 			sidebar: [
 				{
@@ -41,6 +42,7 @@ export default defineConfig({
 				},
 				{
 					label: 'AWS',
+					collapsed: true,
 					items: [
 						{
 							label: 'Services',
@@ -64,6 +66,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Azure',
+					collapsed: true,
 					items: [
 						{
 							label: 'Services',
@@ -87,6 +90,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Google Cloud',
+					collapsed: true,
 					items: [
 						{
 							label: 'Services',
@@ -110,6 +114,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Hybrid',
+					collapsed: true,
 					translations: {
 						es: 'Híbrido'
 					},
