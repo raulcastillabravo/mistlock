@@ -18,7 +18,7 @@ Before writing any code, the agent must present a plan to the user for approval:
 1.  **Review Rules**: Carefully read and apply the following project rules:
     - [example-structure.md](../rules/example-structure.md)
     - [python-style-guide.md](../rules/python-style-guide.md)
-    - [readme-style-guide.md](../rules/readme-style-guide.md)
+    - [docs-style-guide.md](../rules/docs-style-guide.md)
 2.  **Define Architecture**: Outline the components, services (Docker Compose), and the Python script's logic.
 3.  **File Structure Plan**: List all files to be created/modified.
 4.  **Wait for Approval**: Do not proceed to implementation until the user approves the plan.
@@ -33,24 +33,53 @@ Before writing any code, the agent must present a plan to the user for approval:
     ```
     This test ensures the MVE can be initialized and executed correctly in CI.
 
-## 4. Documentation Site
+## 4. Lab READMEs
 
-Create the doc pages for the new example in the Starlight site:
-1. **English page**: `docs/src/content/docs/[provider]/[mves|projects]/[name].md`
-2. **Spanish page**: `docs/src/content/docs/es/[provider]/[mves|projects]/[name].md`
+Create two files in `src/[provider]/[mves|projects]/[example-name]/`:
 
-Both pages must use this frontmatter:
+**`README.md`**:
 ```markdown
+# [Title]
+
+[description from the English Starlight doc page]
+
+> 📖 Full documentation for this lab is available at:
+> https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/
+```
+
+**`README.es.md`**:
+```markdown
+# [Title]
+
+[description from the Spanish Starlight doc page]
+
+> 📖 La documentación completa de este lab está disponible en:
+> https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/
+```
+
+- Use the `title` and `description` from the Starlight doc pages (step 5). The overview must match the doc `description` exactly — they must stay in sync.
+- The URL must match the doc page path, not necessarily the `src/` folder name.
+- For redirect labs (labs that point to another lab), use the destination lab URL directly — not the wrapper lab's own URL.
+
+## 5. Documentation Site
+
+Create the doc pages for the new example in the Starlight site following [docs-style-guide.md](../rules/docs-style-guide.md):
+
+1. **English page**: `docs/src/content/docs/[provider]/[mves|projects]/[name].mdx`
+2. **Spanish page**: `docs/src/content/docs/es/[provider]/[mves|projects]/[name].mdx`
+
+Both pages must begin with this frontmatter:
+```yaml
 ---
-isExample: true
 title: [Example Title]
 description: [Brief description]
+isLab: true
 ---
 ```
 
-Content must follow the same structure as the example's `README.md` / `README.es.md`.
+Also update `docs/public/llm.txt` — add the entry under the correct provider and type section.
 
-## 5. Repository Documentation
+## 6. Repository Documentation
 
 Update the main tables in the root directory of `mve-collection` for every technology involved in the MVE:
 - Add an entry to the table in `README.md`.

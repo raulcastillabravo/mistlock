@@ -210,6 +210,23 @@ dependencies = [
 ]
 ```
 
+## Lab READMEs
+
+Each Lab has a `README.md` and `README.es.md` with a one-paragraph overview and a redirect link to the full Starlight doc page:
+
+```markdown
+# Title
+
+One-sentence overview of the lab.
+
+> 📖 Full documentation for this lab is available at:
+> https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/
+```
+
+**Sync rule**: The overview paragraph must match the `description` field of the corresponding Starlight doc page. When updating a doc page's `description`, update the README overviews too.
+
+**Redirect rule**: Some Labs (e.g., ElastiCache, RDS, Cache for Redis) are wrappers that point users to another lab. For these, the README redirect link must point directly to the destination lab URL — not to the wrapper lab's own doc page. Avoid double redirects (README → wrapper page → destination).
+
 ## Docs site checklist
 
 When adding or removing an example, update these files in `docs/`:

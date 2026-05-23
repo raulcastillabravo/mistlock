@@ -12,7 +12,7 @@ This workflow focuses on auditing a single example to identify technical debt, b
 2.  **Read Rules**: Review the following standards:
     - [python-style-guide.md](../rules/python-style-guide.md)
     - [example-structure.md](../rules/example-structure.md)
-    - [readme-style-guide.md](../rules/readme-style-guide.md)
+    - [docs-style-guide.md](../rules/docs-style-guide.md)
 
 ## 2. Technical Audit
 
@@ -42,9 +42,9 @@ Analyze all Python files, configuration files, and scripts within the example to
     - **Mise & UV**: Verify the existence and correct configuration of `mise.toml` and `pyproject.toml`. Remove any legacy dependency managers.
     - **Scripts**: Ensure `scripts/setup.sh` is the single source of truth and uses `.venv/bin/python` to avoid PATH issues.
 7.  **Documentation Standards**:
-    - **README Structure**: Enforce all mandatory H1/H2 headers from [readme-style-guide.md](../rules/readme-style-guide.md).
-    - **Architecture**: Verify the use of `mermaid` with `architecture-beta` and the inclusion of the Mermaid chart badge.
-    - **Translation**: Ensure `README.es.md` is a complete and high-quality translation of `README.md`.
+    - **README Sync**: Verify `README.md` and `README.es.md` follow the format in [example-structure.md](../rules/example-structure.md) — title, one-paragraph overview matching the Starlight `description`, and redirect link.
+    - **Docs page**: Verify the Starlight doc pages exist and follow [docs-style-guide.md](../rules/docs-style-guide.md).
+    - **Translation**: Ensure `README.es.md` overview matches the Spanish `description` from the Starlight doc page.
 
 ## 3. Findings & Recommendations
 

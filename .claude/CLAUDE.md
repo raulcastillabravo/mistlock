@@ -36,7 +36,7 @@ Each Lab (MVE or Project) is independent and isolated from the others.
 Read specific rule files for more information about these topics:
 
 - Python: .claude/rules/python-style-guide.md.
-- README: .claude/rules/readme-style-guide.md.
+- Docs site pages: .claude/rules/docs-style-guide.md.
 - Testing: .claude/rules/tests-style-guide.md.
 - MVE / Project structure: .claude/rules/example-structure.md
 

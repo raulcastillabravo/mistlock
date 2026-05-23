@@ -1,7 +1,7 @@
 ---
 trigger: glob
 globs: "docs/src/content/docs/**/*.mdx"
-description: Defines the mandatory style, structure, and content that all Starlight documentation pages must follow.
+description: Defines the mandatory style, structure, and content that all docs site pages must follow.
 ---
 
 ## File Conventions
