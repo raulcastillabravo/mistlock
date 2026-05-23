@@ -48,9 +48,9 @@ Only import components that are actually used in the page.
 - **Intro wording**: Use "This guide shows you how to work with **X** using **Y**..." as the opening sentence pattern. Use "lab" not "example" when referring to the project.
 - **No Architecture section**: Do not include the Mermaid architecture diagram or its badge. Starlight pages focus on execution, not architecture.
 - **Callouts**: Use Starlight admonition syntax instead of emoji callouts. Place callouts **outside** of `<Steps>` — never nest them inside:
-  - `:::note[Title]{icon="..."}` — important notes or background information.
+  - `:::note[Title]{icon="..."}` — informational notices, procedural reminders (e.g., "switch methods → clean up first").
   - `:::tip[Title]` — tips or best practices.
-  - `:::caution[Title]` — warnings or potential pitfalls.
+  - `:::caution[Title]` — reserve for genuinely risky actions (data loss, irreversible operations). Do not use for simple procedural reminders.
   - `:::danger[Title]` — critical warnings.
 - **Callout placement**: Put post-execution notes (e.g., key refresh warnings) immediately **after** `</Steps>`, not inside it or in Prerequisites.
 - **URLs as code blocks**: Render navigable URLs as `bash` code blocks, not inline text.
@@ -58,6 +58,7 @@ Only import components that are actually used in the page.
 - **Standardized Action Labels**: Bold action labels at the start of list items: `**Run**:`, `**Open**:`, `**Verify**:`, `**Install**:`, etc.
 - **No manual index**: Starlight generates the Table of Contents from headings automatically. Do not add an index section.
 - **No H1 title in body**: The frontmatter `title` field handles it.
+- **Tab sync**: Use `syncKey="<key>"` on related `<Tabs>` components to keep them in sync (e.g., deployment method selection synced between "Deployment methods" and "Clean Up" sections). Tab labels must match exactly.
 
 ## Structure
 
@@ -75,7 +76,7 @@ This guide shows you how to work with **Service** using **Emulator** and **Langu
 An H2 section listing requirements.
 - Docker entry: `- [Docker](https://www.docker.com/get-started) installed and running.`
 - Dev Containers entry (when supported): `- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).`
-- Add a `:::note[Dev Containers]` callout only for **incompatibility** warnings (e.g., SAM CLI not working inside a container). Do not add a tip here for the Dev Container happy path — that belongs as a Tab in "How to execute".
+- Add a `:::note[Dev Containers]` callout only for **incompatibility** warnings (e.g., SAM CLI not working inside a container). Do not add tips or explanations for the Dev Container happy path here — that belongs as a Tab in "How to execute".
 
 ### 3. How to execute
 
@@ -154,21 +155,56 @@ An H2 section with:
 
 Only include if the README contains test instructions.
 
-### 6. Validate results
+### 6. Deployment methods (optional)
 
-An H2 section with a numbered list of validation methods.
-- Each item is a tool or method with a bold label (e.g., `1. **Check Buckets**:`, `2. **Explore with [Tool] (GUI)**:`).
+An H2 section with a `<Tabs syncKey="deploy-method">` component when the lab supports multiple deployment methods (Terraform, CloudFormation, Boto3, AWS CLI, etc.).
+
+- The **default method** (typically Boto3) goes inside the Manually tab of Step 1 in "How to execute". This section lists all alternatives.
+- Immediately follow with a `:::note[Switching deployment methods]` reminding users to clean up before switching.
+
+```mdx
+## Deployment methods
+
+There are other **deployment methods** you can use in this lab.
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      scripts/terraform/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      scripts/cloudformation/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      scripts/boto3/deploy.sh
+      ```
+   </TabItem>
+</Tabs>
+
+:::note[Switching deployment methods]
+If you switch between methods, run **Clean Up** first to avoid resource name conflicts.
+:::
+```
+
+### 7. Validate results
+
+An H2 section. When there are multiple validation tools, use `<Tabs>` instead of a numbered list — one tab per tool (e.g., AWS CLI, AWS Toolkit, MinIO GUI, NoSQL Workbench).
 - Always reference `.env` variables for connection details.
 - Render navigable URLs as `bash` code blocks.
-- Provide example commands or queries.
+- Provide example commands or queries per tab.
 
-### 7. Clean Up
+### 8. Clean Up
 
 An H2 section with the cleanup steps.
-- Standard: `docker compose down -v`
+- Standard single method: `docker compose down -v`
 - For non-Docker labs (e.g., SAM/Lambda): numbered steps to stop services and remove artifacts.
+- **When the lab has multiple deployment methods**: use `<Tabs syncKey="deploy-method">` (same syncKey as "Deployment methods" section) for the per-method destroy script, then a separate code block for `docker compose down -v` with explanatory text distinguishing "remove resources only" vs "remove everything".
 
-### 8. Troubleshooting (optional)
+### 9. Troubleshooting (optional)
 
 A Markdown table with two columns — Issue and Solution — if the README includes troubleshooting content.
 
