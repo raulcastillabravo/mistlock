@@ -1,0 +1,111 @@
+---
+title: Redis
+description: This guide shows you how to work with Redis locally using Docker and Python. This lab demonstrates how to manage user status using Redis and a custom context manager for connection management.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **Redis** locally using **Docker** and **Python**. This lab demonstrates how to manage user status using Redis and a custom context manager for connection management.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         1. **Run the setup** script to install tools and dependencies:
+            ```bash
+            scripts/setup.sh
+            ```
+         2. **Start Infrastructure**: Launch the Redis container:
+            ```bash
+            docker compose up -d
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Run the Example**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="Redis CLI">
+         1. **Enter Shell**:
+            ```bash
+            scripts/redis_cli.sh
+            ```
+         2. **Execute** commands to set a key manually:
+            ```bash
+            SET raulcastillabravo:status "available"
+            ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## How to debug
+
+1. **main.py**:
+   - **Open**: Open `main.py`.
+   - **Breakpoints**: Set breakpoints in the code.
+   - **Run**: Press `F5` to start debugging.
+
+2. **Tests**:
+   - **Open**: Open a test file (e.g., `tests/providers/test_redis_client.py`).
+   - **Breakpoints**: Set breakpoints in the test code.
+   - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test you want to debug.
+
+## How to test
+
+- **All tests**: Run the automated script:
+  ```bash
+  scripts/run_tests.sh
+  ```
+- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
+
+## Validate results
+
+<Tabs>
+   <TabItem label="Redis CLI">
+      1. **Enter Shell**:
+         ```bash
+         scripts/redis_cli.sh
+         ```
+      2. **Check** the stored status:
+         ```bash
+         GET raulcastillabravo:status
+         ```
+   </TabItem>
+   <TabItem label="Database Client">
+      - **Install**: [Database Client](vscode:extension/cweijan.vscode-database-client2).
+      - **Connect**: Connect using the connection settings defined in your `.env`.
+      - **Verify**: Browse the keys and use the built-in **Redis CLI** directly from the extension UI.
+   </TabItem>
+   <TabItem label="Redis Insight">
+      - **Install**: [Redis Insight](https://redis.io/insight/).
+      - **Connect**: Connect using the connection settings defined in your `.env`.
+      - **Verify**: Browse the keys to see `raulcastillabravo:status`.
+   </TabItem>
+</Tabs>
+
+## Clean Up
+
+```bash
+docker compose down -v
+```

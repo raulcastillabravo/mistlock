@@ -1,0 +1,69 @@
+---
+title: Redis Mutex
+description: This guide shows you how to implement a distributed mutex using Redis, Docker Compose, and Python. This lab demonstrates how to coordinate concurrent access to shared resources across multiple threads.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to implement a distributed mutex using **Redis**, **Docker Compose**, and **Python**. This lab demonstrates how to coordinate concurrent access to shared resources across multiple threads.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         ```bash
+         pip install uv && uv sync
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Start Infrastructure**: Launch the Redis container:
+   ```bash
+   docker compose up -d
+   ```
+
+3. **Run the Example**:
+   <Tabs>
+      <TabItem label="Lock/Unlock">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="Context Manager">
+         ```bash
+         python main_acquire.py
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## Validate results
+
+**Verify** that each thread wrote its line in order by checking `shared_file.txt`:
+```bash
+cat shared_file.txt
+```
+
+## Clean Up
+
+```bash
+docker compose down -v
+rm shared_file.txt
+```
