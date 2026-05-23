@@ -1,0 +1,119 @@
+---
+title: NoSQL Writer
+description: This guide shows you how to work with Google Cloud Run and Firestore locally using the Firebase Emulator Suite and Python. This lab demonstrates how to create a containerized service that registers patients in Firestore.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **Google Cloud Run** and **Firestore** locally using the **Firebase Emulator Suite** and **Python**. This lab demonstrates how to create a containerized service that registers patients in Firestore.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+- Without **Dev Container**, you also need: 
+   - Python 3.12+.
+   - Node.js.
+   - Java JDK.
+   - [Google Cloud CLI](https://cloud.google.com/sdk/docs/install).
+   - [Minikube](https://minikube.sigs.k8s.io/docs/start/).
+   - Firebase CLI (`npm install -g firebase-tools`).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs syncKey="run-method">
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Cloud Code (Minikube)">
+         **Install dependencies**:
+         ```bash
+         uv sync
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Start Firebase Emulators**:
+   ```bash
+   firebase emulators:start
+   ```
+
+3. **Run the Service**:
+   <Tabs syncKey="run-method">
+      <TabItem label="Docker (Dev Container)">
+         Open a new terminal and build and run the service container:
+         ```bash
+         docker build -t patient-service ./app
+         docker run --rm -p 8080:8080 --net=host -e FIRESTORE_EMULATOR_HOST=localhost:8081 patient-service
+         ```
+      </TabItem>
+      <TabItem label="Cloud Code (Minikube)">
+         1. **Open** the **Cloud Code** panel in the VS Code activity bar.
+         2. **Expand** **Cloud Run**.
+         3. **Click** **Run on Cloud Run Emulator** (play icon).
+            > First run downloads and sets up Minikube — this takes **10–15 minutes**.
+      </TabItem>
+   </Tabs>
+
+4. **Run the Example**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="cURL">
+         ```bash
+         curl -v -X POST http://localhost:8080 \
+              -H "Content-Type: application/json" \
+              -d '{"name": "Test", "surname": "User", "dni": "12345678X"}'
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+:::note[Docker path limitations]
+The Docker path does not support hot reload or Knative behavior simulation. Use **Cloud Code (Minikube)** for a production-like environment. If Google Cloud login prompts appear, select **No/Cancel** — the lab runs 100% locally.
+:::
+
+## Validate results
+
+**Open** the Firebase Emulator UI and navigate to **Firestore** to verify the registered patient documents:
+```bash
+http://localhost:4000
+```
+
+## Clean Up
+
+<Tabs syncKey="run-method">
+   <TabItem label="Docker (Dev Container)">
+      ```bash
+      docker stop patient-service
+      pkill -f firebase
+      ```
+   </TabItem>
+   <TabItem label="Cloud Code (Minikube)">
+      **Click** the **Stop** (red square) button in VS Code, or run:
+      ```bash
+      minikube stop
+      pkill -f firebase
+      ```
+   </TabItem>
+</Tabs>
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Connection Refused (Firestore) | Ensure `firebase emulators:start` is running. On Linux with Minikube, change `FIRESTORE_EMULATOR_HOST` to `host.minikube.internal:8081` in `.vscode/launch.json`. |
+| Persistent Google Cloud login prompts | Ensure `.vscode/settings.json` includes `"cloudcode.useGcloudAuthSkaffold": false` and select **No/Cancel** when prompted. |
+| Firebase Emulator fails to start | Ensure **Node.js** and **Java JDK** are installed. Check ports `8081` and `4000` are available. |
