@@ -1,0 +1,111 @@
+---
+title: S3 MinIO
+description: Esta guía te muestra cómo trabajar con AWS S3 localmente usando MinIO y Python. Este lab demuestra cómo integrar librerías de S3 (Boto3, PyArrow y Deltalake) para pipelines de datos locales y emulación de almacenamiento de objetos.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **AWS S3** localmente usando **MinIO** y **Python**. Este lab demuestra cómo integrar librerías de S3 (**Boto3**, **PyArrow** y **Deltalake**) para pipelines de datos locales y emulación de almacenamiento de objetos.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         1. **Ejecuta el script** de configuración para instalar herramientas y dependencias.
+            ```bash
+            scripts/setup.sh
+            ```
+         2. **Iniciar la infraestructura**: Lanza los contenedores necesarios.
+            ```bash
+            docker compose up -d
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Ejecutar el ejemplo**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="AWS CLI">
+         Sube el archivo README al bucket bronze:
+         ```bash
+         aws s3 cp README.md s3://bronze --profile minio
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## Cómo depurar
+
+1. **main.py**:
+   - **Abre** `main.py`.
+   - **Breakpoints**: Añade breakpoints en el código.
+   - **Ejecuta**: Pulsa `F5` para iniciar la depuración.
+
+2. **Tests**:
+   - **Abre** un archivo de test (e.g., `tests/components/test_s3_boto.py`).
+   - **Breakpoints**: Añade breakpoints en el código de test.
+   - **Ejecuta**: Usa la pestaña **Testing** de VS Code y haz clic en el icono **Debug Test** junto al test que quieras depurar.
+
+## Cómo testear
+
+- **Individualmente**: Ejecuta tests individualmente desde la pestaña **Testing** de VS Code.
+- **Todos los tests**: Ejecuta el script automatizado:
+  ```bash
+  scripts/run_tests.sh
+  ```
+
+## Validar resultados
+
+<Tabs>
+   <TabItem label="MinIO GUI">
+      - **Abre**:
+        ```bash
+        http://localhost:9001
+        ```
+      - **Credenciales**: Usa `MINIO_ROOT_USER` y `MINIO_ROOT_PASSWORD` definidos en tu `.env`.
+      - **Verifica**: Comprueba los buckets `bronze` y `silver` para ver los archivos subidos.
+   </TabItem>
+   <TabItem label="AWS CLI">
+      - **Ejecuta**: Lista el contenido del bucket bronze:
+        ```bash
+        aws s3 ls s3://bronze --recursive
+        ```
+   </TabItem>
+   <TabItem label="MinIO CLI">
+      - **Accede al shell**:
+        ```bash
+        scripts/minio_cli.sh
+        ```
+      - **Verifica**:
+        ```bash
+        mc ls data/bronze/ --recursive
+        ```
+   </TabItem>
+</Tabs>
+
+## Limpieza
+
+```bash
+docker compose down -v
+```

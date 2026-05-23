@@ -213,3 +213,81 @@ A Markdown table with two columns — Issue and Solution — if the README inclu
 |-------|----------|
 | Problem description | How to fix it. |
 ```
+
+## Spanish Translation
+
+Every English page must have a corresponding Spanish version at `docs/src/content/docs/es/[provider]/[mves|projects]/[name].mdx`. The Spanish version maintains identical structure, MDX components, `syncKey` values, and code blocks.
+
+### What to translate
+
+- All prose text: introductory sentences, descriptions, explanations
+- Frontmatter `description` (and `title` only if it is not a brand/technical name)
+- Section headings (see table below)
+- Tab labels that are not technical proper nouns
+- Callout titles unless they are technical terms or proper nouns
+- Troubleshooting table content
+
+### What to keep in English
+
+- All code blocks, commands, scripts, file paths, and URLs
+- Technical proper nouns: VS Code, Docker, Python, AWS CLI, Firebase, etc.
+- The word "Testing" when referring to the VS Code Testing tab — never translate as "Pruebas"
+- Use "tests" instead of "pruebas" for technical test references
+- All `<TabItem label="...">` values that are technical names (Python, cURL, AWS CLI, REST Client, etc.)
+- All `syncKey` attribute values
+
+### Section heading translations
+
+| English | Spanish |
+|---------|---------|
+| Prerequisites | Prerrequisitos |
+| How to execute | Cómo ejecutar |
+| How to debug | Cómo depurar |
+| How to test | Cómo testear |
+| Validate results | Validar resultados |
+| Clean Up | Limpieza |
+| Troubleshooting | Solución de problemas |
+| Deployment methods | Métodos de despliegue |
+
+### Tab label translations
+
+| English | Spanish |
+|---------|---------|
+| `Dev Container (recommended)` | `Dev Container (recomendado)` |
+| `Manually` | `Manual` |
+
+All other tab labels that are technical names remain in English.
+
+### Action labels
+
+Bold action labels at the start of list items must use the **imperative (tú)** form — never infinitive:
+
+| English | Spanish |
+|---------|---------|
+| **Open** | **Abre** |
+| **Run** | **Ejecuta** |
+| **Install** | **Instala** |
+| **Verify** | **Verifica** |
+| **Connect** | **Conecta** |
+| **Navigate** | **Navega** |
+| **Browse** | **Navega** |
+| **Select** | **Selecciona** |
+| **Enter Shell** | **Accede al shell** |
+| **Enable** | **Activa** |
+| **Monitor** | **Monitoriza** |
+| **Expand** | **Despliega** |
+| **Click** | **Haz clic en** |
+
+### Intro pattern
+
+```
+Esta guía te muestra cómo trabajar con **Service** usando **Emulator** y **Language**. Este lab demuestra [what it does].
+```
+
+### Troubleshooting table
+
+```markdown
+| Problema | Solución |
+|----------|----------|
+| Description in Spanish | Solution in Spanish |
+```

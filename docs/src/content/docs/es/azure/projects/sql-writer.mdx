@@ -1,0 +1,91 @@
+---
+title: SQL Writer
+description: Esta guía te muestra cómo trabajar con Azure SQL Database localmente usando Azure Functions y SQLAlchemy. Este lab demuestra cómo procesar peticiones HTTP POST y persistir datos en una base de datos SQL.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **Azure SQL Database** localmente usando **Azure Functions** y **SQLAlchemy**. Este lab demuestra cómo procesar peticiones HTTP POST y persistir datos en una base de datos SQL local.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         1. **Ejecuta el script** de configuración para instalar herramientas y dependencias:
+            ```bash
+            scripts/setup-mve.sh
+            ```
+         2. **Iniciar la infraestructura**: Lanza los contenedores de SQL Edge y Azurite:
+            ```bash
+            docker compose up -d
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Iniciar Azurite**: Desde la **Paleta de Comandos**, selecciona **Azurite: Start Blob Service**. Esto inicia el emulador de almacenamiento blob local requerido por el runtime de Azure Functions.
+
+3. **Iniciar el host de funciones**:
+   ```bash
+   func start
+   ```
+
+4. **Ejecutar el ejemplo**:
+   ```bash
+   python main.py
+   ```
+
+</Steps>
+
+:::note[Driver ODBC]
+La instalación del driver ODBC en `scripts/setup-mve.sh` está configurada para sistemas basados en Debian. Para otros sistemas operativos, consulta la [documentación oficial de Microsoft](https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server).
+:::
+
+## Validar resultados
+
+Este lab incluye un perfil de conexión preconfigurado para la extensión **SQL Server (mssql)** en `.vscode/settings.json`.
+
+<Tabs>
+   <TabItem label="SQL Server Extension">
+      1. **Abre** la extensión **SQL Server** en VS Code.
+      2. **Selecciona** el perfil de conexión `Azure SQL Edge (Local)`.
+      3. **Ejecuta** la siguiente consulta para verificar los datos:
+         ```sql
+         SELECT * FROM Users;
+         ```
+   </TabItem>
+   <TabItem label="External Client">
+      **Conecta** usando los detalles de conexión definidos en `.vscode/settings.json`:
+         - Server `localhost`.
+         - Port `1433`.
+         - Database `UserDB`.
+   </TabItem>
+</Tabs>
+
+## Limpieza
+
+```bash
+docker compose down -v
+```
+
+## Solución de problemas
+
+| Problema | Solución |
+|----------|----------|
+| `ImportError: libodbc.so.2` | Ejecuta `scripts/setup-mve.sh` para instalar las dependencias del sistema ODBC. |
+| Error `AzureWebJobsStorage` | Asegúrate de que el servicio Azurite Blob está iniciado (**Azurite: Start Blob Service**) y el puerto `10000` está disponible. |

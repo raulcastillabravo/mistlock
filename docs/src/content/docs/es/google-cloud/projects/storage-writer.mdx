@@ -1,0 +1,81 @@
+---
+title: Storage Writer
+description: Esta guía te muestra cómo trabajar con Google Cloud Functions localmente usando el Firebase Emulator Suite y Python. Este lab demuestra cómo crear una función con trigger HTTP que sube archivos a Cloud Storage.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **Google Cloud Functions** localmente usando el **Firebase Emulator Suite** y **Python**. Este lab demuestra cómo crear una función con trigger HTTP que sube archivos a Cloud Storage.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+- Sin **Dev Containers**, también necesitas instalar:
+   - [Node.js 18+](https://nodejs.org/).
+   - [Java 17+](https://adoptium.net/).
+   - Firebase CLI.
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         ```bash
+         pip3 install uv && uv sync
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Configura el entorno virtual de las funciones**:
+   ```bash
+   python3.12 -m venv functions/venv && functions/venv/bin/pip install -r functions/requirements.txt
+   ```
+
+3. **Iniciar los emuladores de Firebase**:
+   ```bash
+   firebase emulators:start
+   ```
+
+4. **Ejecutar el ejemplo**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python test_function.py
+         ```
+      </TabItem>
+      <TabItem label="cURL">
+         ```bash
+         curl -X POST http://localhost:5001/demo-project/us-central1/upload_file \
+           -H "Content-Type: application/json" \
+           -d '{"filename": "test.txt", "content": "Hello from curl!"}'
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## Validar resultados
+
+**Abre** la UI del emulador de Firebase y navega a la pestaña **Storage** para verificar el archivo subido:
+```bash
+http://localhost:4000/storage
+```
+
+## Limpieza
+
+Detén los emuladores pulsando `Ctrl+C` en el terminal donde se ejecuta `firebase emulators:start`. Para eliminar los datos del emulador:
+
+```bash
+rm -rf .firebase
+```

@@ -1,0 +1,38 @@
+---
+title: Dev Containers
+description: Esta guía te muestra cómo trabajar con Dev Containers usando Docker y VS Code. Este lab demuestra los conceptos y componentes clave de los Dev Containers a través de una aplicación Python sencilla.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **Dev Containers** usando **Docker** y **VS Code**. Este lab demuestra los conceptos y componentes clave de los Dev Containers a través de una aplicación Python sencilla.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada.
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Abrir en Dev Container**: Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+   ```bash
+   > Dev Containers: Reopen in Container
+   ```
+
+2. **Ejecutar el ejemplo**:
+   ```bash
+   python main.py
+   ```
+
+</Steps>
+
+## Solución de problemas
+
+| Problema | Solución |
+|----------|----------|
+| El contenedor no arranca | Asegúrate de que Docker está en ejecución. Reconstruye desde **Dev Containers: Rebuild Container** en la Paleta de Comandos. |
+| Las dependencias no se instalan | Ejecútalas manualmente dentro del contenedor: `pip3 install uv && uv sync` |
+| La extensión no funciona | Verifica el ID de la extensión en `devcontainer.json`. Reconstruye el contenedor. |

@@ -1,0 +1,69 @@
+---
+title: PostgreSQL
+description: Esta guía te muestra cómo trabajar con PostgreSQL localmente usando Docker Compose, SQLAlchemy y Python. Este lab demuestra cómo configurar una base de datos en contenedor con inicialización automática del esquema.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **PostgreSQL** localmente usando **Docker Compose**, **SQLAlchemy** y **Python**. Este lab demuestra cómo configurar una base de datos en contenedor con inicialización automática del esquema.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         1. **Iniciar la infraestructura**: Lanza el contenedor de PostgreSQL:
+            ```bash
+            docker compose up -d
+            ```
+         2. **Ejecuta el script** de configuración para instalar herramientas y dependencias:
+            ```bash
+            scripts/setup-mve.sh
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Ejecutar el ejemplo**:
+   ```bash
+   python main.py
+   ```
+
+</Steps>
+
+## Validar resultados
+
+<Tabs>
+   <TabItem label="SQL CLI">
+      **Ejecuta** el siguiente comando para consultar la base de datos directamente (credenciales en `.env`):
+      ```bash
+      docker exec -it postgres_local psql -U admin -d testdb -c "SELECT * FROM users;"
+      ```
+   </TabItem>
+   <TabItem label="Database Client">
+      **Conecta** usando **[SQLTools](vscode:extension/mtxr.sqltools)** (preconfigurado en el Dev Container) o [DBeaver](https://dbeaver.io/download/) con los detalles de conexión definidos en `.env` y ejecuta:
+      ```sql
+      SELECT * FROM users;
+      ```
+   </TabItem>
+</Tabs>
+
+## Limpieza
+
+```bash
+docker compose down -v
+```
