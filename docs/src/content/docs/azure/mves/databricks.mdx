@@ -1,0 +1,69 @@
+---
+title: Databricks
+description: This guide shows you how to simulate a Databricks environment locally using Docker, MinIO as S3-compatible storage, and PostgreSQL as a persistent Hive Metastore. This lab demonstrates how to develop and test Spark and Delta Lake ETLs locally using Databricks Runtime 15.4 LTS.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to simulate a **Databricks** environment locally using **Docker**, **MinIO** as S3-compatible storage, and **PostgreSQL** as a persistent Hive Metastore. This lab demonstrates how to develop and test Spark and Delta Lake ETLs locally using **Databricks Runtime 15.4 LTS (Spark 3.5.0)**.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs syncKey="environment">
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         Launch all required services (Spark, MinIO, PostgreSQL):
+         ```bash
+         docker compose up -d
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Run the Example**:
+   <Tabs syncKey="environment">
+      <TabItem label="Dev Container (recommended)">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         Execute the script inside the Spark container:
+         ```bash
+         docker compose exec spark python3 main.py
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+:::note[Interactive Analysis (Dev Container only)]
+Open `src/notebooks/analysis.ipynb` and run the cells to analyze the data registered in the Hive Metastore and test the DBUtils Shim (secrets and widgets). This requires the pre-configured Jupyter environment provided by the Dev Container.
+:::
+
+## Clean Up
+
+```bash
+docker compose down -v
+```
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Connection Refused | Ensure all services are running: `docker compose ps` |
+| Table already exists | Drop the conflicting table with `spark.sql("DROP TABLE IF EXISTS sales.products_silver")` or run **Clean Up** to reset the volumes. |
