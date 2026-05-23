@@ -4,6 +4,10 @@ title: Redis
 description: Minimal viable example to work with Redis using Python and Docker. This example demonstrates how to manage user status (Enum) using Redis and a custom contex...
 ---
 
+:::note[Also covers]
+This lab is also valid for **AWS ElastiCache** and **Google Cloud Memorystore**, which are functionally equivalent to a standard Redis instance.
+:::
+
 # Redis
 
 Minimal viable example to work with **Redis** using **Python** and **Docker**. This example demonstrates how to manage user status (Enum) using Redis and a custom context manager for connection management.

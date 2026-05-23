@@ -77,29 +77,32 @@ This guide shows you how to work with **AWS S3** locally using **MinIO** and **P
 
 ## Validate results
 
-1. **Check using MinIO GUI**:
-   - **Open**:
-     ```bash
-     http://localhost:9001
-     ```
-   - **Credentials**: Use the `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` defined in your `.env`.
-   - **Verify**: Check the `bronze` and `silver` buckets to see the uploaded files.
-
-2. **Check using AWS CLI**:
-   - **Run**: List the contents of the bronze bucket:
-     ```bash
-     aws s3 ls s3://bronze --recursive
-     ```
-
-3. **Check using MinIO CLI**:
-   - **Enter Shell**:
-     ```bash
-     scripts/minio_cli.sh
-     ```
-   - **Verify**:
-     ```bash
-     mc ls data/bronze/ --recursive
-     ```
+<Tabs>
+   <TabItem label="MinIO GUI">
+      - **Open**:
+        ```bash
+        http://localhost:9001
+        ```
+      - **Credentials**: Use the `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` defined in your `.env`.
+      - **Verify**: Check the `bronze` and `silver` buckets to see the uploaded files.
+   </TabItem>
+   <TabItem label="AWS CLI">
+      - **Run**: List the contents of the bronze bucket:
+        ```bash
+        aws s3 ls s3://bronze --recursive
+        ```
+   </TabItem>
+   <TabItem label="MinIO CLI">
+      - **Enter Shell**:
+        ```bash
+        scripts/minio_cli.sh
+        ```
+      - **Verify**:
+        ```bash
+        mc ls data/bronze/ --recursive
+        ```
+   </TabItem>
+</Tabs>
 
 ## Clean Up
 

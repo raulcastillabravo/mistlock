@@ -49,22 +49,28 @@ Garage S3 connection keys are automatically refreshed when starting or restartin
 
 ## Validate results
 
-1. **Check Buckets**: Verify that `bronze` and `silver` buckets were created.
-   ```bash
-   aws s3 ls --profile garage
-   ```
-2. **Check Content**: Verify the files in the silver bucket.
-   ```bash
-   aws s3 ls s3://silver --recursive --profile garage
-   ```
-3. **Explore with Rclone (GUI)**: Launch the Rclone graphical interface to explore the files visually.
-   ```bash
-   scripts/rclone-gui.sh
-   ```
-   **Navigate** to:
-   ```bash
-   http://127.0.0.1:5572
-   ```
+<Tabs>
+   <TabItem label="AWS CLI">
+      - **Check Buckets**: Verify that `bronze` and `silver` buckets were created.
+        ```bash
+        aws s3 ls --profile garage
+        ```
+      - **Check Content**: Verify the files in the silver bucket.
+        ```bash
+        aws s3 ls s3://silver --recursive --profile garage
+        ```
+   </TabItem>
+   <TabItem label="Rclone">
+      - **Launch** the Rclone graphical interface:
+        ```bash
+        scripts/rclone-gui.sh
+        ```
+      - **Open** in your browser:
+        ```bash
+        http://127.0.0.1:5572
+        ```
+   </TabItem>
+</Tabs>
 
 ## Clean Up
 

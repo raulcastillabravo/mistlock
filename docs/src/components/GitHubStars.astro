@@ -1,17 +1,8 @@
 ---
-import { siteConfig } from '../config';
+import { getGithubStars } from "../utils/githubStars";
+import { siteConfig } from "../config";
 
-const res = await fetch(siteConfig.githubApiUrl, {
-	headers: { 'User-Agent': 'Astro-Build-Client' },
-});
-
-if (!res.ok) {
-	throw new Error(`GitHub API returned ${res.status} for ${siteConfig.githubApiUrl}`);
-}
-
-const data = await res.json();
-const count: number = data.stargazers_count;
-const stargazersCount = count > 999 ? (count / 1000).toFixed(1) + 'k' : String(count);
+const stargazersCount = await getGithubStars();
 ---
 
 <a
@@ -22,8 +13,16 @@ const stargazersCount = count > 999 ? (count / 1000).toFixed(1) + 'k' : String(c
 	aria-label="Star on GitHub"
 >
 	<div class="star-left">
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="star-svg" aria-hidden="true">
-			<path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.858 1.4-8.168L.132 9.21l8.2-1.192z" />
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			fill="currentColor"
+			class="star-svg"
+			aria-hidden="true"
+		>
+			<path
+				d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.858 1.4-8.168L.132 9.21l8.2-1.192z"
+			></path>
 		</svg>
 		<span class="star-text">Star</span>
 	</div>
@@ -102,28 +101,28 @@ const stargazersCount = count > 999 ? (count / 1000).toFixed(1) + 'k' : String(c
 		color: var(--sl-color-white);
 	}
 
-	:global([data-theme='light']) .github-star-badge {
+	:global([data-theme="light"]) .github-star-badge {
 		background-color: transparent;
 		border-color: var(--sl-color-gray-4);
 		color: var(--sl-color-gray-2) !important;
 	}
 
-	:global([data-theme='light']) .github-star-badge:hover {
+	:global([data-theme="light"]) .github-star-badge:hover {
 		background-color: rgba(0, 0, 0, 0.04) !important;
 		border-color: var(--sl-color-gray-3) !important;
 		color: var(--sl-color-gray-2) !important;
 		box-shadow: none;
 	}
 
-	:global([data-theme='light']) .github-star-badge:hover .star-left {
+	:global([data-theme="light"]) .github-star-badge:hover .star-left {
 		border-right-color: var(--sl-color-gray-3) !important;
 	}
 
-	:global([data-theme='light']) .star-right {
+	:global([data-theme="light"]) .star-right {
 		color: var(--sl-color-gray-2);
 	}
 
-	:global([data-theme='light']) .github-star-badge:hover .star-right {
+	:global([data-theme="light"]) .github-star-badge:hover .star-right {
 		color: var(--sl-color-gray-2) !important;
 	}
 
