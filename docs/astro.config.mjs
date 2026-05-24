@@ -10,7 +10,12 @@ export default defineConfig({
 	integrations: [
 		sitemap(),
 		starlight({
-			title: 'Cloud Local Lab',
+			title: 'MistLock',
+			logo: {
+				src: './src/assets/mistlock.svg',
+				alt: 'MistLock',
+			},
+			customCss: ['./src/styles/custom.css'],
 			social: [
 				{ icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/raulcastillabravo/' },
 
