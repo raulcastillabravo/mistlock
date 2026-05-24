@@ -34,11 +34,26 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
-					label: 'Getting Started',
+					label: 'Start Here',
 					translations: {
-						es: 'Empezando',
+						es: 'Empieza aquí',
 					},
-					link: '/getting-started/',
+					items: [
+						{
+							label: 'Getting Started',
+							translations: {
+								es: 'Empezando',
+							},
+							link: '/start-here/getting-started/',
+						},
+						{
+							label: 'Catalog',
+							translations: {
+								es: 'Catálogo de ejemplos',
+							},
+							link: '/start-here/catalog/',
+						},
+					],
 				},
 				{
 					label: 'AWS',

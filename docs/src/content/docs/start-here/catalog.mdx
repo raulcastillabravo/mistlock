@@ -1,0 +1,83 @@
+---
+title: Catalog
+description: All available Labs in Cloud Local Lab, organized by Cloud provider.
+---
+
+All available Labs in **Cloud Local Lab**, organized by provider. Each entry links to its full documentation.
+
+## AWS (Amazon Web Services)
+
+### Services
+
+| Service | Lab |
+| :--- | :--- |
+| **Lambda** | [Lambda (SAM)](../../aws/mves/lambda-sam/) |
+| **S3** | [S3 (Garage)](../../aws/mves/s3-garage/) · [S3 (MinIO)](../../aws/mves/s3-minio/) |
+| **RDS** | [RDS (PostgreSQL)](../../aws/mves/rds-postgres/) |
+| **ElastiCache** | [ElastiCache (Redis)](../../aws/mves/elasti-cache/) |
+| **Step Functions** | [Step Functions (LocalStack)](../../aws/mves/step-functions-localstack/) |
+
+### Projects
+
+| Project | Services involved |
+| :--- | :--- |
+| [Storage Writer](../../aws/projects/storage-writer/) | Lambda → S3 |
+| [Simple ETL](../../aws/projects/simple-etl/) | S3 → Lambda → DynamoDB |
+| [SQL Writer](../../aws/projects/sql-writer/) | Lambda → PostgreSQL |
+
+## Microsoft Azure
+
+### Services
+
+| Service | Lab |
+| :--- | :--- |
+| **Azure Functions** | [Functions](../../azure/mves/functions/) |
+| **Blob Storage** | [Blob Storage](../../azure/mves/blob-storage/) |
+| **Databricks** | [Databricks](../../azure/mves/databricks/) |
+| **Cache for Redis** | [Cache for Redis](../../azure/mves/cache-for-redis/) |
+
+### Projects
+
+| Project | Services involved |
+| :--- | :--- |
+| [Storage Writer](../../azure/projects/storage-writer/) | Azure Function → Blob Storage |
+| [SQL Writer](../../azure/projects/sql-writer/) | Azure Function → Azure SQL |
+| [NoSQL Writer](../../azure/projects/no-sql-writer/) | Python → Cosmos DB |
+
+## Google Cloud Platform
+
+### Services
+
+| Service | Lab |
+| :--- | :--- |
+| **Cloud Functions** | [Firebase Cloud Functions](../../google-cloud/mves/firebase-cloud-functions/) |
+| **Cloud SQL** | [Cloud SQL](../../google-cloud/mves/cloud-sql/) |
+| **Memorystore** | [Memorystore](../../google-cloud/mves/memorystore/) |
+
+### Projects
+
+| Project | Services involved |
+| :--- | :--- |
+| [Storage Writer](../../google-cloud/projects/storage-writer/) | Cloud Function → Cloud Storage |
+| [Simple ETL](../../google-cloud/projects/simple-etl/) | Cloud Storage → Cloud Function → PostgreSQL |
+| [NoSQL Writer](../../google-cloud/projects/no-sql-writer/) | Cloud Run → Firestore |
+
+## Hybrid & Open Source
+
+### Services
+
+| Service | Lab |
+| :--- | :--- |
+| **PostgreSQL** | [PostgreSQL](../../hybrid/mves/postgres/) |
+| **Redis** | [Redis](../../hybrid/mves/redis/) |
+| **MongoDB** | [Mongo](../../hybrid/mves/mongo/) |
+| **RabbitMQ** | [RabbitMQ](../../hybrid/mves/rabbitmq/) |
+| **Airflow** | [Airflow](../../hybrid/mves/airflow/) |
+| **Metabase** | [Metabase](../../hybrid/mves/metabase/) |
+| **Dev Containers** | [Dev Containers](../../hybrid/mves/devcontainers/) |
+
+### Projects
+
+| Project | Services involved |
+| :--- | :--- |
+| [Redis Mutex](../../hybrid/projects/redis-mutex/) | Python → Redis |

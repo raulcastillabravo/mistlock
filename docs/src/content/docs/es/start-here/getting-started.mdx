@@ -1,0 +1,64 @@
+---
+title: Empezando
+description: Aprende qué es Cloud Local Lab, sus conceptos principales y cómo empezar a trabajar con cualquier Lab del catálogo.
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+¡Bienvenido a Cloud Local Lab! Aquí encontrarás un catálogo de ejemplos prácticos (Labs) para aprender a configurar entornos de desarrollo local que te permitan trabajar como si estuvieses en el Cloud real, pero sin necesidad de crear una cuenta en la nube ni en ningún otro proveedor, es decir, no necesitas tarjeta de crédito ni tampoco preocuparte de gastos sorpresa. ¡Desarrolla con libertad y sin miedo a equivocarte!
+
+El código que desarrolles con estos ejemplos será compatible con el Cloud real, así que, si en algún momento decides llevar tu aplicación a un entorno Cloud real, no tendrás que modificar tu código.
+
+## Lab, MVEs y Projects
+
+A cada ejemplo del catálogo lo llamamos "Lab" (de laboratorio) y tenemos dos tipos de Labs:
+
+- **MVE (Minimal Viable Example)**: Se centra en un servicio Cloud específico, cómo emularlo y qué herramientas son necesarias para desarrollar con él en local. Puede haber más de un MVE por servicio si hay varias herramientas para emularlo.
+
+- **Project**: Combina diferentes servicios Cloud en el mismo entorno de desarrollo local. 
+
+Si estás empezando, probablemente te interesen los MVEs para que aprendas a emular un servicio aislado y luego explores los proyectos para ver cómo combinarlo con otros.
+
+## Entornos de desarrollo
+
+Cada Lab configura de forma automática un entorno de desarrollo dockerizado (Dev Container) que te permite ejecutar, debuggear y testear sin que tengas que modificar nada, y cuenta con herramientas gráficas que te permitirán visualizar y trabajar con los recursos que tienes creados.
+
+Usar Dev Containers garantiza que el entorno se configura solo, es reproducible y puedes borrarlo cuando quieras sin dejar herramientas instaladas en tu equipo.
+
+Aún sí, si prefieres desarrollar sin usar Dev Containers, cada lab tiene instrucciones para hacerlo directamente en tu máquina host, así que no te preocupes, tenemos opciones para todo y verás que en los Labs hay múltiples formas de ejecutar, debuggear, testear y validar.
+
+## Conocimientos previos
+
+Para trabajar con los Labs, es recomendable tener ciertos conocimientos previos en:
+
+1. Programación: es indispensable, ya que en los Labs estaremos directamente trabajando con código. Concretamente, los Labs usan Python.
+
+2. Docker: los emuladores y servicios se levantan con Docker, así que es aconsejable que estés familiarizado con él.
+
+3. Cloud: al menos a nivel introductorio y conceptual, es decir, entender qué es el Cloud, sus servicios...
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [VS Code](https://code.visualstudio.com/) con la [extensión Dev Containers](vscode:extension/ms-vscode-remote.remote-containers) instalada *(opcional pero recomendado)*.
+
+## Cómo empezar
+
+<Steps>
+
+1. **Navega** por el sidebar y elige el proveedor Cloud que te interesa: **AWS**, **Azure**, **Google Cloud** o **Híbrido**.
+
+2. **Selecciona** el servicio o proyecto que quieras explorar.
+
+3. **Abre** la carpeta del Lab en VS Code y ejecuta **Dev Containers: Reopen in Container** desde la paleta de comandos (`F1`).
+
+4. **Sigue** las instrucciones del Lab. Normalmente, basta con ejecutar:
+   ```bash
+   python main.py
+   ```
+
+</Steps>
+
+:::tip[¿No sabes qué Lab elegir?]
+Consulta el [Catálogo de ejemplos](./catalog/) para ver todos los Labs disponibles organizados por proveedor.
+:::

@@ -1,40 +1,148 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: Cloud Local Lab
+description: Learn how to develop for the Cloud for free, emulating AWS, Azure, and Google Cloud locally with Docker.
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: Emulate the Cloud on your machine. Free, no accounts, and 100% compatible with the real Cloud.
   image:
     file: ../../assets/houston.webp
   actions:
-    - text: Getting Started
-      link: getting-started/
+    - text: Get started
+      link: start-here/getting-started/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+      variant: primary
+    - text: View catalog
+      link: start-here/catalog/
+      icon: open-book
       variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+## Features
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+<CardGrid>
+  <Card title="🐳 Dockerized">
+    Each Lab sets up its environment with Docker. No manual installation, no extra configuration.
+  </Card>
+  <Card title="💸 Free and no accounts">
+    No AWS, Azure, or Google Cloud account needed. No credit card.
+  </Card>
+  <Card title="☁️ 100% compatible">
+    The code you develop works the same on the real Cloud. No changes needed.
+  </Card>
+  <Card title="📦 Self-contained">
+    Each Lab is independent and includes everything needed to run.
+  </Card>
+  <Card title="🖥️ Graphical interfaces">
+    Visual tools to explore and manage local environment resources.
+  </Card>
+  <Card title="🌐 Bilingual">
+    All Labs are documented in both English and Spanish.
+  </Card>
+</CardGrid>
+
+## Labs: MVEs and Projects
+
+We call each catalog example a **Lab**. Labs are independent and self-contained: they include everything needed to run without modifying the code. There are two types:
+
+<CardGrid>
+  <Card title="MVE (Minimal Viable Example)">
+    Focuses on a single Cloud service: how to emulate it and what tools to use. There can be more than one MVE per service if multiple emulation options are available.
+  </Card>
+  <Card title="Project">
+    Combines multiple Cloud services in the same local environment to show how they integrate in a real workflow.
+  </Card>
+</CardGrid>
+
+## AWS (Amazon Web Services)
+
+<CardGrid>
+  <Card title="⚡ Lambda">
+    Emulates AWS Lambda with **SAM CLI**. Develop and test serverless functions locally.
+  </Card>
+  <Card title="🪣 S3">
+    Emulates AWS S3 with **Garage** or **MinIO**. Object storage compatible with the S3 API.
+  </Card>
+  <Card title="🐘 RDS (PostgreSQL)">
+    Emulates Amazon RDS with a local **PostgreSQL** instance.
+  </Card>
+  <Card title="🔴 ElastiCache">
+    Emulates Amazon ElastiCache with a local **Redis** server.
+  </Card>
+  <Card title="🔄 Step Functions">
+    Emulates AWS Step Functions with **LocalStack** to orchestrate serverless workflows.
+  </Card>
+</CardGrid>
+
+## Microsoft Azure
+
+<CardGrid>
+  <Card title="⚡ Azure Functions">
+    Emulates Azure Functions locally with the official Azure development tools.
+  </Card>
+  <Card title="🪣 Blob Storage">
+    Emulates Azure Blob Storage with **Azurite**, Microsoft's official storage emulator.
+  </Card>
+  <Card title="🔬 Databricks">
+    Emulates a **Databricks** environment locally for data processing and analysis.
+  </Card>
+  <Card title="🔴 Cache for Redis">
+    Emulates Azure Cache for Redis with a local **Redis** server.
+  </Card>
+</CardGrid>
+
+## Google Cloud Platform
+
+<CardGrid>
+  <Card title="🔥 Cloud Functions">
+    Emulates Google Cloud Functions with **Firebase Emulator Suite**. Develop serverless functions offline.
+  </Card>
+  <Card title="🐘 Cloud SQL">
+    Emulates Google Cloud SQL with a local **PostgreSQL** instance.
+  </Card>
+  <Card title="🔴 Memorystore">
+    Emulates Google Memorystore with a local **Redis** server.
+  </Card>
+</CardGrid>
+
+## Hybrid & Open Source
+
+<CardGrid>
+  <Card title="🐘 PostgreSQL">
+    Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs.
+  </Card>
+  <Card title="🔴 Redis">
+    In-memory data store. Emulates ElastiCache, Cache for Redis, and Memorystore.
+  </Card>
+  <Card title="🍃 MongoDB">
+    Open source document-oriented NoSQL database.
+  </Card>
+  <Card title="🐇 RabbitMQ">
+    Open source message broker for queues and pub/sub.
+  </Card>
+  <Card title="🌬️ Airflow">
+    Workflow orchestration platform for data pipelines.
+  </Card>
+  <Card title="📊 Metabase">
+    Business intelligence and data visualization tool.
+  </Card>
+  <Card title="🛠️ Dev Containers">
+    Reproducible development environments based on Docker containers.
+  </Card>
+</CardGrid>
+
+## Get started now
+
+<CardGrid>
+  <Card title="📖 Getting Started">
+    Project concepts, prerequisites, and how to run your first Lab.
+
+    [Read the guide](start-here/getting-started/)
+  </Card>
+  <Card title="📋 Catalog">
+    All available Labs organized by Cloud provider.
+
+    [View catalog](start-here/catalog/)
+  </Card>
 </CardGrid>
