@@ -1,0 +1,28 @@
+---
+interface Props {
+  alt?: boolean;
+}
+
+const { alt = false } = Astro.props;
+---
+
+<section class:list={["section", { "section--alt": alt }]}>
+  <div class="section__inner py-16 px-4">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section--alt {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    background-color: rgb(255 255 255 / 0.04);
+  }
+
+  .section__inner {
+    max-width: var(--sl-content-width, 72rem);
+    margin-inline: auto;
+  }
+</style>

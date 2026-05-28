@@ -1,0 +1,14 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
+  <div class="text-slot flex flex-col items-center justify-center text-center">
+    <slot name="text" />
+  </div>
+  <div class="flex items-center justify-center">
+    <slot name="component" />
+  </div>
+</div>
+
+<style>
+  .text-slot :global(h2) {
+    color: var(--color-wisteria);
+  }
+</style>

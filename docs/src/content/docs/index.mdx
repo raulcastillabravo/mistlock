@@ -3,7 +3,7 @@ title: MistLock
 description: Learn how to develop for the Cloud for free, emulating AWS, Azure, and Google Cloud locally with Docker.
 template: splash
 hero:
-  tagline: Local, reproducible and automated Cloud dev environments. No accounts, local-first and 100% compatible with the Cloud.
+  tagline: Catalog of automated Cloud dev environments. No accounts, local-first and 100% compatible with AWS, Azure and GCP.
   image:
     file: ../../assets/mistlock.svg
   actions:
@@ -17,132 +17,131 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+import BentoFeatures from '../../components/BentoFeatures.astro';
+import TextComponentSplit from '../../components/TextComponentSplit.astro';
+import LandingSection from '../../components/LandingSection.astro';
 
-## Features
+<LandingSection>
+  ## Features
+  <BentoFeatures />
+</LandingSection>
 
-<CardGrid>
-  <Card title="🐳 Dockerized">
-    Each Lab sets up its environment with Docker. No manual installation, no extra configuration.
-  </Card>
-  <Card title="💸 Free and no accounts">
-    No AWS, Azure, or Google Cloud account needed. No credit card.
-  </Card>
-  <Card title="☁️ 100% compatible">
-    The code you develop works the same on the real Cloud. No changes needed.
-  </Card>
-  <Card title="📦 Self-contained">
-    Each Lab is independent and includes everything needed to run.
-  </Card>
-  <Card title="🖥️ Graphical interfaces">
-    Visual tools to explore and manage local environment resources.
-  </Card>
-  <Card title="🌐 Bilingual">
-    All Labs are documented in both English and Spanish.
-  </Card>
-</CardGrid>
+<LandingSection alt>
+  <TextComponentSplit>
+    <div slot="text">
+      <span class="inline-block bg-purple-900/40 text-purple-300 text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full border border-purple-500/30 mb-4">Catalog</span>
+      <h2>Labs: MVEs and Projects</h2>
+      <p>We call each catalog example a <strong>Lab</strong>. Labs are independent and self-contained: they include everything needed to run without modifying the code. There are two types:</p>
+    </div>
+    <Tabs slot="component">
+      <TabItem label="MVE">
+        <div class="text-4xl mb-3">🎯</div>
+        <p class="font-bold text-white mb-2">Minimal Viable Example</p>
+        <p>Focuses on a single Cloud service: how to emulate it and what tools to use. There can be more than one MVE per service if multiple emulation options are available.</p>
+      </TabItem>
+      <TabItem label="Project">
+        <div class="text-4xl mb-3">🔗</div>
+        <p class="font-bold text-white mb-2">Project</p>
+        <p>Combines multiple Cloud services in the same local environment to show how they integrate in a real workflow.</p>
+      </TabItem>
+    </Tabs>
+  </TextComponentSplit>
+</LandingSection>
 
-## Labs: MVEs and Projects
+<LandingSection>
+  ## AWS (Amazon Web Services)
+  <CardGrid>
+    <Card title="⚡ Lambda">
+      Emulates AWS Lambda with **SAM CLI**. Develop and test serverless functions locally.
+    </Card>
+    <Card title="🪣 S3">
+      Emulates AWS S3 with **Garage** or **MinIO**. Object storage compatible with the S3 API.
+    </Card>
+    <Card title="🐘 RDS (PostgreSQL)">
+      Emulates Amazon RDS with a local **PostgreSQL** instance.
+    </Card>
+    <Card title="🔴 ElastiCache">
+      Emulates Amazon ElastiCache with a local **Redis** server.
+    </Card>
+    <Card title="🔄 Step Functions">
+      Emulates AWS Step Functions with **LocalStack** to orchestrate serverless workflows.
+    </Card>
+  </CardGrid>
+</LandingSection>
 
-We call each catalog example a **Lab**. Labs are independent and self-contained: they include everything needed to run without modifying the code. There are two types:
+<LandingSection alt>
+  ## Microsoft Azure
+  <CardGrid>
+    <Card title="⚡ Azure Functions">
+      Emulates Azure Functions locally with the official Azure development tools.
+    </Card>
+    <Card title="🪣 Blob Storage">
+      Emulates Azure Blob Storage with **Azurite**, Microsoft's official storage emulator.
+    </Card>
+    <Card title="🔬 Databricks">
+      Emulates a **Databricks** environment locally for data processing and analysis.
+    </Card>
+    <Card title="🔴 Cache for Redis">
+      Emulates Azure Cache for Redis with a local **Redis** server.
+    </Card>
+  </CardGrid>
+</LandingSection>
 
-<CardGrid>
-  <Card title="MVE (Minimal Viable Example)">
-    Focuses on a single Cloud service: how to emulate it and what tools to use. There can be more than one MVE per service if multiple emulation options are available.
-  </Card>
-  <Card title="Project">
-    Combines multiple Cloud services in the same local environment to show how they integrate in a real workflow.
-  </Card>
-</CardGrid>
+<LandingSection>
+  ## Google Cloud Platform
+  <CardGrid>
+    <Card title="🔥 Cloud Functions">
+      Emulates Google Cloud Functions with **Firebase Emulator Suite**. Develop serverless functions offline.
+    </Card>
+    <Card title="🐘 Cloud SQL">
+      Emulates Google Cloud SQL with a local **PostgreSQL** instance.
+    </Card>
+    <Card title="🔴 Memorystore">
+      Emulates Google Memorystore with a local **Redis** server.
+    </Card>
+  </CardGrid>
+</LandingSection>
 
-## AWS (Amazon Web Services)
+<LandingSection alt>
+  ## Hybrid & Open Source
+  <CardGrid>
+    <Card title="🐘 PostgreSQL">
+      Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs.
+    </Card>
+    <Card title="🔴 Redis">
+      In-memory data store. Emulates ElastiCache, Cache for Redis, and Memorystore.
+    </Card>
+    <Card title="🍃 MongoDB">
+      Open source document-oriented NoSQL database.
+    </Card>
+    <Card title="🐇 RabbitMQ">
+      Open source message broker for queues and pub/sub.
+    </Card>
+    <Card title="🌬️ Airflow">
+      Workflow orchestration platform for data pipelines.
+    </Card>
+    <Card title="📊 Metabase">
+      Business intelligence and data visualization tool.
+    </Card>
+    <Card title="🛠️ Dev Containers">
+      Reproducible development environments based on Docker containers.
+    </Card>
+  </CardGrid>
+</LandingSection>
 
-<CardGrid>
-  <Card title="⚡ Lambda">
-    Emulates AWS Lambda with **SAM CLI**. Develop and test serverless functions locally.
-  </Card>
-  <Card title="🪣 S3">
-    Emulates AWS S3 with **Garage** or **MinIO**. Object storage compatible with the S3 API.
-  </Card>
-  <Card title="🐘 RDS (PostgreSQL)">
-    Emulates Amazon RDS with a local **PostgreSQL** instance.
-  </Card>
-  <Card title="🔴 ElastiCache">
-    Emulates Amazon ElastiCache with a local **Redis** server.
-  </Card>
-  <Card title="🔄 Step Functions">
-    Emulates AWS Step Functions with **LocalStack** to orchestrate serverless workflows.
-  </Card>
-</CardGrid>
+<LandingSection>
+  ## Get started now
+  <CardGrid>
+    <Card title="📖 Getting Started">
+      Project concepts, prerequisites, and how to run your first Lab.
 
-## Microsoft Azure
+      [Read the guide](start-here/getting-started/)
+    </Card>
+    <Card title="📋 Catalog">
+      All available Labs organized by Cloud provider.
 
-<CardGrid>
-  <Card title="⚡ Azure Functions">
-    Emulates Azure Functions locally with the official Azure development tools.
-  </Card>
-  <Card title="🪣 Blob Storage">
-    Emulates Azure Blob Storage with **Azurite**, Microsoft's official storage emulator.
-  </Card>
-  <Card title="🔬 Databricks">
-    Emulates a **Databricks** environment locally for data processing and analysis.
-  </Card>
-  <Card title="🔴 Cache for Redis">
-    Emulates Azure Cache for Redis with a local **Redis** server.
-  </Card>
-</CardGrid>
-
-## Google Cloud Platform
-
-<CardGrid>
-  <Card title="🔥 Cloud Functions">
-    Emulates Google Cloud Functions with **Firebase Emulator Suite**. Develop serverless functions offline.
-  </Card>
-  <Card title="🐘 Cloud SQL">
-    Emulates Google Cloud SQL with a local **PostgreSQL** instance.
-  </Card>
-  <Card title="🔴 Memorystore">
-    Emulates Google Memorystore with a local **Redis** server.
-  </Card>
-</CardGrid>
-
-## Hybrid & Open Source
-
-<CardGrid>
-  <Card title="🐘 PostgreSQL">
-    Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs.
-  </Card>
-  <Card title="🔴 Redis">
-    In-memory data store. Emulates ElastiCache, Cache for Redis, and Memorystore.
-  </Card>
-  <Card title="🍃 MongoDB">
-    Open source document-oriented NoSQL database.
-  </Card>
-  <Card title="🐇 RabbitMQ">
-    Open source message broker for queues and pub/sub.
-  </Card>
-  <Card title="🌬️ Airflow">
-    Workflow orchestration platform for data pipelines.
-  </Card>
-  <Card title="📊 Metabase">
-    Business intelligence and data visualization tool.
-  </Card>
-  <Card title="🛠️ Dev Containers">
-    Reproducible development environments based on Docker containers.
-  </Card>
-</CardGrid>
-
-## Get started now
-
-<CardGrid>
-  <Card title="📖 Getting Started">
-    Project concepts, prerequisites, and how to run your first Lab.
-
-    [Read the guide](start-here/getting-started/)
-  </Card>
-  <Card title="📋 Catalog">
-    All available Labs organized by Cloud provider.
-
-    [View catalog](start-here/catalog/)
-  </Card>
-</CardGrid>
+      [View catalog](start-here/catalog/)
+    </Card>
+  </CardGrid>
+</LandingSection>
