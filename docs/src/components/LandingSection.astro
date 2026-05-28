@@ -18,6 +18,10 @@ const { alt = false } = Astro.props;
     position: relative;
     left: 50%;
     margin-left: -50vw;
+    background-color: rgb(0 0 0 / 0.04);
+  }
+
+  :global([data-theme='dark']) .section--alt {
     background-color: rgb(255 255 255 / 0.04);
   }
 
