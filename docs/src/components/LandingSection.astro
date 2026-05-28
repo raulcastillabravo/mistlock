@@ -6,7 +6,7 @@ interface Props {
 const { alt = false } = Astro.props;
 ---
 
-<section class:list={["section", { "section--alt": alt }]}>
+<section class:list={["not-content", "section", { "section--alt": alt }]}>
   <div class="section__inner py-16 px-4">
     <slot />
   </div>

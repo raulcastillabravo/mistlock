@@ -21,6 +21,7 @@ import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
 import BentoFeatures from '../../components/BentoFeatures.astro';
 import TextComponentSplit from '../../components/TextComponentSplit.astro';
 import LandingSection from '../../components/LandingSection.astro';
+import ProviderGrid from '../../components/ProviderGrid.astro';
 
 <LandingSection>
   ## Features
@@ -51,83 +52,45 @@ import LandingSection from '../../components/LandingSection.astro';
 
 <LandingSection>
   ## AWS (Amazon Web Services)
-  <CardGrid>
-    <Card title="⚡ Lambda">
-      Emulates AWS Lambda with **SAM CLI**. Develop and test serverless functions locally.
-    </Card>
-    <Card title="🪣 S3">
-      Emulates AWS S3 with **Garage** or **MinIO**. Object storage compatible with the S3 API.
-    </Card>
-    <Card title="🐘 RDS (PostgreSQL)">
-      Emulates Amazon RDS with a local **PostgreSQL** instance.
-    </Card>
-    <Card title="🔴 ElastiCache">
-      Emulates Amazon ElastiCache with a local **Redis** server.
-    </Card>
-    <Card title="🔄 Step Functions">
-      Emulates AWS Step Functions with **LocalStack** to orchestrate serverless workflows.
-    </Card>
-  </CardGrid>
+  <ProviderGrid services={[
+    { icon: "⚡", title: "Lambda", description: "Emulates AWS Lambda with SAM CLI. Develop and test serverless functions locally." },
+    { icon: "🪣", title: "S3", description: "Emulates AWS S3 with Garage or MinIO. Object storage compatible with the S3 API." },
+    { icon: "🐘", title: "RDS (PostgreSQL)", description: "Emulates Amazon RDS with a local PostgreSQL instance." },
+    { icon: "🔴", title: "ElastiCache", description: "Emulates Amazon ElastiCache with a local Redis server." },
+    { icon: "🔄", title: "Step Functions", description: "Emulates AWS Step Functions with LocalStack to orchestrate serverless workflows." },
+  ]} />
 </LandingSection>
 
 <LandingSection alt>
   ## Microsoft Azure
-  <CardGrid>
-    <Card title="⚡ Azure Functions">
-      Emulates Azure Functions locally with the official Azure development tools.
-    </Card>
-    <Card title="🪣 Blob Storage">
-      Emulates Azure Blob Storage with **Azurite**, Microsoft's official storage emulator.
-    </Card>
-    <Card title="🔬 Databricks">
-      Emulates a **Databricks** environment locally for data processing and analysis.
-    </Card>
-    <Card title="🔴 Cache for Redis">
-      Emulates Azure Cache for Redis with a local **Redis** server.
-    </Card>
-  </CardGrid>
+  <ProviderGrid services={[
+    { icon: "⚡", title: "Azure Functions", description: "Emulates Azure Functions locally with the official Azure development tools." },
+    { icon: "🪣", title: "Blob Storage", description: "Emulates Azure Blob Storage with Azurite, Microsoft's official storage emulator." },
+    { icon: "🔬", title: "Databricks", description: "Emulates a Databricks environment locally for data processing and analysis." },
+    { icon: "🔴", title: "Cache for Redis", description: "Emulates Azure Cache for Redis with a local Redis server." },
+  ]} />
 </LandingSection>
 
 <LandingSection>
   ## Google Cloud Platform
-  <CardGrid>
-    <Card title="🔥 Cloud Functions">
-      Emulates Google Cloud Functions with **Firebase Emulator Suite**. Develop serverless functions offline.
-    </Card>
-    <Card title="🐘 Cloud SQL">
-      Emulates Google Cloud SQL with a local **PostgreSQL** instance.
-    </Card>
-    <Card title="🔴 Memorystore">
-      Emulates Google Memorystore with a local **Redis** server.
-    </Card>
-  </CardGrid>
+  <ProviderGrid services={[
+    { icon: "🔥", title: "Cloud Functions", description: "Emulates Google Cloud Functions with Firebase Emulator Suite. Develop serverless functions offline." },
+    { icon: "🐘", title: "Cloud SQL", description: "Emulates Google Cloud SQL with a local PostgreSQL instance." },
+    { icon: "🔴", title: "Memorystore", description: "Emulates Google Memorystore with a local Redis server." },
+  ]} />
 </LandingSection>
 
 <LandingSection alt>
   ## Hybrid & Open Source
-  <CardGrid>
-    <Card title="🐘 PostgreSQL">
-      Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs.
-    </Card>
-    <Card title="🔴 Redis">
-      In-memory data store. Emulates ElastiCache, Cache for Redis, and Memorystore.
-    </Card>
-    <Card title="🍃 MongoDB">
-      Open source document-oriented NoSQL database.
-    </Card>
-    <Card title="🐇 RabbitMQ">
-      Open source message broker for queues and pub/sub.
-    </Card>
-    <Card title="🌬️ Airflow">
-      Workflow orchestration platform for data pipelines.
-    </Card>
-    <Card title="📊 Metabase">
-      Business intelligence and data visualization tool.
-    </Card>
-    <Card title="🛠️ Dev Containers">
-      Reproducible development environments based on Docker containers.
-    </Card>
-  </CardGrid>
+  <ProviderGrid services={[
+    { icon: "🐘", title: "PostgreSQL", description: "Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs." },
+    { icon: "🔴", title: "Redis", description: "In-memory data store. Emulates ElastiCache, Cache for Redis, and Memorystore." },
+    { icon: "🍃", title: "MongoDB", description: "Open source document-oriented NoSQL database." },
+    { icon: "🐇", title: "RabbitMQ", description: "Open source message broker for queues and pub/sub." },
+    { icon: "🌬️", title: "Airflow", description: "Workflow orchestration platform for data pipelines." },
+    { icon: "📊", title: "Metabase", description: "Business intelligence and data visualization tool." },
+    { icon: "🛠️", title: "Dev Containers", description: "Reproducible development environments based on Docker containers." },
+  ]} />
 </LandingSection>
 
 <LandingSection>
