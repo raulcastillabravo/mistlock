@@ -18,23 +18,22 @@ hero:
 ---
 
 import { LinkCard, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
-import FeatureCardGrid from '../../components/FeatureCardGrid.astro';
-import TextComponentSplit from '../../components/TextComponentSplit.astro';
+import ServiceGrid from '../../components/ServiceGrid.astro';
 import LandingSection from '../../components/LandingSection.astro';
-import ProviderGrid from '../../components/ProviderGrid.astro';
 import Versus from '../../components/Versus.astro';
 import Steps from '../../components/Steps.astro';
 import CodeWindow from '../../components/CodeWindow.astro';
 import HorizontalSplit from '../../components/HorizontalSplit.astro';
 
 <LandingSection>
-  <FeatureCardGrid features={[
-    { emoji: "🐳", title: "Dockerized", description: "Each environment is isolated, reproducible and self-contained using Docker. No dependency conflicts on your local machine." },
-    { emoji: "🧩", title: "Dev Containers", description: "Configure the full environment just by opening the project in your IDE. Everything is ready to go from the first keystroke." },
-    { emoji: "💸", title: "Free & No Accounts", description: "No AWS, Azure, Google Cloud or any other provider accounts are needed. No credit card. Zero infrastructure costs." },
-    { emoji: "☁️", title: "100% Compatible", description: "Code you develop locally works exactly the same on real Cloud providers. No changes needed. Develop locally and deploy when you are ready." },
-    { emoji: "🔀", title: "One Goal, Multiple Methods", description: "Every lab supports multiple ways to run, debug and test, and many visual tools and extensions to explore and manage local resources." },
+  <ServiceGrid items={[
+    { icon: "🐳", title: "Dockerized", description: "Each environment is isolated, reproducible and self-contained using Docker. No dependency conflicts on your local machine." },
+    { icon: "🧩", title: "Dev Containers", description: "Configure the full environment just by opening the project in your IDE. Everything is ready to go from the first keystroke." },
+    { icon: "💸", title: "Free & No Accounts", description: "No AWS, Azure, Google Cloud or any other provider accounts are needed. No credit card. Zero infrastructure costs." },
+    { icon: "☁️", title: "100% Compatible", description: "Code you develop locally works exactly the same on real Cloud providers. No changes needed. Develop locally and deploy when you are ready." },
+    { icon: "🔀", title: "One Goal, Multiple Methods", description: "Every lab supports multiple ways to run, debug and test, and many visual tools and extensions to explore and manage local resources." },
   ]} />
+
 </LandingSection>
 
 <LandingSection alt>
@@ -58,10 +57,10 @@ import HorizontalSplit from '../../components/HorizontalSplit.astro';
     { text: "Open it in your IDE." },
     { text: "Execute it in one click." },
   ]} />
+
   <HorizontalSplit text="You can execute the Lab with Dev Containers and without it.">
     <Fragment slot="left">
-      <CodeWindow filename="With Dev Container" code={`# The Dev Container will configure the whole Dev environment.
-> Dev Containers: Open Folder in Dev Containers
+      <CodeWindow filename="With Dev Container" code={`# Open in Dev Containers
 
 # Run the lab
 python main.py`} />
@@ -81,7 +80,7 @@ python main.py`} />
 
 <LandingSection alt>
   ## AWS
-  <ProviderGrid services={[
+  <ServiceGrid items={[
     { icon: "logos:aws-lambda", title: "Lambda", description: "Emulates AWS Lambda with SAM CLI. Develop and test serverless functions locally." },
     { icon: "logos:aws-ecs", title: "ECS / EKS", description: "Emulates AWS container orchestration services for deploying containerized applications.", comingSoon: true },
     { icon: "logos:aws-glue", title: "Glue", description: "Emulates AWS Glue for serverless ETL data integration and transformation jobs.", comingSoon: true },
@@ -94,11 +93,12 @@ python main.py`} />
     { icon: "logos:aws-eventbridge", title: "EventBridge", description: "Emulates AWS EventBridge for serverless event routing between application services.", comingSoon: true },
     { icon: "logos:aws-cloudformation", title: "CloudFormation", description: "Emulates AWS CloudFormation for infrastructure-as-code deployment automation." },
   ]} />
+
 </LandingSection>
 
 <LandingSection>
   ## Azure
-  <ProviderGrid services={[
+  <ServiceGrid items={[
     { icon: "⚡", title: "Azure Functions", description: "Emulates Azure Functions locally with the official Azure development tools." },
     { icon: "logos:kubernetes", title: "Container Apps", description: "Emulates Azure Container Apps for running containerized microservices and functions.", comingSoon: true },
     { icon: "🔬", title: "Databricks", description: "Emulates a Databricks environment locally for data processing and analysis." },
@@ -109,11 +109,12 @@ python main.py`} />
     { icon: "🚌", title: "Service Bus", description: "Emulates Azure Service Bus for enterprise message queuing and pub/sub patterns.", comingSoon: true },
     { icon: "✉️", title: "Event Grid", description: "Emulates Azure Event Grid for reactive event-driven service integration.", comingSoon: true },
   ]} />
+
 </LandingSection>
 
 <LandingSection alt>
-  ## Google Cloud Platform
-  <ProviderGrid services={[
+  ## GCP
+  <ServiceGrid items={[
     { icon: "gcp:cloud-functions", title: "Cloud Functions", description: "Emulates Google Cloud Functions with Firebase Emulator Suite. Develop serverless functions offline." },
     { icon: "gcp:cloud-run", title: "Cloud Run", description: "Emulates Google Cloud Run for running containerized applications in a serverless environment." },
     { icon: "gcp:dataflow", title: "Dataflow", description: "Emulates Google Dataflow for stream and batch data processing pipelines.", comingSoon: true },
@@ -123,11 +124,12 @@ python main.py`} />
     { icon: "gcp:memorystore", title: "Memorystore", description: "Emulates Google Memorystore with a local Redis server." },
     { icon: "gcp:pubsub", title: "Pub/Sub", description: "Emulates Google Pub/Sub for asynchronous messaging between decoupled services.", comingSoon: true },
   ]} />
+
 </LandingSection>
 
 <LandingSection>
   ## Open Source
-  <ProviderGrid services={[
+  <ServiceGrid items={[
     { icon: "logos:postgresql", title: "PostgreSQL", description: "Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs." },
     { icon: "logos:mongodb-icon", title: "MongoDB", description: "Open source document-oriented NoSQL database." },
     { icon: "logos:redis", title: "Redis", description: "In-memory data store. Emulates ElastiCache, Cache for Redis, and Memorystore." },
@@ -136,6 +138,7 @@ python main.py`} />
     { icon: "logos:terraform-icon", title: "Terraform", description: "Infrastructure-as-code provisioning workflows using Terraform with local Cloud emulators." },
     { icon: "logos:metabase", title: "Metabase", description: "Business intelligence and data visualization tool." },
   ]} />
+
 </LandingSection>
 
 <LandingSection alt>

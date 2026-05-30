@@ -160,6 +160,34 @@ const { leftTitle, leftDescription, rightTitle, rightDescription } = Astro.props
     transform: translate(-50%, -50%) scale(1);
   }
 
+  @media (max-width: 640px) {
+    .versus {
+      min-height: auto;
+    }
+
+    .versus__bg--left {
+      clip-path: polygon(0 0, 100% 0, 100% 54%, 0 44%);
+    }
+
+    .versus__bg--right {
+      clip-path: polygon(0 56%, 100% 46%, 100% 100%, 0 100%);
+    }
+
+    .versus__content {
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .versus__side--left {
+      padding: 2rem 2rem 3.5rem;
+    }
+
+    .versus__side--right {
+      padding: 3.5rem 2rem 2rem;
+      text-align: left;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .versus__bg,
     .versus__side {

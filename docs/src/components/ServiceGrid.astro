@@ -1,0 +1,52 @@
+---
+import ServiceCard from './ServiceCard.astro';
+
+interface Item {
+  icon: string;
+  title: string;
+  description: string;
+  comingSoon?: boolean;
+}
+
+interface Props {
+  items: Item[];
+  maxColumns?: 2 | 3;
+}
+
+const { items, maxColumns = 3 } = Astro.props;
+---
+
+<div class="not-content service-grid" style={`--max-cols: ${maxColumns}`}>
+  {items.map((item) => (
+    <ServiceCard
+      icon={item.icon}
+      title={item.title}
+      description={item.description}
+      comingSoon={item.comingSoon}
+    />
+  ))}
+</div>
+
+<style>
+  .service-grid {
+    display: grid;
+    /*
+      auto-fill with minmax ensures columns never exceed --max-cols
+      and shrink to 1 when the viewport is too narrow.
+      Formula: min card width = max(180px, 100% / maxCols)
+      so that exactly maxCols columns fit at full width,
+      and fewer fit as the container narrows.
+    */
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(max(180px, 100% / var(--max-cols)), 100%), 1fr)
+    );
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  /* Stagger entrance animation left-to-right within each row.
+     nth-child(3n+1) gets the default 0ms from ServiceCard's --entrance-delay fallback. */
+  :global([data-service-card]:nth-child(3n+2)) { --entrance-delay: 80ms; }
+  :global([data-service-card]:nth-child(3n+3)) { --entrance-delay: 160ms; }
+</style>
