@@ -13,6 +13,7 @@ const { steps } = Astro.props;
 <ol
   class="not-content steps-flow"
   style={`--n-steps: ${steps.length}`}
+  data-steps-flow
 >
   {steps.map((step, i) => (
     <li
@@ -90,6 +91,13 @@ const { steps } = Astro.props;
       var(--sl-color-accent-low)
     );
     margin-top: 0.3rem;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.5s ease-out calc(var(--entrance-delay, 0ms) + 280ms);
+  }
+
+  .step-item.is-visible .step-vline {
+    transform: scaleY(1);
   }
 
   .step-text {
@@ -127,6 +135,13 @@ const { steps } = Astro.props;
         var(--sl-color-accent-low)
       );
       z-index: 0;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.7s ease-out 0.2s;
+    }
+
+    .steps-flow.is-visible::before {
+      transform: scaleX(1);
     }
 
     .step-item {
@@ -154,10 +169,19 @@ const { steps } = Astro.props;
       opacity: 1;
       transform: none;
     }
+    .step-vline {
+      transition: none;
+      transform: scaleY(1);
+    }
+    .steps-flow::before {
+      transition: none;
+      transform: scaleX(1);
+    }
   }
 </style>
 
 <script>
   import { observeEntrance } from '../utils/observer';
   observeEntrance('[data-steps-item]');
+  observeEntrance('[data-steps-flow]');
 </script>
