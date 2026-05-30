@@ -33,7 +33,8 @@ const { code, filename = 'terminal', lang = 'bash' } = Astro.props;
     overflow: hidden;
     box-shadow:
       0 20px 60px rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.06);
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 0 32px rgb(139 92 246 / 0.15);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -42,7 +43,8 @@ const { code, filename = 'terminal', lang = 'bash' } = Astro.props;
   :global([data-theme='light']) .code-window {
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.12),
-      0 0 0 1px rgba(0, 0, 0, 0.08);
+      0 0 0 1px rgba(0, 0, 0, 0.08),
+      0 0 24px rgb(139 92 246 / 0.08);
   }
 
   .window-header {

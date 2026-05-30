@@ -37,10 +37,10 @@ import HorizontalSplit from '../../components/HorizontalSplit.astro';
 </LandingSection>
 
 <LandingSection alt>
-  <div class="not-content" style="text-align: center; margin-bottom: 2rem;">
-    <h2 style="font-size: var(--sl-text-h2); font-weight: 600; line-height: 1.2; margin-bottom: 0.75rem;">Labs: MVEs and Projects</h2>
-    <p style="max-width: 56ch; margin-inline: auto; color: var(--sl-color-gray-2);">We call each catalog example a <strong>Lab</strong>. Labs are independent and self-contained: they include everything needed to run without modifying the code.</p>
-  </div>
+  <h2>Labs</h2>
+
+  We call each catalog example a **Lab**. Labs are independent and self-contained: they include everything needed to run without modifying the code.
+
   <Versus
     leftTitle="MVE"
     leftDescription="A Minimal Viable Example focuses on a single Cloud service: how to emulate it and what tools to use. There can be more than one MVE per service if multiple emulation options are available."
@@ -50,7 +50,7 @@ import HorizontalSplit from '../../components/HorizontalSplit.astro';
 </LandingSection>
 
 <LandingSection>
-  ## How it works
+  <h2>How it works</h2>
   <Steps steps={[
     { text: "Select a Lab from the catalog." },
     { text: "Download the code." },
@@ -79,7 +79,7 @@ python main.py`} />
 </LandingSection>
 
 <LandingSection alt>
-  ## AWS
+  <h2>AWS</h2>
   <ServiceGrid items={[
     { icon: "logos:aws-lambda", title: "Lambda", description: "Emulates AWS Lambda with SAM CLI. Develop and test serverless functions locally." },
     { icon: "logos:aws-ecs", title: "ECS / EKS", description: "Emulates AWS container orchestration services for deploying containerized applications.", comingSoon: true },
@@ -97,7 +97,7 @@ python main.py`} />
 </LandingSection>
 
 <LandingSection>
-  ## Azure
+  <h2>Azure</h2>
   <ServiceGrid items={[
     { icon: "⚡", title: "Azure Functions", description: "Emulates Azure Functions locally with the official Azure development tools." },
     { icon: "logos:kubernetes", title: "Container Apps", description: "Emulates Azure Container Apps for running containerized microservices and functions.", comingSoon: true },
@@ -113,7 +113,7 @@ python main.py`} />
 </LandingSection>
 
 <LandingSection alt>
-  ## GCP
+  <h2>GCP</h2>
   <ServiceGrid items={[
     { icon: "gcp:cloud-functions", title: "Cloud Functions", description: "Emulates Google Cloud Functions with Firebase Emulator Suite. Develop serverless functions offline." },
     { icon: "gcp:cloud-run", title: "Cloud Run", description: "Emulates Google Cloud Run for running containerized applications in a serverless environment." },
@@ -128,7 +128,7 @@ python main.py`} />
 </LandingSection>
 
 <LandingSection>
-  ## Open Source
+  <h2>Open Source</h2>
   <ServiceGrid items={[
     { icon: "logos:postgresql", title: "PostgreSQL", description: "Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs." },
     { icon: "logos:mongodb-icon", title: "MongoDB", description: "Open source document-oriented NoSQL database." },

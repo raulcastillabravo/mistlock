@@ -8,7 +8,7 @@ const { text, marginTop = '3.5rem' } = Astro.props;
 ---
 
 <div class="not-content horizontal-split" style={`--split-margin-top: ${marginTop}`}>
-  {text && <p class="split-text">{text}</p>}
+  {text && <p class="split-text" data-split-text>{text}</p>}
   <div class="split-grid">
     <div class="split-col" style="--entrance-delay: 0ms" data-split-col>
       <slot name="left" />
@@ -31,6 +31,24 @@ const { text, marginTop = '3.5rem' } = Astro.props;
     font-size: 1.15rem;
     font-weight: 600;
     letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.5s ease-out,
+      transform 0.5s ease-out;
+  }
+
+  .split-text.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .split-text {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .split-grid {
@@ -76,4 +94,5 @@ const { text, marginTop = '3.5rem' } = Astro.props;
 <script>
   import { observeEntrance } from '../utils/observer';
   observeEntrance('[data-split-col]');
+  observeEntrance('[data-split-text]');
 </script>
