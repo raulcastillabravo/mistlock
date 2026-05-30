@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
+import icon from 'astro-icon';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -10,6 +11,7 @@ export default defineConfig({
     site: 'https://raulcastillabravo.github.io',
     base: '/mve-collection/',
     integrations: [
+        icon(),
         sitemap(),
         starlight({
             title: 'MistLock',

@@ -1,4 +1,6 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 interface Service {
   icon: string;
   title: string;
@@ -11,6 +13,8 @@ interface Props {
 }
 
 const { services } = Astro.props;
+
+const isIconify = (icon: string) => icon.includes(':');
 ---
 
 <div class="not-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 items-stretch">
@@ -21,7 +25,12 @@ const { services } = Astro.props;
         style={`--entrance-delay: ${(i % 3) * 100}ms`}
         data-provider-card
       >
-        <div class="text-2xl mb-3 grayscale">{service.icon}</div>
+        <div class="mb-3 grayscale">
+          {isIconify(service.icon)
+            ? <Icon name={service.icon} class="w-8 h-8" />
+            : <span class="text-2xl">{service.icon}</span>
+          }
+        </div>
         <div class="flex items-center gap-2 mb-2">
           <h3 class="font-semibold text-gray-900 dark:text-white">{service.title}</h3>
           <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-slate-400 shrink-0">soon</span>
@@ -34,7 +43,12 @@ const { services } = Astro.props;
         style={`--entrance-delay: ${(i % 3) * 100}ms`}
         data-provider-card
       >
-        <div class="text-2xl mb-3">{service.icon}</div>
+        <div class="mb-3">
+          {isIconify(service.icon)
+            ? <Icon name={service.icon} class="w-8 h-8" />
+            : <span class="text-2xl">{service.icon}</span>
+          }
+        </div>
         <h3 class="font-semibold text-gray-900 dark:text-white mb-2">{service.title}</h3>
         <p class="text-sm text-gray-600 dark:text-slate-400 line-clamp-2">{service.description}</p>
       </div>
