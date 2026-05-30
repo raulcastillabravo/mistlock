@@ -1,0 +1,179 @@
+---
+interface Props {
+  leftTitle: string;
+  leftDescription: string;
+  rightTitle: string;
+  rightDescription: string;
+}
+
+const { leftTitle, leftDescription, rightTitle, rightDescription } = Astro.props;
+---
+
+<div class="not-content versus" data-versus>
+  <div class="versus__bg versus__bg--left"></div>
+  <div class="versus__bg versus__bg--right"></div>
+
+  <div class="versus__content">
+    <div class="versus__side versus__side--left">
+      <h3 class="versus__title">{leftTitle}</h3>
+      <p class="versus__desc">{leftDescription}</p>
+    </div>
+    <div class="versus__side versus__side--right">
+      <h3 class="versus__title">{rightTitle}</h3>
+      <p class="versus__desc">{rightDescription}</p>
+    </div>
+  </div>
+
+  <div class="versus__badge">VS</div>
+</div>
+
+<style>
+  .versus {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    min-height: 180px;
+    border: 1px solid rgb(139 92 246 / 0.2);
+    background: rgb(139 92 246 / 0.15);
+    box-shadow: 0 4px 24px rgb(139 92 246 / 0.06);
+  }
+
+  .versus__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transition: transform 0.7s cubic-bezier(0.34, 1.1, 0.64, 1);
+  }
+
+  /* FeatureCard default bg */
+  .versus__bg--left {
+    clip-path: polygon(0 0, 54% 0, 44% 100%, 0 100%);
+    background: #ffffff;
+    transform: translateX(-100%);
+  }
+
+  /* FeatureCard hover bg (light) */
+  .versus__bg--right {
+    clip-path: polygon(56% 0, 100% 0, 100% 100%, 46% 100%);
+    background: rgb(249 250 251);
+    transform: translateX(100%);
+  }
+
+  /* FeatureCard default dark: no explicit bg → use page bg */
+  :global([data-theme='dark']) .versus__bg--left {
+    background: var(--sl-color-bg);
+  }
+
+  /* FeatureCard hover dark */
+  :global([data-theme='dark']) .versus__bg--right {
+    background: rgb(30 41 59 / 0.6);
+  }
+
+  .versus__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    min-height: 180px;
+  }
+
+  .versus__side {
+    flex: 1;
+    padding: 2.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.7s cubic-bezier(0.34, 1.1, 0.64, 1);
+  }
+
+  .versus__side--left {
+    padding-right: 3.5rem;
+    transform: translateX(-100%);
+  }
+
+  .versus__side--right {
+    padding-left: 3.5rem;
+    text-align: right;
+    transform: translateX(100%);
+  }
+
+  .versus.is-visible .versus__bg--left,
+  .versus.is-visible .versus__side--left {
+    transform: translateX(0);
+  }
+
+  .versus.is-visible .versus__bg--right,
+  .versus.is-visible .versus__side--right {
+    transform: translateX(0);
+  }
+
+  /* Matches FeatureCard: text-gray-900 dark:text-white */
+  .versus__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(17 24 39);
+  }
+
+  :global([data-theme='dark']) .versus__title {
+    color: #ffffff;
+  }
+
+  /* Matches FeatureCard: text-gray-600 dark:text-slate-400 */
+  .versus__desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+    color: rgb(75 85 99);
+  }
+
+  :global([data-theme='dark']) .versus__desc {
+    color: rgb(148 163 184);
+  }
+
+  .versus__badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 2;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid rgb(139 92 246 / 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #5b21b6;
+    letter-spacing: 0.05em;
+    box-shadow:
+      0 0 0 4px rgb(139 92 246 / 0.1),
+      0 0 16px rgb(139 92 246 / 0.2);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s;
+  }
+
+  .versus.is-visible .versus__badge {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .versus__bg,
+    .versus__side {
+      transition: none;
+      transform: translateX(0);
+    }
+    .versus__badge {
+      transition: none;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+</style>
+
+<script>
+  import { observeEntrance } from '../utils/observer';
+  observeEntrance('[data-versus]', 0.2);
+</script>

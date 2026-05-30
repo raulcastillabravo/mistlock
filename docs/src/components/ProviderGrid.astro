@@ -3,6 +3,7 @@ interface Service {
   icon: string;
   title: string;
   description: string;
+  comingSoon?: boolean;
 }
 
 interface Props {
@@ -13,11 +14,69 @@ const { services } = Astro.props;
 ---
 
 <div class="not-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 items-stretch">
-  {services.map((service) => (
-    <div class="group border border-gray-200 dark:border-slate-700/50 rounded-xl p-5 bg-gray-50 dark:bg-slate-900/40 transition-transform duration-200 hover:-translate-y-1 hover:border-purple-400 dark:hover:border-purple-500/60">
-      <div class="text-2xl mb-3">{service.icon}</div>
-      <h3 class="font-semibold text-gray-900 dark:text-white mb-2">{service.title}</h3>
-      <p class="text-sm text-gray-600 dark:text-slate-400 line-clamp-2">{service.description}</p>
-    </div>
+  {services.map((service, i) => (
+    service.comingSoon ? (
+      <div
+        class="provider-card border border-dashed border-gray-200 dark:border-slate-700/30 rounded-xl p-5 bg-gray-50/40 dark:bg-slate-900/20 opacity-50 select-none"
+        style={`--entrance-delay: ${(i % 3) * 100}ms`}
+        data-provider-card
+      >
+        <div class="text-2xl mb-3 grayscale">{service.icon}</div>
+        <div class="flex items-center gap-2 mb-2">
+          <h3 class="font-semibold text-gray-900 dark:text-white">{service.title}</h3>
+          <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-slate-400 shrink-0">soon</span>
+        </div>
+        <p class="text-sm text-gray-500 dark:text-slate-500 line-clamp-2">{service.description}</p>
+      </div>
+    ) : (
+      <div
+        class="provider-card border border-gray-200 dark:border-slate-700/50 rounded-xl p-5 bg-gray-50 dark:bg-slate-900/40 hover:-translate-y-1 hover:border-purple-400 dark:hover:border-purple-500/60"
+        style={`--entrance-delay: ${(i % 3) * 100}ms`}
+        data-provider-card
+      >
+        <div class="text-2xl mb-3">{service.icon}</div>
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">{service.title}</h3>
+        <p class="text-sm text-gray-600 dark:text-slate-400 line-clamp-2">{service.description}</p>
+      </div>
+    )
   ))}
 </div>
+
+<style>
+  .provider-card {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s ease-out var(--entrance-delay, 0ms),
+      transform 0.5s ease-out var(--entrance-delay, 0ms);
+  }
+
+  .provider-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* coming-soon cards stay at reduced opacity after animating in */
+  .provider-card.is-visible.opacity-50 {
+    opacity: 0.5;
+  }
+
+  .provider-card.is-visible:hover {
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .provider-card {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { observeEntrance } from '../utils/observer';
+  observeEntrance('[data-provider-card]');
+</script>

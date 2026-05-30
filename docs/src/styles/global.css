@@ -4,6 +4,10 @@
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 
+body {
+  overflow-x: clip;
+}
+
 :root {
   --color-indigo-ink: #421869;
   --color-indigo: #491a74;

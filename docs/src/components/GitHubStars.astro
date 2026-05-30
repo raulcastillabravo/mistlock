@@ -30,7 +30,7 @@ const stargazersCount = await getGithubStars();
 </a>
 
 <style>
-	.github-star-badge {
+	a.github-star-badge {
 		display: inline-flex;
 		align-items: center;
 		text-decoration: none;
@@ -40,7 +40,7 @@ const stargazersCount = await getGithubStars();
 		height: 28px;
 		background-color: var(--sl-color-gray-6);
 		border: 1px solid var(--sl-color-gray-4);
-		color: var(--sl-color-gray-2) !important;
+		color: var(--sl-color-gray-2);
 		border-radius: 6px;
 		overflow: hidden;
 		transition:
@@ -49,10 +49,10 @@ const stargazersCount = await getGithubStars();
 			box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
-	.github-star-badge:hover {
+	a.github-star-badge:hover {
 		background-color: var(--sl-color-gray-5);
 		border-color: var(--sl-color-gray-3);
-		color: var(--sl-color-white) !important;
+		color: var(--sl-color-white);
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	}
 
@@ -66,7 +66,7 @@ const stargazersCount = await getGithubStars();
 		transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
-	.github-star-badge:hover .star-left {
+	a.github-star-badge:hover .star-left {
 		border-right-color: var(--sl-color-gray-3);
 	}
 
@@ -77,7 +77,7 @@ const stargazersCount = await getGithubStars();
 		transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
-	.github-star-badge:hover .star-svg {
+	a.github-star-badge:hover .star-svg {
 		color: #e3b341;
 	}
 
@@ -97,33 +97,26 @@ const stargazersCount = await getGithubStars();
 		transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
-	.github-star-badge:hover .star-right {
+	a.github-star-badge:hover .star-right {
 		color: var(--sl-color-white);
 	}
 
-	:global([data-theme="light"]) .github-star-badge {
+	:global([data-theme="light"]) a.github-star-badge {
 		background-color: transparent;
-		border-color: var(--sl-color-gray-4);
-		color: var(--sl-color-gray-2) !important;
-	}
-
-	:global([data-theme="light"]) .github-star-badge:hover {
-		background-color: rgba(0, 0, 0, 0.04) !important;
-		border-color: var(--sl-color-gray-3) !important;
-		color: var(--sl-color-gray-2) !important;
-		box-shadow: none;
-	}
-
-	:global([data-theme="light"]) .github-star-badge:hover .star-left {
-		border-right-color: var(--sl-color-gray-3) !important;
 	}
 
 	:global([data-theme="light"]) .star-right {
 		color: var(--sl-color-gray-2);
 	}
 
-	:global([data-theme="light"]) .github-star-badge:hover .star-right {
-		color: var(--sl-color-gray-2) !important;
+	:global([data-theme="light"]) a.github-star-badge:hover {
+		background-color: rgba(0, 0, 0, 0.04);
+		color: var(--sl-color-gray-2);
+		box-shadow: none;
+	}
+
+	:global([data-theme="light"]) a.github-star-badge:hover .star-right {
+		color: var(--sl-color-gray-2);
 	}
 
 	@media (max-width: 480px) {

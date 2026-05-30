@@ -1,0 +1,28 @@
+---
+import FeatureCard from './FeatureCard.astro';
+
+interface Feature {
+  emoji: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  features: Feature[];
+}
+
+const { features } = Astro.props;
+---
+
+<div class="not-content grid grid-cols-1 md:grid-cols-6 gap-4 my-8">
+  {features.slice(0, 3).map((feature, i) => (
+    <div class="md:col-span-2">
+      <FeatureCard emoji={feature.emoji} title={feature.title} description={feature.description} delay={i * 100} />
+    </div>
+  ))}
+  {features.slice(3).map((feature, i) => (
+    <div class={`md:col-span-2${i === 0 ? ' md:col-start-2' : ''}`}>
+      <FeatureCard emoji={feature.emoji} title={feature.title} description={feature.description} delay={i * 100} />
+    </div>
+  ))}
+</div>

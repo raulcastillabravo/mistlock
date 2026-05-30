@@ -2,10 +2,12 @@
 import Default from '@astrojs/starlight/components/SocialIcons.astro';
 ---
 
-<Default><slot /></Default>
+<span data-social-icons-wrapper>
+  <Default><slot /></Default>
+</span>
 
 <script>
-	document.querySelectorAll('.social-icons a').forEach(link => {
+	document.querySelectorAll('[data-social-icons-wrapper] a').forEach(link => {
 		link.setAttribute('target', '_blank');
 		link.setAttribute('rel', 'me noopener noreferrer');
 	});
