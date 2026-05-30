@@ -21,7 +21,7 @@ const isIconify = (icon: string) => icon.includes(':');
   {services.map((service, i) => (
     service.comingSoon ? (
       <div
-        class="provider-card border border-dashed border-gray-200 dark:border-slate-700/30 rounded-xl p-5 bg-gray-50/40 dark:bg-slate-900/20 opacity-50 select-none"
+        class="provider-card provider-card--soon border border-dashed border-gray-200 dark:border-slate-700/30 rounded-xl p-5 bg-gray-50/40 dark:bg-slate-900/20 select-none"
         style={`--entrance-delay: ${(i % 3) * 100}ms`}
         data-provider-card
       >
@@ -39,7 +39,7 @@ const isIconify = (icon: string) => icon.includes(':');
       </div>
     ) : (
       <div
-        class="provider-card border border-gray-200 dark:border-slate-700/50 rounded-xl p-5 bg-gray-50 dark:bg-slate-900/40 hover:-translate-y-1 hover:border-purple-400 dark:hover:border-purple-500/60"
+        class="provider-card border border-gray-200 dark:border-slate-700/50 rounded-xl p-5 bg-gray-50 dark:bg-slate-900/40"
         style={`--entrance-delay: ${(i % 3) * 100}ms`}
         data-provider-card
       >
@@ -62,7 +62,10 @@ const isIconify = (icon: string) => icon.includes(':');
     transform: translateY(16px);
     transition:
       opacity 0.5s ease-out var(--entrance-delay, 0ms),
-      transform 0.5s ease-out var(--entrance-delay, 0ms);
+      transform 0.5s ease-out var(--entrance-delay, 0ms),
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .provider-card.is-visible {
@@ -70,15 +73,26 @@ const isIconify = (icon: string) => icon.includes(':');
     transform: translateY(0);
   }
 
-  /* coming-soon cards stay at reduced opacity after animating in */
-  .provider-card.is-visible.opacity-50 {
+  .provider-card--soon.is-visible {
     opacity: 0.5;
   }
 
-  .provider-card.is-visible:hover {
+  .provider-card.is-visible:not(.provider-card--soon):hover {
+    transform: translateY(-4px);
+    border-color: rgb(167 139 250 / 0.7);
+    background-color: var(--sl-color-bg-nav);
+    box-shadow: 0 8px 24px rgb(139 92 246 / 0.12);
     transition:
       transform 0.2s ease,
-      border-color 0.2s ease;
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  :global([data-theme='dark']) .provider-card.is-visible:not(.provider-card--soon):hover {
+    border-color: rgb(139 92 246 / 0.45);
+    background-color: rgb(30 41 59 / 0.6);
+    box-shadow: 0 8px 24px rgb(139 92 246 / 0.1);
   }
 
   @media (prefers-reduced-motion: reduce) {

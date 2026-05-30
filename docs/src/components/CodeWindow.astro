@@ -1,0 +1,93 @@
+---
+import { Code } from 'astro:components';
+import type { CodeProps } from 'astro:components';
+import githubDark from '@shikijs/themes/github-dark';
+
+type Props = {
+  code: string;
+  filename?: string;
+  lang?: CodeProps['lang'];
+};
+
+const { code, filename = 'terminal', lang = 'bash' } = Astro.props;
+---
+
+<div class="not-content code-window">
+  <div class="window-header">
+    <div class="traffic-lights">
+      <span class="light light-close" aria-hidden="true"></span>
+      <span class="light light-minimize" aria-hidden="true"></span>
+      <span class="light light-maximize" aria-hidden="true"></span>
+    </div>
+    <span class="window-filename">{filename}</span>
+  </div>
+  <div class="window-body">
+    <Code code={code} lang={lang} theme={githubDark} />
+  </div>
+</div>
+
+<style>
+  .code-window {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .window-header {
+    background: #2d2d2d;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+  }
+
+  .traffic-lights {
+    display: flex;
+    gap: 0.45rem;
+    flex-shrink: 0;
+  }
+
+  .light {
+    display: block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+  }
+
+  .light-close    { background: #FF5F57; }
+  .light-minimize { background: #FFBD2E; }
+  .light-maximize { background: #28C840; }
+
+  .window-filename {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    font-family: var(--sl-font-mono, monospace);
+    pointer-events: none;
+  }
+
+  .window-body {
+    background: #1a1a1a;
+    overflow-x: auto;
+    flex: 1;
+  }
+
+  .code-window .window-body :global(pre) {
+    margin: 0;
+    border-radius: 0;
+    background: #1a1a1a !important; /* Shiki injects inline style — !important required */
+    padding: 1.25rem 1.5rem;
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+</style>

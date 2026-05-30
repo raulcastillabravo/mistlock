@@ -23,9 +23,11 @@ import TextComponentSplit from '../../components/TextComponentSplit.astro';
 import LandingSection from '../../components/LandingSection.astro';
 import ProviderGrid from '../../components/ProviderGrid.astro';
 import Versus from '../../components/Versus.astro';
+import Steps from '../../components/Steps.astro';
+import CodeWindow from '../../components/CodeWindow.astro';
+import HorizontalSplit from '../../components/HorizontalSplit.astro';
 
 <LandingSection>
-  ## Features
   <FeatureCardGrid features={[
     { emoji: "🐳", title: "Dockerized", description: "Each environment is isolated, reproducible and self-contained using Docker. No dependency conflicts on your local machine." },
     { emoji: "🧩", title: "Dev Containers", description: "Configure the full environment just by opening the project in your IDE. Everything is ready to go from the first keystroke." },
@@ -42,14 +44,43 @@ import Versus from '../../components/Versus.astro';
   </div>
   <Versus
     leftTitle="MVE"
-    leftDescription="Focuses on a single Cloud service: how to emulate it and what tools to use. There can be more than one MVE per service if multiple emulation options are available."
+    leftDescription="A Minimal Viable Example focuses on a single Cloud service: how to emulate it and what tools to use. There can be more than one MVE per service if multiple emulation options are available."
     rightTitle="Project"
     rightDescription="Combines multiple Cloud services in the same local environment to show how they integrate in a real workflow."
   />
 </LandingSection>
 
 <LandingSection>
-  ## AWS (Amazon Web Services)
+  ## How it works
+  <Steps steps={[
+    { text: "Select a Lab from the catalog." },
+    { text: "Download the code." },
+    { text: "Open it in your IDE." },
+    { text: "Execute it in one click." },
+  ]} />
+  <HorizontalSplit text="You can execute the Lab with Dev Containers and without it.">
+    <Fragment slot="left">
+      <CodeWindow filename="With Dev Container" code={`# The Dev Container will configure the whole Dev environment.
+> Dev Containers: Open Folder in Dev Containers
+
+# Run the lab
+python main.py`} />
+    </Fragment>
+    <Fragment slot="right">
+      <CodeWindow filename="Without Dev Containers" code={`# Start the infrastructure
+docker compose up -d
+
+# Setup up the environment
+./scripts/setup.sh
+
+# Run the lab
+python main.py`} />
+    </Fragment>
+  </HorizontalSplit>
+</LandingSection>
+
+<LandingSection alt>
+  ## AWS
   <ProviderGrid services={[
     { icon: "logos:aws-lambda", title: "Lambda", description: "Emulates AWS Lambda with SAM CLI. Develop and test serverless functions locally." },
     { icon: "logos:aws-ecs", title: "ECS / EKS", description: "Emulates AWS container orchestration services for deploying containerized applications.", comingSoon: true },
@@ -65,8 +96,8 @@ import Versus from '../../components/Versus.astro';
   ]} />
 </LandingSection>
 
-<LandingSection alt>
-  ## Microsoft Azure
+<LandingSection>
+  ## Azure
   <ProviderGrid services={[
     { icon: "⚡", title: "Azure Functions", description: "Emulates Azure Functions locally with the official Azure development tools." },
     { icon: "logos:kubernetes", title: "Container Apps", description: "Emulates Azure Container Apps for running containerized microservices and functions.", comingSoon: true },
@@ -80,7 +111,7 @@ import Versus from '../../components/Versus.astro';
   ]} />
 </LandingSection>
 
-<LandingSection>
+<LandingSection alt>
   ## Google Cloud Platform
   <ProviderGrid services={[
     { icon: "gcp:cloud-functions", title: "Cloud Functions", description: "Emulates Google Cloud Functions with Firebase Emulator Suite. Develop serverless functions offline." },
@@ -94,8 +125,8 @@ import Versus from '../../components/Versus.astro';
   ]} />
 </LandingSection>
 
-<LandingSection alt>
-  ## Hybrid & Open Source
+<LandingSection>
+  ## Open Source
   <ProviderGrid services={[
     { icon: "logos:postgresql", title: "PostgreSQL", description: "Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs." },
     { icon: "logos:mongodb-icon", title: "MongoDB", description: "Open source document-oriented NoSQL database." },
@@ -107,8 +138,7 @@ import Versus from '../../components/Versus.astro';
   ]} />
 </LandingSection>
 
-<LandingSection>
-  ## Get started now
+<LandingSection alt>
   <CardGrid>
     <LinkCard
       title="Getting Started"

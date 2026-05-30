@@ -17,6 +17,7 @@
     "@astrojs/starlight-tailwind": "^5.0.0",
     "@iconify-json/gcp": "^1.2.2",
     "@iconify-json/logos": "^1.2.11",
+    "@shikijs/themes": "^4.1.0",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.7",
     "astro-icon": "^1.1.5",
