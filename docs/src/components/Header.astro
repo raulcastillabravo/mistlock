@@ -1,14 +1,16 @@
 ---
 import config from 'virtual:starlight/user-config';
 import GitHubStars from './GitHubStars.astro';
+import MobileLandingMenu from './MobileLandingMenu.astro';
 import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
 import Search from 'virtual:starlight/components/Search';
 import SiteTitle from 'virtual:starlight/components/SiteTitle';
 import SocialIcons from 'virtual:starlight/components/SocialIcons';
 import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 
+const { hasSidebar } = Astro.locals.starlightRoute;
 const shouldRenderSearch =
-	config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
+	hasSidebar && (config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro');
 ---
 
 <div class="header">
@@ -27,6 +29,7 @@ const shouldRenderSearch =
 		<GitHubStars />
 	</div>
 </div>
+<MobileLandingMenu />
 
 <style>
 	@layer starlight.core {

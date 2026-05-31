@@ -1,0 +1,156 @@
+---
+import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+---
+
+<starlight-landing-menu>
+	<button
+		type="button"
+		aria-expanded="false"
+		aria-label="Open menu"
+		class="menu-btn"
+	>
+		<!-- bars icon (closed state) -->
+		<svg
+			class="open-icon"
+			xmlns="http://www.w3.org/2000/svg"
+			width="20"
+			height="20"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true"
+		>
+			<line x1="3" y1="6" x2="21" y2="6"></line>
+			<line x1="3" y1="12" x2="21" y2="12"></line>
+			<line x1="3" y1="18" x2="21" y2="18"></line>
+		</svg>
+		<!-- close icon (expanded state) -->
+		<svg
+			class="close-icon"
+			xmlns="http://www.w3.org/2000/svg"
+			width="20"
+			height="20"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true"
+		>
+			<path d="M18 6L6 18"></path>
+			<path d="M6 6l12 12"></path>
+		</svg>
+	</button>
+	<div class="landing-panel">
+		<ThemeSelect />
+		<LanguageSelect />
+	</div>
+</starlight-landing-menu>
+
+<style>
+	@layer starlight.core {
+		.menu-btn {
+			display: none;
+			position: fixed;
+			top: calc((var(--sl-nav-height) - var(--sl-menu-button-size)) / 2);
+			inset-inline-end: var(--sl-nav-pad-x);
+			z-index: var(--sl-z-index-navbar);
+			border: 0;
+			border-radius: 50%;
+			width: var(--sl-menu-button-size);
+			height: var(--sl-menu-button-size);
+			padding: 0.5rem;
+			background-color: var(--sl-color-white);
+			color: var(--sl-color-black);
+			box-shadow: var(--sl-shadow-md);
+			cursor: pointer;
+			align-items: center;
+			justify-content: center;
+		}
+
+		@media (max-width: calc(50rem - 1px)) {
+			:global(:root:not([data-has-sidebar])) .menu-btn {
+				display: flex;
+			}
+		}
+
+		.menu-btn[aria-expanded='true'] {
+			background-color: var(--sl-color-gray-2);
+			box-shadow: none;
+		}
+
+		.menu-btn[aria-expanded='true'] .open-icon {
+			display: none;
+		}
+
+		.menu-btn:not([aria-expanded='true']) .close-icon {
+			display: none;
+		}
+
+		:global([data-theme='light']) .menu-btn {
+			background-color: var(--sl-color-black);
+			color: var(--sl-color-white);
+		}
+
+		:global([data-theme='light']) .menu-btn[aria-expanded='true'] {
+			background-color: var(--sl-color-gray-5);
+		}
+
+		/* panel is hidden by default; JS sets display:flex when open */
+		.landing-panel {
+			display: none;
+			position: fixed;
+			top: var(--sl-nav-height);
+			inset-inline-end: 0;
+			z-index: var(--sl-z-index-menu);
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.5rem 1rem;
+			background-color: var(--sl-color-bg-nav);
+			border-block-end: 1px solid var(--sl-color-hairline-shade);
+		}
+	}
+</style>
+
+<style is:global>
+	@layer starlight.core {
+		/* Prevent search icon from overlapping the fixed menu button on landing page mobile */
+		@media (max-width: calc(50rem - 1px)) {
+			:root:not([data-has-sidebar]) .page > .header {
+				padding-inline-end: calc(
+					var(--sl-nav-gap) + var(--sl-nav-pad-x) + var(--sl-menu-button-size)
+				);
+			}
+		}
+	}
+</style>
+
+<script>
+	class StarlightLandingMenu extends HTMLElement {
+		connectedCallback() {
+			const btn = this.querySelector<HTMLButtonElement>('.menu-btn');
+			const panel = this.querySelector<HTMLElement>('.landing-panel');
+			if (!btn || !panel) return;
+
+			btn.addEventListener('click', () => {
+				const expanded = btn.getAttribute('aria-expanded') !== 'true';
+				btn.setAttribute('aria-expanded', String(expanded));
+				panel.style.display = expanded ? 'flex' : 'none';
+			});
+
+			document.addEventListener('click', (e) => {
+				if (!this.contains(e.target as Node)) {
+					btn.setAttribute('aria-expanded', 'false');
+					panel.style.display = 'none';
+				}
+			});
+		}
+	}
+
+	customElements.define('starlight-landing-menu', StarlightLandingMenu);
+</script>
