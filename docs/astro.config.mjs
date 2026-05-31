@@ -41,6 +41,7 @@ export default defineConfig({
                 ThemeSelect: './src/components/ThemeSelect.astro',
                 Header: './src/components/Header.astro',
                 SocialIcons: './src/components/SocialIcons.astro',
+                MobileMenuFooter: './src/components/MobileMenuFooter.astro',
             },
             sidebar: [
                 {

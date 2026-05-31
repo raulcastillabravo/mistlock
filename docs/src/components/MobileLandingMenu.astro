@@ -1,6 +1,7 @@
 ---
 import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
 import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+import GitHubStars from './GitHubStars.astro';
 ---
 
 <starlight-landing-menu>
@@ -47,6 +48,7 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 		</svg>
 	</button>
 	<div class="landing-panel">
+		<GitHubStars />
 		<ThemeSelect />
 		<LanguageSelect />
 	</div>
@@ -104,13 +106,14 @@ import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 		/* panel is hidden by default; JS sets display:flex when open */
 		.landing-panel {
 			display: none;
+			flex-direction: column;
 			position: fixed;
 			top: var(--sl-nav-height);
 			inset-inline-end: 0;
 			z-index: var(--sl-z-index-menu);
-			align-items: center;
+			align-items: flex-start;
 			gap: 0.5rem;
-			padding: 0.5rem 1rem;
+			padding: 0.75rem 1rem;
 			background-color: var(--sl-color-bg-nav);
 			border-block-end: 1px solid var(--sl-color-hairline-shade);
 		}
