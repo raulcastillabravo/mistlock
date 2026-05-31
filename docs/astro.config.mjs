@@ -35,6 +35,7 @@ export default defineConfig({
                 },
             },
             components: {
+                Hero: './src/components/Hero.astro',
                 TableOfContents: './src/components/CustomTableOfContents.astro',
                 MobileTableOfContents: './src/components/CustomMobileTableOfContents.astro',
                 ThemeSelect: './src/components/ThemeSelect.astro',
