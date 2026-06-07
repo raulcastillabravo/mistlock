@@ -2,126 +2,214 @@
 import { getGithubStars } from "../utils/githubStars";
 import { siteConfig } from "../config";
 
+interface Props {
+  size?: 'sm' | 'lg';
+}
+
+const { size = 'sm' } = Astro.props;
 const stargazersCount = await getGithubStars();
 ---
 
-<a
-	href={siteConfig.githubUrl}
-	target="_blank"
-	rel="noopener noreferrer"
-	class="github-star-badge"
-	aria-label="Star on GitHub"
->
-	<div class="star-left">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
-			fill="currentColor"
-			class="star-svg"
-			aria-hidden="true"
-		>
-			<path
-				d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.858 1.4-8.168L.132 9.21l8.2-1.192z"
-			></path>
-		</svg>
-		<span class="star-text">Star</span>
-	</div>
-	<div class="star-right">{stargazersCount}</div>
-</a>
+{size === 'lg' ? (
+  <a
+    href={siteConfig.githubUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="github-star-badge github-star-badge--lg"
+    aria-label="Star on GitHub"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="16"
+      height="16"
+      class="star-svg"
+      aria-hidden="true"
+    >
+      <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.858 1.4-8.168L.132 9.21l8.2-1.192z" />
+    </svg>
+    <span class="star-label">Star on GitHub</span>
+    <span class="star-sep" aria-hidden="true">·</span>
+    <span class="star-count">{stargazersCount}</span>
+  </a>
+) : (
+  <a
+    href={siteConfig.githubUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="github-star-badge github-star-badge--sm"
+    aria-label="Star on GitHub"
+  >
+    <div class="star-left">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        width="14"
+        height="14"
+        class="star-svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.858 1.4-8.168L.132 9.21l8.2-1.192z"
+        ></path>
+      </svg>
+      <span class="star-text">Star</span>
+    </div>
+    <div class="star-right">{stargazersCount}</div>
+  </a>
+)}
 
 <style>
-	a.github-star-badge {
-		display: inline-flex;
-		align-items: center;
-		text-decoration: none;
-		font-size: var(--sl-text-xs);
-		font-weight: 500;
-		line-height: 1;
-		height: 28px;
-		background-color: var(--sl-color-gray-6);
-		border: 1px solid var(--sl-color-gray-4);
-		color: var(--sl-color-gray-2);
-		border-radius: 6px;
-		overflow: hidden;
-		transition:
-			background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-			border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-			box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-	}
+  /* ===== Base (shared) ===== */
+  a.github-star-badge {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition:
+      background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-	a.github-star-badge:hover {
-		background-color: var(--sl-color-gray-5);
-		border-color: var(--sl-color-gray-3);
-		color: var(--sl-color-white);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	}
+  .star-svg {
+    transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-	.star-left {
-		display: flex;
-		align-items: center;
-		gap: 6px;
-		padding: 0 8px;
-		height: 100%;
-		border-right: 1px solid var(--sl-color-gray-4);
-		transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-	}
+  a.github-star-badge:hover .star-svg {
+    color: #e3b341;
+  }
 
-	a.github-star-badge:hover .star-left {
-		border-right-color: var(--sl-color-gray-3);
-	}
+  /* ===== sm variant (split badge — header) ===== */
+  a.github-star-badge--sm {
+    font-size: var(--sl-text-xs);
+    font-weight: 500;
+    line-height: 1;
+    height: 28px;
+    background-color: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-4);
+    color: var(--sl-color-gray-2);
+    border-radius: 6px;
+    overflow: hidden;
+  }
 
-	.star-svg {
-		width: 14px;
-		height: 14px;
-		color: var(--sl-color-gray-2);
-		transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-	}
+  a.github-star-badge--sm:hover {
+    background-color: var(--sl-color-gray-5);
+    border-color: var(--sl-color-gray-3);
+    color: var(--sl-color-white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 
-	a.github-star-badge:hover .star-svg {
-		color: #e3b341;
-	}
+  .star-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+    height: 100%;
+    border-right: 1px solid var(--sl-color-gray-4);
+    transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-	.star-text {
-		font-weight: 600;
-	}
+  a.github-star-badge--sm:hover .star-left {
+    border-right-color: var(--sl-color-gray-3);
+  }
 
-	.star-right {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0 8px;
-		height: 100%;
-		min-width: 24px;
-		font-weight: 600;
-		color: var(--sl-color-gray-1);
-		transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-	}
+  .star-svg {
+    width: 14px;
+    height: 14px;
+    color: var(--sl-color-gray-2);
+  }
 
-	a.github-star-badge:hover .star-right {
-		color: var(--sl-color-white);
-	}
+  .star-text {
+    font-weight: 600;
+  }
 
-	:global([data-theme="light"]) a.github-star-badge {
-		background-color: transparent;
-	}
+  .star-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    height: 100%;
+    min-width: 24px;
+    font-weight: 600;
+    color: var(--sl-color-gray-1);
+    transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-	:global([data-theme="light"]) .star-right {
-		color: var(--sl-color-gray-2);
-	}
+  a.github-star-badge--sm:hover .star-right {
+    color: var(--sl-color-white);
+  }
 
-	:global([data-theme="light"]) a.github-star-badge:hover {
-		background-color: rgba(0, 0, 0, 0.04);
-		color: var(--sl-color-gray-2);
-		box-shadow: none;
-	}
+  :global([data-theme="light"]) a.github-star-badge--sm {
+    background-color: transparent;
+  }
 
-	:global([data-theme="light"]) a.github-star-badge:hover .star-right {
-		color: var(--sl-color-gray-2);
-	}
+  :global([data-theme="light"]) .star-right {
+    color: var(--sl-color-gray-2);
+  }
 
-	@media (max-width: 480px) {
-		.star-text {
-			display: none;
-		}
-	}
+  :global([data-theme="light"]) a.github-star-badge--sm:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--sl-color-gray-2);
+    box-shadow: none;
+  }
+
+  :global([data-theme="light"]) a.github-star-badge--sm:hover .star-right {
+    color: var(--sl-color-gray-2);
+  }
+
+  @media (max-width: 480px) {
+    .star-text {
+      display: none;
+    }
+  }
+
+  /* ===== lg variant (pill button — Hero) ===== */
+  a.github-star-badge--lg {
+    gap: 0.5rem;
+    padding: 0.4375rem 1rem;
+    font-size: var(--sl-text-sm);
+    font-weight: 600;
+    color: var(--sl-color-white);
+    background-color: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-4);
+    border-radius: 0.75rem;
+  }
+
+  a.github-star-badge--lg:hover {
+    background-color: var(--sl-color-gray-5);
+    border-color: var(--sl-color-gray-3);
+  }
+
+  a.github-star-badge--lg .star-svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    color: var(--sl-color-white);
+  }
+
+  .star-sep {
+    color: var(--sl-color-gray-3);
+  }
+
+  .star-count {
+    font-size: var(--sl-text-xs);
+  }
+
+  :global([data-theme="light"]) a.github-star-badge--lg {
+    background-color: transparent;
+    color: var(--sl-color-white);
+  }
+
+  :global([data-theme="light"]) a.github-star-badge--lg:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  @media (min-width: 50rem) {
+    a.github-star-badge--lg {
+      font-size: var(--sl-text-base);
+      padding: 0.9375rem 1.25rem;
+    }
+  }
 </style>

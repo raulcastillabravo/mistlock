@@ -182,6 +182,10 @@ const { steps } = Astro.props;
 
 <script>
   import { observeEntrance } from '../utils/observer';
-  observeEntrance('[data-steps-item]');
-  observeEntrance('[data-steps-flow]');
+  function init() {
+    observeEntrance('[data-steps-item]');
+    observeEntrance('[data-steps-flow]');
+  }
+  document.addEventListener('astro:page-load', init);
+  init();
 </script>

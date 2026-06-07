@@ -1,23 +1,25 @@
 import { siteConfig } from "../config";
 
-let cachedStarCount: string | null = null;
+// Caching with a Promise prevents race conditions when Astro parallelizes page rendering:
+// all callers await the same in-flight request instead of each firing their own fetch.
+let pending: Promise<string> | null = null;
 
-export async function getGithubStars(): Promise<string> {
-	if (cachedStarCount) return cachedStarCount;
+export function getGithubStars(): Promise<string> {
+	if (pending) return pending;
 
-	const res = await fetch(siteConfig.githubApiUrl, {
-		headers: { "User-Agent": "Astro-Build-Client" },
-	});
+	pending = (async () => {
+		try {
+			const res = await fetch(siteConfig.githubApiUrl, {
+				headers: { "User-Agent": "Astro-Build-Client" },
+			});
+			if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+			const data = await res.json();
+			const count: number = data.stargazers_count;
+			return count > 999 ? (count / 1000).toFixed(1) + "k" : String(count);
+		} catch {
+			return "–";
+		}
+	})();
 
-	if (!res.ok) {
-		throw new Error(
-			`GitHub API returned ${res.status} for ${siteConfig.githubApiUrl}`,
-		);
-	}
-
-	const data = await res.json();
-	const count: number = data.stargazers_count;
-	cachedStarCount =
-		count > 999 ? (count / 1000).toFixed(1) + "k" : String(count);
-	return cachedStarCount;
+	return pending;
 }

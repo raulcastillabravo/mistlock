@@ -1,7 +1,7 @@
 ---
 import DefaultTableOfContents from "@astrojs/starlight/components/TableOfContents.astro";
-import { Icon } from "@astrojs/starlight/components";
 import { getLabPageData } from "../utils/labPage";
+import LabActions from "./LabActions.astro";
 
 const { id, entry } = Astro.locals.starlightRoute;
 const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
@@ -13,25 +13,13 @@ const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
 {
   isLabPage && (
     <div class="toc-actions">
-      <a
-        href={zipUrl}
-        class="action-btn download-btn"
-        download
-        title={btnDownloadText}
-      >
-        <Icon name="download" size="1.1rem" />
-        <span>{btnDownloadText}</span>
-      </a>
-      <a
-        href={githubUrl}
-        class="action-btn github-btn"
-        target="_blank"
-        rel="noopener noreferrer"
-        title={btnGithubText}
-      >
-        <Icon name="github" size="1.1rem" />
-        <span>{btnGithubText}</span>
-      </a>
+      <LabActions
+        zipUrl={zipUrl}
+        githubUrl={githubUrl}
+        btnDownloadText={btnDownloadText}
+        btnGithubText={btnGithubText}
+        variant="sidebar"
+      />
     </div>
   )
 }
@@ -44,57 +32,5 @@ const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
     margin-top: 1.5rem;
     border-top: 1px solid var(--sl-color-hairline);
     padding-top: 1.5rem;
-  }
-
-  .action-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.6rem 1rem;
-    border-radius: 0.5rem;
-    font-size: var(--sl-text-xs);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-  }
-
-  .download-btn {
-    background-color: var(--sl-color-text-accent);
-    color: var(--sl-color-black) !important;
-    box-shadow: var(--sl-shadow-sm);
-  }
-
-  .download-btn:hover {
-    background-color: var(--sl-color-white);
-    color: var(--sl-color-black) !important;
-    transform: translateY(-1px);
-    box-shadow: var(--sl-shadow-md);
-  }
-
-  .github-btn {
-    background-color: transparent;
-    color: var(--sl-color-white) !important;
-    border: 1px solid var(--sl-color-gray-4);
-  }
-
-  .github-btn:hover {
-    background-color: var(--sl-color-gray-6);
-    color: var(--sl-color-white) !important;
-    border-color: var(--sl-color-gray-4);
-    transform: translateY(-1px);
-  }
-
-  /* Light theme styling */
-  :global([data-theme="light"]) .toc-actions .github-btn {
-    color: var(--sl-color-gray-2) !important;
-    border-color: var(--sl-color-gray-4);
-  }
-
-  :global([data-theme="light"]) .toc-actions .github-btn:hover {
-    background-color: rgba(0, 0, 0, 0.04) !important;
-    border-color: var(--sl-color-gray-3) !important;
   }
 </style>

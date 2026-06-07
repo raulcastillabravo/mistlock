@@ -1,7 +1,9 @@
 ---
+type CSSLength = `${number}${'px' | 'rem' | 'em' | '%' | 'vh' | 'vw'}` | '0';
+
 interface Props {
   text?: string;
-  marginTop?: string;
+  marginTop?: CSSLength;
 }
 
 const { text, marginTop = '3.5rem' } = Astro.props;
@@ -93,6 +95,10 @@ const { text, marginTop = '3.5rem' } = Astro.props;
 
 <script>
   import { observeEntrance } from '../utils/observer';
-  observeEntrance('[data-split-col]');
-  observeEntrance('[data-split-text]');
+  function init() {
+    observeEntrance('[data-split-col]');
+    observeEntrance('[data-split-text]');
+  }
+  document.addEventListener('astro:page-load', init);
+  init();
 </script>

@@ -7,8 +7,12 @@ import Default from '@astrojs/starlight/components/SocialIcons.astro';
 </span>
 
 <script>
-	document.querySelectorAll('[data-social-icons-wrapper] a').forEach(link => {
-		link.setAttribute('target', '_blank');
-		link.setAttribute('rel', 'me noopener noreferrer');
-	});
+	function initSocialLinks() {
+		document.querySelectorAll('[data-social-icons-wrapper] a').forEach(link => {
+			link.setAttribute('target', '_blank');
+			link.setAttribute('rel', 'me noopener noreferrer');
+		});
+	}
+	document.addEventListener('astro:page-load', initSocialLinks);
+	initSocialLinks();
 </script>

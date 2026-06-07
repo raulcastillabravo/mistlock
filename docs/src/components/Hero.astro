@@ -1,8 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import DraftContentNotice from 'virtual:starlight/components/DraftContentNotice';
-import { getGithubStars } from '../utils/githubStars';
-import { siteConfig } from '../config';
+import GitHubStars from './GitHubStars.astro';
 
 const ICON_PATHS: Record<string, string> = {
 	'right-arrow':
@@ -11,8 +10,6 @@ const ICON_PATHS: Record<string, string> = {
 
 const { data } = Astro.locals.starlightRoute.entry;
 const { title = data.title, tagline, image, actions = [] } = data.hero || {};
-
-const stargazersCount = await getGithubStars();
 
 const imageAttrs = {
 	loading: 'eager' as const,
@@ -71,26 +68,7 @@ if (image) {
 							{icon?.type === 'raw' && <Fragment set:html={icon.html} />}
 						</a>
 					))}
-					<a
-						href={siteConfig.githubUrl}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="github-star-btn"
-						aria-label="Star on GitHub"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 24 24"
-							fill="currentColor"
-							class="star-icon"
-							aria-hidden="true"
-						>
-							<path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.858 1.4-8.168L.132 9.21l8.2-1.192z" />
-						</svg>
-						<span class="star-label">Star on GitHub</span>
-						<span class="star-sep" aria-hidden="true">·</span>
-						<span class="star-count">{stargazersCount}</span>
-					</a>
+					<GitHubStars size="lg" />
 				</div>
 			)
 		}
@@ -190,57 +168,7 @@ if (image) {
 			flex-shrink: 0;
 		}
 
-		/* GitHub star button */
-		.github-star-btn {
-			display: inline-flex;
-			align-items: center;
-			gap: 0.5rem;
-			padding: 0.4375rem 1rem;
-			text-decoration: none;
-			font-size: var(--sl-text-sm);
-			font-weight: 600;
-			color: var(--sl-color-white);
-			background-color: var(--sl-color-gray-6);
-			border: 1px solid var(--sl-color-gray-4);
-			border-radius: 0.75rem;
-			transition:
-				background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-				border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-		}
-
-		.github-star-btn:hover {
-			background-color: var(--sl-color-gray-5);
-			border-color: var(--sl-color-gray-3);
-		}
-
-		.star-icon {
-			width: 1rem;
-			height: 1rem;
-			flex-shrink: 0;
-			transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-		}
-
-		.github-star-btn:hover .star-icon {
-			color: #e3b341;
-		}
-
-		.star-sep {
-			color: var(--sl-color-gray-3);
-		}
-
-		.star-count {
-			font-size: var(--sl-text-xs);
-		}
-
-		:global([data-theme='light']) .github-star-btn {
-			background-color: transparent;
-		}
-
-		:global([data-theme='light']) .github-star-btn:hover {
-			background-color: rgba(0, 0, 0, 0.04);
-		}
-
-@media (min-width: 50rem) {
+		@media (min-width: 50rem) {
 			.hero {
 				grid-template-columns: 7fr 4fr;
 				gap: 3%;
@@ -266,11 +194,6 @@ if (image) {
 			}
 
 			.hero-action {
-				font-size: var(--sl-text-base);
-				padding: 0.9375rem 1.25rem;
-			}
-
-			.github-star-btn {
 				font-size: var(--sl-text-base);
 				padding: 0.9375rem 1.25rem;
 			}

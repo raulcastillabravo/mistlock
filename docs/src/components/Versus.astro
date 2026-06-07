@@ -45,26 +45,26 @@ const { leftTitle, leftDescription, rightTitle, rightDescription } = Astro.props
     transition: transform 0.7s cubic-bezier(0.34, 1.1, 0.64, 1);
   }
 
-  /* FeatureCard default bg */
+  /* Versus left background (light) */
   .versus__bg--left {
     clip-path: polygon(0 0, 54% 0, 44% 100%, 0 100%);
     background: #ffffff;
     transform: translateX(-100%);
   }
 
-  /* FeatureCard hover bg (light) */
+  /* Versus right background (light) */
   .versus__bg--right {
     clip-path: polygon(56% 0, 100% 0, 100% 100%, 46% 100%);
     background: rgb(249 250 251);
     transform: translateX(100%);
   }
 
-  /* FeatureCard default dark: no explicit bg → use page bg */
+  /* Versus left background (dark): no explicit bg → use page bg */
   :global([data-theme='dark']) .versus__bg--left {
     background: var(--sl-color-bg);
   }
 
-  /* FeatureCard hover dark */
+  /* Versus right background (dark) */
   :global([data-theme='dark']) .versus__bg--right {
     background: rgb(30 41 59 / 0.6);
   }
@@ -106,7 +106,6 @@ const { leftTitle, leftDescription, rightTitle, rightDescription } = Astro.props
     transform: translateX(0);
   }
 
-  /* Matches FeatureCard: text-gray-900 dark:text-white */
   .versus__title {
     font-size: 1.125rem;
     font-weight: 700;
@@ -120,7 +119,6 @@ const { leftTitle, leftDescription, rightTitle, rightDescription } = Astro.props
     color: #ffffff;
   }
 
-  /* Matches FeatureCard: text-gray-600 dark:text-slate-400 */
   .versus__desc {
     font-size: 0.875rem;
     line-height: 1.6;
@@ -203,5 +201,7 @@ const { leftTitle, leftDescription, rightTitle, rightDescription } = Astro.props
 
 <script>
   import { observeEntrance } from '../utils/observer';
-  observeEntrance('[data-versus]', 0.2);
+  const init = () => observeEntrance('[data-versus]', 0.2);
+  document.addEventListener('astro:page-load', init);
+  init();
 </script>

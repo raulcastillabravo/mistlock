@@ -50,8 +50,18 @@ const { items, maxColumns = 3 } = Astro.props;
     }
   }
 
-  /* Stagger entrance animation left-to-right within each row.
-     nth-child(3n+1) gets the default 0ms from ServiceCard's --entrance-delay fallback. */
-  :global([data-service-card]:nth-child(3n+2)) { --entrance-delay: 80ms; }
-  :global([data-service-card]:nth-child(3n+3)) { --entrance-delay: 160ms; }
 </style>
+
+<script>
+  function initStagger() {
+    document.querySelectorAll<HTMLElement>('.service-grid').forEach((grid) => {
+      const maxCols = parseInt(getComputedStyle(grid).getPropertyValue('--max-cols').trim()) || 3;
+      grid.querySelectorAll<HTMLElement>('[data-service-card]').forEach((card, i) => {
+        card.style.setProperty('--entrance-delay', `${(i % maxCols) * 80}ms`);
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initStagger);
+  initStagger();
+</script>

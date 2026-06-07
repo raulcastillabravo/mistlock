@@ -1,7 +1,7 @@
 ---
 import DefaultMobileTableOfContents from "@astrojs/starlight/components/MobileTableOfContents.astro";
-import { Icon } from "@astrojs/starlight/components";
 import { getLabPageData } from "../utils/labPage";
+import LabActions from "./LabActions.astro";
 
 const { id, toc, entry } = Astro.locals.starlightRoute;
 const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
@@ -13,23 +13,13 @@ const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
 {
   toc && isLabPage && (
     <div class="mobile-toc-actions">
-      <a
-        href={zipUrl}
-        class="mobile-action-btn mobile-download-btn"
-        download
-        title={btnDownloadText}
-      >
-        <Icon name="download" size="1.1rem" />
-      </a>
-      <a
-        href={githubUrl}
-        class="mobile-action-btn mobile-github-btn"
-        target="_blank"
-        rel="noopener noreferrer"
-        title={btnGithubText}
-      >
-        <Icon name="github" size="1.1rem" />
-      </a>
+      <LabActions
+        zipUrl={zipUrl}
+        githubUrl={githubUrl}
+        btnDownloadText={btnDownloadText}
+        btnGithubText={btnGithubText}
+        variant="mobile"
+      />
     </div>
   )
 }
@@ -38,8 +28,6 @@ const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
   .mobile-toc-actions {
     position: fixed;
     z-index: var(--sl-z-index-toc);
-    /* Mobile TOC bar is positioned just below sl-nav-height */
-    /* We align the buttons inside that space */
     top: calc(var(--sl-nav-height) + 0.35rem);
     right: 1rem;
     display: flex;
@@ -47,58 +35,11 @@ const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
     align-items: center;
   }
 
-  .mobile-action-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.1rem;
-    height: 2.1rem;
-    border-radius: 50%;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    background-color: transparent;
-  }
-
-  .mobile-download-btn {
-    color: var(--sl-color-text-accent) !important;
-  }
-
-  .mobile-download-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--sl-color-white) !important;
-  }
-
-  .mobile-github-btn {
-    color: var(--sl-color-gray-2) !important;
-  }
-
-  .mobile-github-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--sl-color-white) !important;
-  }
-
-  /* Light theme styling */
-  :global([data-theme=light]) .mobile-toc-actions .mobile-download-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05) !important;
-    color: var(--sl-color-text-accent) !important;
-  }
-
-  :global([data-theme=light]) .mobile-toc-actions .mobile-github-btn {
-    color: var(--sl-color-gray-2) !important;
-  }
-
-  :global([data-theme=light]) .mobile-toc-actions .mobile-github-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05) !important;
-    color: var(--sl-color-black) !important;
-  }
-
-  /* Make sure the text in mobile-starlight-toc does not overlap our buttons */
+  /* Prevent TOC title from overlapping the action buttons */
   :global(mobile-starlight-toc summary) {
     padding-inline-end: 6.5rem !important;
   }
 
-  /* Support RTL direction */
   :global([dir="rtl"]) .mobile-toc-actions {
     right: auto;
     left: 1rem;
@@ -108,6 +49,4 @@ const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
     padding-inline-start: 6.5rem !important;
     padding-inline-end: 1rem !important;
   }
-
-
 </style>

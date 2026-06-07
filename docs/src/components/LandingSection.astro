@@ -38,27 +38,27 @@ const { alt = false, centered = false } = Astro.props;
     margin-inline: auto;
   }
 
-  .section--centered :global(.section__inner > h2),
-  .section--centered :global(.section__inner > p) {
+  :global(.section--centered .section__inner > h2),
+  :global(.section--centered .section__inner > p) {
     text-align: center;
     margin-inline: auto;
   }
 
-  :global(.section__inner > h2) {
+  :global(.section .section__inner > h2) {
     font-size: var(--sl-text-h2);
     font-weight: 600;
     line-height: 1.2;
     margin-bottom: 1.5rem;
   }
 
-  :global(.section__inner > p) {
+  :global(.section .section__inner > p) {
     max-width: 60ch;
     color: var(--sl-color-gray-2);
     margin-bottom: 2rem;
   }
 
-  :global(.section__inner > h2),
-  :global(.section__inner > p) {
+  :global(.section .section__inner > h2),
+  :global(.section .section__inner > p) {
     opacity: 0;
     transform: translateY(12px);
     transition:
@@ -66,15 +66,15 @@ const { alt = false, centered = false } = Astro.props;
       transform 0.5s ease-out var(--entrance-delay, 0ms);
   }
 
-  :global(.section__inner > h2.is-visible),
-  :global(.section__inner > p.is-visible) {
+  :global(.section .section__inner > h2.is-visible),
+  :global(.section .section__inner > p.is-visible) {
     opacity: 1;
     transform: translateY(0);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :global(.section__inner > h2),
-    :global(.section__inner > p) {
+    :global(.section .section__inner > h2),
+    :global(.section .section__inner > p) {
       transition: none;
       opacity: 1;
       transform: none;
@@ -85,13 +85,18 @@ const { alt = false, centered = false } = Astro.props;
 <script>
   import { observeEntrance } from "../utils/observer";
 
-  document.querySelectorAll("[data-landing-section]").forEach((section) => {
-    const inner = section.querySelector(".section__inner");
-    if (!inner) return;
-    const targets = inner.querySelectorAll(":scope > h2, :scope > p");
-    targets.forEach((el, i) => {
-      (el as HTMLElement).style.setProperty("--entrance-delay", `${i * 80}ms`);
+  function init() {
+    document.querySelectorAll("[data-landing-section]").forEach((section) => {
+      const inner = section.querySelector(".section__inner");
+      if (!inner) return;
+      const targets = inner.querySelectorAll(":scope > h2, :scope > p");
+      targets.forEach((el, i) => {
+        (el as HTMLElement).style.setProperty("--entrance-delay", `${i * 80}ms`);
+      });
+      observeEntrance(":scope > h2, :scope > p", 0.15, inner);
     });
-    observeEntrance(":scope > h2, :scope > p", 0.15, inner);
-  });
+  }
+
+  document.addEventListener("astro:page-load", init);
+  init();
 </script>

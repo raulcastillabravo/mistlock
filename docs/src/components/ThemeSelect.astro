@@ -82,6 +82,17 @@
 </style>
 
 <script>
+	function getInitialTheme(): string {
+		const stored = localStorage.getItem("starlight-theme");
+		if (stored === "light" || stored === "dark") return stored;
+		return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+	}
+
+	// Apply theme on load if not already set by Starlight's own init script.
+	if (!document.documentElement.getAttribute("data-theme")) {
+		document.documentElement.setAttribute("data-theme", getInitialTheme());
+	}
+
 	class StarlightThemeToggle extends HTMLElement {
 		connectedCallback() {
 			this.querySelector("button")?.addEventListener("click", () => {
@@ -94,5 +105,7 @@
 		}
 	}
 
-	customElements.define("starlight-theme-toggle", StarlightThemeToggle);
+	if (!customElements.get("starlight-theme-toggle")) {
+		customElements.define("starlight-theme-toggle", StarlightThemeToggle);
+	}
 </script>

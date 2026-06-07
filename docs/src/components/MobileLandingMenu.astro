@@ -8,6 +8,7 @@ import GitHubStars from './GitHubStars.astro';
 	<button
 		type="button"
 		aria-expanded="false"
+		aria-controls="landing-menu-panel"
 		aria-label="Open menu"
 		class="menu-btn"
 	>
@@ -47,7 +48,7 @@ import GitHubStars from './GitHubStars.astro';
 			<path d="M6 6l12 12"></path>
 		</svg>
 	</button>
-	<div class="landing-panel">
+	<div id="landing-menu-panel" class="landing-panel" role="region" aria-label="Site settings">
 		<GitHubStars />
 		<ThemeSelect />
 		<LanguageSelect />
@@ -140,6 +141,11 @@ import GitHubStars from './GitHubStars.astro';
 			const panel = this.querySelector<HTMLElement>('.landing-panel');
 			if (!btn || !panel) return;
 
+			const close = () => {
+				btn.setAttribute('aria-expanded', 'false');
+				panel.style.display = 'none';
+			};
+
 			btn.addEventListener('click', () => {
 				const expanded = btn.getAttribute('aria-expanded') !== 'true';
 				btn.setAttribute('aria-expanded', String(expanded));
@@ -147,13 +153,19 @@ import GitHubStars from './GitHubStars.astro';
 			});
 
 			document.addEventListener('click', (e) => {
-				if (!this.contains(e.target as Node)) {
-					btn.setAttribute('aria-expanded', 'false');
-					panel.style.display = 'none';
+				if (!this.contains(e.target as Node)) close();
+			});
+
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+					close();
+					btn.focus();
 				}
 			});
 		}
 	}
 
-	customElements.define('starlight-landing-menu', StarlightLandingMenu);
+	if (!customElements.get('starlight-landing-menu')) {
+		customElements.define('starlight-landing-menu', StarlightLandingMenu);
+	}
 </script>

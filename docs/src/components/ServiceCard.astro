@@ -147,5 +147,7 @@ const isIconify = icon.includes(':');
 
 <script>
   import { observeEntrance } from '../utils/observer';
-  observeEntrance('[data-service-card]');
+  const init = () => observeEntrance('[data-service-card]');
+  document.addEventListener('astro:page-load', init);
+  init();
 </script>
