@@ -8,6 +8,11 @@ body {
   overflow-x: clip;
 }
 
+/* Starlight's built-in footer adds extra spacing on landing page; use custom LandingFooter instead */
+html[data-has-hero]:not([data-has-sidebar]) main footer {
+  display: none;
+}
+
 :root {
   --color-indigo-ink: #421869;
   --color-indigo: #491a74;

@@ -1,5 +1,6 @@
 ---
 import config from 'virtual:starlight/user-config';
+import GetStartedButton from './GetStartedButton.astro';
 import GitHubStars from './GitHubStars.astro';
 import MobileLandingMenu from './MobileLandingMenu.astro';
 import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
@@ -20,6 +21,11 @@ const shouldRenderSearch =
 	<div class="sl-flex print:hidden">
 		{shouldRenderSearch && <Search />}
 	</div>
+	{!hasSidebar && (
+		<div class="sl-flex md:sl-hidden">
+			<GetStartedButton />
+		</div>
+	)}
 	<div class="sl-hidden md:sl-flex print:hidden right-group">
 		<div class="sl-flex social-icons">
 			<SocialIcons />
@@ -27,6 +33,7 @@ const shouldRenderSearch =
 		<ThemeSelect />
 		<LanguageSelect />
 		<GitHubStars />
+		{!hasSidebar && <GetStartedButton />}
 	</div>
 </div>
 <MobileLandingMenu />

@@ -1,0 +1,63 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+
+const docsHref = `${import.meta.env.BASE_URL}start-here/getting-started/`;
+---
+
+<a href={docsHref} class="get-started-btn" aria-label="Get started">
+  <span class="mobile-content" aria-hidden="true">
+    <Icon name="open-book" />
+    <Icon name="right-arrow" />
+  </span>
+  <span class="desktop-content" aria-hidden="true">
+    Docs
+    <Icon name="right-arrow" />
+  </span>
+</a>
+
+<style>
+  .get-started-btn {
+    display: inline-flex;
+    align-items: center;
+    background: var(--sl-color-text-accent);
+    border: 1px solid var(--sl-color-text-accent);
+    border-radius: 0.75rem;
+    color: var(--sl-color-black);
+    font-size: var(--sl-text-xs);
+    font-weight: 600;
+    height: 28px;
+    outline-offset: 0.25rem;
+    padding-inline: 0.75rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .get-started-btn:hover {
+    color: var(--sl-color-black);
+    opacity: 0.9;
+  }
+
+  .mobile-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+  }
+
+  .desktop-content {
+    display: none;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  @media (min-width: 50rem) {
+    .mobile-content {
+      display: none;
+    }
+    .desktop-content {
+      display: inline-flex;
+    }
+    .get-started-btn {
+      padding-inline: 1rem;
+    }
+  }
+</style>
