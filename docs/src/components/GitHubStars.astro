@@ -16,7 +16,7 @@ const stargazersCount = await getGithubStars();
     target="_blank"
     rel="noopener noreferrer"
     class="github-star-badge github-star-badge--lg"
-    aria-label="Star on GitHub"
+    aria-label={`Star on GitHub · ${stargazersCount} stars`}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

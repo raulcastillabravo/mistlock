@@ -86,9 +86,17 @@ const { alt = false, centered = false } = Astro.props;
   import { observeEntrance } from "../utils/observer";
 
   function init() {
-    document.querySelectorAll("[data-landing-section]").forEach((section) => {
+    document.querySelectorAll("[data-landing-section]").forEach((section, idx) => {
       const inner = section.querySelector(".section__inner");
       if (!inner) return;
+
+      const h2 = inner.querySelector(":scope > h2");
+      if (h2) {
+        const headingId = h2.id || `landing-heading-${idx}`;
+        (h2 as HTMLElement).id = headingId;
+        section.setAttribute("aria-labelledby", headingId);
+      }
+
       const targets = inner.querySelectorAll(":scope > h2, :scope > p");
       targets.forEach((el, i) => {
         (el as HTMLElement).style.setProperty("--entrance-delay", `${i * 80}ms`);

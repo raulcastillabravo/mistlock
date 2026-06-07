@@ -18,6 +18,7 @@ const isMobile = variant === 'mobile';
   class:list={['lab-action', 'lab-action--download', { 'lab-action--mobile': isMobile }]}
   download
   title={btnDownloadText}
+  aria-label={isMobile ? btnDownloadText : undefined}
 >
   <Icon name="download" size="1.1rem" />
   {!isMobile && <span>{btnDownloadText}</span>}
@@ -28,6 +29,7 @@ const isMobile = variant === 'mobile';
   target="_blank"
   rel="noopener noreferrer"
   title={btnGithubText}
+  aria-label={isMobile ? btnGithubText : undefined}
 >
   <Icon name="github" size="1.1rem" />
   {!isMobile && <span>{btnGithubText}</span>}

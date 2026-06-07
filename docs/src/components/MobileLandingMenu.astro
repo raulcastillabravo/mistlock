@@ -149,6 +149,7 @@ import GitHubStars from './GitHubStars.astro';
 			btn.addEventListener('click', () => {
 				const expanded = btn.getAttribute('aria-expanded') !== 'true';
 				btn.setAttribute('aria-expanded', String(expanded));
+				btn.setAttribute('aria-label', expanded ? 'Close menu' : 'Open menu');
 				panel.style.display = expanded ? 'flex' : 'none';
 			});
 
