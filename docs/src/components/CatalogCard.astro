@@ -1,0 +1,153 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Link {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  icon: string;
+  title: string;
+  mves?: Link[];
+  projects?: Link[];
+}
+
+const {
+  icon,
+  title,
+  mves = [],
+  projects = [],
+} = Astro.props;
+const isIconify = icon.includes(":");
+const projectsLabels: Record<string, string> = { es: "Proyectos" };
+const projectsLabel = projectsLabels[Astro.currentLocale ?? ""] ?? "Projects";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const locale = Astro.currentLocale === "es" ? "/es" : "";
+const resolve = (href: string) => `${base}${locale}${href}`;
+---
+
+<div class="not-content catalog-card">
+  <div class="card-header">
+    <div class="card-icon">
+      {
+        isIconify ? (
+          <Icon name={icon} class="w-7 h-7" />
+        ) : (
+          <span class="text-xl leading-none">{icon}</span>
+        )
+      }
+    </div>
+    <h3 class="card-title">{title}</h3>
+  </div>
+
+  <div class="card-body">
+    {
+      mves.length > 0 && (
+        <div class="section">
+          <span class="section-label">MVE</span>
+          <ul>
+            {mves.map((m: Link) => (
+              <li>
+                <a href={resolve(m.href)}>{m.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+    {
+      projects.length > 0 && (
+        <div class="section">
+          <span class="section-label">{projectsLabel}</span>
+          <ul>
+            {projects.map((p: Link) => (
+              <li>
+                <a href={resolve(p.href)}>{p.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .catalog-card {
+    border-radius: 0.75rem;
+    border: 1px solid var(--sl-color-gray-5);
+    padding: 1rem 1.25rem;
+    background-color: var(--sl-color-gray-7);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .card-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--sl-color-text);
+    margin: 0;
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  .card-body {
+    margin-top: 0.625rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sl-color-gray-3);
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  a {
+    font-size: 0.8125rem;
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--sl-color-text);
+    text-decoration: underline;
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+</style>

@@ -139,11 +139,8 @@ export default defineConfig({
                     ]
                 },
                 {
-                    label: 'Hybrid',
+                    label: 'Open Source',
                     collapsed: true,
-                    translations: {
-                        es: 'Híbrido'
-                    },
                     items: [
                         {
                             label: 'Services',
