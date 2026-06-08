@@ -3,7 +3,7 @@ title: MistLock
 description: Aprende a desarrollar para el Cloud de forma gratuita y local, emulando AWS, Azure y Google Cloud con Docker.
 template: splash
 hero:
-  tagline: Catálogo de entornos de desarrollo Cloud automatizados. Sin cuentas, local-first y 100% compatible con AWS, Azure y GCP.
+  tagline: Catálogo de entornos de desarrollo Cloud automatizados. Sin cuentas, local-first y compatibles con AWS, Azure y GCP.
   image:
     file: ../../../assets/mistlock.svg
   actions:
@@ -13,135 +13,144 @@ hero:
       variant: primary
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+import Grid from '../../../components/Grid.astro';
+import LandingSection from '../../../components/LandingSection.astro';
+import Versus from '../../../components/Versus.astro';
+import Steps from '../../../components/Steps.astro';
+import CodeWindow from '../../../components/CodeWindow.astro';
+import HorizontalSplit from '../../../components/HorizontalSplit.astro';
 import LandingFooter from '../../../components/LandingFooter.astro';
 
-## Características
+<LandingSection>
+  <Grid items={[
+    { icon: "🐳", title: "Dockerizado", description: "Cada entorno es aislado, reproducible y autocontenido usando Docker. Sin conflictos de dependencias en tu máquina local." },
+    { icon: "🧩", title: "Dev Containers", description: "Configura el entorno completo con solo abrir el proyecto en tu IDE. Todo listo desde el primer clic." },
+    { icon: "💸", title: "Gratuito y sin cuentas", description: "No necesitas cuenta en AWS, Azure, Google Cloud ni en ningún otro proveedor. Sin tarjeta de crédito. Cero costes de infraestructura." },
+    { icon: "☁️", title: "100% Compatible", description: "El código que desarrollas en local funciona exactamente igual en el Cloud real. Sin cambios. Desarrolla en local y despliega cuando estés listo." },
+    { icon: "🔀", title: "Un objetivo, múltiples métodos", description: "Cada Lab permite múltiples formas de ejecutar, depurar y testear, además de herramientas visuales y extensiones para gestionar recursos locales." },
+  ]} />
 
-<CardGrid stagger>
-  <Card title="🐳 Dockerizado">
-    Cada Lab levanta su entorno con Docker. Sin instalaciones manuales, sin configuración extra.
-  </Card>
-  <Card title="💸 Gratuito y sin cuentas">
-    No necesitas cuenta en AWS, Azure ni Google Cloud. Sin tarjeta de crédito.
-  </Card>
-  <Card title="☁️ 100% compatible">
-    El código que desarrollas funciona igual en el Cloud real. Sin cambios.
-  </Card>
-  <Card title="📦 Autocontenido">
-    Cada Lab es independiente e incluye todo lo necesario para ejecutarse.
-  </Card>
-  <Card title="🖥️ Interfaces gráficas">
-    Herramientas visuales para explorar y gestionar los recursos del entorno local.
-  </Card>
-  <Card title="🌐 Bilingüe">
-    Todos los Labs están documentados en inglés y en español.
-  </Card>
-</CardGrid>
+</LandingSection>
 
-## Labs: MVEs y Proyectos
+<LandingSection alt>
+  <h2>Labs</h2>
 
-A cada ejemplo del catálogo lo llamamos **Lab**. Los Labs son independientes y autocontenidos: incluyen todo lo necesario para ejecutarse sin modificar el código. Existen dos tipos:
+  A cada ejemplo del catálogo lo llamamos **Lab**, y hay dos tipos de Labs: MVE (Minimal Viable Examples) y Proyectos.
 
-<CardGrid>
-  <Card title="MVE (Minimal Viable Example)">
-    Se centra en un único servicio Cloud: cómo emularlo y qué herramientas usar. Puede haber más de un MVE por servicio si hay varias opciones de emulación disponibles.
-  </Card>
-  <Card title="Proyecto">
-    Combina varios servicios Cloud en el mismo entorno local para mostrar cómo se integran entre sí en un flujo real.
-  </Card>
-</CardGrid>
+  <Versus
+    leftTitle="MVE"
+    leftDescription="Un Minimal Viable Example se centra en un único servicio Cloud: cómo emularlo y qué herramientas usar. Puede haber más de un MVE por servicio si hay varias opciones de emulación disponibles."
+    rightTitle="Proyecto"
+    rightDescription="Combina varios servicios Cloud en el mismo entorno local para mostrar cómo se integran en un flujo real."
+  />
+</LandingSection>
 
-## AWS (Amazon Web Services)
+<LandingSection>
+  <h2>Cómo funciona</h2>
+  <Steps steps={[
+    { text: "Selecciona un Lab del catálogo." },
+    { text: "Descarga el código." },
+    { text: "Ábrelo en tu IDE." },
+    { text: "Ejecútalo con un clic." },
+  ]} />
 
-<CardGrid>
-  <Card title="⚡ Lambda">
-    Emula AWS Lambda con **SAM CLI**. Desarrolla y prueba funciones serverless localmente.
-  </Card>
-  <Card title="🪣 S3">
-    Emula AWS S3 con **Garage** o **MinIO**. Almacenamiento de objetos compatible con la API de S3.
-  </Card>
-  <Card title="🐘 RDS (PostgreSQL)">
-    Emula Amazon RDS con una instancia local de **PostgreSQL**.
-  </Card>
-  <Card title="🔴 ElastiCache">
-    Emula Amazon ElastiCache con un servidor local de **Redis**.
-  </Card>
-  <Card title="🔄 Step Functions">
-    Emula AWS Step Functions con **LocalStack** para orquestar flujos de trabajo serverless.
-  </Card>
-</CardGrid>
+  <HorizontalSplit text="Puedes ejecutar el Lab con Dev Containers o sin él.">
+    <Fragment slot="left">
+      <CodeWindow filename="Con Dev Container" code={`# Abrir en Dev Containers
 
-## Microsoft Azure
+# Ejecutar el lab
+python main.py`} />
+    </Fragment>
+    <Fragment slot="right">
+      <CodeWindow filename="Sin Dev Containers" code={`# Iniciar la infraestructura
+docker compose up -d
 
-<CardGrid>
-  <Card title="⚡ Azure Functions">
-    Emula Azure Functions localmente con las herramientas oficiales de desarrollo de Azure.
-  </Card>
-  <Card title="🪣 Blob Storage">
-    Emula Azure Blob Storage con **Azurite**, el emulador oficial de almacenamiento de Microsoft.
-  </Card>
-  <Card title="🔬 Databricks">
-    Emula un entorno de **Databricks** localmente para procesamiento y análisis de datos.
-  </Card>
-  <Card title="🔴 Cache for Redis">
-    Emula Azure Cache for Redis con un servidor local de **Redis**.
-  </Card>
-</CardGrid>
+# Configurar el entorno
+./scripts/setup.sh
 
-## Google Cloud Platform
+# Ejecutar el lab
+python main.py`} />
+    </Fragment>
+  </HorizontalSplit>
+</LandingSection>
 
-<CardGrid>
-  <Card title="🔥 Cloud Functions">
-    Emula Google Cloud Functions con **Firebase Emulator Suite**. Desarrolla funciones serverless sin conexión.
-  </Card>
-  <Card title="🐘 Cloud SQL">
-    Emula Google Cloud SQL con una instancia local de **PostgreSQL**.
-  </Card>
-  <Card title="🔴 Memorystore">
-    Emula Google Memorystore con un servidor local de **Redis**.
-  </Card>
-</CardGrid>
+<LandingSection alt>
+  <h2>AWS</h2>
+  <Grid items={[
+    { icon: "logos:aws-lambda", title: "Lambda", description: "Emula AWS Lambda con SAM CLI. Desarrolla y prueba funciones serverless localmente." },
+    { icon: "logos:aws-ecs", title: "ECS / EKS", description: "Emula los servicios de orquestación de contenedores de AWS para desplegar aplicaciones en contenedores.", comingSoon: true },
+    { icon: "logos:aws-glue", title: "Glue", description: "Emula AWS Glue para trabajos de integración y transformación de datos ETL serverless.", comingSoon: true },
+    { icon: "logos:aws-s3", title: "S3", description: "Emula AWS S3 con Garage o MinIO. Almacenamiento de objetos compatible con la API de S3." },
+    { icon: "logos:aws-rds", title: "RDS (PostgreSQL)", description: "Emula Amazon RDS con una instancia local de PostgreSQL." },
+    { icon: "logos:aws-dynamodb", title: "DynamoDB", description: "Emula AWS DynamoDB con una base de datos NoSQL local de clave-valor y documentos." },
+    { icon: "logos:aws-elasticache", title: "ElastiCache", description: "Emula Amazon ElastiCache con un servidor local de Redis." },
+    { icon: "logos:aws-step-functions", title: "Step Functions", description: "Emula AWS Step Functions con LocalStack para orquestar flujos de trabajo serverless." },
+    { icon: "logos:aws-sqs", title: "SQS / SNS", description: "Emula los servicios de mensajería de AWS para comunicación desacoplada mediante colas y pub/sub.", comingSoon: true },
+    { icon: "logos:aws-eventbridge", title: "EventBridge", description: "Emula AWS EventBridge para el enrutamiento serverless de eventos entre servicios de aplicación.", comingSoon: true },
+    { icon: "logos:aws-cloudformation", title: "CloudFormation", description: "Emula AWS CloudFormation para la automatización de despliegues de infraestructura como código." },
+  ]} />
 
-## Híbrido y Open Source
+</LandingSection>
 
-<CardGrid>
-  <Card title="🐘 PostgreSQL">
-    Base de datos relacional open source. Usada como base de los Labs de RDS, Cloud SQL y Azure SQL.
-  </Card>
-  <Card title="🔴 Redis">
-    Almacén de datos en memoria. Emula ElastiCache, Cache for Redis y Memorystore.
-  </Card>
-  <Card title="🍃 MongoDB">
-    Base de datos documental NoSQL open source.
-  </Card>
-  <Card title="🐇 RabbitMQ">
-    Broker de mensajes open source para colas y pub/sub.
-  </Card>
-  <Card title="🌬️ Airflow">
-    Plataforma de orquestación de flujos de trabajo y pipelines de datos.
-  </Card>
-  <Card title="📊 Metabase">
-    Herramienta de business intelligence y visualización de datos.
-  </Card>
-  <Card title="🛠️ Dev Containers">
-    Entornos de desarrollo reproducibles basados en contenedores Docker.
-  </Card>
-</CardGrid>
+<LandingSection>
+  <h2>Azure</h2>
+  <Grid items={[
+    { icon: "⚡", title: "Azure Functions", description: "Emula Azure Functions localmente con las herramientas oficiales de desarrollo de Azure." },
+    { icon: "logos:kubernetes", title: "Container Apps", description: "Emula Azure Container Apps para ejecutar microservicios y funciones en contenedores.", comingSoon: true },
+    { icon: "🔬", title: "Databricks", description: "Emula un entorno de Databricks localmente para procesamiento y análisis de datos." },
+    { icon: "🪣", title: "Blob Storage", description: "Emula Azure Blob Storage con Azurite, el emulador oficial de almacenamiento de Microsoft." },
+    { icon: "🗄️", title: "Azure SQL", description: "Emula Azure SQL Database con una instancia local compatible con SQL Server." },
+    { icon: "🗂️", title: "Cosmos DB", description: "Emula Azure Cosmos DB con una base de datos NoSQL local multimodelo." },
+    { icon: "logos:redis", title: "Cache for Redis", description: "Emula Azure Cache for Redis con un servidor local de Redis." },
+    { icon: "🚌", title: "Service Bus", description: "Emula Azure Service Bus para colas de mensajes empresariales y patrones pub/sub.", comingSoon: true },
+    { icon: "✉️", title: "Event Grid", description: "Emula Azure Event Grid para la integración reactiva de servicios basada en eventos.", comingSoon: true },
+  ]} />
 
-## Empieza ahora
+</LandingSection>
 
-<CardGrid>
-  <Card title="📖 Guía de inicio">
-    Conceptos del proyecto, prerrequisitos y cómo ejecutar tu primer Lab.
+<LandingSection alt>
+  <h2>GCP</h2>
+  <Grid items={[
+    { icon: "gcp:cloud-functions", title: "Cloud Functions", description: "Emula Google Cloud Functions con Firebase Emulator Suite. Desarrolla funciones serverless sin conexión." },
+    { icon: "gcp:cloud-run", title: "Cloud Run", description: "Emula Google Cloud Run para ejecutar aplicaciones en contenedores en un entorno serverless." },
+    { icon: "gcp:dataflow", title: "Dataflow", description: "Emula Google Dataflow para pipelines de procesamiento de datos en streaming y por lotes.", comingSoon: true },
+    { icon: "gcp:cloud-storage", title: "Cloud Storage", description: "Emula Google Cloud Storage para almacenamiento escalable de objetos y blobs." },
+    { icon: "gcp:cloud-sql", title: "Cloud SQL", description: "Emula Google Cloud SQL con una instancia local de PostgreSQL." },
+    { icon: "gcp:firestore", title: "Firestore", description: "Emula Google Firestore con una base de datos NoSQL local de documentos." },
+    { icon: "gcp:memorystore", title: "Memorystore", description: "Emula Google Memorystore con un servidor local de Redis." },
+    { icon: "gcp:pubsub", title: "Pub/Sub", description: "Emula Google Pub/Sub para mensajería asíncrona entre servicios desacoplados.", comingSoon: true },
+  ]} />
 
-    [Leer la guía](start-here/getting-started/)
-  </Card>
-  <Card title="📋 Catálogo de ejemplos">
-    Todos los Labs disponibles organizados por proveedor Cloud.
+</LandingSection>
 
-    [Ver el catálogo](start-here/catalog/)
-  </Card>
-</CardGrid>
+<LandingSection>
+  <h2>Open Source</h2>
+  <Grid items={[
+    { icon: "logos:postgresql", title: "PostgreSQL", description: "Base de datos relacional open source. Usada como base de los Labs de RDS, Cloud SQL y Azure SQL." },
+    { icon: "logos:mongodb-icon", title: "MongoDB", description: "Base de datos NoSQL documental open source." },
+    { icon: "logos:redis", title: "Redis", description: "Almacén de datos en memoria. Emula ElastiCache, Cache for Redis y Memorystore." },
+    { icon: "logos:airflow-icon", title: "Airflow", description: "Plataforma de orquestación de flujos de trabajo para pipelines de datos." },
+    { icon: "logos:rabbitmq-icon", title: "RabbitMQ", description: "Broker de mensajes open source para colas y pub/sub." },
+    { icon: "logos:terraform-icon", title: "Terraform", description: "Flujos de aprovisionamiento de infraestructura como código usando Terraform con emuladores Cloud locales." },
+    { icon: "logos:metabase", title: "Metabase", description: "Herramienta de business intelligence y visualización de datos." },
+  ]} />
+
+</LandingSection>
+
+<LandingSection>
+  <CardGrid>
+    <LinkCard
+      title="Primeros pasos"
+      description="Conceptos del proyecto, prerrequisitos y cómo ejecutar tu primer Lab."
+      href="start-here/getting-started/"
+    />
+    <LinkCard
+      title="Catálogo"
+      description="Todos los Labs disponibles organizados por proveedor Cloud."
+      href="start-here/catalog/"
+    />
+  </CardGrid>
+</LandingSection>
 
 <LandingFooter />
