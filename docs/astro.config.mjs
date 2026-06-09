@@ -21,6 +21,7 @@ export default defineConfig({
                         defer: true,
                         src: 'https://cloud.umami.is/script.js',
                         'data-website-id': '55963e09-9cdc-468f-aed8-3fe893a2710b',
+                        'data-domains': 'mistlock.dev,www.mistlock.dev',
                     },
                 },
             ],
