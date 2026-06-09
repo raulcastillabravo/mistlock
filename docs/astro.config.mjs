@@ -8,8 +8,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://raulcastillabravo.github.io',
-    base: '/mve-collection/',
+    site: 'https://mistlock.dev',
+    base: '/',
     integrations: [
         icon(),
         sitemap(),

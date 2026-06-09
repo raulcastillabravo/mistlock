@@ -3,4 +3,4 @@
 This guide shows you how to work with Metabase locally using Docker Compose, PostgreSQL, and SQLAlchemy. This lab demonstrates how to insert data into a PostgreSQL database and explore it using Metabase.
 
 > 📖 Full documentation for this lab is available at:
-> https://raulcastillabravo.github.io/mve-collection/hybrid/mves/metabase/
+> https://mistlock.dev/hybrid/mves/metabase/

@@ -220,7 +220,7 @@ Each Lab has a `README.md` and `README.es.md` with a one-paragraph overview and 
 One-sentence overview of the lab.
 
 > 📖 Full documentation for this lab is available at:
-> https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/
+> https://mistlock.dev/[provider]/[mves|projects]/[name]/
 ```
 
 **Sync rule**: The overview paragraph must match the `description` field of the corresponding Starlight doc page. When updating a doc page's `description`, update the README overviews too.
@@ -233,4 +233,4 @@ When adding or removing an example, update these files in `docs/`:
 
 - `docs/src/content/docs/[provider]/[mves|projects]/[name].mdx` — English doc page (must include `isLab: true` in frontmatter).
 - `docs/src/content/docs/es/[provider]/[mves|projects]/[name].mdx` — Spanish doc page (must include `isLab: true` in frontmatter).
-- `docs/public/llm.txt` — add/remove the entry under the correct provider and type section. URL format: `https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/`.
+- `docs/public/llm.txt` — add/remove the entry under the correct provider and type section. URL format: `https://mistlock.dev/[provider]/[mves|projects]/[name]/`.

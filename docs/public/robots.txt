@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://raulcastillabravo.github.io/mve-collection/sitemap-index.xml
+Sitemap: https://mistlock.dev/sitemap-index.xml

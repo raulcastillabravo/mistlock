@@ -44,7 +44,7 @@ Create two files in `src/[provider]/[mves|projects]/[example-name]/`:
 [description from the English Starlight doc page]
 
 > 📖 Full documentation for this lab is available at:
-> https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/
+> https://mistlock.dev/[provider]/[mves|projects]/[name]/
 ```
 
 **`README.es.md`**:
@@ -54,7 +54,7 @@ Create two files in `src/[provider]/[mves|projects]/[example-name]/`:
 [description from the Spanish Starlight doc page]
 
 > 📖 La documentación completa de este lab está disponible en:
-> https://raulcastillabravo.github.io/mve-collection/[provider]/[mves|projects]/[name]/
+> https://mistlock.dev/[provider]/[mves|projects]/[name]/
 ```
 
 - Use the `title` and `description` from the Starlight doc pages (step 5). The overview must match the doc `description` exactly — they must stay in sync.
