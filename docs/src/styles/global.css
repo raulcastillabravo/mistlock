@@ -39,10 +39,10 @@ html[data-has-hero]:not([data-has-sidebar]) main footer {
 }
 
 /* Content links use standard blue to avoid "visited link" confusion with purple */
-[data-theme='light'] .sl-markdown-content a {
+[data-theme='light'] .sl-markdown-content a:not([role='tab']) {
   color: #0066cc;
 }
 
-[data-theme='dark'] .sl-markdown-content a {
+[data-theme='dark'] .sl-markdown-content a:not([role='tab']) {
   color: #58a6ff;
 }
