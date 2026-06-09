@@ -12,7 +12,7 @@ export function getLabPageData(
   let zipUrl = '';
   let githubUrl = '';
   if (isLabPage) {
-    zipUrl = `/${siteConfig.repositoryName}/downloads/${pathParts.join('-')}.zip`;
+    zipUrl = `/downloads/${pathParts.join('-')}.zip`;
     githubUrl = `${siteConfig.githubUrl}/tree/main/src/${cleanId}`;
   }
 
