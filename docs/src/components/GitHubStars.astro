@@ -17,6 +17,7 @@ const stargazersCount = await getGithubStars();
     rel="noopener noreferrer"
     class="github-star-badge github-star-badge--lg"
     aria-label={`Star on GitHub · ${stargazersCount} stars`}
+    data-umami-event="github-stars"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,6 +41,7 @@ const stargazersCount = await getGithubStars();
     rel="noopener noreferrer"
     class="github-star-badge github-star-badge--sm"
     aria-label="Star on GitHub"
+    data-umami-event="github-stars"
   >
     <div class="star-left">
       <svg

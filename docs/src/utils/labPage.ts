@@ -19,5 +19,5 @@ export function getLabPageData(
   const btnDownloadText = isEs ? 'Descargar código' : 'Download code';
   const btnGithubText = isEs ? 'Ver en GitHub' : 'View on GitHub';
 
-  return { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText };
+  return { isLabPage, labId: cleanId, zipUrl, githubUrl, btnDownloadText, btnGithubText };
 }

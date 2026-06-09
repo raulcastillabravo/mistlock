@@ -11,6 +11,9 @@ import Default from '@astrojs/starlight/components/SocialIcons.astro';
 		document.querySelectorAll('[data-social-icons-wrapper] a').forEach(link => {
 			link.setAttribute('target', '_blank');
 			link.setAttribute('rel', 'me noopener noreferrer');
+			if (link.getAttribute('href')?.includes('linkedin')) {
+				link.setAttribute('data-umami-event', 'linkedin');
+			}
 		});
 	}
 	document.addEventListener('astro:page-load', initSocialLinks);

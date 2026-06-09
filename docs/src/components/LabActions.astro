@@ -2,6 +2,7 @@
 import { Icon } from "@astrojs/starlight/components";
 
 interface Props {
+  labId: string;
   zipUrl: string;
   githubUrl: string;
   btnDownloadText: string;
@@ -9,7 +10,7 @@ interface Props {
   variant?: 'sidebar' | 'mobile';
 }
 
-const { zipUrl, githubUrl, btnDownloadText, btnGithubText, variant = 'sidebar' } = Astro.props;
+const { labId, zipUrl, githubUrl, btnDownloadText, btnGithubText, variant = 'sidebar' } = Astro.props;
 const isMobile = variant === 'mobile';
 ---
 
@@ -19,6 +20,8 @@ const isMobile = variant === 'mobile';
   download
   title={btnDownloadText}
   aria-label={isMobile ? btnDownloadText : undefined}
+  data-umami-event="download-code"
+  data-umami-event-lab={labId}
 >
   <Icon name="download" size="1.1rem" />
   {!isMobile && <span>{btnDownloadText}</span>}
@@ -30,6 +33,8 @@ const isMobile = variant === 'mobile';
   rel="noopener noreferrer"
   title={btnGithubText}
   aria-label={isMobile ? btnGithubText : undefined}
+  data-umami-event="view-on-github"
+  data-umami-event-lab={labId}
 >
   <Icon name="github" size="1.1rem" />
   {!isMobile && <span>{btnGithubText}</span>}

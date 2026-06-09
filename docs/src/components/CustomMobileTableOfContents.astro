@@ -4,7 +4,7 @@ import { getLabPageData } from "../utils/labPage";
 import LabActions from "./LabActions.astro";
 
 const { id, toc, entry } = Astro.locals.starlightRoute;
-const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
+const { isLabPage, labId, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
   getLabPageData(id, entry);
 ---
 
@@ -14,6 +14,7 @@ const { isLabPage, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
   toc && isLabPage && (
     <div class="mobile-toc-actions">
       <LabActions
+        labId={labId}
         zipUrl={zipUrl}
         githubUrl={githubUrl}
         btnDownloadText={btnDownloadText}
