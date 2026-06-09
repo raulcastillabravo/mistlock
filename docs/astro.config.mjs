@@ -14,6 +14,16 @@ export default defineConfig({
         icon(),
         sitemap(),
         starlight({
+            head: [
+                {
+                    tag: 'script',
+                    attrs: {
+                        defer: true,
+                        src: 'https://cloud.umami.is/script.js',
+                        'data-website-id': '55963e09-9cdc-468f-aed8-3fe893a2710b',
+                    },
+                },
+            ],
             title: 'MistLock',
             logo: {
                 src: './src/assets/mistlock.svg',
