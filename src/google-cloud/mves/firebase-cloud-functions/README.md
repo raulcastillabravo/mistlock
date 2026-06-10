@@ -1,6 +1,6 @@
 # Firebase Cloud Functions
 
-This guide shows you how to work with Google Cloud Firebase Functions locally using the Firebase Emulator Suite. This lab demonstrates a synchronous HTTPS function that retrieves a secret from Secret Manager based on user name.
+Run Firebase Cloud Functions locally with the Firebase Emulator Suite: a synchronous HTTPS function that reads secrets from Secret Manager.
 
 > 📖 Full documentation for this lab is available at:
 > https://mistlock.dev/google-cloud/mves/firebase-cloud-functions/

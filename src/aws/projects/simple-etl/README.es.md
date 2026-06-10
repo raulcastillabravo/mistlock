@@ -1,6 +1,6 @@
 # Simple ETL
 
-Esta guía te muestra cómo construir un pipeline de procesamiento de archivos usando AWS S3, Lambda y DynamoDB localmente con LocalStack. Este lab demuestra cómo las subidas a S3 disparan una Lambda para registrar metadatos en una tabla DynamoDB.
+Construye un pipeline local de archivos con AWS S3, Lambda y DynamoDB en LocalStack: las subidas a S3 disparan una Lambda que registra metadatos.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/aws/projects/simple-etl/

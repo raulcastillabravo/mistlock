@@ -1,6 +1,6 @@
 # Lambda (SAM)
 
-Esta guía te muestra cómo trabajar con AWS Lambda utilizando el Serverless Application Model (SAM) y Python. Este lab demuestra cómo compilar y ejecutar un servicio local de API Gateway y Lambda para su invocación directa con el SDK.
+Ejecuta AWS Lambda en local con el Serverless Application Model (SAM) y Python, levantando un API Gateway local e invocando funciones con el SDK.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/aws/mves/lambda-sam/

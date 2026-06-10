@@ -1,6 +1,6 @@
 # Databricks
 
-Esta guía te muestra cómo simular un entorno Databricks localmente usando Docker, MinIO como almacenamiento compatible con S3 y PostgreSQL como Hive Metastore persistente. Este lab demuestra cómo desarrollar y probar ETLs con Spark y Delta Lake localmente usando Databricks Runtime 15.4 LTS.
+Simula Databricks en local con Docker, MinIO y PostgreSQL como Hive Metastore para desarrollar y probar ETLs de Spark y Delta Lake.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/azure/mves/databricks/

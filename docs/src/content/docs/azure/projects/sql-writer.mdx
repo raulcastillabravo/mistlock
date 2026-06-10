@@ -1,6 +1,6 @@
 ---
 title: SQL Writer
-description: This guide shows you how to work with Azure SQL Database locally using Azure Functions and SQLAlchemy. This lab demonstrates how to process HTTP POST requests and persist data into a SQL database.
+description: "Run Azure SQL Database locally with Azure Functions and SQLAlchemy: process HTTP POST requests and persist data into a SQL database."
 isLab: true
 ---
 
@@ -89,3 +89,8 @@ docker compose down -v
 |-------|----------|
 | `ImportError: libodbc.so.2` | Run `scripts/setup-mve.sh` to install ODBC system dependencies. |
 | `AzureWebJobsStorage` error | Ensure Azurite Blob Service is started (**Azurite: Start Blob Service**) and port `10000` is available. |
+
+## Next steps
+
+- [See the AWS equivalent project.](/aws/projects/sql-writer/)
+- [Dive into the Azure Functions Lab.](/azure/mves/functions/)

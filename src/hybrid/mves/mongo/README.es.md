@@ -1,6 +1,6 @@
 # Mongo
 
-Esta guía te muestra cómo trabajar con MongoDB localmente usando Docker Compose, MongoEngine y Python. Este lab demuestra operaciones CRUD básicas usando diferentes herramientas de ejecución y validación.
+Ejecuta MongoDB en local con Docker Compose, MongoEngine y Python: operaciones CRUD básicas con distintas herramientas de ejecución y validación.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/hybrid/mves/mongo/

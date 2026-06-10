@@ -1,6 +1,6 @@
 # S3 Garage
 
-This guide shows you how to work with AWS S3 using Garage as a local emulator. This lab demonstrates a data pipeline using Boto3, PyArrow, and Delta Lake (delta-rs).
+Emulate AWS S3 locally with Garage and Python: a data pipeline using Boto3, PyArrow, and Delta Lake (delta-rs).
 
 > 📖 Full documentation for this lab is available at:
 > https://mistlock.dev/aws/mves/s3-garage/

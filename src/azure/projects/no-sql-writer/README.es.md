@@ -1,6 +1,6 @@
 # NoSQL Writer
 
-Esta guía te muestra cómo trabajar con Azure Cosmos DB localmente usando Docker y Python. Este lab demuestra cómo conectar una aplicación Python al emulador de Azure Cosmos DB.
+Ejecuta Azure Cosmos DB en local con Docker: conecta una aplicación Python al emulador de Azure Cosmos DB.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/azure/projects/no-sql-writer/

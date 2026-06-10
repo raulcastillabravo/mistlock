@@ -1,6 +1,6 @@
 # Redis
 
-This guide shows you how to work with Redis locally using Docker and Python. This lab demonstrates how to manage user status using Redis and a custom context manager for connection management.
+Run Redis locally with Docker and Python: manage user status with Redis and a custom context manager for connections.
 
 > 📖 Full documentation for this lab is available at:
 > https://mistlock.dev/hybrid/mves/redis/

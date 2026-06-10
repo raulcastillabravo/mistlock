@@ -1,6 +1,6 @@
 # Functions
 
-Esta guía te muestra cómo trabajar con Azure Functions usando Python y Azure Functions Core Tools. Este lab demuestra cómo desarrollar, ejecutar, depurar, testear y validar una función con trigger HTTP localmente.
+Desarrolla Azure Functions en local con Python y Azure Functions Core Tools: ejecuta, depura, testea y valida una función con trigger HTTP.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/azure/mves/functions/

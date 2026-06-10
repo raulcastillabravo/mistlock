@@ -1,6 +1,6 @@
 # RabbitMQ
 
-This guide shows you how to work with RabbitMQ locally using Docker Compose and Python. This lab demonstrates real-time event publishing and consumption using the pika client.
+Run RabbitMQ locally with Docker Compose and Python: real-time event publishing and consumption with the pika client.
 
 > 📖 Full documentation for this lab is available at:
 > https://mistlock.dev/hybrid/mves/rabbitmq/

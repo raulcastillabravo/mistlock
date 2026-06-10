@@ -1,6 +1,6 @@
 ---
 title: S3 Garage
-description: Esta guía te muestra cómo trabajar con AWS S3 usando Garage como emulador local. Este lab demuestra un pipeline de datos usando Boto3, PyArrow y Delta Lake (delta-rs).
+description: "Emula AWS S3 en local con Garage y Python: un pipeline de datos usando Boto3, PyArrow y Delta Lake (delta-rs)."
 isLab: true
 ---
 
@@ -84,3 +84,8 @@ docker compose down -v
 |----------|----------|
 | API de Garage no lista | Asegúrate de que el contenedor `garage` está en ejecución y espera unos segundos a que la API se inicialice. Revisa los logs con `docker logs garage`. |
 | Puerto 3900 en uso | Detén cualquier otro servicio que use el puerto 3900 o cambia el mapeo en `docker-compose.yml`. |
+
+## Siguientes pasos
+
+- [Compara con S3 (MinIO), un emulador alternativo para el mismo servicio.](/es/aws/mves/s3-minio/)
+- [Construye sobre este MVE con el proyecto Storage Writer.](/es/aws/projects/storage-writer/)

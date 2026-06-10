@@ -1,6 +1,6 @@
 # Storage Writer
 
-Esta guía te muestra cómo trabajar con Google Cloud Functions localmente usando el Firebase Emulator Suite y Python. Este lab demuestra cómo crear una función con trigger HTTP que sube archivos a Cloud Storage.
+Ejecuta Google Cloud Functions en local con el Firebase Emulator Suite: una función Python con trigger HTTP que sube archivos a Cloud Storage.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/google-cloud/projects/storage-writer/

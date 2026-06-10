@@ -1,6 +1,6 @@
 ---
 title: NoSQL Writer
-description: Esta guía te muestra cómo trabajar con Azure Cosmos DB localmente usando Docker y Python. Este lab demuestra cómo conectar una aplicación Python al emulador de Azure Cosmos DB.
+description: "Ejecuta Azure Cosmos DB en local con Docker: conecta una aplicación Python al emulador de Azure Cosmos DB."
 isLab: true
 ---
 
@@ -76,3 +76,8 @@ docker compose down -v
 | Conexión rechazada | Asegúrate de que el emulador está en ejecución: `docker ps` |
 | `PostgreSQL=FAIL` en los logs | Reinicia el estado del emulador: `docker compose down -v` |
 | Período de evaluación expirado | Elimina la imagen antigua (`docker rmi mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator`), descarga `latest` y reinicia. |
+
+## Siguientes pasos
+
+- [Consulta el proyecto equivalente en Google Cloud.](/es/google-cloud/projects/no-sql-writer/)
+- [Explora el Lab relacionado MongoDB.](/es/hybrid/mves/mongo/)

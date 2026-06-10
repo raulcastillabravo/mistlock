@@ -1,6 +1,6 @@
 ---
 title: Simple ETL
-description: This guide shows you how to build a file processing pipeline using AWS S3, Lambda, and DynamoDB locally with LocalStack. This lab demonstrates how S3 uploads trigger a Lambda to log metadata into a DynamoDB table.
+description: "Build a local file pipeline with AWS S3, Lambda, and DynamoDB on LocalStack: S3 uploads trigger a Lambda that logs metadata to DynamoDB."
 isLab: true
 ---
 
@@ -199,3 +199,9 @@ docker compose down -v
 |-------|----------|
 | Connection Refused | Ensure LocalStack is running and wait for the `Ready.` message in logs. |
 | Lambda Not Triggering | Verify logs: `aws logs tail /aws/lambda/s3-file-processor --profile localstack` |
+
+## Next steps
+
+- [See the Google Cloud equivalent project.](/google-cloud/projects/simple-etl/)
+- [Dive into the Lambda (SAM) Lab.](/aws/mves/lambda-sam/)
+- [Dive into the S3 (MinIO) Lab.](/aws/mves/s3-minio/)

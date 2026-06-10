@@ -77,7 +77,7 @@ isLab: true
 ---
 ```
 
-Also update `docs/public/llm.txt` — add the entry under the correct provider and type section.
+The `llms.txt` files are generated automatically at build time by the `starlight-llms-txt` plugin — no manual update needed.
 
 ## 6. Repository Documentation
 

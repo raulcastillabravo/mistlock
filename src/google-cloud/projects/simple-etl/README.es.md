@@ -1,6 +1,6 @@
 # Simple ETL
 
-Esta guía te muestra cómo trabajar con GCP Cloud SQL y Firebase Cloud Functions localmente usando Docker Compose y Python. Este lab demuestra cómo procesar una subida de CSV mediante un trigger de Cloud Storage e insertar registros en PostgreSQL.
+Ejecuta GCP Cloud SQL y Firebase Cloud Functions en local: un trigger de Cloud Storage procesa subidas de CSV e inserta registros en PostgreSQL.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/google-cloud/projects/simple-etl/

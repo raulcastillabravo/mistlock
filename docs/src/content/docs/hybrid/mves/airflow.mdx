@@ -1,6 +1,6 @@
 ---
 title: Airflow
-description: This guide shows you how to work with Apache Airflow locally using Docker. This lab demonstrates a simple ETL pipeline with extract, transform, and load tasks running as a scheduled DAG.
+description: "Run Apache Airflow locally with Docker: a simple ETL pipeline with extract, transform, and load tasks running as a scheduled DAG."
 isLab: true
 ---
 
@@ -65,3 +65,9 @@ rm -rf logs/*
 |-------|----------|
 | Services not starting | Check logs with `docker compose logs`. Initialization may take 30-60 seconds. |
 | DAG not appearing | Ensure files are in `dags/`, check for Python errors, and refresh the UI. |
+
+## Next steps
+
+- [Explore the related PostgreSQL Lab.](/hybrid/mves/postgres/)
+- [Explore the related Simple ETL (AWS) Lab.](/aws/projects/simple-etl/)
+- [Explore the related Simple ETL (GCP) Lab.](/google-cloud/projects/simple-etl/)

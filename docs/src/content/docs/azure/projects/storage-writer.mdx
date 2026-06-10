@@ -1,6 +1,6 @@
 ---
 title: Storage Writer
-description: This guide shows you how to work with Azure Functions locally using Azurite, Docker Compose, and Python. This lab demonstrates how to create an HTTP-triggered function that uploads files to Azurite blob storage.
+description: "Run Azure Functions locally with Azurite and Docker Compose: an HTTP-triggered Python function that uploads files to blob storage."
 isLab: true
 ---
 
@@ -71,3 +71,10 @@ docker compose down -v
 |-------|----------|
 | Connection Refused | Ensure Azurite is running: `docker ps` |
 | Module Not Found | Reinstall function dependencies: `cd upload-function && pip install -r requirements.txt` |
+
+## Next steps
+
+- [See the AWS equivalent project.](/aws/projects/storage-writer/)
+- [See the Google Cloud equivalent project.](/google-cloud/projects/storage-writer/)
+- [Dive into the Azure Functions Lab.](/azure/mves/functions/)
+- [Dive into the Blob Storage Lab.](/azure/mves/blob-storage/)

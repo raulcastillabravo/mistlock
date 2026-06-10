@@ -1,6 +1,6 @@
 # Airflow
 
-Esta guía te muestra cómo trabajar con Apache Airflow localmente usando Docker. Este lab demuestra un pipeline ETL simple con tareas de extracción, transformación y carga ejecutadas como un DAG programado.
+Ejecuta Apache Airflow en local con Docker: un pipeline ETL sencillo con tareas de extracción, transformación y carga como un DAG programado.
 
 > 📖 La documentación completa de este lab está disponible en:
 > https://mistlock.dev/hybrid/mves/airflow/

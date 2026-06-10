@@ -223,7 +223,7 @@ One-sentence overview of the lab.
 > https://mistlock.dev/[provider]/[mves|projects]/[name]/
 ```
 
-**Sync rule**: The overview paragraph must match the `description` field of the corresponding Starlight doc page. When updating a doc page's `description`, update the README overviews too.
+**Sync rule**: The overview paragraph must match the `description` field of the corresponding Starlight doc page. When updating a doc page's `description`, update the README overviews too. The `description` must stay under ~160 characters (SEO meta description limit); the doc page's intro paragraph in the body may keep a longer, two-sentence version.
 
 **Redirect rule**: Some Labs (e.g., ElastiCache, RDS, Cache for Redis) are wrappers that point users to another lab. For these, the README redirect link must point directly to the destination lab URL — not to the wrapper lab's own doc page. Avoid double redirects (README → wrapper page → destination).
 
@@ -233,4 +233,4 @@ When adding or removing an example, update these files in `docs/`:
 
 - `docs/src/content/docs/[provider]/[mves|projects]/[name].mdx` — English doc page (must include `isLab: true` in frontmatter).
 - `docs/src/content/docs/es/[provider]/[mves|projects]/[name].mdx` — Spanish doc page (must include `isLab: true` in frontmatter).
-- `docs/public/llm.txt` — add/remove the entry under the correct provider and type section. URL format: `https://mistlock.dev/[provider]/[mves|projects]/[name]/`.
+- `llms.txt`, `llms-full.txt`, and `llms-small.txt` are generated automatically at build time by the `starlight-llms-txt` plugin (configured in `docs/astro.config.mjs`) — no manual update needed.

@@ -214,6 +214,32 @@ A Markdown table with two columns — Issue and Solution — if the README inclu
 | Problem description | How to fix it. |
 ```
 
+### 10. Next steps
+
+The last H2 section of every lab page. A bullet list of links to related labs, each phrased as an action with brief context. The **whole sentence is the link text** (never title-only links — the full sentence enriches the anchor for SEO):
+
+```mdx
+## Next steps
+
+- [Build on this MVE with the Storage Writer project.](/aws/projects/storage-writer/)
+- [Compare with S3 (Garage), an alternative emulator for the same service.](/aws/mves/s3-garage/)
+- [See the Azure equivalent project.](/azure/projects/storage-writer/)
+```
+
+Phrasing templates by relation type (Spanish in parentheses), where `T` is the related lab's title **without** any provider qualifier — the sentence or the page context already carries the provider, so never write `Storage Writer (AWS)` inside a bullet:
+- **MVE → Project using it**: `Build on this MVE with the T project.` (`Construye sobre este MVE con el proyecto T.`)
+- **Project → MVE it composes**: `Dive into the T Lab.` (`Profundiza en el Lab T.`)
+- **Alternative emulator**: `Compare with T, an alternative emulator for the same service.` (`Compara con T, un emulador alternativo para el mismo servicio.`)
+- **Cross-provider sibling**: `See the {Provider} equivalent project.` / `See the {Provider} equivalent Lab.` (`Consulta el proyecto equivalente en {Provider}.` / `Consulta el Lab equivalente en {Provider}.`) — no title needed.
+- **Wrapper coverage**: `Using {Provider}? This lab also covers T.` (`¿Usas {Provider}? Este lab también cubre T.`)
+- **Loosely related**: `Explore the related T Lab.` (`Explora el Lab relacionado T.`)
+
+Exception: in **Loosely related** bullets the sentence does not mention the provider, so keep the provider qualifier in `T` when needed to tell same-titled labs apart (e.g., Airflow links both `Simple ETL (AWS)` and `Simple ETL (GCP)`).
+
+Keep 2–4 bullets per page. When adding a new lab, also add reverse links on the related pages. The Spanish version uses heading `## Siguientes pasos` and `/es/`-prefixed hrefs.
+
+**Wrapper labs** (pages that only redirect to another lab, e.g., ElastiCache, RDS, Cache for Redis, Cloud SQL, Memorystore) must NOT have a Next steps section — their single `<LinkCard>` to the destination lab is enough. The destination (real) lab holds the relevant links instead.
+
 ## Spanish Translation
 
 Every English page must have a corresponding Spanish version at `docs/src/content/docs/es/[provider]/[mves|projects]/[name].mdx`. The Spanish version maintains identical structure, MDX components, `syncKey` values, and code blocks.
@@ -248,6 +274,7 @@ Every English page must have a corresponding Spanish version at `docs/src/conten
 | Clean Up | Limpieza |
 | Troubleshooting | Solución de problemas |
 | Deployment methods | Métodos de despliegue |
+| Next steps | Siguientes pasos |
 
 ### Tab label translations
 

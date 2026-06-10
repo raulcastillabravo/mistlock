@@ -1,6 +1,6 @@
 ---
 title: SQL Writer
-description: Esta guía te muestra cómo construir un escenario de nube híbrida usando LocalStack y una instancia externa de PostgreSQL. Este lab demuestra cómo una AWS Lambda recupera secretos de Secrets Manager e interactúa con una base de datos fuera del entorno AWS.
+description: "Construye un escenario de nube híbrida con LocalStack: una AWS Lambda recupera secretos de Secrets Manager y escribe en una PostgreSQL externa."
 isLab: true
 ---
 
@@ -96,3 +96,9 @@ rm lambda.zip response.json
 |----------|----------|
 | Conexión rechazada | Asegúrate de que `host.docker.internal` es accesible desde el contenedor LocalStack. En versiones antiguas de Docker en Linux, añádelo a `extra_hosts` en `docker-compose.yml`. |
 | Puerto ya en uso | Modifica los mapeos de puertos para `4566` o `5432` en `docker-compose.yml`. |
+
+## Siguientes pasos
+
+- [Consulta el proyecto equivalente en Azure.](/es/azure/projects/sql-writer/)
+- [Profundiza en el Lab Lambda (SAM).](/es/aws/mves/lambda-sam/)
+- [Profundiza en el Lab RDS Postgres.](/es/aws/mves/rds-postgres/)

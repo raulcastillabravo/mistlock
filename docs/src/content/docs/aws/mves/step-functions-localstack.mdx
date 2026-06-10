@@ -1,6 +1,6 @@
 ---
 title: Step Functions (LocalStack)
-description: This guide shows you how to work with AWS Step Functions locally using LocalStack, Python, and VS Code AWS Toolkit. This lab demonstrates a user onboarding workflow with parallel Lambda execution and IAM user creation.
+description: "Run AWS Step Functions locally with LocalStack and Python: a user onboarding workflow with parallel Lambda execution and IAM user creation."
 isLab: true
 ---
 
@@ -99,3 +99,8 @@ docker compose down -v
 |-------|----------|
 | Lambda function is 'Pending' | Wait 5-10 seconds after `deploy.py` and try again. LocalStack may still be initializing the Lambda environment. |
 | Connection refused | Ensure LocalStack is running: `docker ps` |
+
+## Next steps
+
+- [Explore the related Lambda (SAM) Lab.](/aws/mves/lambda-sam/)
+- [Explore the related Simple ETL (AWS) Lab.](/aws/projects/simple-etl/)

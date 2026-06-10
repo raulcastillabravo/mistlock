@@ -1,6 +1,6 @@
 ---
 title: Databricks
-description: Esta guía te muestra cómo simular un entorno Databricks localmente usando Docker, MinIO como almacenamiento compatible con S3 y PostgreSQL como Hive Metastore persistente. Este lab demuestra cómo desarrollar y probar ETLs con Spark y Delta Lake localmente usando Databricks Runtime 15.4 LTS.
+description: Simula Databricks en local con Docker, MinIO y PostgreSQL como Hive Metastore para desarrollar y probar ETLs de Spark y Delta Lake.
 isLab: true
 ---
 
@@ -67,3 +67,8 @@ docker compose down -v
 |----------|----------|
 | Conexión rechazada | Asegúrate de que todos los servicios están en ejecución: `docker compose ps` |
 | La tabla ya existe | Elimina la tabla con `spark.sql("DROP TABLE IF EXISTS sales.products_silver")` o ejecuta **Limpieza** para reiniciar los volúmenes. |
+
+## Siguientes pasos
+
+- [Explora el Lab relacionado S3 (MinIO).](/es/aws/mves/s3-minio/)
+- [Explora el Lab relacionado PostgreSQL.](/es/hybrid/mves/postgres/)

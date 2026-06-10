@@ -1,6 +1,6 @@
 ---
 title: Blob Storage
-description: Esta guía te muestra cómo trabajar con Azure Blob Storage localmente usando Azurite, Docker Compose y Python. Este lab demuestra cómo crear contenedores y subir y descargar blobs.
+description: "Emula Azure Blob Storage en local con Azurite, Docker Compose y Python: crea contenedores y sube y descarga blobs."
 isLab: true
 ---
 
@@ -67,3 +67,8 @@ docker compose down -v
 | Puerto 10000 en uso | Actualiza el mapeo de puertos en `docker-compose.yml` y `BlobEndpoint` en `.env`. |
 | Conexión rechazada | Asegúrate de que Azurite está en ejecución: `docker ps` |
 | Módulo no encontrado | Reinstala las dependencias: `pip3 install uv && uv sync` |
+
+## Siguientes pasos
+
+- [Construye sobre este MVE con el proyecto Storage Writer.](/es/azure/projects/storage-writer/)
+- [Consulta el Lab equivalente en AWS.](/es/aws/mves/s3-minio/)

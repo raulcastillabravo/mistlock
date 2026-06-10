@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import starlightLlmsTxt from 'starlight-llms-txt';
 import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
 
@@ -14,7 +15,21 @@ export default defineConfig({
         icon(),
         sitemap(),
         starlight({
+            plugins: [
+                starlightLlmsTxt({
+                    projectName: 'MistLock',
+                    description:
+                        'A collection of Minimal Viable Examples (MVE) and Projects for emulating Cloud services locally — AWS, Azure, Google Cloud, and Open Source services — without accounts, credit cards, or cloud logins.',
+                }),
+            ],
             head: [
+                {
+                    tag: 'link',
+                    attrs: {
+                        rel: 'apple-touch-icon',
+                        href: '/apple-touch-icon.png',
+                    },
+                },
                 {
                     tag: 'script',
                     attrs: {
@@ -26,6 +41,7 @@ export default defineConfig({
                 },
             ],
             title: 'MistLock',
+            lastUpdated: true,
             logo: {
                 src: './src/assets/mistlock.svg',
                 alt: 'MistLock',
@@ -46,6 +62,7 @@ export default defineConfig({
                 },
             },
             components: {
+                Head: './src/components/Head.astro',
                 Hero: './src/components/Hero.astro',
                 TableOfContents: './src/components/CustomTableOfContents.astro',
                 MobileTableOfContents: './src/components/CustomMobileTableOfContents.astro',

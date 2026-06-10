@@ -1,6 +1,6 @@
 ---
 title: Metabase
-description: Esta guía te muestra cómo trabajar con Metabase localmente usando Docker Compose, PostgreSQL y SQLAlchemy. Este lab demuestra cómo insertar datos en una base de datos PostgreSQL y explorarlos usando Metabase.
+description: "Ejecuta Metabase en local con Docker Compose y PostgreSQL: inserta datos con SQLAlchemy y explóralos visualmente en Metabase."
 isLab: true
 ---
 
@@ -79,3 +79,8 @@ docker compose down -v
 | Metabase no carga | Espera a que se inicialice — revisa los logs: `docker compose logs -f metabase` (busca "Initialization COMPLETE"). |
 | Conexión rechazada | Asegúrate de que ambos contenedores están en ejecución: `docker ps` |
 | Módulo no encontrado | Reinstala las dependencias: `pip3 install uv && uv sync` |
+
+## Siguientes pasos
+
+- [Explora el Lab relacionado PostgreSQL.](/es/hybrid/mves/postgres/)
+- [Explora el Lab relacionado MongoDB.](/es/hybrid/mves/mongo/)

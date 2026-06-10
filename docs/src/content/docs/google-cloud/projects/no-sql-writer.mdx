@@ -1,6 +1,6 @@
 ---
 title: NoSQL Writer
-description: This guide shows you how to work with Google Cloud Run and Firestore locally using the Firebase Emulator Suite and Python. This lab demonstrates how to create a containerized service that registers patients in Firestore.
+description: "Run Google Cloud Run and Firestore locally with the Firebase Emulator Suite: a containerized Python service that registers data in Firestore."
 isLab: true
 ---
 
@@ -117,3 +117,8 @@ http://localhost:4000
 | Connection Refused (Firestore) | Ensure `firebase emulators:start` is running. On Linux with Minikube, change `FIRESTORE_EMULATOR_HOST` to `host.minikube.internal:8081` in `.vscode/launch.json`. |
 | Persistent Google Cloud login prompts | Ensure `.vscode/settings.json` includes `"cloudcode.useGcloudAuthSkaffold": false` and select **No/Cancel** when prompted. |
 | Firebase Emulator fails to start | Ensure **Node.js** and **Java JDK** are installed. Check ports `8081` and `4000` are available. |
+
+## Next steps
+
+- [See the Azure equivalent project.](/azure/projects/no-sql-writer/)
+- [Dive into the Firebase Cloud Functions Lab.](/google-cloud/mves/firebase-cloud-functions/)

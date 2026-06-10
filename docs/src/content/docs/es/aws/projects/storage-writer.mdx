@@ -1,6 +1,6 @@
 ---
 title: Storage Writer
-description: Esta guía te muestra cómo construir una función AWS Lambda que sube archivos a S3 localmente usando LocalStack. Este lab demuestra múltiples métodos de despliegue — Terraform, CloudFormation y Boto3.
+description: Construye una función AWS Lambda que sube archivos a S3 en local con LocalStack, desplegable con Terraform, CloudFormation o Boto3.
 isLab: true
 ---
 
@@ -138,3 +138,10 @@ docker compose down -v
 |----------|----------|
 | Timeout de Lambda | Asegúrate de que LocalStack tiene suficientes recursos de memoria y CPU. |
 | Conexión rechazada | Asegúrate de que LocalStack está en ejecución y espera el mensaje `Ready.` en los logs. |
+
+## Siguientes pasos
+
+- [Consulta el proyecto equivalente en Azure.](/es/azure/projects/storage-writer/)
+- [Consulta el proyecto equivalente en Google Cloud.](/es/google-cloud/projects/storage-writer/)
+- [Profundiza en el Lab Lambda (SAM).](/es/aws/mves/lambda-sam/)
+- [Profundiza en el Lab S3 (MinIO).](/es/aws/mves/s3-minio/)
