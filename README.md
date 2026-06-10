@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/src/assets/mistlock.svg" alt="MistLock" width="500"/>
+  <img src="docs/src/assets/mistlock.svg" alt="MistLock" width="400"/>
 </p>
 
 <h1 align="center">MistLock</h1>
@@ -75,4 +75,6 @@ We call each catalog example a **Lab**, and there are two types of Labs: MVEs (M
 
 ## Need help?
 
-**Message me on LinkedIn** or **open an issue on GitHub** if you find a bug or if something isn't clear. I'll be happy to help 😄.
+**Message me on LinkedIn** or **open an issue on GitHub** if you find a bug or if something isn't clear. 
+
+I'll be happy to help 😄.
