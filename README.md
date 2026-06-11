@@ -12,6 +12,14 @@
 
 ---
 
+> 🚀 **Rebranding**
+>
+> This repository was previously known as **mve-collection** and has been rebranded to **mistlock**.
+>
+> Same project, same goals — just a new name (and online documentation!)
+
+---
+
 **MistLock** is a catalog of Cloud development environments that combines Docker, Dev Containers, emulators, and Open Source services so you can develop locally as if you were in the cloud, but **100% free, no accounts, and no credit card required**.
 
 Use these environments to learn Cloud computing, start your project, or incorporate them into an existing one.
