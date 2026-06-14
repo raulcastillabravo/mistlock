@@ -1,0 +1,147 @@
+---
+title: Storage Writer
+description: Construye una función AWS Lambda que sube archivos a S3 en local con LocalStack, desplegable con Terraform, CloudFormation o Boto3.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo construir una función **AWS Lambda** que sube archivos a **S3** localmente usando **LocalStack**. Este lab demuestra múltiples métodos de despliegue — Terraform, CloudFormation y Boto3.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+- [AWS Toolkit para VS Code](vscode:extension/amazonwebservices.aws-toolkit-vscode) (opcional, incluido en el Dev Container).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         1. **Inicia LocalStack**:
+            ```bash
+            docker compose up -d localstack
+            ```
+         2. **Configura el entorno** (instala mise, Python, AWS CLI, Terraform y sincroniza dependencias):
+            ```bash
+            scripts/setup-mve.sh
+            ```
+         3. **Instala el AWS Toolkit**: Instala la extensión [AWS Toolkit](vscode:extension/amazonwebservices.aws-toolkit-vscode) y conecta usando el perfil `localstack` configurado por el script de instalación.
+         4. **Despliega los recursos**:
+            ```bash
+            scripts/boto3/deploy.sh
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Ejecutar el ejemplo**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="AWS Toolkit">
+         1. Selecciona el perfil `localstack` en el AWS Toolkit.
+         2. Haz clic derecho en la función `upload-to-s3` y selecciona **Invoke Lambda...**.
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## Métodos de despliegue
+
+Hay otros **métodos de despliegue** que puedes usar en este lab.
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      scripts/terraform/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      scripts/cloudformation/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      scripts/boto3/deploy.sh
+      ```
+   </TabItem>
+</Tabs>
+
+:::note[Cambio de método de despliegue]
+Si cambias entre Terraform, CloudFormation o Boto3, ejecuta **Limpieza** primero para evitar conflictos de nombres de recursos.
+:::
+
+## Validar resultados
+
+<Tabs>
+   <TabItem label="AWS CLI">
+      - **Comprueba el bucket S3**:
+        ```bash
+        aws s3 ls s3://test-bucket/ --profile localstack
+        ```
+      - **Consulta los logs de Lambda**:
+        ```bash
+        aws logs tail /aws/lambda/upload-to-s3 --profile localstack
+        ```
+   </TabItem>
+   <TabItem label="AWS Toolkit">
+      - **S3**: Despliega la sección S3 para ver los archivos subidos.
+      - **CloudWatch**: Despliega la sección Logs para ver la salida de ejecución de Lambda.
+   </TabItem>
+</Tabs>
+
+## Limpieza
+
+Para **eliminar únicamente los recursos desplegados**, ejecuta el script de destrucción del método que usaste:
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      scripts/terraform/destroy.sh
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      scripts/cloudformation/destroy.sh
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      scripts/boto3/destroy.sh
+      ```
+   </TabItem>
+</Tabs>
+
+Para eliminar también todos los contenedores y volúmenes:
+
+```bash
+docker compose down -v
+```
+
+## Solución de problemas
+
+| Problema | Solución |
+|----------|----------|
+| Timeout de Lambda | Asegúrate de que LocalStack tiene suficientes recursos de memoria y CPU. |
+| Conexión rechazada | Asegúrate de que LocalStack está en ejecución y espera el mensaje `Ready.` en los logs. |
+
+## Siguientes pasos
+
+- [Consulta el proyecto equivalente en Azure.](/es/azure/projects/storage-writer/)
+- [Consulta el proyecto equivalente en Google Cloud.](/es/google-cloud/projects/storage-writer/)
+- [Profundiza en el Lab Lambda (SAM).](/es/aws/mves/lambda-sam/)
+- [Profundiza en el Lab S3 (MinIO).](/es/aws/mves/s3-minio/)

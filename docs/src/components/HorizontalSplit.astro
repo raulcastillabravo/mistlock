@@ -1,0 +1,104 @@
+---
+type CSSLength = `${number}${'px' | 'rem' | 'em' | '%' | 'vh' | 'vw'}` | '0';
+
+interface Props {
+  text?: string;
+  marginTop?: CSSLength;
+}
+
+const { text, marginTop = '3.5rem' } = Astro.props;
+---
+
+<div class="not-content horizontal-split" style={`--split-margin-top: ${marginTop}`}>
+  {text && <p class="split-text" data-split-text>{text}</p>}
+  <div class="split-grid">
+    <div class="split-col" style="--entrance-delay: 0ms" data-split-col>
+      <slot name="left" />
+    </div>
+    <div class="split-col" style="--entrance-delay: 150ms" data-split-col>
+      <slot name="right" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .horizontal-split {
+    margin-top: var(--split-margin-top, 3.5rem);
+  }
+
+  .split-text {
+    text-align: center;
+    color: var(--sl-color-white);
+    margin-bottom: 1.5rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.5s ease-out,
+      transform 0.5s ease-out;
+  }
+
+  .split-text.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .split-text {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .split-col {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s ease-out var(--entrance-delay, 0ms),
+      transform 0.5s ease-out var(--entrance-delay, 0ms);
+  }
+
+  .split-col.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .split-col {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .split-col :global(.code-window) {
+    flex: 1;
+  }
+
+  @media (min-width: 768px) {
+    .split-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<script>
+  import { observeEntrance } from '../utils/observer';
+  function init() {
+    observeEntrance('[data-split-col]');
+    observeEntrance('[data-split-text]');
+  }
+  document.addEventListener('astro:page-load', init);
+  init();
+</script>

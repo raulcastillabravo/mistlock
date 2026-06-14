@@ -1,0 +1,91 @@
+---
+title: S3 (Garage)
+description: "Emulate AWS S3 locally with Garage and Python: a data pipeline using Boto3, PyArrow, and Delta Lake (delta-rs)."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **AWS S3** using **Garage** as a local emulator. This lab demonstrates a data pipeline using **Boto3**, **PyArrow**, and **Delta Lake** (delta-rs).
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+
+## How to execute
+
+<Steps>
+   1. **Setup Environment**: 
+      <Tabs>
+         <TabItem label="Dev Container (recommended)">
+            Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+            ```bash 
+         >  Dev Containers: Reopen in Container
+            ```
+         </TabItem>
+         <TabItem label="Manually">
+            1. **Run the setup** script to install tools and dependencies.
+               ```bash
+               scripts/setup.sh
+               ```
+            2. **Start Infrastructure**: Launch the required containers.
+               ```bash
+               docker compose up -d
+               ```
+         </TabItem>
+      </Tabs>
+
+   2. **Run the Example**:
+      ```bash
+      python main.py
+      ```
+</Steps>
+
+:::note[Garage S3 Keys]
+Garage S3 connection keys are automatically refreshed when starting or restarting the development environment. Use the ones generated in your `.env`, not the ones from the repository.
+:::
+
+## Validate results
+
+<Tabs>
+   <TabItem label="AWS CLI">
+      - **Check Buckets**: Verify that `bronze` and `silver` buckets were created.
+        ```bash
+        aws s3 ls --profile garage
+        ```
+      - **Check Content**: Verify the files in the silver bucket.
+        ```bash
+        aws s3 ls s3://silver --recursive --profile garage
+        ```
+   </TabItem>
+   <TabItem label="Rclone">
+      - **Launch** the Rclone graphical interface:
+        ```bash
+        scripts/rclone-gui.sh
+        ```
+      - **Open** in your browser:
+        ```bash
+        http://127.0.0.1:5572
+        ```
+   </TabItem>
+</Tabs>
+
+## Clean Up
+
+```bash
+docker compose down -v
+```
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Garage API not ready | Ensure the `garage` container is running and wait a few seconds for the API to initialize. Check logs with `docker logs garage`. |
+| Port 3900 in use | Stop any other service using port 3900 or change the mapping in `docker-compose.yml`. |
+
+## Next steps
+
+- [Compare with S3 (MinIO), an alternative emulator for the same service.](/aws/mves/s3-minio/)
+- [Build on this MVE with the Storage Writer project.](/aws/projects/storage-writer/)

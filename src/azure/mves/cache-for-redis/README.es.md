@@ -1,7 +1,6 @@
-# Azure Cache for Redis
+# Cache for Redis
 
-ℹ️ **Nota**: Azure Cache for Redis es funcionalmente equivalente a ejecutar una instancia estándar de **Redis**. 
+Azure Cache for Redis es funcionalmente equivalente a una instancia estándar de Redis. Usa el lab de Redis para emular este servicio localmente.
 
-Para emular este servicio localmente, utilizamos el contenedor oficial de Redis en Docker. Por favor, consulta el **MVE de Redis** para ver las instrucciones de configuración y uso:
-
-👉 [**MVE de Redis**](../../../hybrid/mves/redis/)
+> 📖 La documentación completa de este lab está disponible en:
+> https://mistlock.dev/hybrid/mves/redis/

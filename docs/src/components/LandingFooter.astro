@@ -1,0 +1,67 @@
+---
+---
+
+<div class="landing-footer">
+  <div class="landing-footer__copy">
+    <span>© {new Date().getFullYear()} Raúl Castilla Bravo</span>
+    <span class="sep" aria-hidden="true"> · </span>
+    <a href="https://github.com/raulcastillabravo/mve-collection/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">CC BY-NC-ND 4.0</a>
+    <span class="sep" aria-hidden="true"> · </span>
+    <a href="https://github.com/raulcastillabravo/mve-collection/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a>
+  </div>
+  <p class="landing-footer__built">
+    Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> and <a href="https://starlight.astro.build" target="_blank" rel="noopener noreferrer">Starlight</a>
+  </p>
+</div>
+
+<style>
+  .landing-footer {
+    border-top: 1px solid var(--sl-color-gray-6);
+    margin-top: 1.5rem;
+    padding: 1.5rem var(--sl-content-pad-x, 1rem);
+    text-align: center;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .landing-footer__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .landing-footer__built {
+    margin: 0;
+  }
+
+  .sep {
+    display: none;
+  }
+
+  .landing-footer a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .landing-footer a:hover {
+    color: var(--sl-color-accent);
+    text-decoration: underline;
+  }
+
+  @media (min-width: 50rem) {
+    .landing-footer__copy {
+      flex-direction: row;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .sep {
+      display: inline;
+      padding-inline: 0.25rem;
+    }
+  }
+</style>

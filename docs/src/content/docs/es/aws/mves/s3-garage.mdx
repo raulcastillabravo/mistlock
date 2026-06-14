@@ -1,0 +1,91 @@
+---
+title: S3 Garage
+description: "Emula AWS S3 en local con Garage y Python: un pipeline de datos usando Boto3, PyArrow y Delta Lake (delta-rs)."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **AWS S3** usando **Garage** como emulador local. Este lab demuestra un pipeline de datos usando **Boto3**, **PyArrow** y **Delta Lake** (delta-rs).
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+   1. **Configurar el entorno**:
+      <Tabs>
+         <TabItem label="Dev Container (recomendado)">
+            Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+            ```bash
+            > Dev Containers: Reopen in Container
+            ```
+         </TabItem>
+         <TabItem label="Manual">
+            1. **Ejecuta el script** de configuración para instalar herramientas y dependencias.
+               ```bash
+               scripts/setup.sh
+               ```
+            2. **Iniciar la infraestructura**: Lanza los contenedores necesarios.
+               ```bash
+               docker compose up -d
+               ```
+         </TabItem>
+      </Tabs>
+
+   2. **Ejecutar el ejemplo**:
+      ```bash
+      python main.py
+      ```
+</Steps>
+
+:::note[Claves S3 de Garage]
+Las claves de conexión S3 de Garage se refrescan automáticamente al iniciar o reiniciar el entorno de desarrollo. Usa las generadas en tu `.env`, no las del repositorio.
+:::
+
+## Validar resultados
+
+<Tabs>
+   <TabItem label="AWS CLI">
+      - **Verifica los buckets**: Comprueba que se crearon los buckets `bronze` y `silver`.
+        ```bash
+        aws s3 ls --profile garage
+        ```
+      - **Verifica el contenido**: Comprueba los archivos en el bucket silver.
+        ```bash
+        aws s3 ls s3://silver --recursive --profile garage
+        ```
+   </TabItem>
+   <TabItem label="Rclone">
+      - **Lanza** la interfaz gráfica de Rclone:
+        ```bash
+        scripts/rclone-gui.sh
+        ```
+      - **Abre** en tu navegador:
+        ```bash
+        http://127.0.0.1:5572
+        ```
+   </TabItem>
+</Tabs>
+
+## Limpieza
+
+```bash
+docker compose down -v
+```
+
+## Solución de problemas
+
+| Problema | Solución |
+|----------|----------|
+| API de Garage no lista | Asegúrate de que el contenedor `garage` está en ejecución y espera unos segundos a que la API se inicialice. Revisa los logs con `docker logs garage`. |
+| Puerto 3900 en uso | Detén cualquier otro servicio que use el puerto 3900 o cambia el mapeo en `docker-compose.yml`. |
+
+## Siguientes pasos
+
+- [Compara con S3 (MinIO), un emulador alternativo para el mismo servicio.](/es/aws/mves/s3-minio/)
+- [Construye sobre este MVE con el proyecto Storage Writer.](/es/aws/projects/storage-writer/)

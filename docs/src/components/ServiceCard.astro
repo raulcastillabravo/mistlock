@@ -1,0 +1,153 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  comingSoon?: boolean;
+}
+
+const { icon, title, description, comingSoon = false } = Astro.props;
+const isIconify = icon.includes(':');
+---
+
+<div
+  class:list={['not-content service-card', { 'service-card--soon': comingSoon }]}
+  data-service-card
+>
+  <div class="card-header">
+    <div class:list={['card-icon', { grayscale: comingSoon }]}>
+      {isIconify
+        ? <Icon name={icon} class="w-7 h-7" />
+        : <span class="text-xl leading-none">{icon}</span>
+      }
+    </div>
+    <h3 class="card-title">{title}</h3>
+    {comingSoon && <span class="soon-badge">soon</span>}
+  </div>
+  <p class="card-desc">{description}</p>
+</div>
+
+<style>
+  .service-card {
+    border-radius: 0.75rem;
+    border: 1px solid rgb(229 231 235);
+    padding: 1rem 1.25rem;
+    background-color: rgb(249 250 251);
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s ease-out var(--entrance-delay, 0ms),
+      transform 0.5s ease-out var(--entrance-delay, 0ms),
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  :global([data-theme='dark']) .service-card {
+    border-color: rgb(51 65 85 / 0.5);
+    background-color: rgb(15 23 42 / 0.4);
+  }
+
+  .service-card--soon {
+    border-style: dashed;
+  }
+
+  .service-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .service-card--soon.is-visible {
+    opacity: 0.5;
+  }
+
+  .service-card.is-visible:not(.service-card--soon):hover {
+    transform: translateY(-4px);
+    border-color: rgb(167 139 250 / 0.7);
+    background-color: var(--sl-color-bg-nav);
+    box-shadow: 0 8px 24px rgb(139 92 246 / 0.12);
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  :global([data-theme='dark']) .service-card.is-visible:not(.service-card--soon):hover {
+    border-color: rgb(139 92 246 / 0.45);
+    background-color: rgb(30 41 59 / 0.6);
+    box-shadow: 0 8px 24px rgb(139 92 246 / 0.1);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .card-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .card-icon.grayscale {
+    filter: grayscale(1);
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgb(17 24 39);
+    margin: 0;
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  :global([data-theme='dark']) .card-title {
+    color: #ffffff;
+  }
+
+  .soon-badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    background: rgb(229 231 235);
+    color: rgb(107 114 128);
+    flex-shrink: 0;
+  }
+
+  :global([data-theme='dark']) .soon-badge {
+    background: rgb(51 65 85);
+    color: rgb(148 163 184);
+  }
+
+  .card-desc {
+    margin: 0.625rem 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: rgb(75 85 99);
+  }
+
+  :global([data-theme='dark']) .card-desc {
+    color: rgb(148 163 184);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-card {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { observeEntrance } from '../utils/observer';
+  const init = () => observeEntrance('[data-service-card]');
+  document.addEventListener('astro:page-load', init);
+  init();
+</script>

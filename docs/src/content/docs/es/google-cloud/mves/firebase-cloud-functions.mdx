@@ -1,0 +1,113 @@
+---
+title: Firebase Cloud Functions
+description: "Ejecuta Firebase Cloud Functions en local con el Firebase Emulator Suite: una función HTTPS síncrona que lee secretos de Secret Manager."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **Google Cloud Firebase Functions** localmente usando el **Firebase Emulator Suite**. Este lab demuestra una función HTTPS síncrona que recupera un secreto de Secret Manager basándose en el nombre de usuario.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         **Ejecuta el script** de configuración para instalar herramientas y dependencias:
+         ```bash
+         scripts/setup.sh
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Iniciar los emuladores de Firebase**:
+   ```bash
+   firebase emulators:start
+   ```
+
+3. **Ejecutar el ejemplo**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="cURL">
+         ```bash
+         curl "http://localhost:5001/demo-mve-firebase-functions/us-central1/get_secret?username=admin"
+         ```
+      </TabItem>
+      <TabItem label="REST Client">
+         - **Instala**: [REST Client](vscode:extension/humao.rest-client) desde el Marketplace de VS Code.
+         - **Abre**: Abre `http/get_secret.http` en VS Code.
+         - **Ejecuta**: Haz clic en **Send Request** encima de cualquier bloque de petición.
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## Cómo depurar
+
+1. **Cloud Function**:
+   - **Asegúrate**: Detén el emulador de Firebase antes de conectar el depurador (entra en conflicto con el puerto del depurador).
+   - **Ejecuta**: Lanza la configuración **Debug Cloud Function (Local)** desde la pestaña **Run and Debug**.
+   - **Breakpoints**: Añade breakpoints dentro de `get_secret` en `functions/main.py`.
+   - **Envía**: Dispara una petición mediante **curl** o el REST Client apuntando a `http://localhost:8080/`.
+
+2. **main.py**:
+   - **Asegúrate**: Detén el emulador de Firebase antes de conectar el depurador.
+   - **Ejecuta**: Lanza la configuración **Debug Cloud Function (Local)**.
+   - **Configura**: Establece `DEBUG_MODE=True` en tu `.env`.
+   - **Ejecuta**: Abre `main.py` e inicia el depurador **Python: Current File**.
+
+3. **Tests**:
+   - **Asegúrate**: El emulador de Firebase **debe estar en ejecución** para depurar tests individualmente.
+   - **Breakpoints**: Añade breakpoints en `tests/test_get_secret.py`.
+   - **Ejecuta**: Abre la pestaña **Testing** y haz clic en el icono **Debug Test** junto al test deseado.
+
+## Cómo testear
+
+- **Todos los tests**: Ejecuta el script automatizado:
+  ```bash
+  scripts/run_tests.sh
+  ```
+- **Individualmente**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar casos de test específicos.
+
+:::note[Emulador de Firebase y tests]
+`scripts/run_tests.sh` inicia su propio emulador mediante `firebase emulators:exec`. Detén cualquier emulador en ejecución antes de ejecutarlo.
+:::
+
+## Validar resultados
+
+**Abre** la UI del emulador de Firebase y navega a la sección **Logs** para inspeccionar la actividad de las funciones:
+```bash
+http://localhost:4000
+```
+
+## Limpieza
+
+Detén los emuladores pulsando `Ctrl+C` en el terminal donde se ejecuta `firebase emulators:start`. Para eliminar los volúmenes:
+
+```bash
+docker compose down -v
+```
+
+## Siguientes pasos
+
+- [Construye sobre este MVE con el proyecto Storage Writer.](/es/google-cloud/projects/storage-writer/)
+- [Construye sobre este MVE con el proyecto Simple ETL.](/es/google-cloud/projects/simple-etl/)
+- [Construye sobre este MVE con el proyecto No-SQL Writer.](/es/google-cloud/projects/no-sql-writer/)

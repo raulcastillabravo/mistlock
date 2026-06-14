@@ -1,0 +1,75 @@
+---
+title: PostgreSQL
+description: "Run PostgreSQL locally with Docker Compose, SQLAlchemy, and Python: a containerized database with automatic schema initialization."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **PostgreSQL** locally using **Docker Compose**, **SQLAlchemy**, and **Python**. This lab demonstrates how to set up a containerized database with automatic schema initialization.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         1. **Start Infrastructure**: Launch the PostgreSQL container:
+            ```bash
+            docker compose up -d
+            ```
+         2. **Run the setup** script to install tools and dependencies:
+            ```bash
+            scripts/setup-mve.sh
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Run the Example**:
+   ```bash
+   python main.py
+   ```
+
+</Steps>
+
+## Validate results
+
+<Tabs>
+   <TabItem label="SQL CLI">
+      **Run** the following command to query the database directly (credentials from `.env`):
+      ```bash
+      docker exec -it postgres_local psql -U admin -d testdb -c "SELECT * FROM users;"
+      ```
+   </TabItem>
+   <TabItem label="Database Client">
+      **Connect** using **[SQLTools](vscode:extension/mtxr.sqltools)** (preconfigured in Dev Container) or [DBeaver](https://dbeaver.io/download/) with the connection details defined in `.env` and run:
+      ```sql
+      SELECT * FROM users;
+      ```
+   </TabItem>
+</Tabs>
+
+## Clean Up
+
+```bash
+docker compose down -v
+```
+
+## Next steps
+
+- [Using AWS? This lab also covers RDS Postgres.](/aws/mves/rds-postgres/)
+- [Using Google Cloud? This lab also covers Cloud SQL.](/google-cloud/mves/cloud-sql/)
+- [Explore the related Metabase Lab.](/hybrid/mves/metabase/)

@@ -1,0 +1,69 @@
+---
+title: RabbitMQ
+description: "Ejecuta RabbitMQ en local con Docker Compose y Python: publicación y consumo de eventos en tiempo real con el cliente pika."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **RabbitMQ** localmente usando **Docker Compose** y **Python**. Este lab demuestra la publicación y consumo de eventos en tiempo real usando el cliente pika.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         ```bash
+         pip install uv && uv sync
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Iniciar la infraestructura**: Lanza el contenedor de RabbitMQ:
+   ```bash
+   docker compose up -d
+   ```
+
+3. **Ejecutar el ejemplo**:
+   1. **Publica eventos** (Terminal 1):
+      ```bash
+      python publish.py
+      ```
+   2. **Escucha eventos** (nuevo terminal):
+      ```bash
+      python listen.py
+      ```
+
+</Steps>
+
+## Validar resultados
+
+**Abre** la UI de gestión de RabbitMQ y navega a **Queues** para inspeccionar la cola `user_events` (credenciales en `.env`):
+```bash
+http://localhost:15672
+```
+
+## Limpieza
+
+```bash
+docker compose down -v
+```
+
+## Siguientes pasos
+
+- [Explora el Lab relacionado Redis.](/es/hybrid/mves/redis/)
+- [Explora el Lab relacionado Airflow.](/es/hybrid/mves/airflow/)

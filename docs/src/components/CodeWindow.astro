@@ -1,0 +1,135 @@
+---
+import { Code } from 'astro:components';
+import type { CodeProps } from 'astro:components';
+import githubDark from '@shikijs/themes/github-dark';
+import githubLight from '@shikijs/themes/github-light';
+
+type Props = {
+  code: string;
+  filename?: string;
+  lang?: CodeProps['lang'];
+};
+
+const { code, filename = 'terminal', lang = 'bash' } = Astro.props;
+---
+
+<div class="not-content code-window">
+  <div class="window-header">
+    <div class="traffic-lights">
+      <span class="light light-close" aria-hidden="true"></span>
+      <span class="light light-minimize" aria-hidden="true"></span>
+      <span class="light light-maximize" aria-hidden="true"></span>
+    </div>
+    <span class="window-filename">{filename}</span>
+  </div>
+  <div class="window-body">
+    <Code code={code} lang={lang} themes={{ light: githubLight, dark: githubDark }} defaultColor={false} />
+  </div>
+</div>
+
+<style>
+  .code-window {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.20),
+      0 0 32px rgb(139 92 246 / 0.15);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global([data-theme='light']) .code-window {
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      0 0 0 1px rgba(0, 0, 0, 0.08),
+      0 0 24px rgb(139 92 246 / 0.08);
+  }
+
+  .window-header {
+    background: #2d2d2d;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+  }
+
+  :global([data-theme='light']) .window-header {
+    background: #e0e0e0;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .traffic-lights {
+    display: flex;
+    gap: 0.45rem;
+    flex-shrink: 0;
+  }
+
+  .light {
+    display: block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+  }
+
+  .light-close    { background: #FF5F57; }
+  .light-minimize { background: #FFBD2E; }
+  .light-maximize { background: #28C840; }
+
+  .window-filename {
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding: 0 4.5rem; /* symmetric: clears traffic lights (≈3.6rem) + gap on both sides */
+    text-align: center;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    font-family: var(--sl-font-mono, monospace);
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global([data-theme='light']) .window-filename {
+    color: #6b7280;
+  }
+
+  .window-body {
+    background: #1a1a1a;
+    overflow-x: auto;
+    flex: 1;
+  }
+
+  :global([data-theme='light']) .window-body {
+    background: #f6f8fa;
+  }
+
+  /* defaultColor={false} → no inline background-color from Shiki, no !important needed.
+     Colors use --shiki-dark/--shiki-light vars set per-token by Shiki. */
+  .window-body :global(pre) {
+    margin: 0;
+    border-radius: 0;
+    background-color: #1a1a1a;
+    color: var(--shiki-dark);
+    padding: 1.25rem 1.5rem;
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+
+  .window-body :global(pre span) {
+    color: var(--shiki-dark);
+  }
+
+  :global([data-theme='light']) .window-body :global(pre) {
+    background-color: #f6f8fa;
+    color: var(--shiki-light);
+  }
+
+  :global([data-theme='light']) .window-body :global(pre span) {
+    color: var(--shiki-light);
+  }
+</style>

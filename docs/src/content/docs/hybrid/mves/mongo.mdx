@@ -1,0 +1,128 @@
+---
+title: Mongo
+description: "Run MongoDB locally with Docker Compose, MongoEngine, and Python: basic CRUD operations with different execution and validation tools."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **MongoDB** locally using **Docker Compose**, **MongoEngine**, and **Python**. This lab demonstrates basic CRUD operations using different execution and validation tools.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         1. **Run the setup** script to install tools and dependencies:
+            ```bash
+            scripts/setup.sh
+            ```
+         2. **Start Infrastructure**: Launch the MongoDB container:
+            ```bash
+            docker compose up -d
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Run the Example**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="mongosh">
+         1. **Enter Shell**:
+            ```bash
+            scripts/mongosh.sh
+            ```
+         2. **Run**: Copy and paste the script from `playgrounds/users.mongodb.js` into the shell.
+      </TabItem>
+      <TabItem label="MongoDB for VS Code">
+         - **Install**: [MongoDB for VS Code](vscode:extension/mongodb.mongodb-vscode).
+         - **Connect**: Connect using the `MONGO_URI` defined in your `.env`.
+         - **Open**: Open `playgrounds/users.mongodb.js`.
+         - **Run**: Click the **Play** icon in the top right of the editor.
+      </TabItem>
+      <TabItem label="MongoDB Compass">
+         - **Install**: [MongoDB Compass](https://www.mongodb.com/try/download/compass).
+         - **Connect**: Connect using the `MONGO_URI` defined in your `.env`.
+         - **Navigate**: Navigate to `my_db` → `users`.
+         - **Run**: Open the embedded **Mongosh** and paste the script from `playgrounds/users.mongodb.js`.
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## How to debug
+
+1. **main.py**:
+   - **Open**: Open `main.py`.
+   - **Breakpoints**: Set breakpoints in the code.
+   - **Run**: Press `F5` to start debugging.
+
+2. **Tests**:
+   - **Open**: Open a test file (e.g., `tests/test_user.py`).
+   - **Breakpoints**: Set breakpoints in the test code.
+   - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test you want to debug.
+
+## How to test
+
+- **All tests**: Run the automated script:
+  ```bash
+  scripts/run_tests.sh
+  ```
+- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
+
+## Validate results
+
+<Tabs>
+   <TabItem label="mongosh">
+      1. **Enter Shell**:
+         ```bash
+         scripts/mongosh.sh
+         ```
+      2. **Run** the following query to see all users:
+         ```javascript
+         db.getSiblingDB('my_db').users.find().pretty()
+         ```
+   </TabItem>
+   <TabItem label="MongoDB for VS Code">
+      - **Install**: [MongoDB for VS Code](vscode:extension/mongodb.mongodb-vscode).
+      - **Connect**: Connect using the `MONGO_URI` defined in your `.env`.
+      - **Verify**: Navigate to `my_db` → `users`.
+      - **Interactive**: Use **Playgrounds** to run interactive queries.
+   </TabItem>
+   <TabItem label="MongoDB Compass">
+      - **Install**: [MongoDB Compass](https://www.mongodb.com/try/download/compass).
+      - **Connect**: Connect using the `MONGO_URI` defined in your `.env`.
+      - **Verify**: Navigate to `my_db` → `users`.
+      - **Interactive**: Use the embedded **Mongosh** to run interactive queries.
+   </TabItem>
+</Tabs>
+
+## Clean Up
+
+```bash
+docker compose down -v
+```
+
+## Next steps
+
+- [Explore the related No-SQL Writer (Azure) Lab.](/azure/projects/no-sql-writer/)
+- [Explore the related No-SQL Writer (GCP) Lab.](/google-cloud/projects/no-sql-writer/)
+- [Explore the related Metabase Lab.](/hybrid/mves/metabase/)

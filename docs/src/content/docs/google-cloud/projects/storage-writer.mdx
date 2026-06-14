@@ -1,0 +1,87 @@
+---
+title: Storage Writer
+description: "Run Google Cloud Functions locally with the Firebase Emulator Suite: an HTTP-triggered Python function that uploads files to Cloud Storage."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **Google Cloud Functions** locally using the **Firebase Emulator Suite** and **Python**. This lab demonstrates how to create an HTTP-triggered function that uploads files to Cloud Storage.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+- Without **Dev Containers**, you also need to install:
+   - [Node.js 18+](https://nodejs.org/).
+   - [Java 17+](https://adoptium.net/). 
+   - Firebase CLI.
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         ```bash
+         pip3 install uv && uv sync
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Set up the functions virtual environment**:
+   ```bash
+   python3.12 -m venv functions/venv && functions/venv/bin/pip install -r functions/requirements.txt
+   ```
+
+3. **Start Firebase Emulators**:
+   ```bash
+   firebase emulators:start
+   ```
+
+4. **Run the Example**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python test_function.py
+         ```
+      </TabItem>
+      <TabItem label="cURL">
+         ```bash
+         curl -X POST http://localhost:5001/demo-project/us-central1/upload_file \
+           -H "Content-Type: application/json" \
+           -d '{"filename": "test.txt", "content": "Hello from curl!"}'
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## Validate results
+
+**Open** the Firebase Emulator UI and navigate to the **Storage** tab to verify the uploaded file:
+```bash
+http://localhost:4000/storage
+```
+
+## Clean Up
+
+Stop the emulators by pressing `Ctrl+C` in the terminal running `firebase emulators:start`. To clear emulator data:
+
+```bash
+rm -rf .firebase
+```
+
+## Next steps
+
+- [See the AWS equivalent project.](/aws/projects/storage-writer/)
+- [See the Azure equivalent project.](/azure/projects/storage-writer/)
+- [Dive into the Firebase Cloud Functions Lab.](/google-cloud/mves/firebase-cloud-functions/)

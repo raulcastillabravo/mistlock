@@ -1,0 +1,53 @@
+---
+import DefaultMobileTableOfContents from "@astrojs/starlight/components/MobileTableOfContents.astro";
+import { getLabPageData } from "../utils/labPage";
+import LabActions from "./LabActions.astro";
+
+const { id, toc, entry } = Astro.locals.starlightRoute;
+const { isLabPage, labId, zipUrl, githubUrl, btnDownloadText, btnGithubText } =
+  getLabPageData(id, entry);
+---
+
+<DefaultMobileTableOfContents {...Astro.props}><slot /></DefaultMobileTableOfContents>
+
+{
+  toc && isLabPage && (
+    <div class="mobile-toc-actions">
+      <LabActions
+        labId={labId}
+        zipUrl={zipUrl}
+        githubUrl={githubUrl}
+        btnDownloadText={btnDownloadText}
+        btnGithubText={btnGithubText}
+        variant="mobile"
+      />
+    </div>
+  )
+}
+
+<style>
+  .mobile-toc-actions {
+    position: fixed;
+    z-index: var(--sl-z-index-toc);
+    top: calc(var(--sl-nav-height) + 0.35rem);
+    right: 1rem;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+  }
+
+  /* Prevent TOC title from overlapping the action buttons */
+  :global(mobile-starlight-toc summary) {
+    padding-inline-end: 6.5rem !important;
+  }
+
+  :global([dir="rtl"]) .mobile-toc-actions {
+    right: auto;
+    left: 1rem;
+  }
+
+  :global([dir="rtl"]) :global(mobile-starlight-toc summary) {
+    padding-inline-start: 6.5rem !important;
+    padding-inline-end: 1rem !important;
+  }
+</style>

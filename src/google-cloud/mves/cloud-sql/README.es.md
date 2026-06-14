@@ -1,7 +1,6 @@
-# Google Cloud SQL (PostgreSQL)
+# Cloud SQL
 
-ℹ️ **Nota**: Google Cloud SQL para PostgreSQL es funcionalmente equivalente a ejecutar una instancia estándar de **PostgreSQL**. 
+Google Cloud SQL para PostgreSQL equivale a una instancia estándar de PostgreSQL. Usa el lab de PostgreSQL para emular este servicio en local.
 
-Para emular este servicio localmente, utilizamos el contenedor oficial de PostgreSQL en Docker. Por favor, consulta el **MVE de PostgreSQL** para ver las instrucciones de configuración y uso:
-
-👉 [**MVE de PostgreSQL**](../../../hybrid/mves/postgres/)
+> 📖 La documentación completa de este lab está disponible en:
+> https://mistlock.dev/hybrid/mves/postgres/

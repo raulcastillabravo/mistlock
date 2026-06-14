@@ -1,0 +1,124 @@
+---
+title: NoSQL Writer
+description: "Ejecuta Google Cloud Run y Firestore en local con el Firebase Emulator Suite: un servicio Python en contenedor que registra datos en Firestore."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **Google Cloud Run** y **Firestore** localmente usando el **Firebase Emulator Suite** y **Python**. Este lab demuestra cómo crear un servicio en contenedor que registra pacientes en Firestore.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+- Sin **Dev Container**, también necesitas:
+   - Python 3.12+.
+   - Node.js.
+   - Java JDK.
+   - [Google Cloud CLI](https://cloud.google.com/sdk/docs/install).
+   - [Minikube](https://minikube.sigs.k8s.io/docs/start/).
+   - Firebase CLI (`npm install -g firebase-tools`).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs syncKey="run-method">
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Cloud Code (Minikube)">
+         **Instala las dependencias**:
+         ```bash
+         uv sync
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Iniciar los emuladores de Firebase**:
+   ```bash
+   firebase emulators:start
+   ```
+
+3. **Ejecutar el servicio**:
+   <Tabs syncKey="run-method">
+      <TabItem label="Docker (Dev Container)">
+         Abre un nuevo terminal y construye y ejecuta el contenedor del servicio:
+         ```bash
+         docker build -t patient-service ./app
+         docker run --rm -p 8080:8080 --net=host -e FIRESTORE_EMULATOR_HOST=localhost:8081 patient-service
+         ```
+      </TabItem>
+      <TabItem label="Cloud Code (Minikube)">
+         1. **Abre** el panel de **Cloud Code** en la barra de actividad de VS Code.
+         2. **Despliega** **Cloud Run**.
+         3. **Haz clic** en **Run on Cloud Run Emulator** (icono de play).
+            > La primera ejecución descarga y configura Minikube — esto tarda **10-15 minutos**.
+      </TabItem>
+   </Tabs>
+
+4. **Ejecutar el ejemplo**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="cURL">
+         ```bash
+         curl -v -X POST http://localhost:8080 \
+              -H "Content-Type: application/json" \
+              -d '{"name": "Test", "surname": "User", "dni": "12345678X"}'
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+:::note[Limitaciones de la ruta Docker]
+La ruta Docker no soporta hot reload ni simulación del comportamiento de Knative. Usa **Cloud Code (Minikube)** para un entorno similar a producción. Si aparecen solicitudes de login de Google Cloud, selecciona **No/Cancel** — el lab funciona 100% localmente.
+:::
+
+## Validar resultados
+
+**Abre** la UI del emulador de Firebase y navega a **Firestore** para verificar los documentos de pacientes registrados:
+```bash
+http://localhost:4000
+```
+
+## Limpieza
+
+<Tabs syncKey="run-method">
+   <TabItem label="Docker (Dev Container)">
+      ```bash
+      docker stop patient-service
+      pkill -f firebase
+      ```
+   </TabItem>
+   <TabItem label="Cloud Code (Minikube)">
+      **Haz clic** en el botón **Stop** (cuadrado rojo) en VS Code, o ejecuta:
+      ```bash
+      minikube stop
+      pkill -f firebase
+      ```
+   </TabItem>
+</Tabs>
+
+## Solución de problemas
+
+| Problema | Solución |
+|----------|----------|
+| Conexión rechazada (Firestore) | Asegúrate de que `firebase emulators:start` está en ejecución. En Linux con Minikube, cambia `FIRESTORE_EMULATOR_HOST` a `host.minikube.internal:8081` en `.vscode/launch.json`. |
+| Solicitudes de login de Google Cloud persistentes | Asegúrate de que `.vscode/settings.json` incluye `"cloudcode.useGcloudAuthSkaffold": false` y selecciona **No/Cancel** cuando se solicite. |
+| El emulador de Firebase no arranca | Asegúrate de que **Node.js** y **Java JDK** están instalados. Comprueba que los puertos `8081` y `4000` están disponibles. |
+
+## Siguientes pasos
+
+- [Consulta el proyecto equivalente en Azure.](/es/azure/projects/no-sql-writer/)
+- [Profundiza en el Lab Firebase Cloud Functions.](/es/google-cloud/mves/firebase-cloud-functions/)

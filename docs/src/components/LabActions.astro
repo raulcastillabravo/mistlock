@@ -1,0 +1,139 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+
+interface Props {
+  labId: string;
+  zipUrl: string;
+  githubUrl: string;
+  btnDownloadText: string;
+  btnGithubText: string;
+  variant?: 'sidebar' | 'mobile';
+}
+
+const { labId, zipUrl, githubUrl, btnDownloadText, btnGithubText, variant = 'sidebar' } = Astro.props;
+const isMobile = variant === 'mobile';
+---
+
+<a
+  href={zipUrl}
+  class:list={['lab-action', 'lab-action--download', { 'lab-action--mobile': isMobile }]}
+  download
+  title={btnDownloadText}
+  aria-label={isMobile ? btnDownloadText : undefined}
+  data-umami-event="download-code"
+  data-umami-event-lab={labId}
+>
+  <Icon name="download" size="1.1rem" />
+  {!isMobile && <span>{btnDownloadText}</span>}
+</a>
+<a
+  href={githubUrl}
+  class:list={['lab-action', 'lab-action--github', { 'lab-action--mobile': isMobile }]}
+  target="_blank"
+  rel="noopener noreferrer"
+  title={btnGithubText}
+  aria-label={isMobile ? btnGithubText : undefined}
+  data-umami-event="view-on-github"
+  data-umami-event-lab={labId}
+>
+  <Icon name="github" size="1.1rem" />
+  {!isMobile && <span>{btnGithubText}</span>}
+</a>
+
+<style>
+  @layer components {
+    .lab-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    /* Sidebar variant */
+    .lab-action:not(.lab-action--mobile) {
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      font-size: var(--sl-text-xs);
+      font-weight: 600;
+    }
+
+    .lab-action--download:not(.lab-action--mobile) {
+      background-color: var(--sl-color-text-accent);
+      color: var(--sl-color-black);
+      box-shadow: var(--sl-shadow-sm);
+    }
+
+    .lab-action--download:not(.lab-action--mobile):hover {
+      background-color: var(--sl-color-white);
+      color: var(--sl-color-black);
+      transform: translateY(-1px);
+      box-shadow: var(--sl-shadow-md);
+    }
+
+    .lab-action--github:not(.lab-action--mobile) {
+      background-color: transparent;
+      color: var(--sl-color-white);
+      border: 1px solid var(--sl-color-gray-4);
+    }
+
+    .lab-action--github:not(.lab-action--mobile):hover {
+      background-color: var(--sl-color-gray-6);
+      color: var(--sl-color-white);
+      border-color: var(--sl-color-gray-4);
+      transform: translateY(-1px);
+    }
+
+    :global([data-theme="light"]) .lab-action--github:not(.lab-action--mobile) {
+      color: var(--sl-color-gray-2);
+    }
+
+    :global([data-theme="light"]) .lab-action--github:not(.lab-action--mobile):hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      border-color: var(--sl-color-gray-3);
+    }
+
+    /* Mobile variant */
+    .lab-action--mobile {
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 50%;
+      background-color: transparent;
+    }
+
+    .lab-action--download.lab-action--mobile {
+      color: var(--sl-color-text-accent);
+    }
+
+    .lab-action--download.lab-action--mobile:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--sl-color-white);
+    }
+
+    .lab-action--github.lab-action--mobile {
+      color: var(--sl-color-gray-2);
+    }
+
+    .lab-action--github.lab-action--mobile:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--sl-color-white);
+    }
+
+    :global([data-theme='light']) .lab-action--download.lab-action--mobile:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      color: var(--sl-color-text-accent);
+    }
+
+    :global([data-theme='light']) .lab-action--github.lab-action--mobile {
+      color: var(--sl-color-gray-2);
+    }
+
+    :global([data-theme='light']) .lab-action--github.lab-action--mobile:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      color: var(--sl-color-black);
+    }
+  }
+</style>

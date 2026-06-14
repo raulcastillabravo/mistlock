@@ -1,0 +1,156 @@
+---
+title: MistLock
+description: Learn how to develop for the Cloud for free, emulating AWS, Azure, and Google Cloud locally with Docker.
+template: splash
+hero:
+  tagline: Catalog of automated Cloud dev environments. No accounts, local-first and compatible with AWS, Azure and GCP.
+  image:
+    file: ../../assets/mistlock.svg
+  actions:
+    - text: Get started
+      link: start-here/getting-started/
+      icon: right-arrow
+      variant: primary
+---
+
+import { LinkCard, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+import Grid from '../../components/Grid.astro';
+import LandingSection from '../../components/LandingSection.astro';
+import Versus from '../../components/Versus.astro';
+import Steps from '../../components/Steps.astro';
+import CodeWindow from '../../components/CodeWindow.astro';
+import HorizontalSplit from '../../components/HorizontalSplit.astro';
+import LandingFooter from '../../components/LandingFooter.astro';
+
+<LandingSection>
+  <Grid items={[
+    { icon: "🐳", title: "Dockerized", description: "Each environment is isolated, reproducible and self-contained using Docker. No dependency conflicts on your local machine." },
+    { icon: "🧩", title: "Dev Containers", description: "Configure the full environment just by opening the project in your IDE. Everything is ready to go from the first keystroke." },
+    { icon: "💸", title: "Free & No Accounts", description: "No AWS, Azure, Google Cloud or any other provider accounts are needed. No credit card. Zero infrastructure costs." },
+    { icon: "☁️", title: "100% Compatible", description: "Code you develop locally works exactly the same on real Cloud providers. No changes needed. Develop locally and deploy when you are ready." },
+    { icon: "🔀", title: "One Goal, Multiple Methods", description: "Every Lab supports multiple ways to run, debug and test, and many visual tools and extensions to manage local resources." },
+  ]} />
+
+</LandingSection>
+
+<LandingSection alt>
+  <h2>Labs</h2>
+
+  We call each catalog example a **Lab**, and there are two types of Labs: MVE (Minimal Viable Examples) and Projects.
+
+  <Versus
+    leftTitle="MVE"
+    leftDescription="A Minimal Viable Example focuses on a single Cloud service: how to emulate it and what tools to use. There can be more than one MVE per service if multiple emulation options are available."
+    rightTitle="Project"
+    rightDescription="Combines multiple Cloud services in the same local environment to show how they integrate in a real workflow."
+  />
+</LandingSection>
+
+<LandingSection>
+  <h2>How it works</h2>
+  <Steps steps={[
+    { text: "Select a Lab from the catalog." },
+    { text: "Download the code." },
+    { text: "Open it in your IDE." },
+    { text: "Execute it in one click." },
+  ]} />
+
+  <HorizontalSplit text="You can execute the Lab with Dev Containers and without it.">
+    <Fragment slot="left">
+      <CodeWindow filename="With Dev Container" code={`# Open in Dev Containers
+
+# Run the lab
+python main.py`} />
+    </Fragment>
+    <Fragment slot="right">
+      <CodeWindow filename="Without Dev Containers" code={`# Start the infrastructure
+docker compose up -d
+
+# Setup up the environment
+./scripts/setup.sh
+
+# Run the lab
+python main.py`} />
+    </Fragment>
+  </HorizontalSplit>
+</LandingSection>
+
+<LandingSection alt>
+  <h2>AWS</h2>
+  <Grid items={[
+    { icon: "logos:aws-lambda", title: "Lambda", description: "Emulates AWS Lambda with SAM CLI. Develop and test serverless functions locally." },
+    { icon: "logos:aws-ecs", title: "ECS / EKS", description: "Emulates AWS container orchestration services for deploying containerized applications.", comingSoon: true },
+    { icon: "logos:aws-glue", title: "Glue", description: "Emulates AWS Glue for serverless ETL data integration and transformation jobs.", comingSoon: true },
+    { icon: "logos:aws-s3", title: "S3", description: "Emulates AWS S3 with Garage or MinIO. Object storage compatible with the S3 API." },
+    { icon: "logos:aws-rds", title: "RDS (PostgreSQL)", description: "Emulates Amazon RDS with a local PostgreSQL instance." },
+    { icon: "logos:aws-dynamodb", title: "DynamoDB", description: "Emulates AWS DynamoDB with a local NoSQL key-value and document database." },
+    { icon: "logos:aws-elasticache", title: "ElastiCache", description: "Emulates Amazon ElastiCache with a local Redis server." },
+    { icon: "logos:aws-step-functions", title: "Step Functions", description: "Emulates AWS Step Functions with LocalStack to orchestrate serverless workflows." },
+    { icon: "logos:aws-sqs", title: "SQS / SNS", description: "Emulates AWS messaging services for decoupled queue-based and pub/sub communication.", comingSoon: true },
+    { icon: "logos:aws-eventbridge", title: "EventBridge", description: "Emulates AWS EventBridge for serverless event routing between application services.", comingSoon: true },
+    { icon: "logos:aws-cloudformation", title: "CloudFormation", description: "Emulates AWS CloudFormation for infrastructure-as-code deployment automation." },
+  ]} />
+
+</LandingSection>
+
+<LandingSection>
+  <h2>Azure</h2>
+  <Grid items={[
+    { icon: "⚡", title: "Azure Functions", description: "Emulates Azure Functions locally with the official Azure development tools." },
+    { icon: "logos:kubernetes", title: "Container Apps", description: "Emulates Azure Container Apps for running containerized microservices and functions.", comingSoon: true },
+    { icon: "🔬", title: "Databricks", description: "Emulates a Databricks environment locally for data processing and analysis." },
+    { icon: "🪣", title: "Blob Storage", description: "Emulates Azure Blob Storage with Azurite, Microsoft's official storage emulator." },
+    { icon: "🗄️", title: "Azure SQL", description: "Emulates Azure SQL Database with a local SQL Server compatible instance." },
+    { icon: "🗂️", title: "Cosmos DB", description: "Emulates Azure Cosmos DB with a local multi-model NoSQL database." },
+    { icon: "logos:redis", title: "Cache for Redis", description: "Emulates Azure Cache for Redis with a local Redis server." },
+    { icon: "🚌", title: "Service Bus", description: "Emulates Azure Service Bus for enterprise message queuing and pub/sub patterns.", comingSoon: true },
+    { icon: "✉️", title: "Event Grid", description: "Emulates Azure Event Grid for reactive event-driven service integration.", comingSoon: true },
+  ]} />
+
+</LandingSection>
+
+<LandingSection alt>
+  <h2>GCP</h2>
+  <Grid items={[
+    { icon: "gcp:cloud-functions", title: "Cloud Functions", description: "Emulates Google Cloud Functions with Firebase Emulator Suite. Develop serverless functions offline." },
+    { icon: "gcp:cloud-run", title: "Cloud Run", description: "Emulates Google Cloud Run for running containerized applications in a serverless environment." },
+    { icon: "gcp:dataflow", title: "Dataflow", description: "Emulates Google Dataflow for stream and batch data processing pipelines.", comingSoon: true },
+    { icon: "gcp:cloud-storage", title: "Cloud Storage", description: "Emulates Google Cloud Storage for scalable object and blob storage." },
+    { icon: "gcp:cloud-sql", title: "Cloud SQL", description: "Emulates Google Cloud SQL with a local PostgreSQL instance." },
+    { icon: "gcp:firestore", title: "Firestore", description: "Emulates Google Firestore with a local NoSQL document database." },
+    { icon: "gcp:memorystore", title: "Memorystore", description: "Emulates Google Memorystore with a local Redis server." },
+    { icon: "gcp:pubsub", title: "Pub/Sub", description: "Emulates Google Pub/Sub for asynchronous messaging between decoupled services.", comingSoon: true },
+  ]} />
+
+</LandingSection>
+
+<LandingSection>
+  <h2>Open Source</h2>
+  <Grid items={[
+    { icon: "logos:postgresql", title: "PostgreSQL", description: "Open source relational database. Used as the foundation for RDS, Cloud SQL, and Azure SQL Labs." },
+    { icon: "logos:mongodb-icon", title: "MongoDB", description: "Open source document-oriented NoSQL database." },
+    { icon: "logos:redis", title: "Redis", description: "In-memory data store. Emulates ElastiCache, Cache for Redis, and Memorystore." },
+    { icon: "logos:airflow-icon", title: "Airflow", description: "Workflow orchestration platform for data pipelines." },
+    { icon: "logos:rabbitmq-icon", title: "RabbitMQ", description: "Open source message broker for queues and pub/sub." },
+    { icon: "logos:terraform-icon", title: "Terraform", description: "Infrastructure-as-code provisioning workflows using Terraform with local Cloud emulators." },
+    { icon: "logos:metabase", title: "Metabase", description: "Business intelligence and data visualization tool." },
+  ]} />
+
+</LandingSection>
+
+<LandingSection>
+  <CardGrid>
+    <LinkCard
+      title="Getting Started"
+      description="Project concepts, prerequisites, and how to run your first Lab."
+      href="start-here/getting-started/"
+    />
+    <LinkCard
+      title="Catalog"
+      description="All available Labs organized by Cloud provider."
+      href="start-here/catalog/"
+    />
+  </CardGrid>
+</LandingSection>
+
+<LandingFooter />

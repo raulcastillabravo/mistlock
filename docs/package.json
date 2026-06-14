@@ -1,0 +1,32 @@
+{
+  "name": "mve-collection-docs",
+  "type": "module",
+  "version": "0.0.1",
+  "packageManager": "pnpm@11.1.1",
+  "scripts": {
+    "build-zips": "node scripts/zip-examples.js",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "pnpm build-zips && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/starlight": "^0.39.2",
+    "@astrojs/starlight-tailwind": "^5.0.0",
+    "@iconify-json/gcp": "^1.2.2",
+    "@iconify-json/logos": "^1.2.11",
+    "@shikijs/themes": "^4.1.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.3.7",
+    "astro-icon": "^1.1.5",
+    "sharp": "^0.34.5",
+    "starlight-llms-txt": "^0.10.0",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/archiver": "^7.0.0",
+    "archiver": "^8.0.0"
+  }
+}

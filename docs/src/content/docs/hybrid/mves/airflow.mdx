@@ -1,0 +1,73 @@
+---
+title: Airflow
+description: "Run Apache Airflow locally with Docker: a simple ETL pipeline with extract, transform, and load tasks running as a scheduled DAG."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **Apache Airflow** locally using **Docker**. This lab demonstrates a simple ETL pipeline with extract, transform, and load tasks running as a scheduled DAG.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+
+## How to execute
+
+<Steps>
+
+1. **Install dependencies**:
+   ```bash
+   pip install uv && uv sync
+   ```
+
+2. **Create** required directories:
+   ```bash
+   mkdir -p dags logs plugins
+   ```
+
+2. **Start Infrastructure**: Launch all Airflow services:
+   ```bash
+   docker compose up -d
+   ```
+
+3. **Enable DAG**:
+   - **Open** the Airflow UI in your browser (credentials from `.env`):
+     ```bash
+     http://localhost:8080
+     ```
+   - **Enable** the `etl_pipeline` DAG by clicking the toggle switch. The DAG runs automatically every 30 seconds.
+
+</Steps>
+
+## Validate results
+- **Airflow UI**:
+   - **Monitor**: Click the DAG name to view the Graph (`extract_task` → `transform_task` → `load_task`).
+   - **Logs**: Click a task box, select the task instance, then click **Log** to inspect ETL output.
+- **Inspect generated files**: the files created inside the worker container:
+   ```bash
+   docker exec -it <worker_container_id> ls -la storage/extract/
+   docker exec -it <worker_container_id> ls -la storage/transform/
+   docker exec -it <worker_container_id> ls -la storage/load/
+   ```
+
+## Clean Up
+
+```bash
+docker compose down -v
+rm -rf logs/*
+```
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Services not starting | Check logs with `docker compose logs`. Initialization may take 30-60 seconds. |
+| DAG not appearing | Ensure files are in `dags/`, check for Python errors, and refresh the UI. |
+
+## Next steps
+
+- [Explore the related PostgreSQL Lab.](/hybrid/mves/postgres/)
+- [Explore the related Simple ETL (AWS) Lab.](/aws/projects/simple-etl/)
+- [Explore the related Simple ETL (GCP) Lab.](/google-cloud/projects/simple-etl/)

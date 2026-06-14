@@ -1,0 +1,86 @@
+---
+title: Metabase
+description: "Ejecuta Metabase en local con Docker Compose y PostgreSQL: inserta datos con SQLAlchemy y explóralos visualmente en Metabase."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **Metabase** localmente usando **Docker Compose**, **PostgreSQL** y **SQLAlchemy**. Este lab demuestra cómo insertar datos en una base de datos PostgreSQL y explorarlos usando Metabase.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         ```bash
+         pip3 install uv && uv sync
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Iniciar la infraestructura**: Lanza Metabase y PostgreSQL:
+   ```bash
+   docker compose up -d
+   ```
+
+3. **Ejecutar el ejemplo**:
+   ```bash
+   python main.py
+   ```
+
+</Steps>
+
+## Validar resultados
+
+<Tabs>
+   <TabItem label="Metabase">
+      1. **Abre** la UI de Metabase:
+         ```bash
+         http://localhost:3000
+         ```
+      2. **Completa** la configuración inicial y crea una cuenta de administrador.
+      3. **Conecta** PostgreSQL usando las credenciales definidas en `.env` (`METABASE_DB`, `METABASE_USER`, `METABASE_PASSWORD`, `POSTGRES_HOST`, `POSTGRES_PORT`).
+      4. **Explora** la tabla `products` y crea visualizaciones.
+   </TabItem>
+   <TabItem label="DBeaver">
+      **Conecta** usando [DBeaver](https://dbeaver.io/download/) con los detalles de conexión definidos en `.env` y ejecuta:
+      ```sql
+      SELECT * FROM products;
+      ```
+   </TabItem>
+</Tabs>
+
+## Limpieza
+
+```bash
+docker compose down -v
+```
+
+## Solución de problemas
+
+| Problema | Solución |
+|----------|----------|
+| Puerto `3000` o `5432` en uso | Cambia el mapeo de puertos en `docker-compose.yml` y reinicia. |
+| Metabase no carga | Espera a que se inicialice — revisa los logs: `docker compose logs -f metabase` (busca "Initialization COMPLETE"). |
+| Conexión rechazada | Asegúrate de que ambos contenedores están en ejecución: `docker ps` |
+| Módulo no encontrado | Reinstala las dependencias: `pip3 install uv && uv sync` |
+
+## Siguientes pasos
+
+- [Explora el Lab relacionado PostgreSQL.](/es/hybrid/mves/postgres/)
+- [Explora el Lab relacionado MongoDB.](/es/hybrid/mves/mongo/)

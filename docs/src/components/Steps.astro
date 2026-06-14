@@ -1,0 +1,191 @@
+---
+interface Step {
+  text: string;
+}
+
+interface Props {
+  steps: Step[];
+}
+
+const { steps } = Astro.props;
+---
+
+<ol
+  class="not-content steps-flow"
+  style={`--n-steps: ${steps.length}`}
+  data-steps-flow
+>
+  {steps.map((step, i) => (
+    <li
+      class="step-item"
+      style={`--entrance-delay: ${i * 120}ms`}
+      data-steps-item
+    >
+      <div class="step-visual">
+        <div class="step-circle">{i + 1}</div>
+        {i < steps.length - 1 && <div class="step-vline" aria-hidden="true" />}
+      </div>
+      <p class="step-text">{step.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps-flow {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* === Mobile: vertical timeline === */
+
+  .step-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.25rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s ease-out var(--entrance-delay, 0ms),
+      transform 0.5s ease-out var(--entrance-delay, 0ms);
+  }
+
+  .step-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .step-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .step-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--sl-color-accent);
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-vline {
+    width: 2px;
+    flex: 1;
+    min-height: 1.5rem;
+    background: linear-gradient(
+      to bottom,
+      var(--sl-color-accent),
+      var(--sl-color-accent-low)
+    );
+    margin-top: 0.3rem;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.5s ease-out calc(var(--entrance-delay, 0ms) + 280ms);
+  }
+
+  .step-item.is-visible .step-vline {
+    transform: scaleY(1);
+  }
+
+  .step-text {
+    padding-top: 0.4rem;
+    padding-bottom: 2rem;
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--sl-color-gray-2);
+    line-height: 1.5;
+  }
+
+  .step-item:last-child .step-text {
+    padding-bottom: 0;
+  }
+
+  /* === Desktop: horizontal === */
+  @media (min-width: 640px) {
+    .steps-flow {
+      flex-direction: row;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    /* Horizontal line connecting all circles */
+    .steps-flow::before {
+      content: '';
+      position: absolute;
+      top: 1.25rem;
+      left: calc(100% / (var(--n-steps) * 2));
+      right: calc(100% / (var(--n-steps) * 2));
+      height: 2px;
+      background: linear-gradient(
+        to right,
+        var(--sl-color-accent),
+        var(--sl-color-accent-low)
+      );
+      z-index: 0;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.7s ease-out 0.2s;
+    }
+
+    .steps-flow.is-visible::before {
+      transform: scaleX(1);
+    }
+
+    .step-item {
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .step-vline {
+      display: none;
+    }
+
+    .step-text {
+      padding-top: 1rem;
+      padding-bottom: 0;
+      text-align: center;
+      padding-inline: 0.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step-item {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+    .step-vline {
+      transition: none;
+      transform: scaleY(1);
+    }
+    .steps-flow::before {
+      transition: none;
+      transform: scaleX(1);
+    }
+  }
+</style>
+
+<script>
+  import { observeEntrance } from '../utils/observer';
+  function init() {
+    observeEntrance('[data-steps-item]');
+    observeEntrance('[data-steps-flow]');
+  }
+  document.addEventListener('astro:page-load', init);
+  init();
+</script>

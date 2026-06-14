@@ -1,0 +1,113 @@
+---
+title: Lambda (SAM)
+description: Run AWS Lambda locally with the Serverless Application Model (SAM) and Python, building a local API Gateway and invoking functions with the SDK.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+
+This guide shows you how to work with **AWS Lambda** using the **Serverless Application Model (SAM)** and **Python**. This example demonstrates how to build and run a local API Gateway and Lambda service for direct SDK invocation.
+
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) installed.
+
+:::note[Dev Containers]{icon="seti:docker"}
+SAM CLI is **not compatible with Dev Containers** due to limitations when running inside a container.
+:::
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**: Run the setup script to install tools and dependencies.
+   ```bash
+   scripts/setup.sh
+   ```
+2. **Start Infrastructure**: Launch both SAM local services (API Gateway and Lambda) in separate terminals.
+   - **API Gateway**: to use HTTP requests or cURL:
+      ```bash
+      sam local start-api
+      ```
+
+   - **Lambda SDK**: to use the AWS SDK (boto3) or AWS CLI:
+      ```bash
+      sam local start-lambda
+      ```
+3. **Run the Example**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+
+      <TabItem label="cURL">
+         ```bash
+         curl "http://127.0.0.1:3000/get_secret?username=admin"
+         ```
+      </TabItem>
+
+      <TabItem label="REST Client"> 
+         1. **Install** [REST Client](vscode:extension/humao.rest-client) VS Code extension.
+         2. **Open** `http/get_secret.http`.
+         3. **Run** Click on **Send Request** above the URL.
+      </TabItem>
+
+      <TabItem label="AWS CLI">
+         1. **Install** [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+         2. **Run** if you have AWS CLI installed globally:
+            ```bash
+            aws lambda invoke --function-name GetSecretFunction --profile sam --payload '{"queryStringParameters": {"username": "admin"}}' output.json
+            ```
+         2. **Run** if you have AWS CLI installed via mise:
+            ```bash
+            mise exec -- aws lambda invoke --function-name GetSecretFunction --profile sam --payload '{"queryStringParameters": {"username": "admin"}}' output.json
+            ```
+         3. **Verify** the output file `output.json`.
+      </TabItem>
+   </Tabs>
+</Steps>
+
+## How to debug
+
+Use the preconfigured VS Code debug profiles:
+
+1. **Python Script (`main.py`)**:
+   - Ensure the local SAM services are running (`sam local start-api` and `sam local start-lambda`).
+   - Run the **Python: Main** debug configuration.
+
+2. **Lambda Function**:
+   - Run the **SAM: Debug get_secret** debug configuration.
+
+## How to test
+
+- **All tests**: Run the automated script:
+  ```bash
+  scripts/run_tests.sh
+  ```
+- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
+
+## Validate results
+
+- **Logs**: Check the console output in the terminals where `sam local` is running to verify invocation details and log messages.
+- **AWS CLI Output**: Verify that the generated `output.json` contains the expected HTTP response body and status code.
+
+## Clean Up
+
+1. Stop the active SAM local services in your terminals.
+2. Remove the virtual environment and uninstalled tools:
+   ```bash
+   rm -rf .venv
+   mise uninstall -a
+   ```
+
+## Next steps
+
+- [Build on this MVE with the Storage Writer project.](/aws/projects/storage-writer/)
+- [Build on this MVE with the SQL Writer project.](/aws/projects/sql-writer/)
+- [Build on this MVE with the Simple ETL project.](/aws/projects/simple-etl/)

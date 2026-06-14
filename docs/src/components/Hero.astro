@@ -1,0 +1,202 @@
+---
+import { Image } from 'astro:assets';
+import DraftContentNotice from 'virtual:starlight/components/DraftContentNotice';
+import GitHubStars from './GitHubStars.astro';
+
+const ICON_PATHS: Record<string, string> = {
+	'right-arrow':
+		'<path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/>',
+};
+
+const { data } = Astro.locals.starlightRoute.entry;
+const { title = data.title, tagline, image, actions = [] } = data.hero || {};
+
+const imageAttrs = {
+	loading: 'eager' as const,
+	decoding: 'async' as const,
+	width: 400,
+	height: 400,
+	alt: image?.alt || '',
+};
+
+let darkImage: ImageMetadata | undefined;
+let lightImage: ImageMetadata | undefined;
+let rawHtml: string | undefined;
+if (image) {
+	if ('file' in image) {
+		darkImage = image.file;
+	} else if ('dark' in image) {
+		darkImage = image.dark;
+		lightImage = image.light;
+	} else {
+		rawHtml = image.html;
+	}
+}
+---
+
+<div class="hero">
+	{
+		darkImage && (
+			<Image
+				src={darkImage}
+				{...imageAttrs}
+				class:list={{ 'light:sl-hidden': Boolean(lightImage) }}
+			/>
+		)
+	}
+	{lightImage && <Image src={lightImage} {...imageAttrs} class="dark:sl-hidden" />}
+	{rawHtml && <div class="hero-html sl-flex" set:html={rawHtml} />}
+	<div class="sl-flex stack">
+		<div class="sl-flex copy">
+			<h1 id="_top" data-page-title set:html={title} />
+			{data.draft && <DraftContentNotice />}
+			{tagline && <div class="tagline" set:html={tagline} />}
+		</div>
+		{
+			actions.length > 0 && (
+				<div class="sl-flex actions">
+					{actions.map(({ attrs: { class: className, ...attrs } = {}, icon, link: href, text, variant = 'primary' }) => (
+						<a
+							href={href}
+							class:list={['hero-action', variant, className]}
+							{...attrs}
+						>
+							{text}
+							{icon?.type === 'icon' && ICON_PATHS[icon.name] && (
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="action-icon" aria-hidden="true" set:html={ICON_PATHS[icon.name]} />
+							)}
+							{icon?.type === 'raw' && <Fragment set:html={icon.html} />}
+						</a>
+					))}
+					<GitHubStars size="lg" />
+				</div>
+			)
+		}
+	</div>
+</div>
+
+<style>
+	@layer starlight.core {
+		.hero {
+			display: grid;
+			grid-template-columns: 100%;
+			align-items: center;
+			gap: 1rem;
+			padding-bottom: 1rem;
+		}
+
+		.hero > img,
+		.hero > .hero-html {
+			object-fit: contain;
+			width: min(70%, 20rem);
+			height: auto;
+			margin-inline: auto;
+		}
+
+		.stack {
+			flex-direction: column;
+			gap: clamp(1.5rem, calc(1.5rem + 1vw), 2rem);
+			text-align: center;
+		}
+
+		.copy {
+			flex-direction: column;
+			gap: 1rem;
+			align-items: center;
+		}
+
+		.copy > * {
+			max-width: 50ch;
+		}
+
+		h1 {
+			font-size: clamp(var(--sl-text-3xl), calc(0.25rem + 5vw), var(--sl-text-6xl));
+			line-height: var(--sl-line-height-headings);
+			font-weight: 600;
+			color: var(--sl-color-white);
+		}
+
+		.tagline {
+			font-size: clamp(var(--sl-text-base), calc(0.0625rem + 2vw), var(--sl-text-xl));
+			color: var(--sl-color-gray-2);
+		}
+
+		.actions {
+			gap: 1rem 2rem;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+		}
+
+		/* Action buttons — mirror Starlight's LinkButton styles */
+		.hero-action {
+			align-items: center;
+			border: 1px solid transparent;
+			border-radius: 0.75rem;
+			display: inline-flex;
+			font-size: var(--sl-text-sm);
+			gap: 0.5em;
+			line-height: 1.1875;
+			outline-offset: 0.25rem;
+			padding: 0.4375rem 1.125rem;
+			text-decoration: none;
+		}
+
+		.hero-action.primary {
+			background: var(--sl-color-text-accent);
+			border-color: var(--sl-color-text-accent);
+			color: var(--sl-color-black);
+		}
+
+		.hero-action.primary:hover {
+			color: var(--sl-color-black);
+		}
+
+		.hero-action.secondary {
+			border-color: inherit;
+			color: var(--sl-color-white);
+		}
+
+		.hero-action.minimal {
+			color: var(--sl-color-white);
+			padding-inline: 0;
+		}
+
+		.action-icon {
+			width: 1.5rem;
+			height: 1.5rem;
+			flex-shrink: 0;
+		}
+
+		@media (min-width: 50rem) {
+			.hero {
+				grid-template-columns: 7fr 4fr;
+				gap: 3%;
+				padding-block: clamp(2.5rem, calc(1rem + 10vmin), 10rem);
+			}
+
+			.hero > img,
+			.hero > .hero-html {
+				order: 2;
+				width: min(100%, 25rem);
+			}
+
+			.stack {
+				text-align: start;
+			}
+
+			.copy {
+				align-items: flex-start;
+			}
+
+			.actions {
+				justify-content: flex-start;
+			}
+
+			.hero-action {
+				font-size: var(--sl-text-base);
+				padding: 0.9375rem 1.25rem;
+			}
+		}
+	}
+</style>

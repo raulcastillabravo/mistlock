@@ -1,0 +1,67 @@
+---
+import ServiceCard from './ServiceCard.astro';
+
+interface Item {
+  icon: string;
+  title: string;
+  description: string;
+  comingSoon?: boolean;
+}
+
+interface Props {
+  items: Item[];
+  maxColumns?: 2 | 3;
+}
+
+const { items, maxColumns = 3 } = Astro.props;
+---
+
+<div class="not-content service-grid" style={`--max-cols: ${maxColumns}`}>
+  {items.map((item) => (
+    <ServiceCard
+      icon={item.icon}
+      title={item.title}
+      description={item.description}
+      comingSoon={item.comingSoon}
+    />
+  ))}
+</div>
+
+<style>
+  .service-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  /* Each card: fixed to 1/max-cols width (accounting for gaps) so orphaned last rows center. */
+  .service-grid > :global(*) {
+    flex: 1 0 max(180px, calc((100% - (var(--max-cols) - 1) * 0.75rem) / var(--max-cols)));
+    max-width: max(180px, calc((100% - (var(--max-cols) - 1) * 0.75rem) / var(--max-cols)));
+  }
+
+  /* Full width on mobile */
+  @media (max-width: 500px) {
+    .service-grid > :global(*) {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+  }
+
+</style>
+
+<script>
+  function initStagger() {
+    document.querySelectorAll<HTMLElement>('.service-grid').forEach((grid) => {
+      const maxCols = parseInt(getComputedStyle(grid).getPropertyValue('--max-cols').trim()) || 3;
+      grid.querySelectorAll<HTMLElement>('[data-service-card]').forEach((card, i) => {
+        card.style.setProperty('--entrance-delay', `${(i % maxCols) * 80}ms`);
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initStagger);
+  initStagger();
+</script>

@@ -1,0 +1,48 @@
+@layer base, starlight, theme, components, utilities;
+
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+body {
+  overflow-x: clip;
+}
+
+/* Starlight's built-in footer adds extra spacing on landing page; use custom LandingFooter instead */
+html[data-has-hero]:not([data-has-sidebar]) main footer {
+  display: none;
+}
+
+:root {
+  --color-indigo-ink: #421869;
+  --color-indigo: #491a74;
+  --color-indigo-bloom: #721cb8;
+  --color-lavender-purple: #995bd5;
+  --color-wisteria: #bf99f2;
+  --color-green-yellow: #9cf945;
+  --color-yellow-green: #8edf34;
+  --color-yellow-green-2: #80c423;
+  --color-forest-green: #509724;
+  --color-dark-emerald: #1f6924;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #ead9f7;
+  --sl-color-accent: var(--color-indigo-bloom);
+  --sl-color-accent-high: var(--color-indigo);
+}
+
+:root[data-theme='dark'] {
+  --sl-color-accent-low: var(--color-indigo);
+  --sl-color-accent: var(--color-lavender-purple);
+  --sl-color-accent-high: var(--color-wisteria);
+}
+
+/* Content links use standard blue to avoid "visited link" confusion with purple */
+[data-theme='light'] .sl-markdown-content a:not([role='tab']) {
+  color: #0066cc;
+}
+
+[data-theme='dark'] .sl-markdown-content a:not([role='tab']) {
+  color: #58a6ff;
+}

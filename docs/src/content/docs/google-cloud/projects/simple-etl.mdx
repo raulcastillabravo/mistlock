@@ -1,0 +1,89 @@
+---
+title: Simple ETL
+description: "Run GCP Cloud SQL and Firebase Cloud Functions locally: a Cloud Storage trigger processes CSV uploads and inserts records into PostgreSQL."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **GCP Cloud SQL** and **Firebase Cloud Functions** locally using **Docker Compose** and **Python**. This lab demonstrates how to process a CSV upload via a Cloud Storage trigger and insert records into PostgreSQL.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         1. **Start Infrastructure**: Launch the PostgreSQL container:
+            ```bash
+            docker compose up -d postgres
+            ```
+         2. **Run the setup** script to install tools and dependencies:
+            ```bash
+            scripts/setup-mve.sh
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Start Firebase Emulators**:
+   ```bash
+   firebase emulators:start
+   ```
+
+3. **Run the Example**:
+   ```bash
+   python main.py
+   ```
+
+</Steps>
+
+## Validate results
+
+<Tabs>
+   <TabItem label="Firebase UI">
+      **Open** the Firebase Emulator UI and verify the uploaded file and function logs:
+      ```bash
+      http://localhost:4000/storage
+      ```
+      ```bash
+      http://localhost:4000/functions
+      ```
+   </TabItem>
+   <TabItem label="SQLTools">
+      **Open** the **[SQLTools](vscode:extension/mtxr.sqltools)** extension in VS Code and use the preconfigured **Postgres** connection to run:
+      ```sql
+      SELECT * FROM users;
+      ```
+   </TabItem>
+   <TabItem label="External Client">
+      **Connect** using an external client like [DBeaver](https://dbeaver.io/download/), configure the connection details defined in your `.env` and run:
+      ```sql
+      SELECT * FROM users;
+      ```
+   </TabItem>
+</Tabs>
+
+## Clean Up
+
+```bash
+docker compose down -v
+```
+
+## Next steps
+
+- [See the AWS equivalent project.](/aws/projects/simple-etl/)
+- [Dive into the Cloud SQL Lab.](/google-cloud/mves/cloud-sql/)
+- [Dive into the Firebase Cloud Functions Lab.](/google-cloud/mves/firebase-cloud-functions/)

@@ -1,7 +1,6 @@
-# Google Cloud Memorystore (Redis)
+# Memorystore
 
-ℹ️ **Note**: Google Cloud Memorystore for Redis is functionally equivalent to running a standard **Redis** instance. 
+Google Cloud Memorystore for Redis is functionally equivalent to a standard Redis instance. Use the Redis lab to emulate this service locally.
 
-To emulate this service locally, we use the official Redis Docker container. Please refer to the **Redis MVE** for configuration and usage instructions:
-
-👉 [**Redis MVE**](../../../hybrid/mves/redis/)
+> 📖 Full documentation for this lab is available at:
+> https://mistlock.dev/hybrid/mves/redis/

@@ -1,0 +1,118 @@
+---
+title: Redis
+description: "Ejecuta Redis en local con Docker y Python: gestiona el estado de usuarios con Redis y un context manager personalizado para las conexiones."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **Redis** localmente usando **Docker** y **Python**. Este lab demuestra cómo gestionar el estado de usuarios usando Redis y un context manager personalizado para la gestión de conexiones.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         1. **Ejecuta el script** de configuración para instalar herramientas y dependencias:
+            ```bash
+            scripts/setup.sh
+            ```
+         2. **Iniciar la infraestructura**: Lanza el contenedor de Redis:
+            ```bash
+            docker compose up -d
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Ejecutar el ejemplo**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="Redis CLI">
+         1. **Accede al shell**:
+            ```bash
+            scripts/redis_cli.sh
+            ```
+         2. **Ejecuta** comandos para establecer una clave manualmente:
+            ```bash
+            SET raulcastillabravo:status "available"
+            ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## Cómo depurar
+
+1. **main.py**:
+   - **Abre**: Abre `main.py`.
+   - **Breakpoints**: Añade breakpoints en el código.
+   - **Ejecuta**: Pulsa `F5` para iniciar la depuración.
+
+2. **Tests**:
+   - **Abre**: Abre un archivo de test (p. ej., `tests/providers/test_redis_client.py`).
+   - **Breakpoints**: Añade breakpoints en el código de test.
+   - **Ejecuta**: Usa la pestaña **Testing** de VS Code y haz clic en el icono **Debug Test** junto al test que quieras depurar.
+
+## Cómo testear
+
+- **Todos los tests**: Ejecuta el script automatizado:
+  ```bash
+  scripts/run_tests.sh
+  ```
+- **Individualmente**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar casos de test específicos.
+
+## Validar resultados
+
+<Tabs>
+   <TabItem label="Redis CLI">
+      1. **Accede al shell**:
+         ```bash
+         scripts/redis_cli.sh
+         ```
+      2. **Comprueba** el estado almacenado:
+         ```bash
+         GET raulcastillabravo:status
+         ```
+   </TabItem>
+   <TabItem label="Database Client">
+      - **Instala**: [Database Client](vscode:extension/cweijan.vscode-database-client2).
+      - **Conecta**: Conecta usando la configuración de conexión definida en tu `.env`.
+      - **Verifica**: Explora las claves y usa el **Redis CLI** integrado directamente desde la UI de la extensión.
+   </TabItem>
+   <TabItem label="Redis Insight">
+      - **Instala**: [Redis Insight](https://redis.io/insight/).
+      - **Conecta**: Conecta usando la configuración de conexión definida en tu `.env`.
+      - **Verifica**: Explora las claves para ver `raulcastillabravo:status`.
+   </TabItem>
+</Tabs>
+
+## Limpieza
+
+```bash
+docker compose down -v
+```
+
+## Siguientes pasos
+
+- [Construye sobre este MVE con el proyecto Redis Mutex.](/es/hybrid/projects/redis-mutex/)
+- [¿Usas AWS? Este lab también cubre ElastiCache.](/es/aws/mves/elasti-cache/)
+- [¿Usas Azure? Este lab también cubre Cache for Redis.](/es/azure/mves/cache-for-redis/)
+- [¿Usas Google Cloud? Este lab también cubre Memorystore.](/es/google-cloud/mves/memorystore/)

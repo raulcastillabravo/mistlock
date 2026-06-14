@@ -1,0 +1,74 @@
+---
+title: Databricks
+description: Simula Databricks en local con Docker, MinIO y PostgreSQL como Hive Metastore para desarrollar y probar ETLs de Spark y Delta Lake.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo simular un entorno **Databricks** localmente usando **Docker**, **MinIO** como almacenamiento compatible con S3 y **PostgreSQL** como Hive Metastore persistente. Este lab demuestra cómo desarrollar y probar ETLs con Spark y Delta Lake localmente usando **Databricks Runtime 15.4 LTS (Spark 3.5.0)**.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs syncKey="environment">
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         Lanza todos los servicios necesarios (Spark, MinIO, PostgreSQL):
+         ```bash
+         docker compose up -d
+         ```
+      </TabItem>
+   </Tabs>
+
+2. **Ejecutar el ejemplo**:
+   <Tabs syncKey="environment">
+      <TabItem label="Dev Container (recomendado)">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         Ejecuta el script dentro del contenedor Spark:
+         ```bash
+         docker compose exec spark python3 main.py
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+:::note[Análisis interactivo (solo Dev Container)]
+Abre `src/notebooks/analysis.ipynb` y ejecuta las celdas para analizar los datos registrados en el Hive Metastore y probar el DBUtils Shim (secretos y widgets). Requiere el entorno Jupyter preconfigurado del Dev Container.
+:::
+
+## Limpieza
+
+```bash
+docker compose down -v
+```
+
+## Solución de problemas
+
+| Problema | Solución |
+|----------|----------|
+| Conexión rechazada | Asegúrate de que todos los servicios están en ejecución: `docker compose ps` |
+| La tabla ya existe | Elimina la tabla con `spark.sql("DROP TABLE IF EXISTS sales.products_silver")` o ejecuta **Limpieza** para reiniciar los volúmenes. |
+
+## Siguientes pasos
+
+- [Explora el Lab relacionado S3 (MinIO).](/es/aws/mves/s3-minio/)
+- [Explora el Lab relacionado PostgreSQL.](/es/hybrid/mves/postgres/)

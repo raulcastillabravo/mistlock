@@ -1,0 +1,113 @@
+---
+title: Lambda (SAM)
+description: Ejecuta AWS Lambda en local con el Serverless Application Model (SAM) y Python, levantando un API Gateway local e invocando funciones con el SDK.
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+
+Esta guía te muestra cómo trabajar con **AWS Lambda** utilizando el **Serverless Application Model (SAM)** y **Python**. Este ejemplo demuestra cómo compilar y ejecutar un servicio local de API Gateway y Lambda para su invocación directa con el SDK.
+
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) instalado.
+
+:::note[Dev Containers]{icon="seti:docker"}
+SAM CLI **no es compatible con Dev Containers** debido a limitaciones al ejecutarse dentro de un contenedor.
+:::
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**: Ejecuta el script de configuración para instalar las herramientas y dependencias.
+   ```bash
+   scripts/setup.sh
+   ```
+2. **Iniciar la infraestructura**: Inicia ambos servicios locales de SAM (API Gateway y Lambda) en terminales separadas.
+   - **API Gateway**: para realizar peticiones HTTP o cURL:
+      ```bash
+      sam local start-api
+      ```
+
+   - **Lambda SDK**: para usar el AWS SDK (boto3) o la AWS CLI:
+      ```bash
+      sam local start-lambda
+      ```
+3. **Ejecutar el ejemplo**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+
+      <TabItem label="cURL">
+         ```bash
+         curl "http://127.0.0.1:3000/get_secret?username=admin"
+         ```
+      </TabItem>
+
+      <TabItem label="REST Client">
+         1. **Instala** la extensión de VS Code [REST Client](vscode:extension/humao.rest-client).
+         2. **Abre** el archivo `http/get_secret.http`.
+         3. **Ejecuta**: Haz clic en **Send Request** sobre la URL.
+      </TabItem>
+
+      <TabItem label="AWS CLI">
+         1. **Instala** la [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+         2. **Ejecuta** si tienes AWS CLI instalada globalmente:
+            ```bash
+            aws lambda invoke --function-name GetSecretFunction --profile sam --payload '{"queryStringParameters": {"username": "admin"}}' output.json
+            ```
+         2. **Ejecuta** si tienes AWS CLI instalada a través de mise:
+            ```bash
+            mise exec -- aws lambda invoke --function-name GetSecretFunction --profile sam --payload '{"queryStringParameters": {"username": "admin"}}' output.json
+            ```
+         3. **Verifica** el archivo de salida `output.json`.
+      </TabItem>
+   </Tabs>
+</Steps>
+
+## Cómo depurar
+
+Utiliza los perfiles de depuración preconfigurados de VS Code:
+
+1. **Script Python (`main.py`)**:
+   - Asegúrate de que los servicios locales de SAM estén en ejecución (`sam local start-api` y `sam local start-lambda`).
+   - Ejecuta la configuración de depuración **Python: Main**.
+
+2. **Función Lambda**:
+   - Ejecuta la configuración de depuración **SAM: Debug get_secret**.
+
+## Cómo testear
+
+- **Todos los tests**: Ejecuta el script automatizado:
+  ```bash
+  scripts/run_tests.sh
+  ```
+- **Individualmente**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar casos de test específicos.
+
+## Validar resultados
+
+- **Logs**: Revisa la salida de la consola en las terminales donde se está ejecutando `sam local` para verificar los detalles de la invocación y los mensajes de log.
+- **AWS CLI Output**: Verifica que el archivo generado `output.json` contenga el cuerpo de la respuesta HTTP y el código de estado esperados.
+
+## Limpieza
+
+1. Detén los servicios locales de SAM activos en tus terminales.
+2. Elimina el entorno virtual y las herramientas desinstaladas:
+   ```bash
+   rm -rf .venv
+   mise uninstall -a
+   ```
+
+## Siguientes pasos
+
+- [Construye sobre este MVE con el proyecto Storage Writer.](/es/aws/projects/storage-writer/)
+- [Construye sobre este MVE con el proyecto SQL Writer.](/es/aws/projects/sql-writer/)
+- [Construye sobre este MVE con el proyecto Simple ETL.](/es/aws/projects/simple-etl/)

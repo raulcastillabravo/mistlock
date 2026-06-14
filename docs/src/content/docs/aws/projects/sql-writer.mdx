@@ -1,0 +1,104 @@
+---
+title: SQL Writer
+description: "Build a hybrid cloud scenario with LocalStack: an AWS Lambda retrieves secrets from Secrets Manager and writes to an external PostgreSQL database."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to build a hybrid cloud scenario using **LocalStack** and an external **PostgreSQL** instance. This lab demonstrates how an **AWS Lambda** retrieves secrets from **Secrets Manager** and interacts with a database outside the AWS environment.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+- [Terraform](https://developer.hashicorp.com/terraform/install) (included in Dev Container).
+- [AWS CLI](https://aws.amazon.com/cli/) (included in Dev Container).
+- [DBeaver](https://dbeaver.io/) or any SQL client (to verify results).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         ```bash
+         docker compose up -d
+         ```
+      </TabItem>
+   </Tabs>
+
+2. Then configure the **AWS CLI**:
+   ```bash
+   aws configure set aws_access_key_id test
+   aws configure set aws_secret_access_key test
+   aws configure set region us-east-1
+   ```
+
+3. **Deploy Resources**:
+   ```bash
+   python package_lambda.py
+   terraform init && terraform apply -auto-approve
+   ```
+
+4. **Run the Example**:
+   ```bash
+   aws --endpoint-url=http://localhost:4566 lambda invoke \
+       --function-name AddUserFunction \
+       --payload '{}' \
+       response.json
+   ```
+
+</Steps>
+
+## Validate results
+
+1. **Check using DBeaver**: Connect to the local **PostgreSQL** instance and run the following query:
+   - **Host**: `localhost`.
+   - **Port**: `5432`.
+   - **Database**: `mydb`.
+   - **User**: `myuser`.
+   - **Password**: `mypassword`.
+
+   ```sql
+   SELECT * FROM users ORDER BY created_at DESC;
+   ```
+
+2. **Check using AWS CLI**:
+   - **List Lambda Functions**:
+     ```bash
+     aws --endpoint-url=http://localhost:4566 lambda list-functions
+     ```
+   - **Check Secrets**:
+     ```bash
+     aws --endpoint-url=http://localhost:4566 secretsmanager list-secrets
+     ```
+
+## Clean Up
+
+```bash
+terraform destroy -auto-approve
+docker compose down -v
+rm lambda.zip response.json
+```
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Connection Refused | Ensure `host.docker.internal` is reachable from the LocalStack container. For older Docker on Linux, add it to `extra_hosts` in `docker-compose.yml`. |
+| Port Already in Use | Modify the port mappings for `4566` or `5432` in `docker-compose.yml`. |
+
+## Next steps
+
+- [See the Azure equivalent project.](/azure/projects/sql-writer/)
+- [Dive into the Lambda (SAM) Lab.](/aws/mves/lambda-sam/)
+- [Dive into the RDS Postgres Lab.](/aws/mves/rds-postgres/)

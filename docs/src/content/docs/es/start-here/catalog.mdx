@@ -1,0 +1,206 @@
+---
+title: Catálogo de ejemplos
+description: Todos los Labs disponibles en MistLock, organizados por proveedor Cloud.
+---
+
+import { CardGrid } from '@astrojs/starlight/components';
+import CatalogCard from '../../../../components/CatalogCard.astro';
+
+Todos los Labs disponibles organizados por proveedor. Cada entrada enlaza a su documentación completa.
+
+## AWS
+
+<CardGrid>
+  <CatalogCard
+    icon="logos:aws-elasticache"
+    title="ElastiCache"
+    mves={[
+      { label: "ElastiCache (Redis)", href: "/aws/mves/elasti-cache/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:aws-lambda"
+    title="Lambda"
+    mves={[
+      { label: "Lambda (SAM)", href: "/aws/mves/lambda-sam/" }
+    ]}
+    projects={[
+      { label: "Storage Writer", href: "/aws/projects/storage-writer/" },
+      { label: "Simple ETL", href: "/aws/projects/simple-etl/" },
+      { label: "SQL Writer", href: "/aws/projects/sql-writer/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:aws-rds"
+    title="RDS"
+    mves={[
+      { label: "RDS (PostgreSQL)", href: "/aws/mves/rds-postgres/" }
+    ]}
+    projects={[
+      { label: "SQL Writer", href: "/aws/projects/sql-writer/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:aws-s3"
+    title="S3"
+    mves={[
+      { label: "S3 (Garage)", href: "/aws/mves/s3-garage/" },
+      { label: "S3 (MinIO)", href: "/aws/mves/s3-minio/" }
+    ]}
+    projects={[
+      { label: "Storage Writer", href: "/aws/projects/storage-writer/" },
+      { label: "Simple ETL", href: "/aws/projects/simple-etl/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:aws-step-functions"
+    title="Step Functions"
+    mves={[
+      { label: "Step Functions (LocalStack)", href: "/aws/mves/step-functions-localstack/" }
+    ]}
+  />
+</CardGrid>
+
+## Azure
+
+<CardGrid>
+  <CatalogCard
+    icon="🪣"
+    title="Blob Storage"
+    mves={[
+      { label: "Blob Storage", href: "/azure/mves/blob-storage/" }
+    ]}
+    projects={[
+      { label: "Storage Writer", href: "/azure/projects/storage-writer/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:redis"
+    title="Cache for Redis"
+    mves={[
+      { label: "Cache for Redis", href: "/azure/mves/cache-for-redis/" }
+    ]}
+  />
+  <CatalogCard
+    icon="🔬"
+    title="Databricks"
+    mves={[
+      { label: "Databricks", href: "/azure/mves/databricks/" }
+    ]}
+  />
+  <CatalogCard
+    icon="⚡"
+    title="Azure Functions"
+    mves={[
+      { label: "Functions", href: "/azure/mves/functions/" }
+    ]}
+    projects={[
+      { label: "Storage Writer", href: "/azure/projects/storage-writer/" },
+      { label: "SQL Writer", href: "/azure/projects/sql-writer/" }
+    ]}
+  />
+  <CatalogCard
+    icon="🗂️"
+    title="Cosmos DB"
+    projects={[
+      { label: "NoSQL Writer", href: "/azure/projects/no-sql-writer/" }
+    ]}
+  />
+</CardGrid>
+
+## Google Cloud
+
+<CardGrid>
+  <CatalogCard
+    icon="gcp:cloud-sql"
+    title="Cloud SQL"
+    mves={[
+      { label: "Cloud SQL", href: "/google-cloud/mves/cloud-sql/" }
+    ]}
+    projects={[
+      { label: "Simple ETL", href: "/google-cloud/projects/simple-etl/" }
+    ]}
+  />
+  <CatalogCard
+    icon="gcp:cloud-functions"
+    title="Cloud Functions"
+    mves={[
+      { label: "Firebase Cloud Functions", href: "/google-cloud/mves/firebase-cloud-functions/" }
+    ]}
+    projects={[
+      { label: "Storage Writer", href: "/google-cloud/projects/storage-writer/" },
+      { label: "Simple ETL", href: "/google-cloud/projects/simple-etl/" }
+    ]}
+  />
+  <CatalogCard
+    icon="gcp:memorystore"
+    title="Memorystore"
+    mves={[
+      { label: "Memorystore", href: "/google-cloud/mves/memorystore/" }
+    ]}
+  />
+  <CatalogCard
+    icon="gcp:firestore"
+    title="Firestore"
+    projects={[
+      { label: "NoSQL Writer", href: "/google-cloud/projects/no-sql-writer/" }
+    ]}
+  />
+</CardGrid>
+
+## Open Source
+
+<CardGrid>
+  <CatalogCard
+    icon="logos:airflow-icon"
+    title="Airflow"
+    mves={[
+      { label: "Airflow", href: "/hybrid/mves/airflow/" }
+    ]}
+  />
+  <CatalogCard
+    icon="🧩"
+    title="Dev Containers"
+    mves={[
+      { label: "Dev Containers", href: "/hybrid/mves/devcontainers/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:metabase"
+    title="Metabase"
+    mves={[
+      { label: "Metabase", href: "/hybrid/mves/metabase/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:mongodb-icon"
+    title="MongoDB"
+    mves={[
+      { label: "Mongo", href: "/hybrid/mves/mongo/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:postgresql"
+    title="PostgreSQL"
+    mves={[
+      { label: "PostgreSQL", href: "/hybrid/mves/postgres/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:rabbitmq-icon"
+    title="RabbitMQ"
+    mves={[
+      { label: "RabbitMQ", href: "/hybrid/mves/rabbitmq/" }
+    ]}
+  />
+  <CatalogCard
+    icon="logos:redis"
+    title="Redis"
+    mves={[
+      { label: "Redis", href: "/hybrid/mves/redis/" }
+    ]}
+    projects={[
+      { label: "Redis Mutex", href: "/hybrid/projects/redis-mutex/" }
+    ]}
+  />
+</CardGrid>
