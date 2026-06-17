@@ -47,6 +47,26 @@ Esta guía te muestra cómo trabajar con **AWS S3** usando **Garage** como emula
 Las claves de conexión S3 de Garage se refrescan automáticamente al iniciar o reiniciar el entorno de desarrollo. Usa las generadas en tu `.env`, no las del repositorio.
 :::
 
+## Cómo depurar
+
+1. **main.py**:
+   - **Abre**: Abre `main.py`.
+   - **Breakpoints**: Coloca breakpoints en el código.
+   - **Ejecuta**: Pulsa `F5` para iniciar la depuración.
+
+2. **Tests**:
+   - **Abre**: Abre un fichero de test (p. ej., `tests/components/test_s3_boto.py`).
+   - **Breakpoints**: Coloca breakpoints en el código del test.
+   - **Ejecuta**: Usa la pestaña **Testing** de VS Code y haz clic en el icono **Debug Test** junto al test que quieras depurar.
+
+## Cómo testear
+
+- **Individualmente**: Ejecuta los tests individualmente desde la pestaña **Testing** de VS Code.
+- **Todos los tests**: Ejecuta el script automatizado:
+  ```bash
+  scripts/run_tests.sh
+  ```
+
 ## Validar resultados
 
 <Tabs>
@@ -69,6 +89,7 @@ Las claves de conexión S3 de Garage se refrescan automáticamente al iniciar o 
         ```bash
         http://127.0.0.1:5572
         ```
+      - **Inicia sesión**: Si te pide usuario y contraseña, escribe cualquier cosa, se acepta cualquier valor.
    </TabItem>
 </Tabs>
 

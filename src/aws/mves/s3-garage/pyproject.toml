@@ -11,3 +11,8 @@ dependencies = [
     "deltalake",
     "boto3",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]

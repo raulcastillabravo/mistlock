@@ -47,6 +47,26 @@ This guide shows you how to work with **AWS S3** using **Garage** as a local emu
 Garage S3 connection keys are automatically refreshed when starting or restarting the development environment. Use the ones generated in your `.env`, not the ones from the repository.
 :::
 
+## How to debug
+
+1. **main.py**:
+   - **Open**: Open `main.py`.
+   - **Breakpoints**: Set breakpoints in the code.
+   - **Run**: Press `F5` to start debugging.
+
+2. **Tests**:
+   - **Open**: Open a test file (e.g., `tests/components/test_s3_boto.py`).
+   - **Breakpoints**: Set breakpoints in the test code.
+   - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test you want to debug.
+
+## How to test
+
+- **Individually**: Run tests individually from the VS Code **Testing** tab.
+- **All tests**: Run the automated script:
+  ```bash
+  scripts/run_tests.sh
+  ```
+
 ## Validate results
 
 <Tabs>
@@ -69,6 +89,7 @@ Garage S3 connection keys are automatically refreshed when starting or restartin
         ```bash
         http://127.0.0.1:5572
         ```
+      - **Log in**: If it asks for a username and password, type anything — any value is accepted.
    </TabItem>
 </Tabs>
 
