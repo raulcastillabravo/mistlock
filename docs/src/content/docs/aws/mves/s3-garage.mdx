@@ -26,13 +26,13 @@ This guide shows you how to work with **AWS S3** using **Garage** as a local emu
             ```
          </TabItem>
          <TabItem label="Manually">
-            1. **Run the setup** script to install tools and dependencies.
-               ```bash
-               scripts/setup.sh
-               ```
-            2. **Start Infrastructure**: Launch the required containers.
+            1. **Start Infrastructure**: Launch the required containers.
                ```bash
                docker compose up -d
+               ```
+            2. **Run the setup** script to install tools and dependencies.
+               ```bash
+               scripts/setup.sh
                ```
          </TabItem>
       </Tabs>
@@ -72,13 +72,31 @@ Garage S3 connection keys are automatically refreshed when starting or restartin
 <Tabs>
    <TabItem label="AWS CLI">
       - **Check Buckets**: Verify that `bronze` and `silver` buckets were created.
-        ```bash
-        aws s3 ls --profile garage
-        ```
+        <Tabs syncKey="cli-runner">
+           <TabItem label="Global">
+              ```bash
+              aws s3 ls --profile garage
+              ```
+           </TabItem>
+           <TabItem label="Mise">
+              ```bash
+              mise exec -- aws s3 ls --profile garage
+              ```
+           </TabItem>
+        </Tabs>
       - **Check Content**: Verify the files in the silver bucket.
-        ```bash
-        aws s3 ls s3://silver --recursive --profile garage
-        ```
+        <Tabs syncKey="cli-runner">
+           <TabItem label="Global">
+              ```bash
+              aws s3 ls s3://silver --recursive --profile garage
+              ```
+           </TabItem>
+           <TabItem label="Mise">
+              ```bash
+              mise exec -- aws s3 ls s3://silver --recursive --profile garage
+              ```
+           </TabItem>
+        </Tabs>
    </TabItem>
    <TabItem label="Rclone">
       - **Launch** the Rclone graphical interface:

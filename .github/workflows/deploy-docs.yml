@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - 'feature/**'
+      - 'fix/**'
     paths:
       - 'docs/**'
       - '.github/workflows/deploy-docs.yml'
