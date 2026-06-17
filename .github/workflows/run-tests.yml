@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - 'feature/**'
+      - 'fix/**'
     paths-ignore:
       - 'docs/**'
   schedule:
