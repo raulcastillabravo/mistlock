@@ -26,13 +26,13 @@ Esta guía te muestra cómo trabajar con **AWS S3** usando **Garage** como emula
             ```
          </TabItem>
          <TabItem label="Manual">
-            1. **Ejecuta el script** de configuración para instalar herramientas y dependencias.
-               ```bash
-               scripts/setup.sh
-               ```
-            2. **Iniciar la infraestructura**: Lanza los contenedores necesarios.
+            1. **Inicia la infraestructura**: Lanza los contenedores necesarios.
                ```bash
                docker compose up -d
+               ```
+            2. **Ejecuta el script** de configuración para instalar herramientas y dependencias.
+               ```bash
+               scripts/setup.sh
                ```
          </TabItem>
       </Tabs>
@@ -72,13 +72,31 @@ Las claves de conexión S3 de Garage se refrescan automáticamente al iniciar o 
 <Tabs>
    <TabItem label="AWS CLI">
       - **Verifica los buckets**: Comprueba que se crearon los buckets `bronze` y `silver`.
-        ```bash
-        aws s3 ls --profile garage
-        ```
+        <Tabs syncKey="cli-runner">
+           <TabItem label="Global">
+              ```bash
+              aws s3 ls --profile garage
+              ```
+           </TabItem>
+           <TabItem label="Mise">
+              ```bash
+              mise exec -- aws s3 ls --profile garage
+              ```
+           </TabItem>
+        </Tabs>
       - **Verifica el contenido**: Comprueba los archivos en el bucket silver.
-        ```bash
-        aws s3 ls s3://silver --recursive --profile garage
-        ```
+        <Tabs syncKey="cli-runner">
+           <TabItem label="Global">
+              ```bash
+              aws s3 ls s3://silver --recursive --profile garage
+              ```
+           </TabItem>
+           <TabItem label="Mise">
+              ```bash
+              mise exec -- aws s3 ls s3://silver --recursive --profile garage
+              ```
+           </TabItem>
+        </Tabs>
    </TabItem>
    <TabItem label="Rclone">
       - **Lanza** la interfaz gráfica de Rclone:
