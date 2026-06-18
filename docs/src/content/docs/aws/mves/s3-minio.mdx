@@ -27,31 +27,21 @@ This guide shows you how to work with **AWS S3** locally using **MinIO** and **P
          ```
       </TabItem>
       <TabItem label="Manually">
-         1. **Run the setup** script to install tools and dependencies.
-            ```bash
-            scripts/setup.sh
-            ```
-         2. **Start Infrastructure**: Launch the required containers.
+         1. **Start Infrastructure**: Launch the required containers.
             ```bash
             docker compose up -d
+            ```
+         2. **Run the setup** script to install tools and dependencies.
+            ```bash
+            scripts/setup.sh
             ```
       </TabItem>
    </Tabs>
 
 2. **Run the Example**:
-   <Tabs>
-      <TabItem label="Python">
-         ```bash
-         python main.py
-         ```
-      </TabItem>
-      <TabItem label="AWS CLI">
-         Upload the README file to the bronze bucket:
-         ```bash
-         aws s3 cp README.md s3://bronze --profile minio
-         ```
-      </TabItem>
-   </Tabs>
+   ```bash
+   python main.py
+   ```
 
 </Steps>
 
@@ -88,9 +78,18 @@ This guide shows you how to work with **AWS S3** locally using **MinIO** and **P
    </TabItem>
    <TabItem label="AWS CLI">
       - **Run**: List the contents of the bronze bucket:
-        ```bash
-        aws s3 ls s3://bronze --recursive
-        ```
+        <Tabs syncKey="cli-runner">
+           <TabItem label="Global">
+              ```bash
+              aws s3 ls s3://bronze --recursive --profile minio
+              ```
+           </TabItem>
+           <TabItem label="Mise">
+              ```bash
+              mise exec -- aws s3 ls s3://bronze --recursive --profile minio
+              ```
+           </TabItem>
+        </Tabs>
    </TabItem>
    <TabItem label="MinIO CLI">
       - **Enter Shell**:

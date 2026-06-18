@@ -192,7 +192,7 @@ The chosen method for dependency management is **Python + uv** with `pyproject.t
 
 ### Essential Fields
 - **name**: Name of the example directory.
-- **requires-python**: Should always be `">=3.9"`.
+- **requires-python**: Should always be `">=3.12"`.
 - **dependencies**: List all required libraries. Always include `python-dotenv`.
 - **versions**: Do not specify version constraints unless strictly necessary.
 
@@ -203,7 +203,7 @@ name = "example-name"
 version = "0.1.0"
 description = "Brief example description"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 dependencies = [
     "library1",
     "python-dotenv",
