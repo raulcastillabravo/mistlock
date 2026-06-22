@@ -11,8 +11,7 @@
 			"extensions": [
 				"ms-python.python",
 				"mtxr.sqltools",
-				"mtxr.sqltools-driver-pg",
-				"mermaidchart.vscode-mermaid-chart"
+				"mtxr.sqltools-driver-pg"
 			]
 		}
 	},

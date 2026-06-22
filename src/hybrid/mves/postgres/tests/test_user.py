@@ -1,12 +1,14 @@
 from dotenv import load_dotenv
 
 from src.models.user import User
-from src.models.utils import get_session
+from src.models.utils import create_tables, get_session
 
 load_dotenv(".env.test", override=True)
 
 
 def test_user():
+    create_tables()
+
     with get_session() as session:
         session.query(User).delete()
         session.commit()

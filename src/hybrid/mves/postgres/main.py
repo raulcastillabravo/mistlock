@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
 from src.models.user import User
-from src.models.utils import get_session
+from src.models.utils import create_tables, get_session
 
 load_dotenv()
 
@@ -14,18 +14,30 @@ def insert_sample_data():
             User(name="Bob Johnson", email="bob@example.com")
         ]
 
-        session.add_all(users)
-        session.commit()
-        print(f"✓ Inserted {len(users)} users successfully")
+        emails = [user.email for user in users]
+        existing = {
+            email for (email,) in session.query(User.email)
+            .filter(User.email.in_(emails))
+        }
+        new_users = [user for user in users if user.email not in existing]
 
-        # Query and display inserted data
-        all_users = session.query(User).all()
+        session.add_all(new_users)
+        session.commit()
+
+        already = session.query(User).filter(User.email.in_(existing)).all()
+
         print("\nInserted users:")
-        for user in all_users:
+        for user in new_users:
+            print(f"  - {user}")
+
+        print("\nAlready inserted users:")
+        for user in already:
             print(f"  - {user}")
 
 
 if __name__ == "__main__":
+    create_tables()
+
     print("\nInserting sample data...")
     insert_sample_data()
 
