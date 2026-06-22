@@ -19,5 +19,5 @@
 	"containerEnv": {
 		"PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 	},
-	"postCreateCommand": "scripts/setup-mve.sh"
+	"postCreateCommand": "scripts/setup.sh"
 }

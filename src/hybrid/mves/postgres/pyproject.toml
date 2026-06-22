@@ -1,11 +1,16 @@
 [project]
 name = "postgres-docker"
 version = "0.1.0"
-description = "Add your description here"
+description = "Minimal viable example for PostgreSQL with Docker and SQLAlchemy"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 dependencies = [
   "sqlalchemy",
   "psycopg2-binary",
   "python-dotenv",
+]
+
+[dependency-groups]
+dev = [
+  "pytest",
 ]
