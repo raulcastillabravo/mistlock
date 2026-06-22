@@ -33,7 +33,7 @@ This guide shows you how to work with **PostgreSQL** locally using **Docker Comp
             ```
          2. **Run the setup** script to install tools and dependencies:
             ```bash
-            scripts/setup-mve.sh
+            scripts/setup.sh
             ```
       </TabItem>
    </Tabs>
@@ -44,6 +44,17 @@ This guide shows you how to work with **PostgreSQL** locally using **Docker Comp
    ```
 
 </Steps>
+
+## How to debug
+
+1. **Python Script (main.py)**:
+   - Open the **Run and Debug** tab in VS Code.
+   - Select the **Python: Main** configuration and start debugging.
+
+## How to test
+
+- **All tests**: Run the automated script: `scripts/run_tests.sh`
+- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
 
 ## Validate results
 

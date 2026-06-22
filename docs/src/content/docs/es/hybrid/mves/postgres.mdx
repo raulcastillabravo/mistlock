@@ -33,7 +33,7 @@ Esta guía te muestra cómo trabajar con **PostgreSQL** localmente usando **Dock
             ```
          2. **Ejecuta el script** de configuración para instalar herramientas y dependencias:
             ```bash
-            scripts/setup-mve.sh
+            scripts/setup.sh
             ```
       </TabItem>
    </Tabs>
@@ -44,6 +44,17 @@ Esta guía te muestra cómo trabajar con **PostgreSQL** localmente usando **Dock
    ```
 
 </Steps>
+
+## Cómo depurar
+
+1. **Script de Python (main.py)**:
+   - Abre la pestaña **Run and Debug** en VS Code.
+   - Selecciona la configuración **Python: Main** e inicia la depuración.
+
+## Cómo testear
+
+- **All tests**: Ejecuta el script automatizado: `scripts/run_tests.sh`
+- **Individually**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar tests específicos.
 
 ## Validar resultados
 

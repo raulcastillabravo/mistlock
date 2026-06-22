@@ -1,9 +1,10 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
+from src.models.user import Base
+
 
 def get_engine():
     user = os.getenv('POSTGRES_USER')
@@ -20,3 +21,7 @@ def get_session():
     engine = get_engine()
     Session = sessionmaker(bind=engine)
     return Session()
+
+
+def create_tables():
+    Base.metadata.create_all(get_engine())
