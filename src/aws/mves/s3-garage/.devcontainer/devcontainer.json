@@ -14,15 +14,13 @@
     "vscode": {
       "extensions": [
         "ms-python.python",
-        "mermaidchart.vscode-mermaid-chart",
         "amazonwebservices.aws-toolkit-vscode",
         "tamasfe.even-better-toml"
       ]
     }
   },
   "containerEnv": {
-    "AWS_PROFILE": "garage",
-    "PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    "AWS_PROFILE": "garage"
   },
-  "postCreateCommand": "scripts/setup.sh"
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh"
 }

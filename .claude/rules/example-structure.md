@@ -11,7 +11,8 @@ Each example should follow this structure:
 ```
 src/[cloud-provider]/[mves|projects]/[example-name]/
 ├── .devcontainer/
-│   └── devcontainer.json
+│   ├── devcontainer.json
+│   └── postCreateCommand.sh
 ├── .vscode/
 │   └── settings.json
 ├── scripts/
@@ -33,8 +34,8 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
 ## Dev Container
 
 - The `dev` service defined in `docker-compose.yml` must be used as the Dev Container.
-- The `PATH` must include: `"PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"`
-- The `postCreateCommand` must call the `scripts/setup.sh` script.
+- **Do NOT override `PATH` in `containerEnv`.** Setting `PATH` there fully replaces the variable, forcing you to re-list every default path. Instead, append the `mise` shims path from `postCreateCommand.sh` (see below). Use `containerEnv` only for additive variables (e.g., `AWS_PROFILE`).
+- The `postCreateCommand` must call `.devcontainer/postCreateCommand.sh` (relative to `workspaceFolder`, which is `/app`). This script runs `scripts/setup.sh` and appends the `mise` shims path to `~/.bashrc` and `~/.zshrc` so every new shell session inside the container has it on `PATH`.
 - It must always include the feature `"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}`.
 - It must install mandatory VS Code extensions: **Python**, and any other specific to the MVE services.
 
@@ -60,10 +61,31 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
     }
   },
   "containerEnv": {
-    "PATH": "/home/vscode/.local/share/mise/shims:/usr/local/py-utils/bin:/usr/local/python/current/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    "AWS_PROFILE": "example"
   },
-  "postCreateCommand": "scripts/setup.sh"
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh"
 }
+```
+
+### postCreateCommand.sh
+
+Lives in `.devcontainer/`. Runs `setup.sh`, then appends the `mise` shims path to the shell rc files (guarded so it is not duplicated on re-creation). Derive the path from `$HOME` — never hardcode `/home/vscode`, so it survives a different container user.
+
+```bash
+#!/bin/bash
+set -e
+
+scripts/setup.sh
+
+# Add mise to PATH
+MISE_SHIMS="$HOME/.local/share/mise/shims"
+EXPORT_LINE="export PATH=\$PATH:$MISE_SHIMS"
+
+for RC in "$HOME/.bashrc" "$HOME/.zshrc"; do
+  if [ -f "$RC" ] && ! grep -qF "$MISE_SHIMS" "$RC"; then
+    echo "$EXPORT_LINE" >> "$RC"
+  fi
+done
 ```
 
 ## Docker Compose
@@ -124,7 +146,7 @@ OTHER_VARIABLE=value
 
 ## setup.sh
 
-- It must install **mise** using curl.
+- It must install **mise** using curl, guarded so it is not reinstalled if already present (idempotent — `setup.sh` may run more than once).
 - It must install the tools specified in `mise.toml`.
 - It must execute the tasks defined in `mise.toml`.
 
@@ -133,7 +155,7 @@ Example:
 #!/bin/bash
 set -e
 
-(curl https://mise.run | sh)
+command -v mise >/dev/null 2>&1 || (curl https://mise.run | sh)
 export PATH="$HOME/.local/bin:$PATH"
 
 mise install -y
@@ -181,6 +203,7 @@ run = "scripts/install-odbc.sh"
 
 The scripts in `scripts/` MUST be the **Single Source of Truth** for deployment and management. 
 - **setup.sh**: Responsible for installing `mise`, installing tools, and running the `setup` task.
+- **.devcontainer/postCreateCommand.sh**: Dev Container entry point. Runs `setup.sh` and appends the `mise` shims path to the shell rc files (idempotently).
 - **run_main.sh**: Responsible for executing the `main.py` entry point with the correct environment.
 - **run_tests.sh**: Responsible for launching all tests for the MVE.
 - Scripts should use `.venv/bin/python` for Python-based tasks to avoid PATH issues.
