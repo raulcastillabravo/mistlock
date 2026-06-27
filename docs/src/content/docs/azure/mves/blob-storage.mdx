@@ -28,23 +28,34 @@ This guide shows you how to work with **Azure Blob Storage** locally using **Azu
          ```
       </TabItem>
       <TabItem label="Manually">
-         ```bash
-         pip3 install uv && uv sync
-         ```
+         1. **Run the setup** script to install tools and dependencies.
+            ```bash
+            scripts/setup.sh
+            ```
+         2. **Start Infrastructure**: Launch the Azurite container.
+            ```bash
+            docker compose up -d
+            ```
       </TabItem>
    </Tabs>
 
-2. **Start Infrastructure**: Launch the Azurite container.
-   ```bash
-   docker compose up -d
-   ```
-
-3. **Run the Example**:
+2. **Run the Example**:
    ```bash
    python main.py
    ```
 
 </Steps>
+
+## How to debug
+
+1. **Python Script (main.py)**:
+   - **Open**: Open `main.py` in VS Code.
+   - **Run**: Use the **Python: main.py** configuration in the **Run and Debug** tab.
+
+## How to test
+
+- **All tests**: Run the automated script: `scripts/run_tests.sh`
+- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
 
 ## Validate results
 
@@ -66,7 +77,7 @@ docker compose down -v
 |-------|----------|
 | Port 10000 in use | Update the port mapping in `docker-compose.yml` and `BlobEndpoint` in `.env`. |
 | Connection Refused | Ensure Azurite is running: `docker ps` |
-| Module Not Found | Reinstall dependencies: `pip3 install uv && uv sync` |
+| Module Not Found | Reinstall dependencies: `scripts/setup.sh` |
 
 ## Next steps
 

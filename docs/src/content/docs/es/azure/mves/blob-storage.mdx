@@ -28,23 +28,34 @@ Esta guía te muestra cómo trabajar con **Azure Blob Storage** localmente usand
          ```
       </TabItem>
       <TabItem label="Manual">
-         ```bash
-         pip3 install uv && uv sync
-         ```
+         1. **Ejecuta el script** de setup para instalar herramientas y dependencias.
+            ```bash
+            scripts/setup.sh
+            ```
+         2. **Inicia la infraestructura**: Lanza el contenedor de Azurite.
+            ```bash
+            docker compose up -d
+            ```
       </TabItem>
    </Tabs>
 
-2. **Iniciar la infraestructura**: Lanza el contenedor de Azurite.
-   ```bash
-   docker compose up -d
-   ```
-
-3. **Ejecutar el ejemplo**:
+2. **Ejecutar el ejemplo**:
    ```bash
    python main.py
    ```
 
 </Steps>
+
+## Cómo depurar
+
+1. **Script de Python (main.py)**:
+   - **Abre**: Abre `main.py` en VS Code.
+   - **Ejecuta**: Usa la configuración **Python: main.py** en la pestaña **Run and Debug**.
+
+## Cómo testear
+
+- **All tests**: Ejecuta el script automatizado: `scripts/run_tests.sh`
+- **Individually**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar tests concretos.
 
 ## Validar resultados
 
@@ -66,7 +77,7 @@ docker compose down -v
 |----------|----------|
 | Puerto 10000 en uso | Actualiza el mapeo de puertos en `docker-compose.yml` y `BlobEndpoint` en `.env`. |
 | Conexión rechazada | Asegúrate de que Azurite está en ejecución: `docker ps` |
-| Módulo no encontrado | Reinstala las dependencias: `pip3 install uv && uv sync` |
+| Módulo no encontrado | Reinstala las dependencias: `scripts/setup.sh` |
 
 ## Siguientes pasos
 

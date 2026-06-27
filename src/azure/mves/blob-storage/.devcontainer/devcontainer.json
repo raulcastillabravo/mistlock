@@ -1,6 +1,10 @@
 {
-  "name": "Azurite Python Dev",
-  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "name": "Azure Blob Storage MVE",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/app",
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
       "moby": false
@@ -9,12 +13,11 @@
   "customizations": {
     "vscode": {
       "extensions": [
+        "ms-python.python",
+        "tamasfe.even-better-toml",
         "ms-azuretools.vscode-azurestorage"
       ]
     }
   },
-  "postCreateCommand": "pip3 install uv && uv sync",
-  "runArgs": [
-    "--network=host"
-  ]
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh"
 }
