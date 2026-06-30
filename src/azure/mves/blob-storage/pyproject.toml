@@ -8,3 +8,8 @@ dependencies = [
     "azure-storage-blob>=12.19.0",
     "python-dotenv>=1.0.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
