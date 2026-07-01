@@ -1,4 +1,4 @@
-from azurite_client import AzuriteClient
+from src.providers.azurite_client import AzuriteClient
 
 CONTAINER_NAME = "test-azurite-client"
 BLOB_NAME = "sample.txt"

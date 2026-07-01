@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from azurite_client import AzuriteClient
+from src.providers.azurite_client import AzuriteClient
 
 load_dotenv()
 
