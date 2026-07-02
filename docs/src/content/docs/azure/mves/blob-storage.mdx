@@ -28,31 +28,66 @@ This guide shows you how to work with **Azure Blob Storage** locally using **Azu
          ```
       </TabItem>
       <TabItem label="Manually">
-         ```bash
-         pip3 install uv && uv sync
-         ```
+         1. **Start Infrastructure**: Launch the Azurite container.
+            ```bash
+            docker compose up -d
+            ```
+         2. **Run the setup** script to install tools and dependencies.
+            ```bash
+            scripts/setup.sh
+            ```
+      </TabItem>
+      <TabItem label="VS Code extension">
+         Use the [Azurite VS Code extension](vscode:extension/azurite.azurite) instead of the container.
+         1. **Disable the container**: Set `COMPOSE_PROFILES=` (empty) in `.env` so the Azurite container is skipped.
+         2. **Stop** the Azurite container if it is running.
+            ```bash
+            docker compose stop azurite
+            ```
+         3. **Start the emulator** from the **Command Palette**:
+            ```bash
+            > Azurite: Start
+            ```
+         4. **Run the setup** script to install tools and dependencies.
+            ```bash
+            scripts/setup.sh
+            ```
       </TabItem>
    </Tabs>
 
-2. **Start Infrastructure**: Launch the Azurite container.
-   ```bash
-   docker compose up -d
-   ```
-
-3. **Run the Example**:
+2. **Run the Example**:
    ```bash
    python main.py
    ```
 
 </Steps>
 
+## How to debug
+
+1. **Python Script (main.py)**:
+   - **Open**: Open `main.py` in VS Code.
+   - **Run**: Use the **Python: main.py** configuration in the **Run and Debug** tab.
+
+## How to test
+
+- **All tests**: Run the automated script: `scripts/run_tests.sh`
+- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
+
 ## Validate results
 
-**Check using [Azure Storage extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestorage)**:
-- **Open**: Open the **Azure** view in VS Code (Azure icon in the sidebar).
-- **Connect**: Under **Storage Accounts**, click **Attach Storage Account** > **Attach to a local emulator**.
-- **Browse**: Use the default Azurite connection settings to browse your containers and blobs visually.
+Connect the [Azure Storage extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestorage) to your running Azurite to browse containers and blobs visually.
 
+<Steps>
+
+1. **Open**: Open the **Azure** view in VS Code (Azure icon in the sidebar).
+2. **Attach**: Under **Storage Accounts**, click **Attach Storage Account** > **Attach to a local emulator** and accept the defaults (account `devstoreaccount1`).
+3. **Browse**: Expand **Local Emulator** > **Blob Containers** to see `test-container` and `hello.txt`.
+
+</Steps>
+
+:::note[Already attached]
+If you get *"Storage Account devstoreaccount1 is already attached"*, it is already connected — locate the existing **Local Emulator** node and **Refresh** it instead of re-attaching.
+:::
 
 ## Clean Up
 
@@ -64,9 +99,11 @@ docker compose down -v
 
 | Issue | Solution |
 |-------|----------|
-| Port 10000 in use | Update the port mapping in `docker-compose.yml` and `BlobEndpoint` in `.env`. |
+| Port 10000 in use | Another Azurite is bound to it. Stop the VS Code Azurite extension emulator (`> Azurite: Close`) or the other container before starting. |
 | Connection Refused | Ensure Azurite is running: `docker ps` |
-| Module Not Found | Reinstall dependencies: `pip3 install uv && uv sync` |
+| Module Not Found | Reinstall dependencies: `scripts/setup.sh` |
+| `azurite.skipApiVersionCheck is not a registered configuration` | REST API-version mismatch. The lab already starts Azurite with `--skipApiVersionCheck`; recreate it with `docker compose up -d azurite`, then reload the window (`> Developer: Reload Window`). |
+| `Storage Account devstoreaccount1 is already attached` | It is already connected. Locate the existing **Local Emulator** node and **Refresh** it instead of re-attaching. |
 
 ## Next steps
 

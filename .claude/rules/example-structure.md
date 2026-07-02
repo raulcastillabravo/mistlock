@@ -14,7 +14,8 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
 │   ├── devcontainer.json
 │   └── postCreateCommand.sh
 ├── .vscode/
-│   └── settings.json
+│   ├── settings.json
+│   └── extensions.json
 ├── scripts/
 │   ├── setup.sh
 │   ├── run_main.sh
@@ -22,6 +23,7 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
 │   └── [other install tools sh]
 ├── docker-compose.yml
 ├── .env
+├── .env.test
 ├── main.py
 ├── [Other Python code files]
 ├── mise.toml
@@ -136,11 +138,34 @@ VARIABLE_TWO=another-value
 OTHER_VARIABLE=value
 ```
 
+Each Lab also has a `.env.test` at its root containing **only** the variables
+that tests must override (e.g. a dedicated container/table name), never a full
+copy of `.env`. Tests load `.env` first and then `.env.test` with
+`override=True`. See the tests style guide for details.
+
 ## VS Code Settings
 
 ```json
 {
   "python.defaultInterpreterPath": ".venv/bin/python"
+}
+```
+
+## VS Code Extensions
+
+Every Lab must include a `.vscode/extensions.json` listing the recommended
+extensions, so users get the same prompts whether or not they open the Dev
+Container.
+
+- The `recommendations` array must **mirror the `extensions` list** in
+  `.devcontainer/devcontainer.json` (`customizations.vscode.extensions`). When
+  you add or remove an extension in one, update the other.
+
+```json
+{
+  "recommendations": [
+    "ms-python.python"
+  ]
 }
 ```
 

@@ -98,13 +98,13 @@ An H2 section wrapping the full execution flow in a `<Steps>` component.
          ```
       </TabItem>
       <TabItem label="Manually">
-         1. **Run the setup** script to install tools and dependencies.
-            ```bash
-            scripts/setup.sh
-            ```
-         2. **Start Infrastructure**: Launch the required containers.
+         1. **Start Infrastructure**: Launch the required containers.
             ```bash
             docker compose up -d
+            ```
+         2. **Run the setup** script to install tools and dependencies.
+            ```bash
+            scripts/setup.sh
             ```
       </TabItem>
    </Tabs>

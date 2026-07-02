@@ -28,31 +28,66 @@ Esta guía te muestra cómo trabajar con **Azure Blob Storage** localmente usand
          ```
       </TabItem>
       <TabItem label="Manual">
-         ```bash
-         pip3 install uv && uv sync
-         ```
+         1. **Inicia la infraestructura**: Lanza el contenedor de Azurite.
+            ```bash
+            docker compose up -d
+            ```
+         2. **Ejecuta el script** de setup para instalar herramientas y dependencias.
+            ```bash
+            scripts/setup.sh
+            ```
+      </TabItem>
+      <TabItem label="VS Code extension">
+         Usa la [extensión Azurite de VS Code](vscode:extension/azurite.azurite) en lugar del contenedor.
+         1. **Desactiva el contenedor**: Pon `COMPOSE_PROFILES=` (vacío) en `.env` para que el contenedor de Azurite no se levante.
+         2. **Detén** el contenedor de Azurite si está en ejecución.
+            ```bash
+            docker compose stop azurite
+            ```
+         3. **Arranca el emulador** desde la **Paleta de Comandos**:
+            ```bash
+            > Azurite: Start
+            ```
+         4. **Ejecuta el script** de setup para instalar herramientas y dependencias.
+            ```bash
+            scripts/setup.sh
+            ```
       </TabItem>
    </Tabs>
 
-2. **Iniciar la infraestructura**: Lanza el contenedor de Azurite.
-   ```bash
-   docker compose up -d
-   ```
-
-3. **Ejecutar el ejemplo**:
+2. **Ejecutar el ejemplo**:
    ```bash
    python main.py
    ```
 
 </Steps>
 
+## Cómo depurar
+
+1. **Script de Python (main.py)**:
+   - **Abre**: Abre `main.py` en VS Code.
+   - **Ejecuta**: Usa la configuración **Python: main.py** en la pestaña **Run and Debug**.
+
+## Cómo testear
+
+- **All tests**: Ejecuta el script automatizado: `scripts/run_tests.sh`
+- **Individually**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar tests concretos.
+
 ## Validar resultados
 
-**Verifica con la [extensión Azure Storage](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestorage)**:
-- **Abre**: Abre la vista **Azure** en VS Code (icono de Azure en la barra lateral).
-- **Conecta**: En **Storage Accounts**, haz clic en **Attach Storage Account** > **Attach to a local emulator**.
-- **Navega**: Usa la configuración predeterminada de Azurite para explorar visualmente tus contenedores y blobs.
+Conecta la [extensión Azure Storage](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestorage) a tu Azurite en ejecución para explorar contenedores y blobs visualmente.
 
+<Steps>
+
+1. **Abre**: Abre la vista **Azure** en VS Code (icono de Azure en la barra lateral).
+2. **Conecta**: En **Storage Accounts**, haz clic en **Attach Storage Account** > **Attach to a local emulator** y acepta los valores por defecto (cuenta `devstoreaccount1`).
+3. **Navega**: Despliega **Local Emulator** > **Blob Containers** para ver `test-container` y `hello.txt`.
+
+</Steps>
+
+:::note[Ya está conectado]
+Si aparece *"Storage Account devstoreaccount1 is already attached"*, ya está conectado — localiza el nodo **Local Emulator** existente y haz **Refresh** en lugar de volver a adjuntarlo.
+:::
 
 ## Limpieza
 
@@ -64,9 +99,11 @@ docker compose down -v
 
 | Problema | Solución |
 |----------|----------|
-| Puerto 10000 en uso | Actualiza el mapeo de puertos en `docker-compose.yml` y `BlobEndpoint` en `.env`. |
+| Puerto 10000 en uso | Otro Azurite lo tiene ocupado. Para el emulador de la extensión Azurite de VS Code (`> Azurite: Close`) o el otro contenedor antes de arrancar. |
 | Conexión rechazada | Asegúrate de que Azurite está en ejecución: `docker ps` |
-| Módulo no encontrado | Reinstala las dependencias: `pip3 install uv && uv sync` |
+| Módulo no encontrado | Reinstala las dependencias: `scripts/setup.sh` |
+| `azurite.skipApiVersionCheck is not a registered configuration` | Desajuste de versión de API REST. El lab ya arranca Azurite con `--skipApiVersionCheck`; recréalo con `docker compose up -d azurite` y recarga la ventana (`> Developer: Reload Window`). |
+| `Storage Account devstoreaccount1 is already attached` | Ya está conectado. Localiza el nodo **Local Emulator** existente y haz **Refresh** en lugar de volver a adjuntarlo. |
 
 ## Siguientes pasos
 
