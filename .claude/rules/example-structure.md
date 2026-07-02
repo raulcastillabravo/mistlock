@@ -14,7 +14,8 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
 │   ├── devcontainer.json
 │   └── postCreateCommand.sh
 ├── .vscode/
-│   └── settings.json
+│   ├── settings.json
+│   └── extensions.json
 ├── scripts/
 │   ├── setup.sh
 │   ├── run_main.sh
@@ -141,6 +142,24 @@ OTHER_VARIABLE=value
 ```json
 {
   "python.defaultInterpreterPath": ".venv/bin/python"
+}
+```
+
+## VS Code Extensions
+
+Every Lab must include a `.vscode/extensions.json` listing the recommended
+extensions, so users get the same prompts whether or not they open the Dev
+Container.
+
+- The `recommendations` array must **mirror the `extensions` list** in
+  `.devcontainer/devcontainer.json` (`customizations.vscode.extensions`). When
+  you add or remove an extension in one, update the other.
+
+```json
+{
+  "recommendations": [
+    "ms-python.python"
+  ]
 }
 ```
 

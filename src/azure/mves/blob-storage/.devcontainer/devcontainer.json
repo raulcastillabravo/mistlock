@@ -15,7 +15,8 @@
       "extensions": [
         "ms-python.python",
         "tamasfe.even-better-toml",
-        "ms-azuretools.vscode-azurestorage"
+        "ms-azuretools.vscode-azurestorage",
+        "azurite.azurite"
       ]
     }
   },
