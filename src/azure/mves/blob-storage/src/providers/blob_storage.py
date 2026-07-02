@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class AzuriteClient:
+class BlobStorage:
     _blob_service_client: BlobServiceClient = None
 
     def __init__(self):

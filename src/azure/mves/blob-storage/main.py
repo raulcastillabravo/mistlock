@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from src.providers.azurite_client import AzuriteClient
+from src.providers.blob_storage import BlobStorage
 
 load_dotenv()
 
@@ -11,7 +11,7 @@ CONTAINER_NAME: str = os.getenv("CONTAINER_NAME")
 
 def main():
     print("Connecting to Azurite...")
-    client = AzuriteClient()
+    client = BlobStorage()
 
     client.create_container(CONTAINER_NAME)
 
