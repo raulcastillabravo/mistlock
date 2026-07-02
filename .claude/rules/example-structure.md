@@ -23,6 +23,7 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
 │   └── [other install tools sh]
 ├── docker-compose.yml
 ├── .env
+├── .env.test
 ├── main.py
 ├── [Other Python code files]
 ├── mise.toml
@@ -136,6 +137,11 @@ VARIABLE_TWO=another-value
 # Another group
 OTHER_VARIABLE=value
 ```
+
+Each Lab also has a `.env.test` at its root containing **only** the variables
+that tests must override (e.g. a dedicated container/table name), never a full
+copy of `.env`. Tests load `.env` first and then `.env.test` with
+`override=True`. See the tests style guide for details.
 
 ## VS Code Settings
 

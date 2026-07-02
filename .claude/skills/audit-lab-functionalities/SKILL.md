@@ -51,6 +51,7 @@ add a row here.
 | 8 | Validate results — multiple tools | CLI/GUI scripts (`*_cli.sh`, `*-gui.sh`), VS Code extensions | Section "Validate results" using `<Tabs>` (≥2 tools) |
 | 9 | Clean Up | `docker compose down -v` (or service-specific teardown) | Section "Clean Up" |
 | 10 | Docs parity EN/ES | — | `es/` page exists with the same sections as the EN page |
+| 11 | VS Code recommended extensions | `.vscode/extensions.json` whose `recommendations` mirror the `extensions` in `.devcontainer/devcontainer.json` | — |
 
 Notes:
 - Some functionalities are **not applicable** to every Lab (e.g. SAM Labs are incompatible

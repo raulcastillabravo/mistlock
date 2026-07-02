@@ -13,6 +13,7 @@ def main():
     print("Connecting to Azurite...")
     client = BlobStorage()
 
+    print(f"\nCreating container '{CONTAINER_NAME}'...")
     client.create_container(CONTAINER_NAME)
 
     print("\nUploading blob...")

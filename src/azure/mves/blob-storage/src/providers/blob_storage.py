@@ -21,16 +21,12 @@ class BlobStorage:
         )
         if not container_client.exists():
             container_client.create_container()
-            print(f"Container '{container_name}' created.")
-        else:
-            print(f"Container '{container_name}' already exists.")
 
     def upload_blob(self, container_name: str, blob_name: str, data: str):
         blob_client = self._blob_service_client.get_blob_client(
             container=container_name, blob=blob_name
         )
         blob_client.upload_blob(data, overwrite=True)
-        print(f"Uploaded '{blob_name}' to container '{container_name}'.")
 
     def download_blob(self, container_name: str, blob_name: str) -> str:
         blob_client = self._blob_service_client.get_blob_client(
@@ -43,3 +39,10 @@ class BlobStorage:
             container_name
         )
         return [blob.name for blob in container_client.list_blobs()]
+
+    def delete_container(self, container_name: str):
+        container_client = self._blob_service_client.get_container_client(
+            container_name
+        )
+        if container_client.exists():
+            container_client.delete_container()
