@@ -13,6 +13,6 @@
       ]
     }
   },
-  "postCreateCommand": "pip3 install uv && uv venv --clear --python python3 && uv sync",
+  "postCreateCommand": "scripts/setup.sh",
   "remoteUser": "root"
 }

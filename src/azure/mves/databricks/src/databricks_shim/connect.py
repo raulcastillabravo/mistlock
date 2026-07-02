@@ -7,7 +7,7 @@ def get_spark_session(app_name="DatabricksLocal"):
     If running in Databricks, it returns a default session. Otherwise, it configures a local Spark session with MinIO, Delta Lake, and Hive Metastore.
     """
     # Detect environment (prefer APP_ENV, fallback to Databricks runtime detection)
-    env = os.getenv("APP_ENV", "local")
+    env = os.getenv("APP_ENV")
     
     if env != "local":
         return SparkSession.builder.appName(app_name).getOrCreate()
@@ -29,7 +29,7 @@ def get_spark_session(app_name="DatabricksLocal"):
         .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false") \
         .config("spark.hadoop.fs.s3a.signing-algorithm", "AWSS3V4SignerType") \
         .config("spark.delta.logStore.class", "org.apache.spark.sql.delta.storage.S3SingleDriverLogStore") \
-        .config("spark.hadoop.fs.s3a.endpoint.region", os.getenv("AWS_REGION", "us-east-1")) \
+        .config("spark.hadoop.fs.s3a.endpoint.region", os.getenv("AWS_REGION")) \
         .config("spark.jars", "/opt/spark/jars/delta-spark_2.12-3.2.0.jar,"
                               "/opt/spark/jars/delta-storage-3.2.0.jar,"
                               "/opt/spark/jars/hadoop-aws-3.3.4.jar,"

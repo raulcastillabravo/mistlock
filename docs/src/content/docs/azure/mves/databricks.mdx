@@ -55,6 +55,36 @@ This guide shows you how to simulate a **Databricks** environment locally using 
 Open `src/notebooks/analysis.ipynb` and run the cells to analyze the data registered in the Hive Metastore and test the DBUtils Shim (secrets and widgets). This requires the pre-configured Jupyter environment provided by the Dev Container.
 :::
 
+## How to debug
+
+1. **Python Script (main.py)**:
+   - **Open** `main.py` and set breakpoints.
+   - **Run** the **Python: Main** configuration from the **Run and Debug** tab.
+2. **Interactive Notebook**:
+   - **Open** `src/notebooks/analysis.ipynb` and debug cells with the Jupyter debugger.
+
+## How to test
+
+- **All tests**: Run the automated script: `scripts/run_tests.sh`
+- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
+
+## Validate results
+
+<Tabs>
+   <TabItem label="Spark UI">
+      While a job is running, **Open** the Spark UI:
+      ```bash
+      http://localhost:4040
+      ```
+   </TabItem>
+   <TabItem label="MinIO Console">
+      **Browse** the Delta files written to the bucket. Log in with `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD`:
+      ```bash
+      http://localhost:9001
+      ```
+   </TabItem>
+</Tabs>
+
 ## Clean Up
 
 ```bash
