@@ -1,24 +1,8 @@
 import os
 
-import pytest
-from dotenv import load_dotenv
-
-from src.providers.blob_storage import BlobStorage
-
-load_dotenv()
-load_dotenv(".env.test", override=True)
-
 CONTAINER_NAME = os.getenv("CONTAINER_NAME")
 BLOB_NAME = "sample.txt"
 BLOB_DATA = "Hello from tests!"
-
-
-@pytest.fixture
-def blob_storage():
-    client = BlobStorage()
-    client.create_container(CONTAINER_NAME)
-    yield client
-    client.delete_container(CONTAINER_NAME)
 
 
 def test_blob_storage(blob_storage):
