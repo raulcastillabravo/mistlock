@@ -1,9 +1,9 @@
 [project]
-name = "databricks-docker"
+name = "databricks"
 version = "0.1.0"
 description = "High-fidelity local Databricks environment using Docker"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
     "pyspark==3.5.0",
     "delta-spark==3.2.0",
