@@ -13,6 +13,6 @@
       ]
     }
   },
-  "postCreateCommand": "scripts/setup.sh",
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh",
   "remoteUser": "root"
 }

@@ -2,6 +2,8 @@ import os
 import subprocess
 import time
 import shlex
+
+import json5
 import pytest
 
 @pytest.fixture(scope="module")
@@ -27,15 +29,31 @@ def infrastructure(src_dir):
     subprocess.run(["docker", "compose", "down", "-v"], cwd=src_dir, check=True)
 
 @pytest.fixture(scope="module")
-def dev_container(src_dir):
+def dev_config(src_dir):
     """
-    Runs any command inside the 'dev' service.
+    Reads the Lab's devcontainer.json (JSONC) to resolve the dev container
+    service name and user. Defaults match the standard Lab: 'dev' / 'vscode'.
+    """
+    path = os.path.join(src_dir, ".devcontainer", "devcontainer.json")
+    with open(path) as f:
+        config = json5.load(f)
+
+    return {
+        "service": config.get("service", "dev"),
+        "user": config.get("remoteUser") or "vscode",
+    }
+
+@pytest.fixture(scope="module")
+def dev_container(src_dir, dev_config):
+    """
+    Runs any command inside the dev container service.
     Supports 'ttl' (timeout in seconds) for automatic retries.
     """
-    
+
     def _run(command, ttl=0):
         full_cmd = [
-            "docker", "compose", "exec", "--user", "vscode", "-T", "dev"
+            "docker", "compose", "exec",
+            "--user", dev_config["user"], "-T", dev_config["service"],
         ] + shlex.split(command)
         
         start_time = time.time()
