@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-python3 -m pytest tests/
+.venv/bin/python -m pytest tests/

@@ -1,0 +1,19 @@
+# Python is pinned to 3.11 (not the project-standard 3.12) to match the
+# Databricks Runtime 15.4 / PySpark 3.5.0 worker interpreter. A driver on a
+# different minor version makes Spark abort with a Python version mismatch.
+[tools]
+python = "3.11"
+uv = "latest"
+
+[settings]
+env_file = ".env"
+
+[tasks.sync]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.setup]
+description = "Full environment setup"
+run = [
+  { task = "sync" },
+]

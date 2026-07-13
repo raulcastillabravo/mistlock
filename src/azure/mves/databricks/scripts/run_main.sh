@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-python3 main.py
+.venv/bin/python main.py

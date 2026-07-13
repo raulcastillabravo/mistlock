@@ -27,10 +27,14 @@ This guide shows you how to simulate a **Databricks** environment locally using 
          ```
       </TabItem>
       <TabItem label="Manually">
-         Launch all required services (Spark, MinIO, PostgreSQL):
-         ```bash
-         docker compose up -d
-         ```
+         1. **Start Infrastructure**: Launch all required services (Spark, MinIO, PostgreSQL).
+            ```bash
+            docker compose up -d
+            ```
+         2. **Run the setup** script inside the Spark container to install tools and dependencies.
+            ```bash
+            docker compose exec spark bash scripts/setup.sh
+            ```
       </TabItem>
    </Tabs>
 
@@ -44,7 +48,7 @@ This guide shows you how to simulate a **Databricks** environment locally using 
       <TabItem label="Manually">
          Execute the script inside the Spark container:
          ```bash
-         docker compose exec spark python3 main.py
+         docker compose exec spark .venv/bin/python main.py
          ```
       </TabItem>
    </Tabs>

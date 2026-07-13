@@ -41,18 +41,8 @@ RUN cd $SPARK_HOME/jars && \
     wget -q https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar && \
     wget -q https://repo1.maven.org/maven2/org/postgresql/postgresql/42.6.0/postgresql-42.6.0.jar
 
-# Install uv for dependency management
-RUN pip3 install uv
-
 # Set working directory
 WORKDIR /app
-
-# Install Python dependencies globally
-# Note: This global installation ensures the environment is functional for users 
-# not using Dev Containers (e.g., docker compose exec). If you use Dev Container, you can remove it.
-# Dev Container users will have their own isolated .venv created via postCreateCommand.
-COPY pyproject.toml uv.lock ./
-RUN uv pip install --system .
 
 # Copy source code
 COPY . .
