@@ -1,12 +1,19 @@
 import os
-from src.databricks_shim.connect import get_spark_session
+
+from dotenv import load_dotenv
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DoubleType
-from pyspark.sql.functions import col, current_timestamp
+from pyspark.sql.functions import current_timestamp
+
+from src.databricks_shim.connect import get_spark_session
+
+
+load_dotenv()
+
 
 def run_etl():
     spark = get_spark_session("ETL_Sample_Job")
     bucket = os.getenv("BUCKET_NAME")
-    prefix = os.getenv("STORAGE_PREFIX", "s3a")
+    prefix = os.getenv("STORAGE_PREFIX")
 
     print("🚀 Starting ETL Job...")
     schema = StructType([

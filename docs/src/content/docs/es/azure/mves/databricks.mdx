@@ -27,10 +27,14 @@ Esta guía te muestra cómo simular un entorno **Databricks** localmente usando 
          ```
       </TabItem>
       <TabItem label="Manual">
-         Lanza todos los servicios necesarios (Spark, MinIO, PostgreSQL):
-         ```bash
-         docker compose up -d
-         ```
+         1. **Inicia la infraestructura**: Lanza todos los servicios necesarios (Spark, MinIO, PostgreSQL).
+            ```bash
+            docker compose up -d
+            ```
+         2. **Ejecuta el** script de setup dentro del contenedor Spark para instalar herramientas y dependencias.
+            ```bash
+            docker compose exec spark bash scripts/setup.sh
+            ```
       </TabItem>
    </Tabs>
 
@@ -44,7 +48,7 @@ Esta guía te muestra cómo simular un entorno **Databricks** localmente usando 
       <TabItem label="Manual">
          Ejecuta el script dentro del contenedor Spark:
          ```bash
-         docker compose exec spark python3 main.py
+         docker compose exec spark .venv/bin/python main.py
          ```
       </TabItem>
    </Tabs>
@@ -52,8 +56,38 @@ Esta guía te muestra cómo simular un entorno **Databricks** localmente usando 
 </Steps>
 
 :::note[Análisis interactivo (solo Dev Container)]
-Abre `src/notebooks/analysis.ipynb` y ejecuta las celdas para analizar los datos registrados en el Hive Metastore y probar el DBUtils Shim (secretos y widgets). Requiere el entorno Jupyter preconfigurado del Dev Container.
+Abre `src/notebooks/analysis.ipynb` y ejecuta las celdas para analizar los datos registrados en el Hive Metastore y probar el DBUtils Shim (secretos y widgets). Requiere el entorno Jupyter preconfigurado del Dev Container. Cuando te pregunte qué kernel usar, selecciona el intérprete `.venv/bin/python`.
 :::
+
+## Cómo depurar
+
+1. **Script de Python (main.py)**:
+   - **Abre** `main.py` y coloca puntos de interrupción.
+   - **Ejecuta** la configuración **Python: Main** desde la pestaña **Run and Debug**.
+2. **Notebook interactivo**:
+   - **Abre** `src/notebooks/analysis.ipynb` y depura las celdas con el depurador de Jupyter.
+
+## Cómo testear
+
+- **All tests**: Ejecuta el script automatizado: `scripts/run_tests.sh`
+- **Individually**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar tests concretos.
+
+## Validar resultados
+
+<Tabs>
+   <TabItem label="Spark UI">
+      Mientras se ejecuta un job, **Abre** la Spark UI:
+      ```bash
+      http://localhost:4040
+      ```
+   </TabItem>
+   <TabItem label="MinIO Console">
+      **Navega** por los ficheros Delta escritos en el bucket. Inicia sesión con `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD`:
+      ```bash
+      http://localhost:9001
+      ```
+   </TabItem>
+</Tabs>
 
 ## Limpieza
 
