@@ -11,14 +11,50 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  run-tests:
-    name: Run tests
+  detect:
+    name: Detect changed Labs
     runs-on: ubuntu-latest
+    outputs:
+      labs: ${{ steps.detect.outputs.labs }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      - name: Detect changed Labs
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            LABS=$(python scripts/changed_labs.py --all)
+          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            LABS=$(git diff --name-only "${{ github.event.before }}" HEAD \
+              | python scripts/changed_labs.py)
+          else
+            BASE=$(git merge-base origin/main HEAD)
+            LABS=$(git diff --name-only "$BASE" HEAD \
+              | python scripts/changed_labs.py)
+          fi
+          echo "Changed Labs: $LABS"
+          echo "labs=$LABS" >> "$GITHUB_OUTPUT"
+
+  run-tests:
+    name: Test ${{ matrix.lab }}
+    needs: detect
+    if: needs.detect.outputs.labs != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lab: ${{ fromJson(needs.detect.outputs.labs) }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -39,15 +75,20 @@ jobs:
           chmod +x ./scripts/setup-tests.sh
           ./scripts/setup-tests.sh
 
-      - name: Run MVE Tests
-        run: uv run pytest -v -s tests/
+      - name: Run Lab Tests
+        run: uv run pytest -v -s "tests/${{ matrix.lab }}"
         env:
           PYTHONPATH: .
 
   release:
     name: Release
     needs: run-tests
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: >-
+      always() &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.run-tests.result != 'failure' &&
+      needs.run-tests.result != 'cancelled'
     runs-on: ubuntu-latest
     permissions:
       contents: write
