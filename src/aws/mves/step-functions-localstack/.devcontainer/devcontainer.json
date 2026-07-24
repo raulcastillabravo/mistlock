@@ -1,11 +1,14 @@
 {
-  "name": "AWS Step Functions Dev",
-  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "name": "Step Functions (LocalStack)",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/app",
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
       "moby": false
-    },
-    "ghcr.io/devcontainers/features/aws-cli:1": {}
+    }
   },
   "customizations": {
     "vscode": {
@@ -15,8 +18,8 @@
       ]
     }
   },
-  "postCreateCommand": "pip3 install uv && uv sync",
-  "runArgs": [
-    "--network=host"
-  ]
+  "containerEnv": {
+    "AWS_PROFILE": "localstack"
+  },
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh"
 }
