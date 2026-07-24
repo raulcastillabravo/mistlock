@@ -13,8 +13,7 @@ Esta guía te muestra cómo trabajar con **AWS Step Functions** localmente usand
 
 - [Docker](https://www.docker.com/get-started) instalado y en ejecución.
 - [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
-- [AWS Toolkit para VS Code](https://marketplace.visualstudio.com/items?itemName=ms-aws-us.aws-toolkit-vscode) (incluido en el Dev Container).
-- [AWS CLI](https://aws.amazon.com/cli/) (incluido en el Dev Container).
+- [AWS Toolkit para VS Code](https://marketplace.visualstudio.com/items?itemName=amazonwebservices.aws-toolkit-vscode) instalado (opcional, incluido en el Dev Container).
 
 ## Cómo ejecutar
 
@@ -29,63 +28,75 @@ Esta guía te muestra cómo trabajar con **AWS Step Functions** localmente usand
          ```
       </TabItem>
       <TabItem label="Manual">
-         ```bash
-         pip3 install uv && uv sync
-         ```
+         1. **Inicia la infraestructura**: Levanta el contenedor de LocalStack.
+            ```bash
+            docker compose up -d
+            ```
+         2. **Ejecuta el script de setup** para instalar herramientas y dependencias, configurar el perfil `localstack` del AWS CLI y desplegar la tabla de DynamoDB, las Lambdas y la Step Function.
+            ```bash
+            scripts/setup.sh
+            ```
       </TabItem>
    </Tabs>
 
-2. **Configurar el perfil de LocalStack**: Configura un perfil de AWS dedicado para LocalStack:
+2. **Ejecutar el ejemplo**:
    ```bash
-   aws configure set aws_access_key_id test --profile localstack
-   aws configure set aws_secret_access_key test --profile localstack
-   aws configure set region us-east-1 --profile localstack
-   aws configure set output json --profile localstack
-   aws configure set endpoint_url http://localhost:4566 --profile localstack
+   scripts/run_main.sh
    ```
-
-3. **Ejecutar el ejemplo**:
-   - **Inicia LocalStack**:
-     ```bash
-     docker compose up -d
-     ```
-   - **Despliega la infraestructura**:
-     ```bash
-     python deploy.py
-     ```
-   - **Ejecuta el flujo**:
-     ```bash
-     python main.py
-     ```
 
 </Steps>
 
-:::note[Inicialización de LocalStack]
-Espera **5-10 segundos** después de `deploy.py` para que LocalStack termine de inicializar el entorno Lambda antes de ejecutar `main.py`.
+:::note[Volver a desplegar el flujo]
+`scripts/setup.sh` ya despliega los recursos. Para aplicar cambios en `step_function.asl.json` o en las Lambdas sin repetir todo el setup, ejecuta `scripts/deploy.sh`.
 :::
 
-## Uso del AWS Toolkit
+## Cómo depurar
 
-1. **Abre la Paleta de Comandos**: Pulsa `F1` o `Ctrl+Shift+P`.
-2. **Conecta a AWS**: Escribe y selecciona **AWS: Connect to AWS**.
-3. **Selecciona el perfil**: Selecciona el perfil `localstack`.
-4. **Visualiza el grafo**: Abre `step_function.asl.json` y haz clic en el icono **Visual Graph** (arriba a la derecha).
-5. **Ejecuta**: En el **AWS Explorer**, haz clic derecho en `UserOnboardingWorkflow` y selecciona **Start Execution**.
+1. **Script de Python (main.py)**:
+   - **Abre**: `main.py` en VS Code.
+   - **Selecciona**: La configuración **Python: main.py** en la pestaña **Run and Debug**.
+   - **Ejecuta**: Pulsa `F5` y recorre paso a paso la ejecución del flujo.
+2. **Despliegue (deploy.py)**:
+   - **Selecciona**: La configuración **Python: deploy.py** para depurar la creación de la tabla, las Lambdas y la Step Function.
+3. **Tests**:
+   - **Abre**: La pestaña **Testing** de VS Code y depura cualquier test con puntos de ruptura.
+
+## Cómo testear
+
+- **Todos los tests**: Ejecuta el script automatizado: `scripts/run_tests.sh`
+- **Individualmente**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar tests concretos.
 
 ## Validar resultados
 
-1. **Verifica la creación del usuario IAM**:
-   ```bash
-   aws iam list-users --profile localstack
-   ```
-2. **Verifica los logs de DynamoDB**:
-   ```bash
-   aws dynamodb scan --table-name UserLogs --profile localstack
-   ```
-3. **Verifica las funciones Lambda**:
-   ```bash
-   aws lambda list-functions --profile localstack
-   ```
+<Tabs>
+   <TabItem label="AWS CLI">
+      Todos los comandos usan el perfil `localstack` creado durante el setup, que apunta a `LOCALSTACK_ENDPOINT` del fichero `.env`.
+
+      - **Verifica la creación del usuario IAM**:
+        ```bash
+        aws iam list-users --profile localstack
+        ```
+      - **Verifica los logs de DynamoDB**: el nombre de la tabla viene de `DYNAMODB_TABLE` en el fichero `.env`.
+        ```bash
+        aws dynamodb scan --table-name UserLogs --profile localstack
+        ```
+      - **Verifica las funciones Lambda**: sus nombres vienen de `LOG_USER_FUNCTION` y `VALIDATE_EMAIL_FUNCTION` en el fichero `.env`.
+        ```bash
+        aws lambda list-functions --profile localstack
+        ```
+      - **Verifica la máquina de estados**: su nombre viene de `STEP_FUNCTION_NAME` en el fichero `.env`.
+        ```bash
+        aws stepfunctions list-state-machines --profile localstack
+        ```
+   </TabItem>
+   <TabItem label="AWS Toolkit">
+      1. **Abre la Paleta de Comandos**: Pulsa `F1` o `Ctrl+Shift+P`.
+      2. **Conecta**: Escribe y selecciona **AWS: Connect to AWS**.
+      3. **Selecciona el perfil**: Selecciona el perfil `localstack`.
+      4. **Visualiza el grafo**: Abre `step_function.asl.json` y haz clic en el icono **Visual Graph** (arriba a la derecha).
+      5. **Ejecuta**: En el **AWS Explorer**, haz clic derecho en la máquina de estados y selecciona **Start Execution**.
+   </TabItem>
+</Tabs>
 
 ## Limpieza
 
@@ -97,8 +108,9 @@ docker compose down -v
 
 | Problema | Solución |
 |----------|----------|
-| La función Lambda está en estado 'Pending' | Espera 5-10 segundos después de `deploy.py` e inténtalo de nuevo. LocalStack puede estar todavía inicializando el entorno Lambda. |
 | Conexión rechazada | Asegúrate de que LocalStack está en ejecución: `docker ps` |
+| El flujo termina con estado `FAILED` | La Lambda `ValidateEmail` rechaza emails con formato inválido. Revisa los detalles de la ejecución que imprime `main.py`. |
+| `Waiting for LocalStack...` no termina nunca | LocalStack no ha arrancado. Revisa los logs: `docker compose logs localstack` |
 
 ## Siguientes pasos
 

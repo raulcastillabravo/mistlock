@@ -1,15 +1,28 @@
 services:
   localstack:
     image: localstack/localstack:4.14
-    container_name: localstack_aws_step_functions
+    container_name: localstack
     ports:
       - "4566:4566"
     environment:
-      - SERVICES=lambda,s3,dynamodb,iam,stepfunctions
-      - DEFAULT_REGION=us-east-1
+      - SERVICES=lambda,dynamodb,iam,stepfunctions
+      - DEFAULT_REGION=${AWS_REGION}
+      # Stop Lambda containers after each invocation so none is left behind
+      - LAMBDA_KEEPALIVE_MS=0
     volumes:
-      - "localstack_data:/var/lib/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    container_name: dev
+    network_mode: host
+    depends_on:
+      - localstack
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    command: sleep infinity
 
 volumes:
   localstack_data:
