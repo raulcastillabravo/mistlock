@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-firebase emulators:exec ".venv/bin/pytest tests/"
+mise exec -- firebase emulators:exec ".venv/bin/pytest tests/"

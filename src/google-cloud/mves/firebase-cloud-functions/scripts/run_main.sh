@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-firebase emulators:exec ".venv/bin/python main.py"
+mise exec -- firebase emulators:exec ".venv/bin/python main.py"
