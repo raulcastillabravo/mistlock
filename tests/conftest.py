@@ -86,15 +86,21 @@ def dev_python(dev_container):
     return _run
 
 @pytest.fixture(scope="module")
-def deploy(request, dev_container):
+def deploy(request, src_dir, dev_container):
     """
     Generic fixture to handle deployment and cleanup using scripts.
     It takes the deployment method from the test's parametrization.
     """
     method = request.param
-    deploy_script = f"scripts/{method}/deploy.sh"
-    destroy_script = f"scripts/{method}/destroy.sh"
-    
+    deploy_dir = f"scripts/deploy/{method}"
+
+    # Labs not yet migrated to scripts/deploy/[method]/ keep the legacy layout
+    if not os.path.isdir(os.path.join(src_dir, deploy_dir)):
+        deploy_dir = f"scripts/{method}"
+
+    deploy_script = f"{deploy_dir}/deploy.sh"
+    destroy_script = f"{deploy_dir}/destroy.sh"
+
     print(f"\n[Setup] Running {deploy_script}...")
     result = dev_container(f"bash {deploy_script}")
     assert result.returncode == 0

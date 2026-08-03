@@ -1,0 +1,3 @@
+# Terraform state and providers
+deploy/terraform/.terraform/
+deploy/terraform/terraform.tfstate*

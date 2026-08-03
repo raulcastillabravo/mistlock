@@ -31,6 +31,7 @@ scenarios), **test** every part, **validate** results (multiple tools), and **cl
 - `.claude/rules/example-structure.md` — required files/scripts per Lab.
 - `.claude/rules/docs-style-guide.md` — required doc sections and their order.
 - `.claude/rules/tests-style-guide.md` — local and global test conventions.
+- `.claude/rules/deployment-methods.md` — deployment methods for cloud emulator Labs.
 
 ## The Functionality Matrix (primary guide)
 
@@ -57,6 +58,9 @@ add a row here.
 | 12 | Catalog and landing listing | — | The Lab is listed in `start-here/catalog.mdx` **and** `es/start-here/catalog.mdx`, and its service appears in the `<Grid>` of `index.mdx` **and** `es/index.mdx` |
 
 Notes:
+- Row 12 applies only to Labs running on a **cloud emulator** (LocalStack and equivalents).
+  See `.claude/rules/deployment-methods.md`. Mark it `N/A` for Labs whose infrastructure is
+  a plain service container (Redis, Postgres, MinIO…) with no cloud resources to deploy.
 - Some functionalities are **not applicable** to every Lab (e.g. SAM Labs are incompatible
   with Dev Containers; a pure CLI Lab may have a single execution method). Mark these
   `N/A` with a one-line reason rather than as a gap.
