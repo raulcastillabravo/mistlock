@@ -21,25 +21,28 @@ This guide shows you how to work with **Google Cloud Firebase Functions** locall
 1. **Setup Environment**:
    <Tabs>
       <TabItem label="Dev Container (recommended)">
-         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
-         ```bash
-         > Dev Containers: Reopen in Container
-         ```
+         1. **Open** **VS Code** in the project folder and execute this command in the **Command Palette**:
+            ```bash
+            > Dev Containers: Reopen in Container
+            ```
+         2. **Start** the Firebase Emulators:
+            ```bash
+            firebase emulators:start
+            ```
       </TabItem>
       <TabItem label="Manually">
-         **Run the setup** script to install tools and dependencies:
-         ```bash
-         scripts/setup.sh
-         ```
+         1. **Run the setup** script to install tools and dependencies:
+            ```bash
+            scripts/setup.sh
+            ```
+         2. **Start** the Firebase Emulators:
+            ```bash
+            mise exec -- firebase emulators:start
+            ```
       </TabItem>
    </Tabs>
 
-2. **Start Firebase Emulators**:
-   ```bash
-   firebase emulators:start
-   ```
-
-3. **Run the Example**:
+2. **Run the Example**:
    <Tabs>
       <TabItem label="Python">
          ```bash
