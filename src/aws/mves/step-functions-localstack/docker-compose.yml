@@ -5,7 +5,7 @@ services:
     ports:
       - "4566:4566"
     environment:
-      - SERVICES=lambda,dynamodb,iam,stepfunctions
+      - SERVICES=lambda,dynamodb,iam,stepfunctions,s3,cloudformation
       - DEFAULT_REGION=${AWS_REGION}
       # Stop Lambda containers after each invocation so none is left behind
       - LAMBDA_KEEPALIVE_MS=0
@@ -18,7 +18,8 @@ services:
     container_name: dev
     network_mode: host
     depends_on:
-      - localstack
+      localstack:
+        condition: service_healthy
     volumes:
       - .:/app:cached
     working_dir: /app

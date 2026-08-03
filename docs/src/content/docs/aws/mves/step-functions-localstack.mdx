@@ -32,22 +32,58 @@ This guide shows you how to work with **AWS Step Functions** locally using **Loc
             ```bash
             docker compose up -d
             ```
-         2. **Run the setup** script to install tools and dependencies, configure the `localstack` AWS CLI profile and deploy the DynamoDB table, the Lambdas and the Step Function.
+         2. **Run the setup** script to install tools and dependencies, configure the `localstack` AWS CLI profile and package the Lambda artifacts into `dist/`.
             ```bash
             scripts/setup.sh
             ```
       </TabItem>
    </Tabs>
 
-2. **Run the Example**:
+2. **Deploy the resources**: Create the DynamoDB table, the Lambdas and the Step Function with the default method.
+   ```bash
+   scripts/deploy/boto3/deploy.sh
+   ```
+
+3. **Run the Example**:
    ```bash
    scripts/run_main.sh
    ```
 
 </Steps>
 
-:::note[Redeploying the workflow]
-`scripts/setup.sh` already deploys the resources. To apply changes made to `step_function.asl.json` or to the Lambdas without a full setup, run `scripts/deploy.sh`.
+:::note[Rebuilding the artifacts]
+Deployment always consumes the zips in `dist/`. After changing a Lambda, rebuild them before deploying again: `scripts/build.sh`
+:::
+
+## Deployment methods
+
+There are other **deployment methods** you can use in this lab.
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      scripts/deploy/terraform/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      scripts/deploy/cloudformation/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="AWS CLI">
+      ```bash
+      scripts/deploy/cli/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      scripts/deploy/boto3/deploy.sh
+      ```
+   </TabItem>
+</Tabs>
+
+:::note[Switching deployment methods]
+If you switch between methods, run **Clean Up** first to avoid resource name conflicts.
 :::
 
 ## How to debug
@@ -56,8 +92,8 @@ This guide shows you how to work with **AWS Step Functions** locally using **Loc
    - **Open**: `main.py` in VS Code.
    - **Select**: The **Python: main.py** configuration in the **Run and Debug** tab.
    - **Run**: Press `F5` and step through the workflow execution.
-2. **Deployment (deploy.py)**:
-   - **Select**: The **Python: deploy.py** configuration to debug the creation of the table, the Lambdas and the Step Function.
+2. **Deployment (deploy/boto3/deploy.py)**:
+   - **Select**: The **Python: deploy (boto3)** configuration to debug the creation of the table, the Lambdas and the Step Function.
 3. **Tests**:
    - **Open**: The VS Code **Testing** tab and debug any test case with breakpoints.
 
@@ -100,6 +136,33 @@ This guide shows you how to work with **AWS Step Functions** locally using **Loc
 
 ## Clean Up
 
+To **remove only the deployed resources**, run the **destroy** script for the method you used:
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      scripts/deploy/terraform/destroy.sh
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      scripts/deploy/cloudformation/destroy.sh
+      ```
+   </TabItem>
+   <TabItem label="AWS CLI">
+      ```bash
+      scripts/deploy/cli/destroy.sh
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      scripts/deploy/boto3/destroy.sh
+      ```
+   </TabItem>
+</Tabs>
+
+To remove all containers and volumes as well:
+
 ```bash
 docker compose down -v
 ```
@@ -110,7 +173,8 @@ docker compose down -v
 |-------|----------|
 | Connection refused | Ensure LocalStack is running: `docker ps` |
 | Workflow status is `FAILED` | The `ValidateEmail` Lambda rejects malformed emails. Check the execution details printed by `main.py`. |
-| `Waiting for LocalStack...` never ends | LocalStack failed to start. Inspect the logs: `docker compose logs localstack` |
+| `ResourceNotFoundException` on `dist/*.zip` | The artifacts are missing. Build them: `scripts/build.sh` |
+| Resource already exists when deploying | You switched deployment methods without cleaning up. Run the **destroy** script of the previous method. |
 
 ## Next steps
 

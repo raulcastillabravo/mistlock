@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: User onboarding workflow (DynamoDB, Lambdas and Step Function)
+
+Parameters:
+  RoleName:
+    Type: String
+  TableName:
+    Type: String
+  LogUserFunctionName:
+    Type: String
+  ValidateEmailFunctionName:
+    Type: String
+  StateMachineName:
+    Type: String
+  Runtime:
+    Type: String
+  CodeBucket:
+    Type: String
+
+Resources:
+  WorkflowRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref RoleName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - states.amazonaws.com
+            Action: sts:AssumeRole
+
+  UserLogsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref TableName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: username
+          AttributeType: S
+      KeySchema:
+        - AttributeName: username
+          KeyType: HASH
+
+  LogUserFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Ref LogUserFunctionName
+      Handler: log_user.handler
+      Runtime: !Ref Runtime
+      Role: !GetAtt WorkflowRole.Arn
+      Timeout: 30
+      Code:
+        S3Bucket: !Ref CodeBucket
+        S3Key: log_user.zip
+      Environment:
+        Variables:
+          DYNAMODB_TABLE: !Ref TableName
+
+  ValidateEmailFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Ref ValidateEmailFunctionName
+      Handler: validate_email.handler
+      Runtime: !Ref Runtime
+      Role: !GetAtt WorkflowRole.Arn
+      Timeout: 30
+      Code:
+        S3Bucket: !Ref CodeBucket
+        S3Key: validate_email.zip
+
+  OnboardingStateMachine:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      StateMachineName: !Ref StateMachineName
+      RoleArn: !GetAtt WorkflowRole.Arn
+      DefinitionSubstitutions:
+        LogUserLambdaArn: !GetAtt LogUserFunction.Arn
+        ValidateEmailLambdaArn: !GetAtt ValidateEmailFunction.Arn
+      DefinitionString: |
+        {
+          "StartAt": "ProcessUserOnboarding",
+          "States": {
+            "ProcessUserOnboarding": {
+              "Type": "Parallel",
+              "Next": "CreateIAMUser",
+              "Branches": [
+                {
+                  "StartAt": "LogUser",
+                  "States": {
+                    "LogUser": {
+                      "Type": "Task",
+                      "Resource": "${LogUserLambdaArn}",
+                      "End": true
+                    }
+                  }
+                },
+                {
+                  "StartAt": "ValidateEmail",
+                  "States": {
+                    "ValidateEmail": {
+                      "Type": "Task",
+                      "Resource": "${ValidateEmailLambdaArn}",
+                      "End": true
+                    }
+                  }
+                }
+              ]
+            },
+            "CreateIAMUser": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::aws-sdk:iam:createUser",
+              "Parameters": {
+                "UserName.$": "$.[0].username"
+              },
+              "End": true
+            }
+          }
+        }

@@ -14,7 +14,8 @@
     "vscode": {
       "extensions": [
         "ms-python.python",
-        "amazonwebservices.aws-toolkit-vscode"
+        "amazonwebservices.aws-toolkit-vscode",
+        "hashicorp.terraform"
       ]
     }
   },

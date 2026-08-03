@@ -32,22 +32,58 @@ Esta guía te muestra cómo trabajar con **AWS Step Functions** localmente usand
             ```bash
             docker compose up -d
             ```
-         2. **Ejecuta el script de setup** para instalar herramientas y dependencias, configurar el perfil `localstack` del AWS CLI y desplegar la tabla de DynamoDB, las Lambdas y la Step Function.
+         2. **Ejecuta el script de setup** para instalar herramientas y dependencias, configurar el perfil `localstack` del AWS CLI y empaquetar los artefactos de las Lambdas en `dist/`.
             ```bash
             scripts/setup.sh
             ```
       </TabItem>
    </Tabs>
 
-2. **Ejecutar el ejemplo**:
+2. **Desplegar los recursos**: Crea la tabla de DynamoDB, las Lambdas y la Step Function con el método por defecto.
+   ```bash
+   scripts/deploy/boto3/deploy.sh
+   ```
+
+3. **Ejecutar el ejemplo**:
    ```bash
    scripts/run_main.sh
    ```
 
 </Steps>
 
-:::note[Volver a desplegar el flujo]
-`scripts/setup.sh` ya despliega los recursos. Para aplicar cambios en `step_function.asl.json` o en las Lambdas sin repetir todo el setup, ejecuta `scripts/deploy.sh`.
+:::note[Reconstruir los artefactos]
+El despliegue siempre consume los zips de `dist/`. Después de cambiar una Lambda, reconstrúyelos antes de volver a desplegar: `scripts/build.sh`
+:::
+
+## Métodos de despliegue
+
+Existen otros **métodos de despliegue** que puedes usar en este lab.
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      scripts/deploy/terraform/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      scripts/deploy/cloudformation/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="AWS CLI">
+      ```bash
+      scripts/deploy/cli/deploy.sh
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      scripts/deploy/boto3/deploy.sh
+      ```
+   </TabItem>
+</Tabs>
+
+:::note[Cambiar de método de despliegue]
+Si cambias de método, ejecuta primero la **Limpieza** para evitar conflictos con los nombres de los recursos.
 :::
 
 ## Cómo depurar
@@ -56,8 +92,8 @@ Esta guía te muestra cómo trabajar con **AWS Step Functions** localmente usand
    - **Abre**: `main.py` en VS Code.
    - **Selecciona**: La configuración **Python: main.py** en la pestaña **Run and Debug**.
    - **Ejecuta**: Pulsa `F5` y recorre paso a paso la ejecución del flujo.
-2. **Despliegue (deploy.py)**:
-   - **Selecciona**: La configuración **Python: deploy.py** para depurar la creación de la tabla, las Lambdas y la Step Function.
+2. **Despliegue (deploy/boto3/deploy.py)**:
+   - **Selecciona**: La configuración **Python: deploy (boto3)** para depurar la creación de la tabla, las Lambdas y la Step Function.
 3. **Tests**:
    - **Abre**: La pestaña **Testing** de VS Code y depura cualquier test con puntos de ruptura.
 
@@ -100,6 +136,33 @@ Esta guía te muestra cómo trabajar con **AWS Step Functions** localmente usand
 
 ## Limpieza
 
+Para **eliminar solo los recursos desplegados**, ejecuta el script **destroy** del método que hayas usado:
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      scripts/deploy/terraform/destroy.sh
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      scripts/deploy/cloudformation/destroy.sh
+      ```
+   </TabItem>
+   <TabItem label="AWS CLI">
+      ```bash
+      scripts/deploy/cli/destroy.sh
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      scripts/deploy/boto3/destroy.sh
+      ```
+   </TabItem>
+</Tabs>
+
+Para eliminar también todos los contenedores y volúmenes:
+
 ```bash
 docker compose down -v
 ```
@@ -110,7 +173,8 @@ docker compose down -v
 |----------|----------|
 | Conexión rechazada | Asegúrate de que LocalStack está en ejecución: `docker ps` |
 | El flujo termina con estado `FAILED` | La Lambda `ValidateEmail` rechaza emails con formato inválido. Revisa los detalles de la ejecución que imprime `main.py`. |
-| `Waiting for LocalStack...` no termina nunca | LocalStack no ha arrancado. Revisa los logs: `docker compose logs localstack` |
+| `ResourceNotFoundException` con `dist/*.zip` | Faltan los artefactos. Constrúyelos: `scripts/build.sh` |
+| Error de recurso ya existente al desplegar | Has cambiado de método sin limpiar. Ejecuta el script **destroy** del método anterior. |
 
 ## Siguientes pasos
 

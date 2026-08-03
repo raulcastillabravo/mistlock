@@ -39,4 +39,5 @@ Read specific rule files for more information about these topics:
 - Docs site pages: .claude/rules/docs-style-guide.md.
 - Testing: .claude/rules/tests-style-guide.md.
 - MVE / Project structure: .claude/rules/example-structure.md
+- Deployment methods (cloud emulator Labs): .claude/rules/deployment-methods.md
 

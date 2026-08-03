@@ -1,0 +1,38 @@
+[tools]
+python = "3.12"
+uv = "latest"
+awscli = "latest"
+terraform = "latest"
+
+[settings]
+env_file = ".env"
+
+[tasks.sync]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.configure_aws]
+description = "Configure AWS CLI"
+run = """
+aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile localstack
+aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile localstack
+aws configure set region $AWS_REGION --profile localstack
+aws configure set output json --profile localstack
+aws configure set profile.localstack.endpoint_url $LOCALSTACK_ENDPOINT
+"""
+
+[tasks.build]
+description = "Package the Lambda artifacts into dist/"
+run = "scripts/build.sh"
+
+[tasks.deploy]
+description = "Deploy resources with the default method (boto3)"
+run = "scripts/deploy/boto3/deploy.sh"
+
+[tasks.setup]
+description = "Full environment setup"
+run = [
+  { task = "sync" },
+  { task = "configure_aws" },
+  { task = "build" },
+]

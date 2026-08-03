@@ -33,6 +33,10 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
 └── README.es.md
 ```
 
+Labs running on a **cloud emulator** (LocalStack and equivalents) add `build/`,
+`dist/`, `deploy/[method]/` and `scripts/deploy/[method]/` on top of this
+structure — see `.claude/rules/deployment-methods.md`.
+
 ## Dev Container
 
 - The `dev` service defined in `docker-compose.yml` must be used as the Dev Container.
