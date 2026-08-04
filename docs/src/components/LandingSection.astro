@@ -2,9 +2,10 @@
 interface Props {
   alt?: boolean;
   centered?: boolean;
+  tightTop?: boolean;
 }
 
-const { alt = false, centered = false } = Astro.props;
+const { alt = false, centered = false, tightTop = false } = Astro.props;
 ---
 
 <section
@@ -15,7 +16,7 @@ const { alt = false, centered = false } = Astro.props;
   ]}
   data-landing-section
 >
-  <div class="section__inner py-16 px-4">
+  <div class:list={["section__inner px-4", tightTop ? "pt-0 pb-16" : "py-16"]}>
     <slot />
   </div>
 </section>
