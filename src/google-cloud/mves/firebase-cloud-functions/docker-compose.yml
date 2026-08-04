@@ -1,7 +1,8 @@
+name: mistlock-gcp-firebase-cloud-functions
+
 services:
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
-    container_name: dev
     volumes:
       - .:/app:cached
     working_dir: /app

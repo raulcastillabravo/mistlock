@@ -1,7 +1,8 @@
+name: mistlock-aws-sql-writer
+
 services:
   localstack:
     image: localstack/localstack:4.14
-    container_name: localstack_hybrid
     ports:
       - "4566:4566"
     environment:
@@ -13,7 +14,6 @@ services:
 
   postgres:
     image: postgres:15
-    container_name: postgres_hybrid
     ports:
       - "5432:5432"
     environment:

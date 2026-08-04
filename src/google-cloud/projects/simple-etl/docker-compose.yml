@@ -1,7 +1,8 @@
+name: mistlock-gcp-simple-etl
+
 services:
   postgres:
     image: postgres:15
-    container_name: gcp_postgres_local
     ports:
       - "5432:5432"
     environment:

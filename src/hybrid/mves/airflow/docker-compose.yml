@@ -43,6 +43,8 @@
 #                                Default: ''
 #
 # Feel free to modify this file to suit your needs.
+name: mistlock-hybrid-airflow
+
 ---
 x-airflow-common:
   &airflow-common

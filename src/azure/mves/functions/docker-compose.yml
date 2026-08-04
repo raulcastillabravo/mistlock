@@ -1,7 +1,8 @@
+name: mistlock-azure-functions
+
 services:
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
-    container_name: azurite
     ports:
       - "10000:10000" # Blob service
       - "10001:10001" # Queue service
@@ -12,7 +13,6 @@ services:
 
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
-    container_name: dev
     network_mode: host
     depends_on:
       - azurite

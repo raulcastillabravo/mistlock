@@ -62,7 +62,7 @@ Esta guía te muestra cómo trabajar con **PostgreSQL** localmente usando **Dock
    <TabItem label="SQL CLI">
       **Ejecuta** el siguiente comando para consultar la base de datos directamente (credenciales en `.env`):
       ```bash
-      docker exec -it postgres_local psql -U admin -d testdb -c "SELECT * FROM users;"
+      docker compose exec postgres psql -U admin -d testdb -c "SELECT * FROM users;"
       ```
    </TabItem>
    <TabItem label="Database Client">
