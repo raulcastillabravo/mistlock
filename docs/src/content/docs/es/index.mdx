@@ -21,6 +21,7 @@ import Steps from '../../../components/Steps.astro';
 import CodeWindow from '../../../components/CodeWindow.astro';
 import HorizontalSplit from '../../../components/HorizontalSplit.astro';
 import LandingFooter from '../../../components/LandingFooter.astro';
+import { YouTube } from 'astro-embed';
 
 <LandingSection>
   <Grid items={[
@@ -31,6 +32,16 @@ import LandingFooter from '../../../components/LandingFooter.astro';
     { icon: "🔀", title: "Un objetivo, múltiples métodos", description: "Cada Lab permite múltiples formas de ejecutar, depurar y testear, además de herramientas visuales y extensiones para gestionar recursos locales." },
   ]} />
 
+</LandingSection>
+
+<LandingSection centered tightTop>
+  <h2>Canal de YouTube</h2>
+
+  Si nunca has desarrollado levantando una nube en local, en este vídeo te cuento en qué consiste y un poco de la historia del proyecto.
+
+  <div style={{ maxWidth: '48rem', margin: '0 auto' }}>
+    <YouTube id="cMVP0HsTrXo" />
+  </div>
 </LandingSection>
 
 <LandingSection alt>

@@ -1,5 +1,6 @@
 ---
 import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
 import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
 import GitHubStars from './GitHubStars.astro';
 ---
@@ -49,6 +50,9 @@ import GitHubStars from './GitHubStars.astro';
 		</svg>
 	</button>
 	<div id="landing-menu-panel" class="landing-panel" role="region" aria-label="Site settings">
+		<div class="social-icons">
+			<SocialIcons />
+		</div>
 		<GitHubStars />
 		<ThemeSelect />
 		<LanguageSelect />
@@ -117,6 +121,17 @@ import GitHubStars from './GitHubStars.astro';
 			padding: 0.75rem 1rem;
 			background-color: var(--sl-color-bg-nav);
 			border-block-end: 1px solid var(--sl-color-hairline-shade);
+		}
+
+		.social-icons {
+			display: flex;
+			gap: 1rem;
+			align-items: center;
+			padding-block: 0.25rem;
+		}
+
+		.social-icons:empty {
+			display: none;
 		}
 	}
 </style>

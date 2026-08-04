@@ -1,21 +1,32 @@
 ---
-import Default from '@astrojs/starlight/components/SocialIcons.astro';
+import Default from "@astrojs/starlight/components/SocialIcons.astro";
 ---
 
 <span data-social-icons-wrapper>
-  <Default><slot /></Default>
+	<Default><slot /></Default>
 </span>
+
+<style>
+	[data-social-icons-wrapper] {
+		display: contents;
+	}
+</style>
 
 <script>
 	function initSocialLinks() {
-		document.querySelectorAll('[data-social-icons-wrapper] a').forEach(link => {
-			link.setAttribute('target', '_blank');
-			link.setAttribute('rel', 'me noopener noreferrer');
-			if (link.getAttribute('href')?.includes('linkedin')) {
-				link.setAttribute('data-umami-event', 'linkedin');
-			}
-		});
+		document
+			.querySelectorAll("[data-social-icons-wrapper] a")
+			.forEach((link) => {
+				link.setAttribute("target", "_blank");
+				link.setAttribute("rel", "me noopener noreferrer");
+				const href = link.getAttribute("href") ?? "";
+				if (href.includes("linkedin")) {
+					link.setAttribute("data-umami-event", "linkedin");
+				} else if (href.includes("youtube")) {
+					link.setAttribute("data-umami-event", "youtube");
+				}
+			});
 	}
-	document.addEventListener('astro:page-load', initSocialLinks);
+	document.addEventListener("astro:page-load", initSocialLinks);
 	initSocialLinks();
 </script>

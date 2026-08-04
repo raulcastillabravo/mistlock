@@ -21,6 +21,7 @@ import Steps from '../../components/Steps.astro';
 import CodeWindow from '../../components/CodeWindow.astro';
 import HorizontalSplit from '../../components/HorizontalSplit.astro';
 import LandingFooter from '../../components/LandingFooter.astro';
+import { YouTube } from 'astro-embed';
 
 <LandingSection>
   <Grid items={[
@@ -31,6 +32,16 @@ import LandingFooter from '../../components/LandingFooter.astro';
     { icon: "🔀", title: "One Goal, Multiple Methods", description: "Every Lab supports multiple ways to run, debug and test, and many visual tools and extensions to manage local resources." },
   ]} />
 
+</LandingSection>
+
+<LandingSection centered tightTop>
+  <h2>YouTube channel</h2>
+
+  If you have never developed against a cloud running locally, in this video I tell you what it is about and a bit of the project's story.
+
+  <div style={{ maxWidth: '48rem', margin: '0 auto' }}>
+    <YouTube id="cMVP0HsTrXo" />
+  </div>
 </LandingSection>
 
 <LandingSection alt>

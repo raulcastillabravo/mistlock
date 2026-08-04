@@ -49,7 +49,7 @@ export default defineConfig({
             customCss: ['./src/styles/global.css'],
             social: [
                 { icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/raulcastillabravo/' },
-
+                { icon: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/channel/UCJehjjy31LBrE6bGGvnnE5w' },
             ],
             locales: {
                 root: {
