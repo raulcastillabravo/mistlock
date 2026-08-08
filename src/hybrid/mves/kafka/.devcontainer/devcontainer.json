@@ -1,0 +1,23 @@
+{
+	"name": "Kafka MVE",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+	"service": "dev",
+	"workspaceFolder": "/app",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+			"moby": false
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"tamasfe.even-better-toml",
+				"jeppeandersen.vscode-kafka"
+			]
+		}
+	},
+	"postCreateCommand": ".devcontainer/postCreateCommand.sh"
+}

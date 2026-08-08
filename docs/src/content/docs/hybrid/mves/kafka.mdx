@@ -1,0 +1,160 @@
+---
+title: Kafka
+description: "Run Apache Kafka locally with Docker Compose and Python: produce and consume events with the confluent-kafka client, Kafka UI, and the Kafka CLI tools."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to work with **Apache Kafka** locally using **Docker Compose** and **Python**. This lab demonstrates how to produce and consume events on a topic with the confluent-kafka client, inspect them in Kafka UI, and operate the broker with the Kafka CLI tools.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+
+## How to execute
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manually">
+         1. **Start Infrastructure**: Launch the Kafka broker and Kafka UI containers:
+            ```bash
+            docker compose up -d
+            ```
+         2. **Run the setup** script to install tools and dependencies:
+            ```bash
+            scripts/setup.sh
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Run the Example**:
+   <Tabs>
+      <TabItem label="Python">
+         Produce the events and consume them back in a single run:
+         ```bash
+         python main.py
+         ```
+      </TabItem>
+      <TabItem label="Live consumer">
+         1. **Run** the long-running consumer in one terminal:
+            ```bash
+            scripts/run_consumer.sh
+            ```
+         2. **Run** the producer in a second terminal and watch the events arrive:
+            ```bash
+            scripts/run_main.sh
+            ```
+      </TabItem>
+      <TabItem label="Kafka CLI">
+         1. **Produce** an event by typing it in the console producer:
+            ```bash
+            scripts/kafka.sh kafka-console-producer.sh --topic user-events
+            ```
+         2. **Consume** the events from the beginning of the topic:
+            ```bash
+            scripts/kafka.sh kafka-console-consumer.sh --topic user-events --from-beginning
+            ```
+      </TabItem>
+      <TabItem label="Tools for Apache Kafka">
+         - **Install**: [Tools for Apache Kafka](vscode:extension/jeppeandersen.vscode-kafka).
+         - **Connect**: The `local` cluster is preconfigured in `.vscode/settings.json` from `KAFKA_BOOTSTRAP_SERVERS`.
+         - **Open**: Open `playgrounds/user_events.kafka`.
+         - **Run**: Click **Produce record** or **Start consumer** above each block.
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+:::note[Consumer groups]
+`main.py` and `consume.py` share the `KAFKA_GROUP_ID` defined in `.env`, so each run resumes from the last committed offset instead of replaying the whole topic.
+:::
+
+## How to debug
+
+1. **main.py**:
+   - **Open**: Open `main.py`.
+   - **Breakpoints**: Set breakpoints in the code.
+   - **Run**: Press `F5` and select **Python: Main**.
+
+2. **consume.py**:
+   - **Open**: Open `consume.py`.
+   - **Breakpoints**: Set breakpoints in the consumer callback.
+   - **Run**: Press `F5` and select **Python: Consumer**, then produce events from another terminal.
+
+3. **Tests**:
+   - **Open**: Open a test file (e.g., `tests/providers/test_event_consumer.py`).
+   - **Breakpoints**: Set breakpoints in the test code.
+   - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test you want to debug.
+
+## How to test
+
+- **All tests**: Run the automated script:
+  ```bash
+  scripts/run_tests.sh
+  ```
+- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
+
+Tests use the dedicated topic and consumer group defined in `.env.test`, created and deleted per test, so they never touch the topic used by `main.py`.
+
+## Validate results
+
+<Tabs>
+   <TabItem label="Kafka UI">
+      - **Open**: Browse to the UI (port from `KAFKA_UI_PORT` in your `.env`):
+        ```bash
+        http://localhost:8080
+        ```
+      - **Verify**: Navigate to **local** → **Topics** → `user-events` → **Messages**.
+      - **Monitor**: Check **Consumers** to see the lag of the `user-events-consumer` group.
+   </TabItem>
+   <TabItem label="Kafka CLI">
+      - **List** the topics:
+        ```bash
+        scripts/kafka.sh kafka-topics.sh --list
+        ```
+      - **Read** every event stored in the topic:
+        ```bash
+        scripts/kafka.sh kafka-console-consumer.sh --topic user-events --from-beginning
+        ```
+      - **Verify** the offsets and lag of the consumer group:
+        ```bash
+        scripts/kafka.sh kafka-consumer-groups.sh --describe --group user-events-consumer
+        ```
+   </TabItem>
+   <TabItem label="Tools for Apache Kafka">
+      - **Install**: [Tools for Apache Kafka](vscode:extension/jeppeandersen.vscode-kafka).
+      - **Browse**: Open the **Kafka** panel in the Activity Bar and expand the `local` cluster.
+      - **Verify**: Expand **Topics** → `user-events` to inspect partitions and offsets.
+      - **Interactive**: Use `playgrounds/user_events.kafka` to produce and consume records from the editor.
+   </TabItem>
+</Tabs>
+
+## Clean Up
+
+```bash
+docker compose down -v
+```
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| The producer fails with `Connection refused`. | The broker takes a few seconds to start. Check it is ready with `docker compose logs kafka`. |
+| `main.py` consumes no events. | The consumer group already committed those offsets. Produce new events, or reset with `scripts/kafka.sh kafka-consumer-groups.sh --group user-events-consumer --topic user-events --reset-offsets --to-earliest --execute`. |
+| Kafka UI shows no cluster. | The UI reaches the broker on the internal listener `kafka:9093`. Make sure both containers are up with `docker compose ps`. |
+
+## Next steps
+
+- [Explore the related RabbitMQ Lab.](/hybrid/mves/rabbitmq/)
+- [Explore the related Airflow Lab.](/hybrid/mves/airflow/)

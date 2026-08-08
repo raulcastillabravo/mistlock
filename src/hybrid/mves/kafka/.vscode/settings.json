@@ -1,0 +1,15 @@
+{
+    "python.defaultInterpreterPath": ".venv/bin/python",
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "kafka.clusters": [
+        {
+            "id": "local",
+            "name": "local",
+            "bootstrap": "127.0.0.1:9092"
+        }
+    ]
+}
