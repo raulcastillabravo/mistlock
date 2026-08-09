@@ -140,7 +140,7 @@ docker compose down -v
 | Problema | Solución |
 |----------|----------|
 | El productor falla con `Connection refused`. | El broker tarda unos segundos en arrancar. Comprueba que está listo con `docker compose logs kafka`. |
-| `main.py` no consume ningún evento. | El consumer group ya confirmó esos offsets. Produce nuevos eventos, o reinícialos con `scripts/kafka.sh kafka-consumer-groups.sh --group user-events-consumer --topic user-events --reset-offsets --to-earliest --execute`. |
+| Publicas eventos pero ningún consumidor los imprime. | Lista los miembros del grupo con `scripts/kafka.sh kafka-consumer-groups.sh --describe --group user-events-consumer --members`. **Sin miembros**: no hay nada consumiendo, arranca un consumidor con `python main.py -c`. **Más de un miembro**: el topic tiene una sola partición, así que solo un miembro la tiene asignada y es ese el que está recibiendo los eventos — para los consumidores sobrantes. |
 | Kafka UI no muestra ningún cluster. | La UI accede al broker por el listener interno `kafka:9093`. Asegúrate de que ambos contenedores están levantados con `docker compose ps`. |
 
 ## Siguientes pasos
