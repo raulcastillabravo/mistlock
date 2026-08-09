@@ -41,20 +41,20 @@ This guide shows you how to work with **Apache Kafka** locally using **Docker Co
 2. **Run the Example**:
    <Tabs>
       <TabItem label="Python">
-         Produce the events and consume them back in a single run:
-         ```bash
-         python main.py
-         ```
-      </TabItem>
-      <TabItem label="Live consumer">
-         1. **Run** the long-running consumer in one terminal:
-            ```bash
-            scripts/run_consumer.sh
-            ```
-         2. **Run** the producer in a second terminal and watch the events arrive:
-            ```bash
-            scripts/run_main.sh
-            ```
+         - **Run** the full round trip. It publishes the events, consumes them back and exits:
+           ```bash
+           python main.py
+           ```
+         - **Split** it across two terminals. `-c` keeps the consumer listening until `CTRL+C`, and `-p` only publishes:
+
+           Terminal 1:
+           ```bash
+           python main.py -c
+           ```
+           Terminal 2:
+           ```bash
+           python main.py -p
+           ```
       </TabItem>
       <TabItem label="Kafka CLI">
          1. **Produce** an event by typing it in the console producer:
@@ -76,24 +76,15 @@ This guide shows you how to work with **Apache Kafka** locally using **Docker Co
 
 </Steps>
 
-:::note[Consumer groups]
-`main.py` and `consume.py` share the `KAFKA_GROUP_ID` defined in `.env`, so each run resumes from the last committed offset instead of replaying the whole topic.
-:::
-
 ## How to debug
 
 1. **main.py**:
    - **Open**: Open `main.py`.
-   - **Breakpoints**: Set breakpoints in the code.
-   - **Run**: Press `F5` and select **Python: Main**.
+   - **Breakpoints**: Set breakpoints in `publish_events` or `print_event`.
+   - **Run**: Press `F5` and select **Python: Main**, which runs the full round trip.
 
-2. **consume.py**:
-   - **Open**: Open `consume.py`.
-   - **Breakpoints**: Set breakpoints in the consumer callback.
-   - **Run**: Press `F5` and select **Python: Consumer**, then produce events from another terminal.
-
-3. **Tests**:
-   - **Open**: Open a test file (e.g., `tests/providers/test_event_consumer.py`).
+2. **Tests**:
+   - **Open**: Open a test file (e.g., `tests/components/test_event_consumer.py`).
    - **Breakpoints**: Set breakpoints in the test code.
    - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test you want to debug.
 
@@ -104,8 +95,6 @@ This guide shows you how to work with **Apache Kafka** locally using **Docker Co
   scripts/run_tests.sh
   ```
 - **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.
-
-Tests use the dedicated topic and consumer group defined in `.env.test`, created and deleted per test, so they never touch the topic used by `main.py`.
 
 ## Validate results
 

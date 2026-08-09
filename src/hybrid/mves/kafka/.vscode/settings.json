@@ -11,5 +11,6 @@
             "name": "local",
             "bootstrap": "127.0.0.1:9092"
         }
-    ]
+    ],
+    "kafka.clusters.selected": "local-bG9jYWxob3N0OjkwOTI"
 }

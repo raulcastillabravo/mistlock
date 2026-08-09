@@ -11,10 +11,21 @@
       "envFile": "${workspaceFolder}/.env"
     },
     {
+      "name": "Python: Publisher",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "main.py",
+      "args": ["-p"],
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
       "name": "Python: Consumer",
       "type": "debugpy",
       "request": "launch",
-      "program": "consume.py",
+      "program": "main.py",
+      "args": ["-c"],
       "console": "integratedTerminal",
       "justMyCode": true,
       "envFile": "${workspaceFolder}/.env"

@@ -1,7 +1,7 @@
 from confluent_kafka import Message
 
-from src.providers.event_consumer import EventConsumer
-from src.providers.event_producer import EventProducer
+from src.components.event_consumer import EventConsumer
+from src.components.event_producer import EventProducer
 
 EVENTS = [("first", "a@example.com"), ("second", "b@example.com")]
 
@@ -22,11 +22,11 @@ def test_event_consumer(topic):
 
 def test_event_consumer_stops_on_timeout(topic):
     consumer = EventConsumer()
-    count = consumer.consume(received_none, limit=1, timeout=5.0)
+    count = consumer.consume(fail_on_message, limit=1, timeout=5.0)
     consumer.close()
 
     assert count == 0
 
 
-def received_none(message: Message) -> None:
+def fail_on_message(message: Message) -> None:
     raise AssertionError(f"Unexpected message: {message.key()}")

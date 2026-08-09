@@ -28,6 +28,7 @@ class EventConsumer:
         """Consumes messages until `limit` is reached (forever if None)."""
         count = 0
         while limit is None or count < limit:
+            # poll returns None if no message is received before the timeout
             message = self._consumer.poll(timeout)
 
             if message is None:

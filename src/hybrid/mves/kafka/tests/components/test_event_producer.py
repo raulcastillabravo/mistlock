@@ -1,7 +1,7 @@
 from confluent_kafka import Message
 
-from src.providers.event_consumer import EventConsumer
-from src.providers.event_producer import EventProducer
+from src.components.event_consumer import EventConsumer
+from src.components.event_producer import EventProducer
 
 
 def test_event_producer(topic):
