@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "tamasfe.even-better-toml",
+    "jeppeandersen.vscode-kafka"
+  ]
+}

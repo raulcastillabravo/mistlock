@@ -27,6 +27,7 @@
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
+    "@iconify-json/simple-icons": "^1.2.93",
     "@types/archiver": "^7.0.0",
     "archiver": "^8.0.0"
   }

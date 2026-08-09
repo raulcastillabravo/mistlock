@@ -1,0 +1,10 @@
+PRODUCER user-registered
+topic: user-events
+key: user-registered
+playground@example.com
+
+###
+
+CONSUMER user-events-playground
+topic: user-events
+from: earliest

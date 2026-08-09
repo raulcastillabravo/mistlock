@@ -79,8 +79,10 @@ isLab: true
 
 The `llms.txt` files are generated automatically at build time by the `starlight-llms-txt` plugin — no manual update needed.
 
-## 6. Repository Documentation
+## 6. Catalog and Landing
 
-Update the main tables in the root directory of `mve-collection` for every technology involved in the MVE:
-- Add an entry to the table in `README.md`.
-- Add a matching entry to the table in `README.es.md`.
+The catalog and the landing page are **hand-written**: a new Lab does not appear in them on its own. Following the "Docs site checklist" in [example-structure.md](../rules/example-structure.md):
+
+1. **Catalog**: add the Lab to `docs/src/content/docs/start-here/catalog.mdx` and `docs/src/content/docs/es/start-here/catalog.mdx` — a new entry in the service's existing `<CatalogCard>`, or a new card when the service has none.
+2. **Landing**: add the service to the provider's `<Grid>` in `docs/src/content/docs/index.mdx` and `docs/src/content/docs/es/index.mdx`, unless it is already listed there.
+3. **Verify**: run `pnpm build` in `docs/` and confirm the Lab appears in `dist/start-here/catalog/index.html` and its Spanish counterpart.

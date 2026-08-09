@@ -1,0 +1,149 @@
+---
+title: Kafka
+description: "Ejecuta Apache Kafka en local con Docker Compose y Python: produce y consume eventos con el cliente confluent-kafka, Kafka UI y las herramientas CLI de Kafka."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Esta guía te muestra cómo trabajar con **Apache Kafka** localmente usando **Docker Compose** y **Python**. Este lab demuestra cómo producir y consumir eventos en un topic con el cliente confluent-kafka, inspeccionarlos en Kafka UI y operar el broker con las herramientas CLI de Kafka.
+
+## Prerrequisitos
+
+- [Docker](https://www.docker.com/get-started) instalado y en ejecución.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) instalada (opcional).
+
+## Cómo ejecutar
+
+<Steps>
+
+1. **Configurar el entorno**:
+   <Tabs>
+      <TabItem label="Dev Container (recomendado)">
+         Abre **VS Code** en la carpeta del proyecto y ejecuta este comando en la **Paleta de Comandos**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+      </TabItem>
+      <TabItem label="Manual">
+         1. **Inicia la infraestructura**: Lanza los contenedores del broker de Kafka y de Kafka UI:
+            ```bash
+            docker compose up -d
+            ```
+         2. **Ejecuta el script** de configuración para instalar herramientas y dependencias:
+            ```bash
+            scripts/setup.sh
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Ejecutar el ejemplo**:
+   <Tabs>
+      <TabItem label="Python">
+         - **Ejecuta** el ciclo completo. Publica los eventos, los vuelve a consumir y termina:
+           ```bash
+           python main.py
+           ```
+         - **Divídelo** en dos terminales. `-c` mantiene el consumidor a la escucha hasta `CTRL+C`, y `-p` solo publica:
+
+           Terminal 1:
+           ```bash
+           python main.py -c
+           ```
+           Terminal 2:
+           ```bash
+           python main.py -p
+           ```
+      </TabItem>
+      <TabItem label="Kafka CLI">
+         1. **Produce** un evento escribiéndolo en el console producer:
+            ```bash
+            scripts/kafka.sh kafka-console-producer.sh --topic user-events
+            ```
+         2. **Consume** los eventos desde el principio del topic:
+            ```bash
+            scripts/kafka.sh kafka-console-consumer.sh --topic user-events --from-beginning
+            ```
+      </TabItem>
+      <TabItem label="Tools for Apache Kafka">
+         - **Instala**: [Tools for Apache Kafka](vscode:extension/jeppeandersen.vscode-kafka).
+         - **Conecta**: El cluster `local` ya está configurado en `.vscode/settings.json` a partir de `KAFKA_BOOTSTRAP_SERVERS`.
+         - **Abre**: Abre `playgrounds/user_events.kafka`.
+         - **Ejecuta**: Haz clic en **Produce record** o **Start consumer** sobre cada bloque.
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+## Cómo depurar
+
+1. **main.py**:
+   - **Abre**: Abre `main.py`.
+   - **Breakpoints**: Añade breakpoints en `publish_events` o en `print_event`.
+   - **Ejecuta**: Pulsa `F5` y selecciona **Python: Main**, que ejecuta el ciclo completo.
+
+2. **Tests**:
+   - **Abre**: Abre un archivo de test (p. ej., `tests/components/test_event_consumer.py`).
+   - **Breakpoints**: Añade breakpoints en el código de test.
+   - **Ejecuta**: Usa la pestaña **Testing** de VS Code y haz clic en el icono **Debug Test** junto al test que quieras depurar.
+
+## Cómo testear
+
+- **Todos los tests**: Ejecuta el script automatizado:
+  ```bash
+  scripts/run_tests.sh
+  ```
+- **Individualmente**: Usa la pestaña **Testing** de VS Code para ejecutar o depurar casos de test específicos.
+
+## Validar resultados
+
+<Tabs>
+   <TabItem label="Kafka UI">
+      - **Abre**: Navega a la UI (puerto definido en `KAFKA_UI_PORT` de tu `.env`):
+        ```bash
+        http://localhost:8080
+        ```
+      - **Verifica**: Navega a **local** → **Topics** → `user-events` → **Messages**.
+      - **Monitoriza**: Consulta **Consumers** para ver el lag del grupo `user-events-consumer`.
+   </TabItem>
+   <TabItem label="Kafka CLI">
+      - **Lista** los topics:
+        ```bash
+        scripts/kafka.sh kafka-topics.sh --list
+        ```
+      - **Lee** todos los eventos almacenados en el topic:
+        ```bash
+        scripts/kafka.sh kafka-console-consumer.sh --topic user-events --from-beginning
+        ```
+      - **Verifica** los offsets y el lag del consumer group:
+        ```bash
+        scripts/kafka.sh kafka-consumer-groups.sh --describe --group user-events-consumer
+        ```
+   </TabItem>
+   <TabItem label="Tools for Apache Kafka">
+      - **Instala**: [Tools for Apache Kafka](vscode:extension/jeppeandersen.vscode-kafka).
+      - **Navega**: Abre el panel **Kafka** en la Activity Bar y despliega el cluster `local`.
+      - **Verifica**: Despliega **Topics** → `user-events` para inspeccionar particiones y offsets.
+      - **Interactivo**: Usa `playgrounds/user_events.kafka` para producir y consumir registros desde el editor.
+   </TabItem>
+</Tabs>
+
+## Limpieza
+
+```bash
+docker compose down -v
+```
+
+## Solución de problemas
+
+| Problema | Solución |
+|----------|----------|
+| El productor falla con `Connection refused`. | El broker tarda unos segundos en arrancar. Comprueba que está listo con `docker compose logs kafka`. |
+| Publicas eventos pero ningún consumidor los imprime. | Lista los miembros del grupo con `scripts/kafka.sh kafka-consumer-groups.sh --describe --group user-events-consumer --members`. **Sin miembros**: no hay nada consumiendo, arranca un consumidor con `python main.py -c`. **Más de un miembro**: el topic tiene una sola partición, así que solo un miembro la tiene asignada y es ese el que está recibiendo los eventos — para los consumidores sobrantes. |
+| Kafka UI no muestra ningún cluster. | La UI accede al broker por el listener interno `kafka:9093`. Asegúrate de que ambos contenedores están levantados con `docker compose ps`. |
+
+## Siguientes pasos
+
+- [Explora el Lab relacionado RabbitMQ.](/es/hybrid/mves/rabbitmq/)
+- [Explora el Lab relacionado Airflow.](/es/hybrid/mves/airflow/)
