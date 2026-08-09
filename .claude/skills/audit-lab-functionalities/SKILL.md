@@ -22,6 +22,8 @@ scenarios), **test** every part, **validate** results (multiple tools), and **cl
 - Lab path: `src/[provider]/[mves|projects]/[name]`.
 - Its docs: `docs/src/content/docs/[provider]/[mves|projects]/[name].mdx` (EN) and the
   `es/` counterpart.
+- The catalog and landing pages: `docs/src/content/docs/start-here/catalog.mdx` and
+  `docs/src/content/docs/index.mdx`, plus their `es/` counterparts.
 - Its global integration test dir: `tests/[provider]/[mves|projects]/[name]/`.
 
 ## References to read first
@@ -52,6 +54,7 @@ add a row here.
 | 9 | Clean Up | `docker compose down -v` (or service-specific teardown) | Section "Clean Up" |
 | 10 | Docs parity EN/ES | — | `es/` page exists with the same sections as the EN page |
 | 11 | VS Code recommended extensions | `.vscode/extensions.json` whose `recommendations` mirror the `extensions` in `.devcontainer/devcontainer.json` | — |
+| 12 | Catalog and landing listing | — | The Lab is listed in `start-here/catalog.mdx` **and** `es/start-here/catalog.mdx`, and its service appears in the `<Grid>` of `index.mdx` **and** `es/index.mdx` |
 
 Notes:
 - Some functionalities are **not applicable** to every Lab (e.g. SAM Labs are incompatible
