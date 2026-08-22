@@ -21,6 +21,7 @@ import Steps from '../../components/Steps.astro';
 import CodeWindow from '../../components/CodeWindow.astro';
 import HorizontalSplit from '../../components/HorizontalSplit.astro';
 import LandingFooter from '../../components/LandingFooter.astro';
+import AuthorSignature from '../../components/AuthorSignature.astro';
 import { YouTube } from 'astro-embed';
 
 <LandingSection>
@@ -148,6 +149,25 @@ python main.py`} />
     { icon: "logos:metabase", title: "Metabase", description: "Business intelligence and data visualization tool." },
   ]} />
 
+</LandingSection>
+
+<LandingSection alt centered>
+  <h2>Rather not go it alone?</h2>
+
+  <AuthorSignature name="Raúl Castilla Bravo" role="Creator of MistLock" centered />
+
+  **MistLock is free and always will be.** If you also want a roadmap for your
+  own situation and someone to correct you along the way, I offer 1:1 mentoring
+  **to learn Cloud without paying for the Cloud.**
+
+  <div class="mentoring-card">
+    <LinkCard
+      title="1:1 mentoring"
+      description="Free first session, no strings attached. Sessions are in Spanish."
+      href="https://raulcastillabravo.com"
+      data-umami-event="out-mentoring"
+    />
+  </div>
 </LandingSection>
 
 <LandingSection>

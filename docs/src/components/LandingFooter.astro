@@ -1,16 +1,47 @@
 ---
+const esLandingEs = Astro.url.pathname.startsWith("/es");
+const mentoria = esLandingEs
+  ? { label: "Mentoría 1:1", title: "Mentoría 1:1 con Raúl Castilla Bravo" }
+  : {
+      label: "Mentoring (ES)",
+      title: "1:1 mentoring with Raúl Castilla Bravo, in Spanish",
+    };
 ---
 
 <div class="landing-footer">
   <div class="landing-footer__copy">
     <span>© {new Date().getFullYear()} Raúl Castilla Bravo</span>
     <span class="sep" aria-hidden="true"> · </span>
-    <a href="https://github.com/raulcastillabravo/mve-collection/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">CC BY-NC-ND 4.0</a>
+    <a
+      href="https://github.com/raulcastillabravo/mve-collection/blob/main/LICENSE"
+      target="_blank"
+      rel="noopener noreferrer">CC BY-NC-ND 4.0</a
+    >
     <span class="sep" aria-hidden="true"> · </span>
-    <a href="https://github.com/raulcastillabravo/mve-collection/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a>
+    <a
+      href="https://github.com/raulcastillabravo/mve-collection/blob/main/CONTRIBUTING.md"
+      target="_blank"
+      rel="noopener noreferrer">Contributing</a
+    >
+    <span class="sep" aria-hidden="true"> · </span>
+    <a
+      href="https://raulcastillabravo.com"
+      title={mentoria.title}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-umami-event="out-mentoring">{mentoria.label}</a
+    >
   </div>
   <p class="landing-footer__built">
-    Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> and <a href="https://starlight.astro.build" target="_blank" rel="noopener noreferrer">Starlight</a>
+    Built with <a
+      href="https://astro.build"
+      target="_blank"
+      rel="noopener noreferrer">Astro</a
+    > and <a
+      href="https://starlight.astro.build"
+      target="_blank"
+      rel="noopener noreferrer">Starlight</a
+    >
   </p>
 </div>
 
