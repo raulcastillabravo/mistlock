@@ -8,6 +8,6 @@ BOOTSTRAP=()
 [[ "$*" == *"--bootstrap-server"* ]] || BOOTSTRAP=(--bootstrap-server 127.0.0.1:9092)
 
 TTY=()
-[ -t 0 ] && TTY=(-t)
+[ -t 0 ] || TTY=(-T)
 
-docker exec -i "${TTY[@]}" kafka "/opt/kafka/bin/$1" "${@:2}" "${BOOTSTRAP[@]}"
+docker compose exec "${TTY[@]}" kafka "/opt/kafka/bin/$1" "${@:2}" "${BOOTSTRAP[@]}"

@@ -3,4 +3,4 @@ set -a
 source .env
 set +a
 
-docker exec -it redis redis-cli -a "$REDIS_PASSWORD" "$@"
+docker compose exec redis redis-cli -a "$REDIS_PASSWORD" "$@"

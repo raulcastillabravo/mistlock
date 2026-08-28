@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -it minio bash
+docker compose exec minio bash

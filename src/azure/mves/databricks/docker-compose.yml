@@ -1,7 +1,8 @@
+name: mistlock-azure-databricks
+
 services:
   spark:
     build: .
-    container_name: spark
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
@@ -27,7 +28,6 @@ services:
 
   minio:
     image: minio/minio
-    container_name: minio
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -40,7 +40,6 @@ services:
 
   mc:
     image: minio/mc
-    container_name: mc
     depends_on:
       - minio
     entrypoint: >
@@ -54,7 +53,6 @@ services:
 
   postgres:
     image: postgres:15
-    container_name: postgres
     ports:
       - "5432:5432"
     environment:

@@ -95,10 +95,11 @@ done
 ### Preferred Structure
 
 ```yaml
+name: mistlock-[provider]-[lab-name]
+
 services:
   service:
     image: official/image
-    container_name: name
     ports:
       - "port:port"
     environment:
@@ -109,7 +110,6 @@ services:
 
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
-    container_name: dev
     network_mode: host
     depends_on:
       - service
@@ -124,7 +124,32 @@ volumes:
 
 ### Conventions
 
-- **container_name**: Simple and representative name (e.g., `azurite`, `localstack`).
+- **name** (mandatory): Every `docker-compose.yml` must declare a top-level
+  `name: mistlock-[provider]-[lab-name]`, using the short provider slug (`aws`,
+  `azure`, `gcp`, `hybrid`) and the Lab directory name — e.g.
+  `mistlock-aws-s3-garage`, `mistlock-gcp-simple-etl`, `mistlock-hybrid-redis`.
+  It pins the Compose project name, which namespaces every container, volume and
+  network the Lab creates. Two reasons it is required:
+  - Without it Compose derives the project from the **working directory**, so
+    several Labs running at once share names and collide. The provider slug is
+    mandatory even when the Lab name looks unique, because names repeat across
+    providers (`simple-etl`, `sql-writer`, `storage-writer`, `no-sql-writer`).
+  - Inside the Dev Container the working directory is `/app`, not the Lab
+    folder, so without `name` a `docker compose` call from within the container
+    would target a *different* project than the same call from the host.
+- **Do NOT use `container_name`.** It writes into Docker's flat, machine-global
+  namespace, so any fixed value collides across Labs. Let Compose derive the
+  name (`[project]-[service]-1`) and address containers through the Compose
+  project instead — see below.
+- **Address containers by service, never by name**: use
+  `docker compose exec [service] …`, `docker compose logs [service]`, etc., in
+  scripts and docs. Add `-T` when the command is non-interactive or pipes stdin
+  (e.g. `docker compose exec -T db psql … < init.sql`). Plain
+  `docker exec [name] …` is forbidden: the name it relies on no longer exists.
+- **Service names**: Simple and representative (e.g., `azurite`, `localstack`),
+  since they are now the identifier users type. They must be valid DNS labels
+  (lowercase, hyphens — not underscores), as Compose publishes them as network
+  hostnames.
 - **volumes**: Name as `[service]_data`.
 
 ## Environment Variables

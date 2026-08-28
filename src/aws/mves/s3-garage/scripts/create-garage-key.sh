@@ -3,14 +3,14 @@
 
 set -e
 
-GARAGE_CMD="docker exec garage /garage"
+GARAGE_CMD="docker compose exec -T garage /garage"
 
 if $GARAGE_CMD key list | grep -q 'dev-key'; then
     echo "Key 'dev-key' already exists in Garage. Skipping creation."
     exit 0
 fi
 
-# Create API Key using docker exec
+# Create API Key using docker compose exec
 echo "Creating API Key in Garage container..."
 KEY_INFO=$($GARAGE_CMD json-api CreateKey '{"name":"dev-key"}')
 ACCESS_KEY=$(echo "$KEY_INFO" | jq -r .accessKeyId)

@@ -1,7 +1,8 @@
+name: mistlock-hybrid-metabase
+
 services:
   metabase:
     image: metabase/metabase:latest
-    container_name: metabase
     hostname: metabase
     volumes:
       - /dev/urandom:/dev/random:ro
@@ -27,7 +28,6 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    container_name: postgres_metabase
     hostname: postgres
     environment:
       POSTGRES_USER: ${METABASE_USER}

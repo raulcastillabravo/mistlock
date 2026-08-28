@@ -3,6 +3,10 @@
 Reads changed file paths from stdin (one per line) and prints a JSON array
 of Lab keys (``provider/category/name``) to stdout, ready to feed a GitHub
 Actions matrix. If any shared file changed, every Lab is emitted.
+
+Only Labs that actually have tests are emitted. A Lab without a
+``tests/<lab>/test_*.py`` is skipped instead of producing a matrix job that
+fails on ``file or directory not found``.
 """
 
 import json
@@ -32,15 +36,17 @@ def all_labs() -> list[str]:
 
 
 def changed_labs(files: list[str]) -> list[str]:
+    testable = all_labs()
+
     if any(file in SHARED for file in files):
-        return all_labs()
+        return testable
 
     labs = {
         match.group(1)
         for file in files
         if (match := LAB_RE.match(file))
     }
-    return sorted(labs)
+    return sorted(labs.intersection(testable))
 
 
 def main() -> None:

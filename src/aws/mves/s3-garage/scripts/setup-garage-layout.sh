@@ -3,7 +3,7 @@
 
 set -e
 
-GARAGE_CMD="docker exec garage /garage"
+GARAGE_CMD="docker compose exec -T garage /garage"
 
 # Assign layout roles to nodes that have none
 echo "Assigning layout roles..."

@@ -124,7 +124,7 @@ docker compose down -v
 
 | Issue | Solution |
 |-------|----------|
-| Garage API not ready | Ensure the `garage` container is running and wait a few seconds for the API to initialize. Check logs with `docker logs garage`. |
+| Garage API not ready | Ensure the `garage` service is running and wait a few seconds for the API to initialize. Check logs with `docker compose logs garage`. |
 | Port 3900 in use | Stop any other service using port 3900 or change the mapping in `docker-compose.yml`. |
 
 ## Next steps

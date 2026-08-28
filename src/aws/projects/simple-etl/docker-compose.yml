@@ -1,7 +1,8 @@
+name: mistlock-aws-simple-etl
+
 services:
   localstack:
     image: localstack/localstack:4.14
-    container_name: localstack
     ports:
       - "4566:4566"
     environment:

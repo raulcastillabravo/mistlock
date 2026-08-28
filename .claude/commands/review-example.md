@@ -41,6 +41,8 @@ Analyze all Python files, configuration files, and scripts within the example to
     - **Templates**: Check if the example follows the [example template](../../templates/mve/) structure.
     - **Mise & UV**: Verify the existence and correct configuration of `mise.toml` and `pyproject.toml`. Remove any legacy dependency managers.
     - **Scripts**: Ensure `scripts/setup.sh` is the single source of truth and uses `.venv/bin/python` to avoid PATH issues.
+    - **Compose project name**: Verify `docker-compose.yml` declares a top-level `name: mistlock-[provider]-[lab-name]` (e.g. `mistlock-aws-s3-garage`) and that **no service declares `container_name`** — fixed container names are machine-global and collide when several Labs run at once.
+    - **Container addressing**: Verify scripts, `mise.toml` tasks and docs use `docker compose exec [service]` / `docker compose logs [service]`, never `docker exec [name]`.
 7.  **Documentation Standards**:
     - **README Sync**: Verify `README.md` and `README.es.md` follow the format in [example-structure.md](../rules/example-structure.md) — title, one-paragraph overview matching the Starlight `description`, and redirect link.
     - **Docs page**: Verify the Starlight doc pages exist and follow [docs-style-guide.md](../rules/docs-style-guide.md).

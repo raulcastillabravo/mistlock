@@ -16,4 +16,4 @@ run = "uv sync"
 
 [tasks.init-sql]
 description = "Initialize SQL tables"
-run = "docker exec -i azure_sql_edge /opt/mssql-tools/bin/sqlcmd -S localhost -U {{env.SQL_USER}} -P {{env.SQL_PASSWORD}} -d master < sql/init.sql"
+run = "docker compose exec -T azure-sql-edge /opt/mssql-tools/bin/sqlcmd -S localhost -U {{env.SQL_USER}} -P {{env.SQL_PASSWORD}} -d master < sql/init.sql"

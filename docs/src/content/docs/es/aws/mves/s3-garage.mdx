@@ -124,7 +124,7 @@ docker compose down -v
 
 | Problema | Solución |
 |----------|----------|
-| API de Garage no lista | Asegúrate de que el contenedor `garage` está en ejecución y espera unos segundos a que la API se inicialice. Revisa los logs con `docker logs garage`. |
+| API de Garage no lista | Asegúrate de que el servicio `garage` está en ejecución y espera unos segundos a que la API se inicialice. Revisa los logs con `docker compose logs garage`. |
 | Puerto 3900 en uso | Detén cualquier otro servicio que use el puerto 3900 o cambia el mapeo en `docker-compose.yml`. |
 
 ## Siguientes pasos
