@@ -1,6 +1,8 @@
 ---
-const esLandingEs = Astro.url.pathname.startsWith("/es");
-const mentoria = esLandingEs
+import { siteConfig } from "../config";
+
+const isSpanish = Astro.url.pathname.startsWith("/es");
+const mentoring = isSpanish
   ? { label: "Mentoría 1:1", title: "Mentoría 1:1 con Raúl Castilla Bravo" }
   : {
       label: "Mentoring (ES)",
@@ -13,23 +15,23 @@ const mentoria = esLandingEs
     <span>© {new Date().getFullYear()} Raúl Castilla Bravo</span>
     <span class="sep" aria-hidden="true"> · </span>
     <a
-      href="https://github.com/raulcastillabravo/mve-collection/blob/main/LICENSE"
+      href={`${siteConfig.githubUrl}/blob/main/LICENSE`}
       target="_blank"
       rel="noopener noreferrer">CC BY-NC-ND 4.0</a
     >
     <span class="sep" aria-hidden="true"> · </span>
     <a
-      href="https://github.com/raulcastillabravo/mve-collection/blob/main/CONTRIBUTING.md"
+      href={`${siteConfig.githubUrl}/blob/main/CONTRIBUTING.md`}
       target="_blank"
       rel="noopener noreferrer">Contributing</a
     >
     <span class="sep" aria-hidden="true"> · </span>
     <a
       href="https://raulcastillabravo.com"
-      title={mentoria.title}
+      title={mentoring.title}
       target="_blank"
       rel="noopener noreferrer"
-      data-umami-event="out-mentoring">{mentoria.label}</a
+      data-umami-event="out-mentoring-footer">{mentoring.label}</a
     >
   </div>
   <p class="landing-footer__built">

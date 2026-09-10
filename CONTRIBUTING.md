@@ -32,7 +32,7 @@ To keep the workflow organized and simple, I suggest following these steps:
   ```
 - **Add the original repository as a remote**: To keep your copy updated:
   ```bash
-  git remote add upstream https://github.com/raulcastillabravo/mve-collection.git
+  git remote add upstream https://github.com/raulcastillabravo/mistlock.git
   ```
 - **Prerequisites**: Make sure you have Python >= 3.9, Docker, and **uv** installed for dependency management (`pip install uv`).
 

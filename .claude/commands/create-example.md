@@ -9,8 +9,8 @@ This workflow ensures all new examples (Minimal Viable Examples or Projects) fol
 ## 1. Requirements & Branching
 
 1.  **Request Details**: Ask the user if they want to create an **MVE** or a **project**. Then, ask for the **example name** and its **technical specification** (technologies, architecture, and goals).
-2.  **Ensure Up-to-Date**: Run `git checkout main` and `git pull` in the `mve-collection` repository to ensure you are on the correct and updated branch.
-3.  **Create Branch**: Create a new feature branch in the `mve-collection` repository following the format `feature/[example-name]`.
+2.  **Ensure Up-to-Date**: Run `git checkout main` and `git pull` in the `mistlock` repository to ensure you are on the correct and updated branch.
+3.  **Create Branch**: Create a new feature branch in the `mistlock` repository following the format `feature/[example-name]`.
 
 ## 2. Planning Phase (STOP AND PLAN)
 
@@ -26,7 +26,7 @@ Before writing any code, the agent must present a plan to the user for approval:
 ## 3. Implementation
 
 1.  **Develop**: Implement the MVE following the approved plan and project rules.
-3.  **Tests**: Create an integration test in `mve-collection/tests/[cloud-provider]/[mves|projects]/[example-name]/test_[example_name].py`. Use the following pattern:
+3.  **Tests**: Create an integration test in `mistlock/tests/[cloud-provider]/[mves|projects]/[example-name]/test_[example_name].py`. Use the following pattern:
     ```python
     def test_[example_name](run_tests, run_main):
         pass

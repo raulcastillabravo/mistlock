@@ -31,8 +31,8 @@ description: Defines the mandatory structure and conventions for all tests in th
 - This guarantees tests act on dedicated resources (e.g. `bronze-test`) instead
   of the ones `main.py` uses (e.g. `bronze`).
 
-## Global Integration Tests (mve-collection/tests/)
-- **Folder Structure**: `mve-collection/tests/[cloud-provider]/[mves|projects]/[example-name]/test_[example_name].py`.
+## Global Integration Tests (mistlock/tests/)
+- **Folder Structure**: `mistlock/tests/[cloud-provider]/[mves|projects]/[example-name]/test_[example_name].py`.
 - **Pattern**:
     ```python
     def test_[example_name](run_tests, run_main):
