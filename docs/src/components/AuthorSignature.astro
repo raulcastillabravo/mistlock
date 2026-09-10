@@ -1,0 +1,63 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  centered?: boolean;
+}
+
+const { name, role, centered = false } = Astro.props;
+---
+
+<div class:list={["not-content", "author", { "author--centered": centered }]}>
+  <img
+    class="author__photo"
+    src="/raul.jpg"
+    alt=""
+    width="112"
+    height="112"
+    loading="lazy"
+    decoding="async"
+  />
+  <span class="author__text">
+    <strong class="author__name">{name}</strong>
+    <span class="author__role">{role}</span>
+  </span>
+</div>
+
+<style>
+  .author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .author--centered {
+    justify-content: center;
+  }
+
+  .author__photo {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+    border: 1px solid var(--sl-color-gray-5);
+  }
+
+  .author__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+  }
+
+  .author__name {
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+
+  .author__role {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+</style>

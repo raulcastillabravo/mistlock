@@ -61,7 +61,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mve-collection-tests"
+name = "mistlock-tests"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

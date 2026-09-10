@@ -46,3 +46,8 @@ html[data-has-hero]:not([data-has-sidebar]) main footer {
 [data-theme='dark'] .sl-markdown-content a:not([role='tab']) {
   color: #58a6ff;
 }
+
+.mentoring-card {
+  max-width: 40rem;
+  margin-inline: auto;
+}
