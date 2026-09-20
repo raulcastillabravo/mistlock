@@ -1,0 +1,26 @@
+{
+  "name": "AWS S3 (RustFS)",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/app",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "amazonwebservices.aws-toolkit-vscode",
+        "tamasfe.even-better-toml"
+      ]
+    }
+  },
+  "containerEnv": {
+    "AWS_PROFILE": "rustfs"
+  },
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh"
+}
