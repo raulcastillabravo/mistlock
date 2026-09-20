@@ -1,0 +1,18 @@
+[project]
+name = "aws-s3-rustfs"
+version = "0.1.0"
+description = "MVE emulating S3 with RustFS for local data pipelines"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv",
+    "pandas",
+    "pyarrow",
+    "deltalake",
+    "boto3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]

@@ -1,16 +1,13 @@
 ---
-title: S3 Garage
-description: "Emula AWS S3 en local con Garage y Python: un pipeline de datos usando Boto3, PyArrow y Delta Lake (delta-rs)."
+title: S3 RustFS
+description: "Emula AWS S3 en local con RustFS y Python: un pipeline de datos usando Boto3, PyArrow y Delta Lake (delta-rs)."
 isLab: true
 ---
 
 import { Steps } from '@astrojs/starlight/components';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { YouTube } from 'astro-embed';
 
-Esta guía te muestra cómo trabajar con **AWS S3** usando **Garage** como emulador local. Este lab demuestra un pipeline de datos usando **Boto3**, **PyArrow** y **Delta Lake** (delta-rs).
-
-<YouTube id="jjUiHfDUTL4" />
+Esta guía te muestra cómo trabajar con **AWS S3** usando **RustFS** como emulador local. Este lab demuestra un pipeline de datos usando **Boto3**, **PyArrow** y **Delta Lake** (delta-rs).
 
 ## Prerrequisitos
 
@@ -46,10 +43,6 @@ Esta guía te muestra cómo trabajar con **AWS S3** usando **Garage** como emula
       ```
 </Steps>
 
-:::note[Claves S3 de Garage]
-Las claves de conexión S3 de Garage se refrescan automáticamente al iniciar o reiniciar el entorno de desarrollo. Usa las generadas en tu `.env`, no las del repositorio.
-:::
-
 ## Cómo depurar
 
 1. **main.py**:
@@ -73,17 +66,25 @@ Las claves de conexión S3 de Garage se refrescan automáticamente al iniciar o 
 ## Validar resultados
 
 <Tabs>
+   <TabItem label="RustFS Console">
+      - **Abre** en tu navegador:
+        ```bash
+        http://localhost:9001/rustfs/console/
+        ```
+      - **Inicia sesión**: Usa el `S3_ACCESS_KEY` y el `S3_SECRET_KEY` definidos en tu `.env`.
+      - **Verifica**: Revisa los buckets `bronze` y `silver` para ver los archivos subidos.
+   </TabItem>
    <TabItem label="AWS CLI">
       - **Verifica los buckets**: Comprueba que se crearon los buckets `bronze` y `silver`.
         <Tabs syncKey="cli-runner">
            <TabItem label="Global">
               ```bash
-              aws s3 ls --profile garage
+              aws s3 ls --profile rustfs
               ```
            </TabItem>
            <TabItem label="Mise">
               ```bash
-              mise exec -- aws s3 ls --profile garage
+              mise exec -- aws s3 ls --profile rustfs
               ```
            </TabItem>
         </Tabs>
@@ -91,26 +92,15 @@ Las claves de conexión S3 de Garage se refrescan automáticamente al iniciar o 
         <Tabs syncKey="cli-runner">
            <TabItem label="Global">
               ```bash
-              aws s3 ls s3://silver --recursive --profile garage
+              aws s3 ls s3://silver --recursive --profile rustfs
               ```
            </TabItem>
            <TabItem label="Mise">
               ```bash
-              mise exec -- aws s3 ls s3://silver --recursive --profile garage
+              mise exec -- aws s3 ls s3://silver --recursive --profile rustfs
               ```
            </TabItem>
         </Tabs>
-   </TabItem>
-   <TabItem label="Rclone">
-      - **Lanza** la interfaz gráfica de Rclone:
-        ```bash
-        scripts/rclone-gui.sh
-        ```
-      - **Abre** en tu navegador:
-        ```bash
-        http://127.0.0.1:5572
-        ```
-      - **Inicia sesión**: Si te pide usuario y contraseña, escribe cualquier cosa, se acepta cualquier valor.
    </TabItem>
 </Tabs>
 
@@ -124,11 +114,11 @@ docker compose down -v
 
 | Problema | Solución |
 |----------|----------|
-| API de Garage no lista | Asegúrate de que el servicio `garage` está en ejecución y espera unos segundos a que la API se inicialice. Revisa los logs con `docker compose logs garage`. |
-| Puerto 3900 en uso | Detén cualquier otro servicio que use el puerto 3900 o cambia el mapeo en `docker-compose.yml`. |
+| API de RustFS no lista | Asegúrate de que el servicio `rustfs` está en ejecución y espera unos segundos a que la API se inicialice. Revisa los logs con `docker compose logs rustfs`. |
+| Puerto 9000 o 9001 en uso | El lab de S3 (MinIO) usa los mismos puertos. Deténlo antes de arrancar este, o cambia el mapeo en `docker-compose.yml`. |
 
 ## Siguientes pasos
 
+- [Compara con S3 (Garage), un emulador alternativo para el mismo servicio.](/es/aws/mves/s3-garage/)
 - [Compara con S3 (MinIO), un emulador alternativo para el mismo servicio.](/es/aws/mves/s3-minio/)
-- [Compara con S3 (RustFS), un emulador alternativo para el mismo servicio.](/es/aws/mves/s3-rustfs/)
 - [Construye sobre este MVE con el proyecto Storage Writer.](/es/aws/projects/storage-writer/)

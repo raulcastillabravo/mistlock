@@ -1,16 +1,13 @@
 ---
-title: S3 (Garage)
-description: "Emulate AWS S3 locally with Garage and Python: a data pipeline using Boto3, PyArrow, and Delta Lake (delta-rs)."
+title: S3 (RustFS)
+description: "Emulate AWS S3 locally with RustFS and Python: a data pipeline using Boto3, PyArrow, and Delta Lake (delta-rs)."
 isLab: true
 ---
 
 import { Steps } from '@astrojs/starlight/components';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { YouTube } from 'astro-embed';
 
-This guide shows you how to work with **AWS S3** using **Garage** as a local emulator. This lab demonstrates a data pipeline using **Boto3**, **PyArrow**, and **Delta Lake** (delta-rs).
-
-<YouTube id="jjUiHfDUTL4" />
+This guide shows you how to work with **AWS S3** using **RustFS** as a local emulator. This lab demonstrates a data pipeline using **Boto3**, **PyArrow**, and **Delta Lake** (delta-rs).
 
 ## Prerequisites
 
@@ -20,12 +17,12 @@ This guide shows you how to work with **AWS S3** using **Garage** as a local emu
 ## How to execute
 
 <Steps>
-   1. **Setup Environment**: 
+   1. **Setup Environment**:
       <Tabs>
          <TabItem label="Dev Container (recommended)">
             Open **VS Code** in the project folder and execute this command in the **Command Palette**:
-            ```bash 
-         >  Dev Containers: Reopen in Container
+            ```bash
+            > Dev Containers: Reopen in Container
             ```
          </TabItem>
          <TabItem label="Manually">
@@ -45,10 +42,6 @@ This guide shows you how to work with **AWS S3** using **Garage** as a local emu
       python main.py
       ```
 </Steps>
-
-:::note[Garage S3 Keys]
-Garage S3 connection keys are automatically refreshed when starting or restarting the development environment. Use the ones generated in your `.env`, not the ones from the repository.
-:::
 
 ## How to debug
 
@@ -73,17 +66,25 @@ Garage S3 connection keys are automatically refreshed when starting or restartin
 ## Validate results
 
 <Tabs>
+   <TabItem label="RustFS Console">
+      - **Open** in your browser:
+        ```bash
+        http://localhost:9001/rustfs/console/
+        ```
+      - **Log in**: Use the `S3_ACCESS_KEY` and `S3_SECRET_KEY` defined in your `.env`.
+      - **Verify**: Check the `bronze` and `silver` buckets to see the uploaded files.
+   </TabItem>
    <TabItem label="AWS CLI">
       - **Check Buckets**: Verify that `bronze` and `silver` buckets were created.
         <Tabs syncKey="cli-runner">
            <TabItem label="Global">
               ```bash
-              aws s3 ls --profile garage
+              aws s3 ls --profile rustfs
               ```
            </TabItem>
            <TabItem label="Mise">
               ```bash
-              mise exec -- aws s3 ls --profile garage
+              mise exec -- aws s3 ls --profile rustfs
               ```
            </TabItem>
         </Tabs>
@@ -91,26 +92,15 @@ Garage S3 connection keys are automatically refreshed when starting or restartin
         <Tabs syncKey="cli-runner">
            <TabItem label="Global">
               ```bash
-              aws s3 ls s3://silver --recursive --profile garage
+              aws s3 ls s3://silver --recursive --profile rustfs
               ```
            </TabItem>
            <TabItem label="Mise">
               ```bash
-              mise exec -- aws s3 ls s3://silver --recursive --profile garage
+              mise exec -- aws s3 ls s3://silver --recursive --profile rustfs
               ```
            </TabItem>
         </Tabs>
-   </TabItem>
-   <TabItem label="Rclone">
-      - **Launch** the Rclone graphical interface:
-        ```bash
-        scripts/rclone-gui.sh
-        ```
-      - **Open** in your browser:
-        ```bash
-        http://127.0.0.1:5572
-        ```
-      - **Log in**: If it asks for a username and password, type anything — any value is accepted.
    </TabItem>
 </Tabs>
 
@@ -124,11 +114,11 @@ docker compose down -v
 
 | Issue | Solution |
 |-------|----------|
-| Garage API not ready | Ensure the `garage` service is running and wait a few seconds for the API to initialize. Check logs with `docker compose logs garage`. |
-| Port 3900 in use | Stop any other service using port 3900 or change the mapping in `docker-compose.yml`. |
+| RustFS API not ready | Ensure the `rustfs` service is running and wait a few seconds for the API to initialize. Check logs with `docker compose logs rustfs`. |
+| Port 9000 or 9001 in use | The S3 (MinIO) lab uses the same ports. Stop it before starting this one, or change the mapping in `docker-compose.yml`. |
 
 ## Next steps
 
+- [Compare with S3 (Garage), an alternative emulator for the same service.](/aws/mves/s3-garage/)
 - [Compare with S3 (MinIO), an alternative emulator for the same service.](/aws/mves/s3-minio/)
-- [Compare with S3 (RustFS), an alternative emulator for the same service.](/aws/mves/s3-rustfs/)
 - [Build on this MVE with the Storage Writer project.](/aws/projects/storage-writer/)

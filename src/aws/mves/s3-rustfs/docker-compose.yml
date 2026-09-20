@@ -1,0 +1,31 @@
+name: mistlock-aws-s3-rustfs
+
+services:
+  rustfs:
+    image: rustfs/rustfs:1.0.0
+    ports:
+      - "9000:9000" # S3 API
+      - "9001:9001" # Console
+    environment:
+      RUSTFS_VOLUMES: /data
+      RUSTFS_ADDRESS: ":9000"
+      RUSTFS_CONSOLE_ADDRESS: ":9001"
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_ACCESS_KEY: ${S3_ACCESS_KEY}
+      RUSTFS_SECRET_KEY: ${S3_SECRET_KEY}
+    volumes:
+      - rustfs_data:/data
+    restart: always
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    network_mode: host
+    depends_on:
+      - rustfs
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    command: sleep infinity
+
+volumes:
+  rustfs_data:
