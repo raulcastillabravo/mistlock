@@ -1,3 +1,5 @@
+import signal
+
 from confluent_kafka import Message
 
 from src.components.event_consumer import EventConsumer
@@ -26,6 +28,25 @@ def test_event_consumer_stops_on_timeout(topic):
     consumer.close()
 
     assert count == 0
+
+
+def test_event_consumer_stops_gracefully_on_sigint(topic):
+    producer = EventProducer()
+    for key, value in EVENTS:
+        producer.publish(key, value)
+
+    processed: list[Message] = []
+
+    def interrupt_while_processing(message: Message) -> None:
+        signal.raise_signal(signal.SIGINT)
+        processed.append(message)
+
+    consumer = EventConsumer()
+    count = consumer.consume(interrupt_while_processing, limit=len(EVENTS))
+    consumer.close()
+
+    assert count == 1
+    assert [m.key().decode() for m in processed] == [EVENTS[0][0]]
 
 
 def fail_on_message(message: Message) -> None:

@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 from src.components.event_consumer import EventConsumer
 from src.components.event_producer import EventProducer
+from time import sleep
 
 load_dotenv()
 
@@ -31,15 +32,16 @@ def consume_events(limit: Optional[int] = None) -> None:
     print("\n--- Consuming events ---")
     try:
         consumer.consume(print_event, limit=limit)
-    except KeyboardInterrupt:
-        print("\n✓ Stopped consuming")
     finally:
         consumer.close()
+    print("✓ Stopped consuming")
 
 
 def print_event(message: Message) -> None:
     key = message.key().decode()
     value = message.value().decode()
+    print('Consuming event...')
+    sleep(5)
     print(f"✓ Consumed: {key} -> {value}")
 
 
