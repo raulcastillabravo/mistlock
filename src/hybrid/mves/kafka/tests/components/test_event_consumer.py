@@ -3,7 +3,7 @@ from confluent_kafka import Message
 from src.components.event_consumer import EventConsumer
 from src.components.event_producer import EventProducer
 
-EVENTS = [("first", "a@example.com"), ("second", "b@example.com")]
+EVENTS = [("a@example.com", "first"), ("b@example.com", "second")]
 
 
 def test_event_consumer(topic):

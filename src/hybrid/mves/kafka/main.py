@@ -10,9 +10,9 @@ from src.components.event_producer import EventProducer
 load_dotenv()
 
 EVENTS = [
-    ("user-registered", "john@example.com"),
-    ("user-logged-in", "jane@example.com"),
-    ("user-updated", "bob@example.com"),
+    ("john@example.com", "user-registered"),
+    ("carol@example.com", "user-logged-in"),
+    ("eve@example.com", "user-updated"),
 ]
 
 

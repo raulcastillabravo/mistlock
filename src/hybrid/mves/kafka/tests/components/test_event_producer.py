@@ -6,7 +6,7 @@ from src.components.event_producer import EventProducer
 
 def test_event_producer(topic):
     producer = EventProducer()
-    producer.publish("test-event", "test@example.com")
+    producer.publish("test@example.com", "test-event")
 
     received: list[Message] = []
     consumer = EventConsumer()
@@ -14,5 +14,5 @@ def test_event_producer(topic):
     consumer.close()
 
     assert len(received) == 1
-    assert received[0].key().decode() == "test-event"
-    assert received[0].value().decode() == "test@example.com"
+    assert received[0].key().decode() == "test@example.com"
+    assert received[0].value().decode() == "test-event"
