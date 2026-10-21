@@ -7,14 +7,19 @@ from dotenv import load_dotenv
 
 class EventConsumer:
     _consumer: Consumer = None
+    _commit: str = None
 
-    def __init__(self) -> None:
+    def __init__(self, commit: str = "auto") -> None:
+        """`commit` is "auto" (background, every 5s), "before" or "after"
+        (manual commit around the handler)."""
         load_dotenv()
+        self._commit = commit
         self._consumer = Consumer(
             {
                 "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS"),
                 "group.id": os.getenv("KAFKA_GROUP_ID"),
                 "auto.offset.reset": "earliest",
+                "enable.auto.commit": commit == "auto",
             }
         )
         self._consumer.subscribe([os.getenv("KAFKA_TOPIC")])
@@ -39,7 +44,11 @@ class EventConsumer:
             if message.error():
                 raise KafkaException(message.error())
 
+            if self._commit == "before":
+                self._consumer.commit(message, asynchronous=False)
             handler(message)
+            if self._commit == "after":
+                self._consumer.commit(message, asynchronous=False)
             count += 1
 
         return count

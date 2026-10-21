@@ -1,4 +1,6 @@
 import argparse
+import time
+from functools import partial
 from typing import Optional
 
 from confluent_kafka import Message
@@ -25,22 +27,26 @@ def publish_events() -> None:
         print(f"✓ Produced: {key} -> {value}")
 
 
-def consume_events(limit: Optional[int] = None) -> None:
-    consumer = EventConsumer()
+def consume_events(
+    commit: str, delay: float, limit: Optional[int] = None
+) -> None:
+    consumer = EventConsumer(commit)
 
-    print("\n--- Consuming events ---")
+    print(f"\n--- Consuming events (commit: {commit}) ---")
     try:
-        consumer.consume(print_event, limit=limit)
+        consumer.consume(partial(process_event, delay=delay), limit=limit)
     except KeyboardInterrupt:
         print("\n✓ Stopped consuming")
     finally:
         consumer.close()
 
 
-def print_event(message: Message) -> None:
+def process_event(message: Message, delay: float) -> None:
+    """Simulates a slow side effect (e.g. a database write)."""
     key = message.key().decode()
-    value = message.value().decode()
-    print(f"✓ Consumed: {key} -> {value}")
+    print(f"… Processing offset {message.offset()}: {key}")
+    time.sleep(delay)
+    print(f"✓ Processed offset {message.offset()}: {key}")
 
 
 def main() -> None:
@@ -50,13 +56,22 @@ def main() -> None:
                       help="Only publish events")
     mode.add_argument("-c", "--consume", action="store_true",
                       help="Only consume events")
+    parser.add_argument("--commit", default="auto",
+                        choices=["auto", "before", "after"],
+                        help="When the consumer commits its offset")
+    parser.add_argument("--delay", type=float, default=0,
+                        help="Seconds each event takes to be processed")
     args = parser.parse_args()
 
     if not args.consume:
         publish_events()
 
     if not args.publish:
-        consume_events(limit=None if args.consume else len(EVENTS))
+        consume_events(
+            args.commit,
+            args.delay,
+            limit=None if args.consume else len(EVENTS),
+        )
 
 
 if __name__ == "__main__":
