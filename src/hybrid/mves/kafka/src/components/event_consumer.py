@@ -8,13 +8,19 @@ from dotenv import load_dotenv
 class EventConsumer:
     _consumer: Consumer = None
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        group_id: Optional[str] = None,
+        offset_reset: str = "earliest",
+    ) -> None:
+        """`offset_reset` ("earliest" or "latest") only applies when the
+        group has no committed offsets yet."""
         load_dotenv()
         self._consumer = Consumer(
             {
                 "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS"),
-                "group.id": os.getenv("KAFKA_GROUP_ID"),
-                "auto.offset.reset": "earliest",
+                "group.id": group_id or os.getenv("KAFKA_GROUP_ID"),
+                "auto.offset.reset": offset_reset,
             }
         )
         self._consumer.subscribe([os.getenv("KAFKA_TOPIC")])
