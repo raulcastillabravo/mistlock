@@ -20,6 +20,10 @@ class EventConsumer:
                 "group.id": os.getenv("KAFKA_GROUP_ID"),
                 "auto.offset.reset": "earliest",
                 "enable.auto.commit": commit == "auto",
+                "session.timeout.ms": os.getenv("KAFKA_SESSION_TIMEOUT_MS"),
+                "heartbeat.interval.ms": os.getenv(
+                    "KAFKA_HEARTBEAT_INTERVAL_MS"
+                ),
             }
         )
         self._consumer.subscribe([os.getenv("KAFKA_TOPIC")])

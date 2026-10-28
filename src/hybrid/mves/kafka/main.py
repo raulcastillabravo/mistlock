@@ -1,6 +1,5 @@
 import argparse
 import time
-from functools import partial
 from typing import Optional
 
 from confluent_kafka import Message
@@ -27,25 +26,26 @@ def publish_events() -> None:
         print(f"✓ Produced: {key} -> {value}")
 
 
-def consume_events(
-    commit: str, delay: float, limit: Optional[int] = None
-) -> None:
+def consume_events(commit: str, limit: Optional[int] = None) -> None:
     consumer = EventConsumer(commit)
 
     print(f"\n--- Consuming events (commit: {commit}) ---")
     try:
-        consumer.consume(partial(process_event, delay=delay), limit=limit)
+        consumer.consume(process_event, limit=limit)
     except KeyboardInterrupt:
         print("\n✓ Stopped consuming")
     finally:
         consumer.close()
 
 
-def process_event(message: Message, delay: float) -> None:
+def process_event(message: Message) -> None:
     """Simulates a slow side effect (e.g. a database write)."""
     key = message.key().decode()
     print(f"… Processing offset {message.offset()}: {key}")
-    time.sleep(delay)
+    # Seconds each event takes. Change it to reproduce each scenario:
+    # 0 to see duplicates, above the 5s auto commit interval (e.g. 10)
+    # to see a lost event.
+    time.sleep(10)
     print(f"✓ Processed offset {message.offset()}: {key}")
 
 
@@ -59,8 +59,6 @@ def main() -> None:
     parser.add_argument("--commit", default="auto",
                         choices=["auto", "before", "after"],
                         help="When the consumer commits its offset")
-    parser.add_argument("--delay", type=float, default=0,
-                        help="Seconds each event takes to be processed")
     args = parser.parse_args()
 
     if not args.consume:
@@ -69,7 +67,6 @@ def main() -> None:
     if not args.publish:
         consume_events(
             args.commit,
-            args.delay,
             limit=None if args.consume else len(EVENTS),
         )
 
