@@ -1,26 +1,51 @@
 name: mistlock-hybrid-kafka
 
+# Settings shared by the three nodes (broker + controller each)
+x-kafka-env: &kafka-env
+  CLUSTER_ID: ${KAFKA_CLUSTER_ID}
+  KAFKA_PROCESS_ROLES: broker,controller
+  KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-1:9094,2@kafka-2:9094,3@kafka-3:9094
+  KAFKA_LISTENERS: HOST://0.0.0.0:9092,INTERNAL://0.0.0.0:9093,CONTROLLER://0.0.0.0:9094
+  KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: HOST:PLAINTEXT,INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+  KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+  KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+  KAFKA_DEFAULT_REPLICATION_FACTOR: 3
+  KAFKA_NUM_PARTITIONS: 3
+  KAFKA_LOG_DIRS: /var/lib/kafka/data
+
 services:
-  kafka:
+  kafka-1:
     image: apache/kafka:latest
     ports:
-      - "${KAFKA_PORT}:9092"
+      - "${KAFKA_1_PORT}:9092"
     environment:
+      <<: *kafka-env
       KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: HOST://0.0.0.0:9092,INTERNAL://0.0.0.0:9093,CONTROLLER://0.0.0.0:9094
-      KAFKA_ADVERTISED_LISTENERS: HOST://${KAFKA_HOST}:${KAFKA_PORT},INTERNAL://kafka:9093
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: HOST:PLAINTEXT,INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9094
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_ADVERTISED_LISTENERS: HOST://${KAFKA_HOST}:${KAFKA_1_PORT},INTERNAL://kafka-1:9093
     volumes:
-      - kafka_data:/var/lib/kafka/data
+      - kafka_1_data:/var/lib/kafka/data
+
+  kafka-2:
+    image: apache/kafka:latest
+    ports:
+      - "${KAFKA_2_PORT}:9092"
+    environment:
+      <<: *kafka-env
+      KAFKA_NODE_ID: 2
+      KAFKA_ADVERTISED_LISTENERS: HOST://${KAFKA_HOST}:${KAFKA_2_PORT},INTERNAL://kafka-2:9093
+    volumes:
+      - kafka_2_data:/var/lib/kafka/data
+
+  kafka-3:
+    image: apache/kafka:latest
+    ports:
+      - "${KAFKA_3_PORT}:9092"
+    environment:
+      <<: *kafka-env
+      KAFKA_NODE_ID: 3
+      KAFKA_ADVERTISED_LISTENERS: HOST://${KAFKA_HOST}:${KAFKA_3_PORT},INTERNAL://kafka-3:9093
+    volumes:
+      - kafka_3_data:/var/lib/kafka/data
 
   kafka-ui:
     image: ghcr.io/kafbat/kafka-ui:latest
@@ -28,20 +53,26 @@ services:
       - "${KAFKA_UI_PORT}:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9093
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-1:9093,kafka-2:9093,kafka-3:9093
       DYNAMIC_CONFIG_ENABLED: "true"
     depends_on:
-      - kafka
+      - kafka-1
+      - kafka-2
+      - kafka-3
 
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
     network_mode: host
     depends_on:
-      - kafka
+      - kafka-1
+      - kafka-2
+      - kafka-3
     volumes:
       - .:/app:cached
     working_dir: /app
     command: sleep infinity
 
 volumes:
-  kafka_data:
+  kafka_1_data:
+  kafka_2_data:
+  kafka_3_data:
