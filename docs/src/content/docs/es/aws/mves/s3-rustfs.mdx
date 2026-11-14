@@ -115,7 +115,7 @@ docker compose down -v
 | Problema | Solución |
 |----------|----------|
 | API de RustFS no lista | Asegúrate de que el servicio `rustfs` está en ejecución y espera unos segundos a que la API se inicialice. Revisa los logs con `docker compose logs rustfs`. |
-| Puerto 9000 o 9001 en uso | El lab de Databricks usa los mismos puertos. Deténlo antes de arrancar este, o cambia el mapeo en `docker-compose.yml`. |
+| Puerto 9000 o 9001 en uso | Otro lab o servicio está usando los mismos puertos. Deténlo antes de arrancar este, o cambia el mapeo en `docker-compose.yml`. |
 
 ## Siguientes pasos
 
