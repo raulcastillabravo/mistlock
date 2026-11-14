@@ -177,7 +177,7 @@ docker compose down --rmi local
 | `Could not connect to the endpoint URL` o errores SSL | Ejecuta los comandos de la AWS CLI con `mise exec -- aws ...` desde la raíz del lab, para que carguen `.env`, y comprueba que el emulador está sano con `docker compose ps`. |
 | `AccessDenied: Sign the request with the emulator credentials` | Las credenciales reales de AWS de tu entorno tienen prioridad. Ejecuta los comandos con `mise run` o `mise exec`, que las eliminan. |
 | Los recursos han desaparecido | AWS Emulator guarda los recursos en memoria, así que un reinicio los borra. Vuelve a desplegar. Con Terraform, borra antes `deploy/terraform/terraform.tfstate`. |
-| La Lambda no se dispara | Revisa los logs con `mise exec -- aws logs tail /aws/lambda/s3-file-processor`. Como AWS, el emulador comprueba el rol de la Lambda, así que un `AccessDenied` ahí indica un permiso que falta en la política del rol. |
+| La Lambda no se dispara | Revisa los logs con `mise exec -- aws logs tail /aws/lambda/s3-file-processor`. |
 | AWS Toolkit no conecta tras un reinicio | El emulador crea un certificado nuevo en cada arranque. Ejecuta **Developer: Reload Window** en VS Code. |
 
 ## Siguientes pasos
