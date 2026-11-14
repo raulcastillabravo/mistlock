@@ -177,7 +177,7 @@ docker compose down --rmi local
 | `Could not connect to the endpoint URL` or SSL errors | Run AWS CLI commands with `mise exec -- aws ...` from the lab root, so they load `.env`, and check that the emulator is healthy with `docker compose ps`. |
 | `AccessDenied: Sign the request with the emulator credentials` | Real AWS credentials in your environment take precedence. Run commands with `mise run` or `mise exec`, which remove them. |
 | Resources are gone | AWS Emulator keeps resources in memory, so a restart deletes them. Deploy again. For Terraform, delete `deploy/terraform/terraform.tfstate` first. |
-| Lambda not triggering | Check the logs with `mise exec -- aws logs tail /aws/lambda/s3-file-processor`. Like AWS, the emulator checks the Lambda role, so an `AccessDenied` there means a missing permission in the role policy. |
+| Lambda not triggering | Check the logs with `mise exec -- aws logs tail /aws/lambda/s3-file-processor`. |
 | AWS Toolkit cannot connect after a restart | The emulator creates a new certificate on each start. Run **Developer: Reload Window** in VS Code. |
 
 ## Next steps
