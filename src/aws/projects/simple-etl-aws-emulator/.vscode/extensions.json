@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "tamasfe.even-better-toml",
+    "hashicorp.terraform",
+    "amazonwebservices.aws-toolkit-vscode"
+  ]
+}

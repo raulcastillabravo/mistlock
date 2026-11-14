@@ -1,0 +1,66 @@
+[tools]
+python = "3.14"
+uv = "latest"
+awscli = "latest"
+terraform = "latest"
+
+[settings]
+env_file = ".env"
+
+[env]
+# Real credentials would take precedence over the emulator credentials file
+AWS_ACCESS_KEY_ID = false
+AWS_SECRET_ACCESS_KEY = false
+AWS_SESSION_TOKEN = false
+AWS_PROFILE = false
+
+[tasks.sync]
+description = "Sync python dependencies"
+run = "uv sync"
+
+[tasks.setup]
+description = "Full environment setup"
+run = [
+  { task = "sync" },
+  { task = "deploy:boto3" },
+]
+
+[tasks.main]
+description = "Run main.py"
+run = ".venv/bin/python main.py"
+
+[tasks.test]
+description = "Run the lab tests"
+run = ".venv/bin/python -m pytest tests/"
+
+[tasks."deploy:boto3"]
+description = "Deploy the pipeline with Boto3"
+run = "scripts/boto3/deploy.sh"
+
+[tasks."destroy:boto3"]
+description = "Destroy the pipeline deployed with Boto3"
+run = "scripts/boto3/destroy.sh"
+
+[tasks."deploy:terraform"]
+description = "Deploy the pipeline with Terraform"
+run = "scripts/terraform/deploy.sh"
+
+[tasks."destroy:terraform"]
+description = "Destroy the pipeline deployed with Terraform"
+run = "scripts/terraform/destroy.sh"
+
+[tasks."deploy:cloudformation"]
+description = "Deploy the pipeline with CloudFormation"
+run = "scripts/cloudformation/deploy.sh"
+
+[tasks."destroy:cloudformation"]
+description = "Destroy the pipeline deployed with CloudFormation"
+run = "scripts/cloudformation/destroy.sh"
+
+[tasks."deploy:aws-cli"]
+description = "Deploy the pipeline with the AWS CLI"
+run = "scripts/aws-cli/deploy.sh"
+
+[tasks."destroy:aws-cli"]
+description = "Destroy the pipeline deployed with the AWS CLI"
+run = "scripts/aws-cli/destroy.sh"

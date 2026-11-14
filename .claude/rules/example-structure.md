@@ -18,8 +18,6 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
 │   └── extensions.json
 ├── scripts/
 │   ├── setup.sh
-│   ├── run_main.sh
-│   ├── run_tests.sh
 │   └── [other install tools sh]
 ├── docker-compose.yml
 ├── .env
@@ -37,6 +35,14 @@ src/[cloud-provider]/[mves|projects]/[example-name]/
 
 - The `dev` service defined in `docker-compose.yml` must be used as the Dev Container.
 - **Do NOT override `PATH` in `containerEnv`.** Setting `PATH` there fully replaces the variable, forcing you to re-list every default path. Instead, append the `mise` shims path from `postCreateCommand.sh` (see below). Use `containerEnv` only for additive variables (e.g., `AWS_PROFILE`).
+- **Never copy `.env` values into `containerEnv`.** Every value lives only in `.env`. When processes that do not load `.env` themselves need it (e.g. a VS Code extension such as AWS Toolkit), pass it from the `dev` service in `docker-compose.yml`: `env_file: .env` for the values as they are, plus `environment` entries built with `${VAR}` interpolation (Compose reads `.env`) when a value must be transformed, e.g. a relative path made absolute:
+  ```yaml
+  dev:
+    env_file: .env
+    environment:
+      - AWS_CA_BUNDLE=/app/${AWS_CA_BUNDLE}
+  ```
+  `environment` overrides `env_file`. Reference Lab: `src/aws/projects/simple-etl-aws-emulator`.
 - The `postCreateCommand` must call `.devcontainer/postCreateCommand.sh` (relative to `workspaceFolder`, which is `/app`). This script runs `scripts/setup.sh` and appends the `mise` shims path to `~/.bashrc` and `~/.zshrc` so every new shell session inside the container has it on `PATH`.
 - It must always include the feature `"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}`.
 - It must install mandatory VS Code extensions: **Python**, and any other specific to the MVE services.
@@ -109,7 +115,7 @@ services:
     command: optional command
 
   dev:
-    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    image: mcr.microsoft.com/devcontainers/python:3.14-bookworm
     network_mode: host
     depends_on:
       - service
@@ -215,14 +221,20 @@ mise run setup
 
 ## mise.toml
 
-- It must always install **Python 3.12** and **uv**.
+- It must always install **Python 3.14** and **uv**.
 - It must load the `.env` file.
-- Every task defined must be eventually referenced in the **setup** task to ensure a complete environment setup in one command.
+- Every task needed to set up the environment must be referenced in the **setup** task to ensure a complete environment setup in one command. Only setup tasks hang from `setup`.
+- **Every script in `scripts/` must be a mise task**, except `setup.sh` (it installs mise itself). The code stays in the script and the task only points to it (`run = "scripts/..."`). Users, docs, Dev Container and tests always run scripts through `mise run <task>`, never by calling the `.sh` directly. `mise run` loads `.env`, puts the mise tools on `PATH` (the real binaries, not the shims) and runs from the Lab root, so scripts never load `.env` or tweak `PATH` themselves.
+- A task whose work is a single command runs it inline (`run = "..."`) instead of a one-line script. Scripts in `scripts/` are only for multi-command logic.
+- Task names: `main` (inline: `.venv/bin/python main.py`), `test` (inline: `.venv/bin/python -m pytest tests/`), `deploy:<method>` and `destroy:<method>` (`scripts/<method>/deploy.sh` / `destroy.sh`), `install-<tool>` (`scripts/install-<tool>.sh`). Other scripts use a short kebab-case name matching the script.
+- Tasks that are not setup (`main`, `test`, `destroy:*`, …) do not hang from `setup`. Exception: the default deployment method's `deploy:<method>` hangs from `setup`, and it must be idempotent (skip if already deployed) so `setup.sh` can run more than once.
+- Manual commands in the docs that need `.env` (e.g. the AWS CLI) use `mise exec -- <tool> ...` from the Lab root.
+- Reference Lab: `src/aws/projects/simple-etl-aws-emulator`.
 
 Example:
 ```toml
 [tools]
-python = "3.12"
+python = "3.14"
 uv = "latest"
 
 [settings]
@@ -238,6 +250,14 @@ run = [
   { task = "sync" },
   { task = "other-task" },
 ]
+
+[tasks.main]
+description = "Run main.py"
+run = ".venv/bin/python main.py"
+
+[tasks.test]
+description = "Run the Lab tests"
+run = ".venv/bin/python -m pytest tests/"
 ```
 
 - If an MVE requires a tool not available in **mise** that needs multiple bash commands, the installation of each tool must be in a separate script at `scripts/install-[tool].sh` and executed as a **mise** task.
@@ -251,11 +271,11 @@ run = "scripts/install-odbc.sh"
 
 ## Standardized Scripts Rule
 
-The scripts in `scripts/` MUST be the **Single Source of Truth** for deployment and management. 
+The scripts in `scripts/` MUST be the **Single Source of Truth** for deployment and management. Each one is exposed and run as a **mise task** (see `mise.toml`); `setup.sh` is the only script called directly.
 - **setup.sh**: Responsible for installing `mise`, installing tools, and running the `setup` task.
 - **.devcontainer/postCreateCommand.sh**: Dev Container entry point. Runs `setup.sh` and appends the `mise` shims path to the shell rc files (idempotently).
-- **run_main.sh**: Responsible for executing the `main.py` entry point with the correct environment.
-- **run_tests.sh**: Responsible for launching all tests for the MVE.
+- `main.py` and the tests are run by the inline mise tasks `main` and `test`, so there are no `run_main.sh` / `run_tests.sh` scripts.
+- **[method]/deploy.sh** and **[method]/destroy.sh** (`mise run deploy:[method]` / `destroy:[method]`): One folder per deployment method, when the Lab has several.
 - Scripts should use `.venv/bin/python` for Python-based tasks to avoid PATH issues.
 - Scripts should handle clean up (deleting temporary files or state) where applicable.
 
@@ -265,7 +285,7 @@ The chosen method for dependency management is **Python + uv** with `pyproject.t
 
 ### Essential Fields
 - **name**: Name of the example directory.
-- **requires-python**: Should always be `">=3.12"`.
+- **requires-python**: Should always be `">=3.14"`.
 - **dependencies**: List all required libraries. Always include `python-dotenv`.
 - **versions**: Do not specify version constraints unless strictly necessary.
 
@@ -276,7 +296,7 @@ name = "example-name"
 version = "0.1.0"
 description = "Brief example description"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 dependencies = [
     "library1",
     "python-dotenv",

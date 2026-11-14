@@ -1,0 +1,188 @@
+---
+title: Simple ETL (AWS Emulator)
+description: "Build a local file pipeline with AWS S3, Lambda, and DynamoDB on the official AWS Emulator: S3 uploads trigger a Lambda that logs metadata to DynamoDB."
+isLab: true
+---
+
+import { Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide shows you how to build a file processing pipeline using **AWS S3**, **Lambda**, and **DynamoDB** locally with **AWS Emulator**, the official local emulator from AWS, and **Python**. This lab demonstrates how S3 uploads trigger a Lambda to log metadata into a DynamoDB table.
+
+## Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed and running.
+- [Dev Containers extension](vscode:extension/ms-vscode-remote.remote-containers) installed (optional).
+- [AWS Toolkit for VS Code](vscode:extension/amazonwebservices.aws-toolkit-vscode) (optional, included in Dev Container).
+
+## How to execute
+
+Run every script through **mise**: `mise run <task>` loads `.env`, removes any real AWS credentials from the environment and puts the lab tools on the `PATH`.
+
+<Steps>
+
+1. **Setup Environment**:
+   <Tabs>
+      <TabItem label="Dev Container (recommended)">
+         Open **VS Code** in the project folder and execute this command in the **Command Palette**:
+         ```bash
+         > Dev Containers: Reopen in Container
+         ```
+         It builds the AWS Emulator image, installs the tools and deploys the pipeline with **Boto3**.
+      </TabItem>
+      <TabItem label="Manually">
+         1. **Start Infrastructure**: Build and launch AWS Emulator, and wait until it is healthy.
+            ```bash
+            docker compose up -d --wait aws-emulator
+            ```
+         2. **Run the setup** script to install tools and dependencies, and deploy the pipeline with Boto3.
+            ```bash
+            scripts/setup.sh
+            ```
+      </TabItem>
+   </Tabs>
+
+2. **Run the Example**:
+   <Tabs>
+      <TabItem label="Python">
+         ```bash
+         mise run main
+         ```
+      </TabItem>
+      <TabItem label="AWS CLI">
+         ```bash
+         mise exec -- aws s3 cp README.md s3://file-uploads-bucket/README.md
+         ```
+      </TabItem>
+   </Tabs>
+
+</Steps>
+
+
+## How to debug
+
+1. **main.py**:
+   - **Open**: Open `main.py`.
+   - **Breakpoints**: Set breakpoints in the code.
+   - **Run**: Press `F5` to start debugging.
+
+2. **Tests**:
+   - **Open**: Open `tests/test_file_pipeline.py`.
+   - **Breakpoints**: Set breakpoints in the test code.
+   - **Run**: Use the VS Code **Testing** tab and click the **Debug Test** icon next to the test.
+
+## How to test
+
+The tests deploy their own pipeline (names in `.env.test`) and remove it afterwards.
+
+- **Individually**: Run tests individually from the VS Code **Testing** tab.
+- **All tests**: Run the automated script:
+  ```bash
+  mise run test
+  ```
+
+## Deployment methods
+
+The setup deploys the pipeline with Boto3. Before deploying with another method, run `mise run destroy:boto3` to avoid resource name conflicts, and when switching between the other methods, run **Clean Up** for the current one first.
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      mise run deploy:terraform
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      mise run deploy:cloudformation
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      mise run deploy:boto3
+      ```
+   </TabItem>
+   <TabItem label="AWS CLI">
+      ```bash
+      mise run deploy:aws-cli
+      ```
+   </TabItem>
+</Tabs>
+
+## Validate results
+
+<Tabs>
+   <TabItem label="AWS CLI">
+      - **Verify** that the AWS CLI reaches the emulator (account `000000000000`):
+        ```bash
+        mise exec -- aws sts get-caller-identity
+        ```
+      - **Check S3 Bucket**:
+        ```bash
+        mise exec -- aws s3 ls s3://file-uploads-bucket
+        ```
+      - **Scan DynamoDB Table**:
+        ```bash
+        mise exec -- aws dynamodb scan --table-name file-logs
+        ```
+      - **View Lambda Logs**:
+        ```bash
+        mise exec -- aws logs tail /aws/lambda/s3-file-processor
+        ```
+   </TabItem>
+   <TabItem label="AWS Toolkit">
+      In the Dev Container, the AWS Toolkit uses the `default` profile that AWS Emulator writes in `.aws/emulator/`.
+      - **Connect**: Select the `default` profile and the `us-east-1` Region in the AWS Toolkit.
+      - **S3**: Expand the S3 section to see the uploaded files.
+      - **CloudWatch**: Expand the Logs section to see the Lambda execution output.
+   </TabItem>
+</Tabs>
+
+## Clean Up
+
+To remove only the deployed resources, run the destroy script of the method you used:
+
+<Tabs syncKey="deploy-method">
+   <TabItem label="Terraform">
+      ```bash
+      mise run destroy:terraform
+      ```
+   </TabItem>
+   <TabItem label="CloudFormation">
+      ```bash
+      mise run destroy:cloudformation
+      ```
+   </TabItem>
+   <TabItem label="Boto3">
+      ```bash
+      mise run destroy:boto3
+      ```
+   </TabItem>
+   <TabItem label="AWS CLI">
+      ```bash
+      mise run destroy:aws-cli
+      ```
+   </TabItem>
+</Tabs>
+
+To remove everything, stop the emulator (it keeps all resources in memory) and delete its image:
+
+```bash
+docker compose down --rmi local
+```
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| `Could not connect to the endpoint URL` or SSL errors | Run AWS CLI commands with `mise exec -- aws ...` from the lab root, so they load `.env`, and check that the emulator is healthy with `docker compose ps`. |
+| `AccessDenied: Sign the request with the emulator credentials` | Real AWS credentials in your environment take precedence. Run commands with `mise run` or `mise exec`, which remove them. |
+| Resources are gone | AWS Emulator keeps resources in memory, so a restart deletes them. Deploy again. For Terraform, delete `deploy/terraform/terraform.tfstate` first. |
+| Lambda not triggering | Check the logs with `mise exec -- aws logs tail /aws/lambda/s3-file-processor`. Like AWS, the emulator checks the Lambda role, so an `AccessDenied` there means a missing permission in the role policy. |
+| AWS Toolkit cannot connect after a restart | The emulator creates a new certificate on each start. Run **Developer: Reload Window** in VS Code. |
+
+## Next steps
+
+- [See the Google Cloud equivalent project.](/google-cloud/projects/simple-etl/)
+- [Dive into the Lambda (SAM) Lab.](/aws/mves/lambda-sam/)
+- [Dive into the S3 (RustFS) Lab.](/aws/mves/s3-rustfs/)
+- [Compare with Simple ETL (LocalStack), an alternative emulator for the same service.](/aws/projects/simple-etl/)
