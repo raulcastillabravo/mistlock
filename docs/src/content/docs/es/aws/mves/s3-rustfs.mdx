@@ -115,10 +115,9 @@ docker compose down -v
 | Problema | Solución |
 |----------|----------|
 | API de RustFS no lista | Asegúrate de que el servicio `rustfs` está en ejecución y espera unos segundos a que la API se inicialice. Revisa los logs con `docker compose logs rustfs`. |
-| Puerto 9000 o 9001 en uso | El lab de S3 (MinIO) usa los mismos puertos. Deténlo antes de arrancar este, o cambia el mapeo en `docker-compose.yml`. |
+| Puerto 9000 o 9001 en uso | El lab de Databricks usa los mismos puertos. Deténlo antes de arrancar este, o cambia el mapeo en `docker-compose.yml`. |
 
 ## Siguientes pasos
 
 - [Compara con S3 (Garage), un emulador alternativo para el mismo servicio.](/es/aws/mves/s3-garage/)
-- [Compara con S3 (MinIO), un emulador alternativo para el mismo servicio.](/es/aws/mves/s3-minio/)
 - [Construye sobre este MVE con el proyecto Storage Writer.](/es/aws/projects/storage-writer/)

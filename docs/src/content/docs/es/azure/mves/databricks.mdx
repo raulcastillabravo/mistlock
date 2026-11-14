@@ -1,13 +1,13 @@
 ---
 title: Databricks
-description: Simula Databricks en local con Docker, MinIO y PostgreSQL como Hive Metastore para desarrollar y probar ETLs de Spark y Delta Lake.
+description: Simula Databricks en local con Docker, RustFS y PostgreSQL como Hive Metastore para desarrollar y probar ETLs de Spark y Delta Lake.
 isLab: true
 ---
 
 import { Steps } from '@astrojs/starlight/components';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Esta guía te muestra cómo simular un entorno **Databricks** localmente usando **Docker**, **MinIO** como almacenamiento compatible con S3 y **PostgreSQL** como Hive Metastore persistente. Este lab demuestra cómo desarrollar y probar ETLs con Spark y Delta Lake localmente usando **Databricks Runtime 15.4 LTS (Spark 3.5.0)**.
+Esta guía te muestra cómo simular un entorno **Databricks** localmente usando **Docker**, **RustFS** como almacenamiento compatible con S3 y **PostgreSQL** como Hive Metastore persistente. Este lab demuestra cómo desarrollar y probar ETLs con Spark y Delta Lake localmente usando **Databricks Runtime 15.4 LTS (Spark 3.5.0)**.
 
 ## Prerrequisitos
 
@@ -27,7 +27,7 @@ Esta guía te muestra cómo simular un entorno **Databricks** localmente usando 
          ```
       </TabItem>
       <TabItem label="Manual">
-         1. **Inicia la infraestructura**: Lanza todos los servicios necesarios (Spark, MinIO, PostgreSQL).
+         1. **Inicia la infraestructura**: Lanza todos los servicios necesarios (Spark, RustFS, PostgreSQL).
             ```bash
             docker compose up -d
             ```
@@ -81,10 +81,10 @@ Abre `src/notebooks/analysis.ipynb` y ejecuta las celdas para analizar los datos
       http://localhost:4040
       ```
    </TabItem>
-   <TabItem label="MinIO Console">
-      **Navega** por los ficheros Delta escritos en el bucket. Inicia sesión con `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD`:
+   <TabItem label="RustFS Console">
+      **Navega** por los ficheros Delta escritos en el bucket. Inicia sesión con `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` de `.env`:
       ```bash
-      http://localhost:9001
+      http://localhost:9001/rustfs/console/
       ```
    </TabItem>
 </Tabs>
@@ -104,5 +104,5 @@ docker compose down -v
 
 ## Siguientes pasos
 
-- [Explora el Lab relacionado S3 (MinIO).](/es/aws/mves/s3-minio/)
+- [Explora el Lab relacionado S3 (RustFS).](/es/aws/mves/s3-rustfs/)
 - [Explora el Lab relacionado PostgreSQL.](/es/hybrid/mves/postgres/)

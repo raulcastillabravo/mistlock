@@ -35,7 +35,7 @@ scenarios), **test** every part, **validate** results (multiple tools), and **cl
 ## The Functionality Matrix (primary guide)
 
 This matrix — **not** a twin Lab — is the source of truth for completeness. A twin Lab
-(same service, e.g. `s3-minio` for `s3-garage`) is only a convenience for near-1:1 copying
+(same service, e.g. `s3-rustfs` for `s3-garage`) is only a convenience for near-1:1 copying
 **when one exists**; most Labs have no twin, so audit against the matrix directly.
 
 The matrix is **extensible**: when a new common functionality is identified across Labs,
@@ -61,7 +61,7 @@ Notes:
   with Dev Containers; a pure CLI Lab may have a single execution method). Mark these
   `N/A` with a one-line reason rather than as a gap.
 - Reference "complete" Labs to consult as benchmarks: `aws/mves/lambda-sam`,
-  `aws/mves/s3-minio`, `azure/mves/functions`, `google-cloud/mves/firebase-cloud-functions`,
+  `aws/mves/s3-rustfs`, `azure/mves/functions`, `google-cloud/mves/firebase-cloud-functions`,
   `hybrid/mves/mongo`, `hybrid/mves/redis`.
 
 ## Procedure

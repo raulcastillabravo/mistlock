@@ -4,7 +4,7 @@ from pyspark.sql import SparkSession
 def get_spark_session(app_name="DatabricksLocal"):
     """
     Returns a SparkSession configured for the current environment.
-    If running in Databricks, it returns a default session. Otherwise, it configures a local Spark session with MinIO, Delta Lake, and Hive Metastore.
+    If running in Databricks, it returns a default session. Otherwise, it configures a local Spark session with RustFS, Delta Lake, and Hive Metastore.
     """
     # Detect environment (prefer APP_ENV, fallback to Databricks runtime detection)
     env = os.getenv("APP_ENV")
@@ -14,7 +14,7 @@ def get_spark_session(app_name="DatabricksLocal"):
 
     print(f"⚡ Initializing Local Spark Session (Databricks Emulator)...")
     
-    # Local configuration for MinIO and Postgres Metastore
+    # Local configuration for RustFS and Postgres Metastore
     builder = SparkSession.builder \
         .appName(app_name) \
         .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \

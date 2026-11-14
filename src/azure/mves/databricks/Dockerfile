@@ -32,7 +32,7 @@ RUN wget -q "https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-
     mv /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} $SPARK_HOME && \
     rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
-# Download dependencies JARs for Delta Lake and AWS (MinIO)
+# Download dependencies JARs for Delta Lake and AWS (RustFS)
 # versions must match Spark 3.5.x
 RUN cd $SPARK_HOME/jars && \
     wget -q https://repo1.maven.org/maven2/io/delta/delta-spark_2.12/3.2.0/delta-spark_2.12-3.2.0.jar && \
