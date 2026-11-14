@@ -123,3 +123,31 @@ def run_main(dev_container):
     result = dev_container("bash ./scripts/run_main.sh")
     assert result.returncode == 0
     print("Main script passed")
+
+@pytest.fixture(scope="module")
+def mise_run(dev_container):
+    """
+    Runs a mise task inside the dev container (e.g. 'test', 'deploy:boto3').
+    A login shell puts the mise binary on PATH.
+    """
+    def _run(task, ttl=0):
+        return dev_container(f"bash -lc 'mise run {task}'", ttl=ttl)
+
+    return _run
+
+@pytest.fixture(scope="module")
+def mise_deploy(request, mise_run):
+    """
+    Deploys with the 'deploy:<method>' mise task and runs 'destroy:<method>'
+    afterwards. The method comes from the test's indirect parametrization.
+    """
+    method = request.param
+
+    print(f"\n[Setup] mise run deploy:{method}...")
+    result = mise_run(f"deploy:{method}")
+    assert result.returncode == 0, result.stderr
+
+    yield
+
+    print(f"\n[Teardown] mise run destroy:{method}...")
+    mise_run(f"destroy:{method}")

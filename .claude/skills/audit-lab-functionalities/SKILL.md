@@ -46,15 +46,16 @@ add a row here.
 | 1 | Setup — Dev Container | `.devcontainer/devcontainer.json` with `dockerComposeFile` + `postCreateCommand: scripts/setup.sh`, and a `dev` service in `docker-compose.yml` | Tab "Dev Container (recommended)" in How to execute |
 | 2 | Setup — Manual (mise) | `scripts/setup.sh` installing mise + `mise.toml` with a complete `setup` task | Tab "Manually" |
 | 3 | Infrastructure | `docker-compose.yml` (or SAM/firebase equivalent) with a top-level `name: mistlock-[provider]-[lab-name]` and no `container_name` on any service | Step "Start Infrastructure"/"Start Host" |
-| 4 | Execution — multiple methods | `scripts/run_main.sh`; `main.py`; optional `http/*.http`, CLI scripts | Step "Run the Example" using `<Tabs>` (Python / cURL / REST Client / CLI) |
+| 4 | Execution — multiple methods | mise task `main` (inline `.venv/bin/python main.py`, no `run_main.sh`); `main.py`; optional `http/*.http`, CLI scripts | Step "Run the Example" using `<Tabs>` (Python / cURL / REST Client / CLI), with `mise run main` |
 | 5 | Debug | `.vscode/launch.json` with configs (main.py, function/service, tests) | Section "How to debug" |
-| 6 | Test — local | `tests/` mirroring `src/`, `tests/conftest.py`, `.env.test`, `scripts/run_tests.sh` | Section "How to test" |
-| 7 | Test — global integration | `tests/[provider]/[mves\|projects]/[name]/test_[name].py` using `run_tests`/`run_main` fixtures | — |
+| 6 | Test — local | `tests/` mirroring `src/`, `tests/conftest.py`, `.env.test`, mise task `test` (inline `.venv/bin/python -m pytest tests/`, no `run_tests.sh`) | Section "How to test" with `mise run test` |
+| 7 | Test — global integration | `tests/[provider]/[mves\|projects]/[name]/test_[name].py` using the `mise_run` fixture (and `mise_deploy` for deployment methods); legacy `run_tests`/`run_main` fixtures count as ⚠️ | — |
 | 8 | Validate results — multiple tools | CLI/GUI scripts (`*_cli.sh`, `*-gui.sh`), VS Code extensions | Section "Validate results" using `<Tabs>` (≥2 tools) |
 | 9 | Clean Up | `docker compose down -v` (or service-specific teardown) | Section "Clean Up" |
 | 10 | Docs parity EN/ES | — | `es/` page exists with the same sections as the EN page |
 | 11 | VS Code recommended extensions | `.vscode/extensions.json` whose `recommendations` mirror the `extensions` in `.devcontainer/devcontainer.json` | — |
 | 12 | Catalog and landing listing | — | The Lab is listed in `start-here/catalog.mdx` **and** `es/start-here/catalog.mdx`, and its service appears in the `<Grid>` of `index.mdx` **and** `es/index.mdx` |
+| 13 | Scripts as mise tasks | Every script in `scripts/` except `setup.sh` has a task in `mise.toml` (`run = "scripts/..."`): `main`, `test`, `deploy:<method>`/`destroy:<method>`, `install-<tool>`…; only setup tasks (and the idempotent default `deploy:<method>`) hang from `setup`; scripts do not load `.env` themselves | Every script command in the page is `mise run <task>` (only `scripts/setup.sh` is called directly); manual tool commands needing `.env` use `mise exec -- <tool>` |
 
 Notes:
 - Some functionalities are **not applicable** to every Lab (e.g. SAM Labs are incompatible
@@ -62,7 +63,9 @@ Notes:
   `N/A` with a one-line reason rather than as a gap.
 - Reference "complete" Labs to consult as benchmarks: `aws/mves/lambda-sam`,
   `aws/mves/s3-rustfs`, `azure/mves/functions`, `google-cloud/mves/firebase-cloud-functions`,
-  `hybrid/mves/mongo`, `hybrid/mves/redis`.
+  `hybrid/mves/mongo`, `hybrid/mves/redis`. For row 13 (scripts as mise tasks) the only
+  reference so far is `aws/projects/simple-etl-aws-emulator`; the other benchmarks still
+  call `.sh` scripts directly.
 
 ## Procedure
 

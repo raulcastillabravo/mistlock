@@ -111,11 +111,13 @@ An H2 section wrapping the full execution flow in a `<Steps>` component.
 
 2. **Run the Example**:
    ```bash
-   python main.py
+   mise run main
    ```
 
 </Steps>
 ```
+
+Scripts are always run as mise tasks (`mise run <task>`), never as `scripts/*.sh`, except `scripts/setup.sh` (see example-structure). Manual commands that need `.env` use `mise exec -- <tool> ...`.
 
 **When the lab does NOT support Dev Containers** (e.g., SAM/Lambda), use a flat 3-step flow without Tabs:
 
@@ -150,7 +152,7 @@ An H2 section using a numbered list for different debug scenarios.
 ### 5. How to test
 
 An H2 section with:
-- `- **All tests**: Run the automated script: scripts/run_tests.sh`
+- `- **All tests**: Run the automated script: mise run test`
 - `- **Individually**: Use the VS Code **Testing** tab to run or debug specific test cases.`
 
 Only include if the README contains test instructions.
@@ -170,17 +172,17 @@ There are other **deployment methods** you can use in this lab.
 <Tabs syncKey="deploy-method">
    <TabItem label="Terraform">
       ```bash
-      scripts/terraform/deploy.sh
+      mise run deploy:terraform
       ```
    </TabItem>
    <TabItem label="CloudFormation">
       ```bash
-      scripts/cloudformation/deploy.sh
+      mise run deploy:cloudformation
       ```
    </TabItem>
    <TabItem label="Boto3">
       ```bash
-      scripts/boto3/deploy.sh
+      mise run deploy:boto3
       ```
    </TabItem>
 </Tabs>

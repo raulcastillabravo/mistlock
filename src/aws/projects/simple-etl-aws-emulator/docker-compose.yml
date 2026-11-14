@@ -1,0 +1,41 @@
+name: mistlock-aws-simple-etl-aws-emulator
+
+services:
+  aws-emulator:
+    build:
+      context: emulator
+      args:
+        EMULATOR_VERSION: "1.0.322"
+    ports:
+      - "127.0.0.1:9297:9297"
+    environment:
+      - EMULATOR_TELEMETRY=off
+    volumes:
+      # Credentials, config and CA certificate written on every start
+      - ./.aws/emulator:/home/emulator/.aws/emulator
+    mem_limit: 2g
+    memswap_limit: 2g
+    command: -p 9297
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "--cacert", "/home/emulator/.aws/emulator/9297/ca.pem", "https://127.0.0.1:9297/__admin/health"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    network_mode: host
+    depends_on:
+      aws-emulator:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      # Necessary for AWS Toolkit
+      - AWS_SHARED_CREDENTIALS_FILE=/app/${AWS_SHARED_CREDENTIALS_FILE}
+      - AWS_CONFIG_FILE=/app/${AWS_CONFIG_FILE}
+      - AWS_CA_BUNDLE=/app/${AWS_CA_BUNDLE}
+      - NODE_EXTRA_CA_CERTS=/app/${AWS_CA_BUNDLE}
+    volumes:
+      - .:/app:cached
+    working_dir: /app
+    command: sleep infinity

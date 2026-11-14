@@ -25,10 +25,11 @@ description: Defines the mandatory style and structure that all python files in 
 - Use double line breaks between groups.
 
 ## Environment Variables
-- Load environment variables using `load_dotenv()`.
-- Load them at the beginning of the module:
-  - In classes: Load in `__init__`.
-  - In functions: Load outside the function at the module level (after imports and `load_dotenv()`).
+- Load environment variables using `load_dotenv()`, **only at entry points**:
+  - `main.py`: at module level, right after the imports.
+  - Scripts run directly (e.g. `deploy/...py`): inside their `if __name__ == "__main__":` block.
+  - `tests/conftest.py`: at module level (`.env`, then `.env.test` with `override=True`; see the tests style guide).
+- Classes and functions never call `load_dotenv()`: they read `os.environ` when they need a value (in `__init__` or at call time, not at import time), so the entry point decides what is loaded.
 - **Do NOT use default values in `os.getenv`**. If a variable is required, ensure it is defined in the `.env` file or handle the missing case.
 
 ## Typing
