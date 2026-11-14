@@ -115,7 +115,7 @@ services:
     command: optional command
 
   dev:
-    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    image: mcr.microsoft.com/devcontainers/python:3.14-bookworm
     network_mode: host
     depends_on:
       - service
@@ -221,7 +221,7 @@ mise run setup
 
 ## mise.toml
 
-- It must always install **Python 3.12** and **uv**.
+- It must always install **Python 3.14** and **uv**.
 - It must load the `.env` file.
 - Every task needed to set up the environment must be referenced in the **setup** task to ensure a complete environment setup in one command. Only setup tasks hang from `setup`.
 - **Every script in `scripts/` must be a mise task**, except `setup.sh` (it installs mise itself). The code stays in the script and the task only points to it (`run = "scripts/..."`). Users, docs, Dev Container and tests always run scripts through `mise run <task>`, never by calling the `.sh` directly. `mise run` loads `.env`, puts the mise tools on `PATH` (the real binaries, not the shims) and runs from the Lab root, so scripts never load `.env` or tweak `PATH` themselves.
@@ -234,7 +234,7 @@ mise run setup
 Example:
 ```toml
 [tools]
-python = "3.12"
+python = "3.14"
 uv = "latest"
 
 [settings]
@@ -285,7 +285,7 @@ The chosen method for dependency management is **Python + uv** with `pyproject.t
 
 ### Essential Fields
 - **name**: Name of the example directory.
-- **requires-python**: Should always be `">=3.12"`.
+- **requires-python**: Should always be `">=3.14"`.
 - **dependencies**: List all required libraries. Always include `python-dotenv`.
 - **versions**: Do not specify version constraints unless strictly necessary.
 
@@ -296,7 +296,7 @@ name = "example-name"
 version = "0.1.0"
 description = "Brief example description"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 dependencies = [
     "library1",
     "python-dotenv",

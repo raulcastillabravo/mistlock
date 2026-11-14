@@ -23,7 +23,7 @@ services:
       retries: 30
 
   dev:
-    image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
+    image: mcr.microsoft.com/devcontainers/python:3.14-bookworm
     network_mode: host
     depends_on:
       aws-emulator:

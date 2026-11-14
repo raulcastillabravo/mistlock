@@ -84,7 +84,7 @@ class Stack:
         with open(self._zip_path, "rb") as zip_file:
             function = awslambda.create_function(
                 FunctionName=self._function,
-                Runtime="python3.12",
+                Runtime="python3.14",
                 Role=role_arn,
                 Handler="handler.lambda_handler",
                 Code={"ZipFile": zip_file.read()},

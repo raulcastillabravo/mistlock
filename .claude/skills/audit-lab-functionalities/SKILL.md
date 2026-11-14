@@ -44,7 +44,7 @@ add a row here.
 | # | Functionality | Signal in `src/` | Signal in `docs/` |
 |---|---------------|------------------|-------------------|
 | 1 | Setup — Dev Container | `.devcontainer/devcontainer.json` with `dockerComposeFile` + `postCreateCommand: scripts/setup.sh`, and a `dev` service in `docker-compose.yml` | Tab "Dev Container (recommended)" in How to execute |
-| 2 | Setup — Manual (mise) | `scripts/setup.sh` installing mise + `mise.toml` with a complete `setup` task | Tab "Manually" |
+| 2 | Setup — Manual (mise) | `scripts/setup.sh` installing mise + `mise.toml` with a complete `setup` task; Python 3.14 everywhere (`mise.toml`, `requires-python`, `devcontainers/python:3.14-*` image, Lambda/Function runtimes) | Tab "Manually" |
 | 3 | Infrastructure | `docker-compose.yml` (or SAM/firebase equivalent) with a top-level `name: mistlock-[provider]-[lab-name]` and no `container_name` on any service | Step "Start Infrastructure"/"Start Host" |
 | 4 | Execution — multiple methods | mise task `main` (inline `.venv/bin/python main.py`, no `run_main.sh`); `main.py`; optional `http/*.http`, CLI scripts | Step "Run the Example" using `<Tabs>` (Python / cURL / REST Client / CLI), with `mise run main` |
 | 5 | Debug | `.vscode/launch.json` with configs (main.py, function/service, tests) | Section "How to debug" |

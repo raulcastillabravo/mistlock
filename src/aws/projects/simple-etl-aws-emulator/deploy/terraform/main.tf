@@ -1,6 +1,10 @@
 terraform {
   required_providers {
-    aws = { source = "hashicorp/aws", version = "~> 5.0" }
+    # >= 6.20: first version that accepts the python3.14 Lambda runtime.
+    # < 6.23: from 6.23 aws_s3_bucket manages tags with S3 Control APIs
+    # (hashicorp/terraform-provider-aws#45251), whose host name carries the
+    # account ID (000000000000.127.0.0.1) and never reaches AWS Emulator.
+    aws = { source = "hashicorp/aws", version = ">= 6.20, < 6.23" }
   }
 }
 
@@ -74,7 +78,7 @@ resource "aws_lambda_function" "s3_processor" {
   function_name    = var.function_name
   role             = aws_iam_role.lambda_role.arn
   handler          = "handler.lambda_handler"
-  runtime          = "python3.12"
+  runtime          = "python3.14"
   timeout          = 30
   environment {
     variables = { DYNAMODB_TABLE_NAME = aws_dynamodb_table.file_logs.name }

@@ -35,7 +35,7 @@ aws s3 mb "s3://$BUCKET_NAME"
 # 4. Lambda function
 FUNCTION_ARN=$(aws lambda create-function \
   --function-name "$FUNCTION_NAME" \
-  --runtime python3.12 \
+  --runtime python3.14 \
   --role "$ROLE_ARN" \
   --handler handler.lambda_handler \
   --zip-file "fileb://$LAMBDA_ZIP" \

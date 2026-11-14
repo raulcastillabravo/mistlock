@@ -67,7 +67,7 @@ Resources:
       FunctionName: !Ref FunctionName
       Handler: handler.lambda_handler
       Role: !GetAtt LambdaRole.Arn
-      Runtime: python3.12
+      Runtime: python3.14
       Timeout: 30
       Code:
         S3Bucket: !Ref CodeBucketName

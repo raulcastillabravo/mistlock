@@ -143,11 +143,11 @@ def mise_deploy(request, mise_run):
     """
     method = request.param
 
-    print(f"\n[Setup] mise run deploy:{method}...")
-    result = mise_run(f"deploy:{method}")
-    assert result.returncode == 0, result.stderr
-
-    yield
-
-    print(f"\n[Teardown] mise run destroy:{method}...")
-    mise_run(f"destroy:{method}")
+    try:
+        print(f"\n[Setup] mise run deploy:{method}...")
+        result = mise_run(f"deploy:{method}")
+        assert result.returncode == 0, result.stderr
+        yield
+    finally:
+        print(f"\n[Teardown] mise run destroy:{method}...")
+        mise_run(f"destroy:{method}")
