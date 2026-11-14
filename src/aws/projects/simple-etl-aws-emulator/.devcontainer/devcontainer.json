@@ -1,0 +1,24 @@
+{
+  "name": "Simple ETL (AWS Emulator)",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/app",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "tamasfe.even-better-toml",
+        "hashicorp.terraform",
+        "amazonwebservices.aws-toolkit-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh"
+}

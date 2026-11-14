@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Lambda package
+deploy/dist/
+
+# AWS Emulator credentials, config and certificate (rewritten on every start)
+.aws/emulator/*
+!.aws/emulator/.gitkeep
+
+# IDE
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

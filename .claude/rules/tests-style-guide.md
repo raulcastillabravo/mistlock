@@ -33,9 +33,21 @@ description: Defines the mandatory structure and conventions for all tests in th
 
 ## Global Integration Tests (mistlock/tests/)
 - **Folder Structure**: `mistlock/tests/[cloud-provider]/[mves|projects]/[example-name]/test_[example_name].py`.
-- **Pattern**:
+- **Pattern**: run the Lab through its mise tasks (see example-structure) with
+  the `mise_run` fixture from `tests/conftest.py`:
     ```python
-    def test_[example_name](run_tests, run_main):
+    def test_[example_name](mise_run):
         """Integration test description."""
-        pass
+        assert mise_run("test").returncode == 0
+        assert mise_run("main").returncode == 0
     ```
+- **Deployment methods**: use the `mise_deploy` fixture with indirect
+  parametrization, which runs `deploy:<method>` and `destroy:<method>`:
+    ```python
+    @pytest.mark.parametrize("mise_deploy", ["terraform"], indirect=True)
+    def test_deployment_method(mise_deploy, mise_run):
+        assert mise_run("main").returncode == 0
+    ```
+- **Legacy**: the `run_tests`, `run_main` and `deploy` fixtures call the `.sh`
+  scripts directly. They remain only for Labs not yet migrated to mise tasks;
+  new and audited Labs use `mise_run` / `mise_deploy`.
