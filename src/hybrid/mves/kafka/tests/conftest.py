@@ -1,4 +1,5 @@
 import os
+import time
 
 import pytest
 from confluent_kafka import KafkaError, KafkaException
@@ -19,6 +20,14 @@ def delete_topic(admin: AdminClient, name: str) -> None:
                 raise
 
 
+def wait_for_topic(admin: AdminClient, name: str) -> None:
+    """Waits until the broker metadata lists the topic."""
+    deadline = time.monotonic() + 10
+    while name not in admin.list_topics(timeout=5).topics:
+        assert time.monotonic() < deadline, f"Topic {name} not ready"
+        time.sleep(0.2)
+
+
 @pytest.fixture
 def topic() -> str:
     """Creates a dedicated topic per test and removes it afterwards."""
@@ -31,6 +40,8 @@ def topic() -> str:
 
     for future in admin.create_topics([NewTopic(name, 1, 1)]).values():
         future.result()
+
+    wait_for_topic(admin, name)
 
     yield name
 
