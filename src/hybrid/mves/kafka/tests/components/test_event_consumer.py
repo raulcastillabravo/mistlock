@@ -10,6 +10,7 @@ def test_event_consumer(topic):
     producer = EventProducer()
     for key, value in EVENTS:
         producer.publish(key, value)
+    producer.flush()
 
     received: list[Message] = []
     consumer = EventConsumer()

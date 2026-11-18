@@ -7,6 +7,10 @@ from src.components.event_producer import EventProducer
 def test_event_producer(topic):
     producer = EventProducer()
     producer.publish("test-event", "test@example.com")
+    producer.flush()
+
+    assert producer.delivered == 1
+    assert not producer.failed
 
     received: list[Message] = []
     consumer = EventConsumer()
