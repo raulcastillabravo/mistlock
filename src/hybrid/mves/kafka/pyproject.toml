@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "confluent-kafka",
+    "fastavro",
     "python-dotenv",
 ]
 

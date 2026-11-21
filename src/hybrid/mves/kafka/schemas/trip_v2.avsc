@@ -1,0 +1,13 @@
+{
+  "type": "record",
+  "name": "Trip",
+  "namespace": "ridestream",
+  "fields": [
+    {"name": "trip_id", "type": "string"},
+    {"name": "city", "type": "string"},
+    {"name": "driver_id", "type": "string"},
+    {"name": "distance_km", "type": "double"},
+    {"name": "amount", "type": "double"},
+    {"name": "payment_method", "type": ["null", "string"], "default": null}
+  ]
+}
