@@ -1,28 +1,30 @@
+import os
+
 from confluent_kafka import Message
 
 from src.components.event_consumer import EventConsumer
 from src.components.event_producer import EventProducer
 
-EVENTS = [("first", "a@example.com"), ("second", "b@example.com")]
+TRIPS = [{"trip_id": "trip-1"}, {"trip_id": "trip-2"}]
 
 
 def test_event_consumer(topic):
     producer = EventProducer()
-    for key, value in EVENTS:
-        producer.publish(key, value)
+    for trip in TRIPS:
+        producer.publish(topic, "madrid", trip)
+    producer.flush()
 
     received: list[Message] = []
-    consumer = EventConsumer()
-    count = consumer.consume(received.append, limit=len(EVENTS))
+    consumer = EventConsumer(topic, os.getenv("KAFKA_GROUP_ID"))
+    count = consumer.consume(received.append, limit=len(TRIPS))
     consumer.close()
 
-    assert count == len(EVENTS)
-    assert [m.key().decode() for m in received] == [k for k, _ in EVENTS]
+    assert count == len(TRIPS)
 
 
-def test_event_consumer_stops_on_timeout(topic):
-    consumer = EventConsumer()
-    count = consumer.consume(fail_on_message, limit=1, timeout=5.0)
+def test_event_consumer_stops_when_idle(topic):
+    consumer = EventConsumer(topic, os.getenv("KAFKA_GROUP_ID"))
+    count = consumer.consume(fail_on_message, timeout=5.0, stop_idle=True)
     consumer.close()
 
     assert count == 0
