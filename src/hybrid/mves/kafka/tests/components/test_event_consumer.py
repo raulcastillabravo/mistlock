@@ -1,3 +1,5 @@
+import os
+
 from confluent_kafka import Message
 
 from src.components.event_consumer import EventConsumer
@@ -12,7 +14,7 @@ def test_event_consumer(topic):
         producer.publish(key, value)
 
     received: list[Message] = []
-    consumer = EventConsumer()
+    consumer = EventConsumer(os.getenv("KAFKA_GROUP_ID"))
     count = consumer.consume(received.append, limit=len(EVENTS))
     consumer.close()
 
@@ -21,7 +23,7 @@ def test_event_consumer(topic):
 
 
 def test_event_consumer_stops_on_timeout(topic):
-    consumer = EventConsumer()
+    consumer = EventConsumer(os.getenv("KAFKA_GROUP_ID"))
     count = consumer.consume(fail_on_message, limit=1, timeout=5.0)
     consumer.close()
 

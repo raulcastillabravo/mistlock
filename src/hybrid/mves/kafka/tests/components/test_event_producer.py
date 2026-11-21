@@ -1,3 +1,5 @@
+import os
+
 from confluent_kafka import Message
 
 from src.components.event_consumer import EventConsumer
@@ -9,7 +11,7 @@ def test_event_producer(topic):
     producer.publish("test-event", "test@example.com")
 
     received: list[Message] = []
-    consumer = EventConsumer()
+    consumer = EventConsumer(os.getenv("KAFKA_GROUP_ID"))
     consumer.consume(received.append, limit=1)
     consumer.close()
 

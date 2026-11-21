@@ -1,19 +1,17 @@
 import os
 from typing import Callable, Optional
 
-from confluent_kafka import Consumer, KafkaException, Message
-from dotenv import load_dotenv
+from confluent_kafka import Consumer, KafkaError, KafkaException, Message
 
 
 class EventConsumer:
     _consumer: Consumer = None
 
-    def __init__(self) -> None:
-        load_dotenv()
+    def __init__(self, group: str) -> None:
         self._consumer = Consumer(
             {
                 "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS"),
-                "group.id": os.getenv("KAFKA_GROUP_ID"),
+                "group.id": group,
                 "auto.offset.reset": "earliest",
             }
         )
@@ -24,20 +22,28 @@ class EventConsumer:
         handler: Callable[[Message], None],
         limit: Optional[int] = None,
         timeout: float = 10.0,
+        stop_idle: bool = False,
     ) -> int:
-        """Consumes messages until `limit` is reached (forever if None)."""
+        """Consumes messages until `limit` is reached (forever if None).
+
+        With `stop_idle` it also stops when no message arrives in `timeout`.
+        """
         count = 0
         while limit is None or count < limit:
             # poll returns None if no message is received before the timeout
             message = self._consumer.poll(timeout)
 
             if message is None:
-                if limit is None:
+                if limit is None and not stop_idle:
                     continue
                 break
 
-            if message.error():
-                raise KafkaException(message.error())
+            error = message.error()
+            # Debezium creates the topic with the first event it publishes
+            if error and error.code() == KafkaError.UNKNOWN_TOPIC_OR_PART:
+                continue
+            if error:
+                raise KafkaException(error)
 
             handler(message)
             count += 1

@@ -29,15 +29,52 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9093
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: debezium
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://connect:8083
       DYNAMIC_CONFIG_ENABLED: "true"
     depends_on:
       - kafka
+
+  postgres:
+    image: postgres:17
+    # Debezium reads the changes from the write-ahead log (WAL), which
+    # needs the logical level
+    command: postgres -c wal_level=logical
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - postgres_data:/var/lib/postgresql/data
+
+  connect:
+    image: quay.io/debezium/connect:3.0.0.Final
+    ports:
+      - "${CONNECT_PORT}:8083"
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9093
+      GROUP_ID: debezium
+      # Kafka Connect keeps its own state in Kafka topics
+      CONFIG_STORAGE_TOPIC: connect-configs
+      OFFSET_STORAGE_TOPIC: connect-offsets
+      STATUS_STORAGE_TOPIC: connect-status
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
+    depends_on:
+      - kafka
+      - postgres
 
   dev:
     image: mcr.microsoft.com/devcontainers/python:3.12-bookworm
     network_mode: host
     depends_on:
       - kafka
+      - postgres
+      - connect
     volumes:
       - .:/app:cached
     working_dir: /app
@@ -45,3 +82,4 @@ services:
 
 volumes:
   kafka_data:
+  postgres_data:

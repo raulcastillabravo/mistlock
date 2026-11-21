@@ -1,7 +1,6 @@
 import os
 
 from confluent_kafka import Producer
-from dotenv import load_dotenv
 
 
 class EventProducer:
@@ -9,7 +8,6 @@ class EventProducer:
     _producer: Producer = None
 
     def __init__(self) -> None:
-        load_dotenv()
         self._topic = os.getenv("KAFKA_TOPIC")
         self._producer = Producer(
             {"bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS")}

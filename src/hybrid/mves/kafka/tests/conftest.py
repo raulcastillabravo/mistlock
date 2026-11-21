@@ -1,6 +1,8 @@
 import os
 import time
+from pathlib import Path
 
+import psycopg
 import pytest
 from confluent_kafka import KafkaError, KafkaException
 from confluent_kafka.admin import AdminClient, NewTopic
@@ -46,3 +48,23 @@ def topic() -> str:
     yield name
 
     delete_topic(admin, name)
+
+
+@pytest.fixture
+def database() -> str:
+    """Recreates the test database with the lab schema."""
+    name = os.getenv("POSTGRES_DB")
+    settings = {
+        "host": os.getenv("POSTGRES_HOST"),
+        "port": os.getenv("POSTGRES_PORT"),
+        "user": os.getenv("POSTGRES_USER"),
+        "password": os.getenv("POSTGRES_PASSWORD"),
+    }
+    with psycopg.connect(dbname="postgres", autocommit=True, **settings) as admin:
+        admin.execute(f"DROP DATABASE IF EXISTS {name}")
+        admin.execute(f"CREATE DATABASE {name}")
+
+    with psycopg.connect(dbname=name, autocommit=True, **settings) as db:
+        db.execute(Path("postgres/init.sql").read_text())
+
+    yield name
