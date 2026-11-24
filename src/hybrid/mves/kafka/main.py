@@ -1,4 +1,6 @@
 import argparse
+import time
+from collections import Counter
 from typing import Optional
 
 from confluent_kafka import Message
@@ -9,54 +11,69 @@ from src.components.event_producer import EventProducer
 
 load_dotenv()
 
-EVENTS = [
-    ("user-registered", "john@example.com"),
-    ("user-logged-in", "jane@example.com"),
-    ("user-updated", "bob@example.com"),
-]
+CITIES = ["madrid", "barcelona", "lisboa"]
 
 
-def publish_events() -> None:
+def publish_trips(count: int, interval: float) -> None:
+    """Publishes trips slowly enough to stop brokers while it runs."""
     producer = EventProducer()
+    produced = Counter()
 
-    print("--- Producing events ---")
-    for key, value in EVENTS:
-        producer.publish(key, value)
-        print(f"✓ Produced: {key} -> {value}")
-
-
-def consume_events(limit: Optional[int] = None) -> None:
-    consumer = EventConsumer()
-
-    print("\n--- Consuming events ---")
+    print("--- Producing trips ---")
     try:
-        consumer.consume(print_event, limit=limit)
+        for number in range(count):
+            city = CITIES[number % len(CITIES)]
+            producer.publish(city, f"trip-{number}")
+            produced[city] += 1
+            print(f"✓ Produced: {city} -> trip-{number}")
+            time.sleep(interval)
+    except KeyboardInterrupt:
+        print("\n✓ Stopped producing")
+    finally:
+        total = sum(produced.values())
+        print(f"✓ Produced {total} trips: {dict(produced)}")
+
+
+def consume_trips(limit: Optional[int] = None) -> None:
+    """Consumes trips and reports how many unique trips arrived."""
+    consumer = EventConsumer()
+    seen = Counter()
+
+    def process_trip(message: Message) -> None:
+        city = message.key().decode()
+        trip = message.value().decode()
+        seen[trip] += 1
+        print(f"✓ [partition {message.partition()}] {city} -> {trip}")
+
+    print("\n--- Consuming trips ---")
+    try:
+        consumer.consume(process_trip, limit=limit)
     except KeyboardInterrupt:
         print("\n✓ Stopped consuming")
     finally:
         consumer.close()
-
-
-def print_event(message: Message) -> None:
-    key = message.key().decode()
-    value = message.value().decode()
-    print(f"✓ Consumed: {key} -> {value}")
+        duplicates = sum(seen.values()) - len(seen)
+        print(f"✓ Consumed {len(seen)} unique trips ({duplicates} duplicates)")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("-p", "--publish", action="store_true",
-                      help="Only publish events")
+                      help="Only publish trips")
     mode.add_argument("-c", "--consume", action="store_true",
-                      help="Only consume events")
+                      help="Only consume trips")
+    parser.add_argument("-n", "--count", type=int, default=10,
+                        help="Number of trips to publish")
+    parser.add_argument("--interval", type=float, default=0,
+                        help="Seconds between two published trips")
     args = parser.parse_args()
 
     if not args.consume:
-        publish_events()
+        publish_trips(args.count, args.interval)
 
     if not args.publish:
-        consume_events(limit=None if args.consume else len(EVENTS))
+        consume_trips(limit=None if args.consume else args.count)
 
 
 if __name__ == "__main__":
